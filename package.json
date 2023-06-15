@@ -142,7 +142,8 @@
     "vite-plugin-remove-console": "^2.1.1",
     "vite-svg-loader": "^4.0.0",
     "vue-eslint-parser": "^9.3.1",
-    "vue-tsc": "^1.6.5"
+    "vue-tsc": "^1.6.5",
+    "crypto-js": "^3.1.9-1"
   },
   "pnpm": {
     "peerDependencyRules": {

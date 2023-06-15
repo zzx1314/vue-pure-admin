@@ -8,6 +8,7 @@ import { getLogin, refreshTokenApi } from "@/api/user";
 import { UserResult, RefreshTokenResult } from "@/api/user";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 import { type DataInfo, setToken, removeToken, sessionKey } from "@/utils/auth";
+import aesUtils from "@/utils/aes";
 
 export const useUserStore = defineStore({
   id: "pure-user",
@@ -41,6 +42,7 @@ export const useUserStore = defineStore({
     },
     /** 登入 */
     async loginByUsername(data) {
+      data.password = aesUtils.encode(data.password, "");
       return new Promise<UserResult>((resolve, reject) => {
         getLogin(data)
           .then(data => {
