@@ -9,6 +9,7 @@ import {
   PureHttpResponse,
   PureHttpRequestConfig
 } from "./types.d";
+import qs from "qs";
 import { stringify } from "qs";
 import NProgress from "../progress";
 import { getToken, formatToken } from "@/utils/auth";
@@ -165,6 +166,320 @@ class PureHttp {
     config?: PureHttpRequestConfig
   ): Promise<P> {
     return this.request<P>("get", url, params, config);
+  }
+
+  /**
+   * post请求,from表单
+   * @param url url
+   * @param params 参数
+   */
+  public axiosPost<T>(url, params): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .post(url, qs.stringify(params))
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * post请求
+   * @param url
+   * @param params
+   */
+  public axiosPostRequest<T>(url, params): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .post(url, params, {
+          headers: {
+            "content-type": "application/json"
+          }
+        })
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * get请求
+   * @param url url
+   * @param params 参数
+   */
+  public axiosGet<T>(url, params): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .get(url, { params })
+        .then(response => {
+          response.data = response.data || {};
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * get请求
+   * @param url
+   * @param params
+   */
+  public axiosGetRequest<T>(url, params): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .get(url + "?" + qs.stringify(params), {})
+        .then(response => {
+          response.data = response.data || {};
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * delete 请求
+   * @param url
+   * @param params
+   */
+
+  public axiosDelete<T>(url, params?: object): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .delete(url, params)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * put请求
+   * @param url
+   * @param params
+   */
+  public axiosPut<T>(url, params): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .put(url, params)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * put请求添加config
+   * @param url
+   * @param params
+   * @param config
+   */
+  public axiosPutRequest<T>(url, params, config): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .put(url, params, config)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  public axiosPatch(url, params) {
+    const promise = new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .patch(url, params)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+    return promise;
+  }
+
+  public axiosGetAll(url, config) {
+    const promise = new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .get(url, config)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+    return promise;
+  }
+
+  /**
+   *
+   * @param URL 下载地址
+   * @param mode 下载方式 get post
+   * @param name 下载文件名
+   * @param param 参数
+   * @param fileType 下载文件格式
+   */
+  public downloadUrlMode(url, mode, name, param, fileType) {
+    const promise = new Promise((resolve, reject) => {
+      PureHttp.axiosInstance({
+        url: url,
+        method: mode,
+        data: param,
+        params: param,
+        headers: {
+          Authentication: sessionStorage.getItem("token"),
+          Accept: "application/json"
+        },
+        responseType: "arraybuffer"
+      })
+        .then(response => {
+          const blob = new Blob([response.data], {
+            type: "application/" + fileType
+          });
+          resolve(response.data);
+          const fileName = name + "." + fileType;
+          // const fileName = name;
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          window.setTimeout(function () {
+            URL.revokeObjectURL(link.href);
+            document.body.removeChild(link);
+          }, 0);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+    return promise;
+  }
+
+  /**
+   * 文件预览
+   * @param url
+   * @param type
+   */
+  public previewFile(url, type) {
+    const promise = new Promise((resolve, reject) => {
+      PureHttp.axiosInstance({
+        url: url,
+        method: "GET",
+        headers: {
+          Authentication: sessionStorage.getItem("token"),
+          Accept: "application/json"
+        },
+        responseType: type
+      })
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+    return promise;
+  }
+
+  /**
+   * 下载
+   * @param URL
+   */
+  public downloadUrl(URL) {
+    PureHttp.axiosInstance({
+      method: "get",
+      url: URL,
+      headers: {
+        Authentication: sessionStorage.getItem("token"),
+        Accept: "application/json"
+      },
+      responseType: "blob"
+    }).then(response => {
+      const blob = new Blob([response.data], { type: "application/zip" });
+      const downloadElement = document.createElement("a");
+      const url = window.URL.createObjectURL(blob);
+      downloadElement.href = url;
+      downloadElement.download = name + ".zip";
+      downloadElement.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
+  /**
+   * 上传文件
+   * @param URL
+   * @param formData
+   */
+  public uploadFile(URL, formData) {
+    const url = URL;
+    const headers = { "Content-Type": "multipart/form-data" };
+    return PureHttp.axiosInstance.post(url, formData, { headers: headers });
+  }
+
+  /**
+   * 获取数据流
+   * @param url
+   */
+  public getBufferFile(url) {
+    const promise = new Promise((resolve, reject) => {
+      PureHttp.axiosInstance({
+        url,
+        method: "get",
+        headers: {
+          Authentication: sessionStorage.getItem("token"),
+          Accept: "application/json"
+        },
+        responseType: "arraybuffer"
+      })
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+    return promise;
+  }
+
+  /**
+   * 上传文件
+   * @param URL
+   * @param formData
+   */
+  public upFile(URL, formData) {
+    const url = URL;
+    const headers = { "Content-Type": "multipart/form-data" };
+    const promise = new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .post(url, formData, { headers: headers })
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+    return promise;
   }
 }
 

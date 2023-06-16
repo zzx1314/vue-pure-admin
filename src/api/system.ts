@@ -1,35 +1,177 @@
 import { http } from "@/utils/http";
+import internal from "stream";
 
 type Result = {
-  success: boolean;
-  data?: {
-    /** 列表数据 */
-    list: Array<any>;
-    /** 总条目数 */
-    total?: number;
-    /** 每页显示条目个数 */
-    pageSize?: number;
-    /** 当前页数 */
-    currentPage?: number;
-  };
-};
-
-type ResultDept = {
-  success: boolean;
+  code: number;
+  msg: string;
   data?: Array<any>;
 };
 
-/** 获取用户管理列表 */
-export const getUserList = (data?: object) => {
-  return http.request<Result>("post", "/user", { data });
+type PageData = {
+  records: Array<any>;
+  total: number;
+  size: number;
+  page: number;
 };
 
-/** 获取角色管理列表 */
-export const getRoleList = (data?: object) => {
-  return http.request<Result>("post", "/role", { data });
+type ResultPage = {
+  code: number;
+  msg: string;
+  data?: PageData;
+};
+
+const orgurls = {
+  allList: `/api/upms/sysOrg/allList`,
+  saveSysOrg: `/api/upms/sysOrg`,
+  updateById: `/api/upms/sysOrg`,
+  removeById: `/api/upms/sysOrg/`
+};
+
+const userUrls = {
+  userPage: `/api/upms/sysUser/page`,
+  saveUser: "/api/upms/sysUser",
+  deleteUserById: "/api/upms/sysUser/",
+  update: "/api/upms/sysUser",
+  resetPwd: "/api/upms/sysUser/resetPwd"
+};
+
+const roleUrls = {
+  rolePage: `/api/upms/sysRole/page`,
+  listAll: "/api/upms/sysRole/list",
+  save: "/api/upms/sysRole",
+  update: "/api/upms/sysRole",
+  deleteById: "/api/upms/sysRole/"
+};
+
+const menuUrls = {
+  menuPage: `/api/upms/sysMenu/allList`,
+  saveSysMenu: `/api/upms/sysMenu`,
+  updateSysMenuById: `/api/upms/sysMenu`,
+  deleteSysMenuById: `/api/upms/sysMenu/`,
+  getSysMenuByRoleId: `/api/upms/sysMenu/`
+};
+
+const authUrls = {
+  getMenuData: `/api/upms/sysAuth/getMenuData/`,
+  getRoleData: `/api/upms/sysAuth/getRoleData`,
+  setRoleAuth: `/api/upms/sysAuth/setRoleAuth`
 };
 
 /** 获取部门管理列表 */
 export const getDeptList = (data?: object) => {
-  return http.request<ResultDept>("post", "/dept", { data });
+  return http.axiosGetRequest<Result>(orgurls.allList, data);
+};
+
+/**
+ * 保存部门
+ */
+export const saveSysOrg = (param?: object) => {
+  return http.axiosPostRequest<Result>(orgurls.saveSysOrg, param);
+};
+
+/**
+ * 修改部门
+ */
+export const updateById = (param?: object) => {
+  return http.axiosPut<Result>(orgurls.updateById, param);
+};
+
+/**
+ * 删除部门
+ */
+export const removeById = (param: internal) => {
+  return http.axiosDelete<Result>(orgurls.removeById + param);
+};
+
+/**
+ * 分页查询用户
+ */
+export const userPage = (query?: object) => {
+  return http.axiosGetRequest<ResultPage>(userUrls.userPage, query);
+};
+
+/**
+ * 重置用户
+ */
+export const userResetPwd = (param?: object) => {
+  return http.axiosPut<Result>(userUrls.resetPwd, param);
+};
+
+/**
+ * 删除用户
+ */
+export const removeUserById = (param: internal) => {
+  return http.axiosDelete<Result>(userUrls.deleteUserById + param);
+};
+
+/** 修改用户 */
+export const updateUser = (param: object) => {
+  return http.axiosPut<Result>(userUrls.update, param);
+};
+
+/**
+ * 重置用户密码
+ */
+export const saveUser = (param?: object) => {
+  return http.axiosPostRequest<Result>(userUrls.saveUser, param);
+};
+
+/** 获取角色管理列表 */
+export const getRoleList = (query?: object) => {
+  return http.axiosGetRequest<ResultPage>(roleUrls.rolePage, query);
+};
+
+/** 保存角色 */
+export const saveRole = (param: object) => {
+  return http.axiosPostRequest<Result>(roleUrls.save, param);
+};
+
+/** 修改角色 */
+export const updateRole = (param: object) => {
+  return http.axiosPut<Result>(roleUrls.update, param);
+};
+
+/** 删除角色 */
+export const deleteRole = (param: object) => {
+  return http.axiosDelete<Result>(roleUrls.deleteById + param, {});
+};
+
+/** 获取所有角色 */
+export const listAllRole = () => {
+  return http.axiosGetRequest<Result>(roleUrls.listAll, {});
+};
+
+/** 菜单页面 */
+export const menuPage = (query?: object) => {
+  return http.axiosGet<Result>(menuUrls.menuPage, query);
+};
+
+/** 保存菜单 */
+export const saveSysMenu = (param?: object) => {
+  return http.axiosPostRequest<Result>(menuUrls.saveSysMenu, param);
+};
+
+/** 修改菜单 */
+export const updateSysMenuById = (param?: object) => {
+  return http.axiosPut<Result>(menuUrls.updateSysMenuById, param);
+};
+
+/**删除菜单 */
+export const deleteSysMenu = (param?: object) => {
+  return http.axiosDelete<Result>(menuUrls.getSysMenuByRoleId + param);
+};
+
+/** 获取权限菜单列表 */
+export const getMenuData = (adminCode?: string) => {
+  return http.axiosGetRequest<Result>(authUrls.getMenuData + adminCode, {});
+};
+
+/** 获取角色列表 */
+export const getRoleData = (data?: object) => {
+  return http.axiosGetRequest<Result>(authUrls.getRoleData, data);
+};
+
+/**设置角色权限 */
+export const setRoleAuth = (param?: object) => {
+  return http.axiosPostRequest<Result>(authUrls.setRoleAuth, param);
 };
