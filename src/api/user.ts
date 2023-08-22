@@ -1,19 +1,14 @@
 import { http } from "@/utils/http";
 
 export type UserResult = {
-  success: boolean;
-  data: {
-    /** 用户名 */
-    username: string;
-    /** 当前登陆用户的角色 */
-    roles: Array<string>;
-    /** `token` */
-    accessToken: string;
-    /** 用于调用刷新`accessToken`的接口时所需的`token` */
-    refreshToken: string;
-    /** `accessToken`的过期时间（格式'xxxx/xx/xx xx:xx:xx'） */
-    expires: Date;
-  };
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+  role: number;
+  scope: string;
+  token_type: string;
+  user_id: number;
+  username: string;
 };
 
 export type RefreshTokenResult = {
@@ -28,9 +23,15 @@ export type RefreshTokenResult = {
   };
 };
 
+const urls = {
+  token: `/api/auth/oauth/token`,
+  refreshToken: `/api/auth/oauth/refreshToken`,
+  getInfo: `/api/upms/sysUser/info`
+};
+
 /** 登录 */
 export const getLogin = (data?: object) => {
-  return http.request<UserResult>("post", "/api/auth/oauth/token", { data });
+  return http.axiosPostFrom(urls.token, data);
 };
 
 /** 刷新token */

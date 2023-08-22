@@ -80,7 +80,9 @@ class PureHttp {
               const data = getToken();
               if (data) {
                 // 在请求头添加权限
-                config.headers["Authorization"] = formatToken(data.accessToken);
+                config.headers["Authorization"] = formatToken(
+                  data.access_token
+                );
                 resolve(config);
               } else {
                 resolve(config);
@@ -176,9 +178,35 @@ class PureHttp {
   public axiosPost<T>(url, params): Promise<T> {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
-        .post(url, qs.stringify(params))
+        .post(url, qs.stringify(params), {
+          headers: {
+            "content-type": "application/x-www-form-urlencoded"
+          }
+        })
         .then(response => {
           resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * from 请求直接返回response
+   * @param url
+   * @param params
+   */
+  public axiosPostFrom(url, params): Promise<any> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .post(url, qs.stringify(params), {
+          headers: {
+            "content-type": "application/x-www-form-urlencoded"
+          }
+        })
+        .then(response => {
+          resolve(response);
         })
         .catch(err => {
           reject(err);
@@ -213,13 +241,12 @@ class PureHttp {
    * @param url url
    * @param params 参数
    */
-  public axiosGet<T>(url, params): Promise<T> {
+  public axiosGet(url, params) {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .get(url, { params })
         .then(response => {
-          response.data = response.data || {};
-          resolve(response.data);
+          resolve(response);
         })
         .catch(err => {
           reject(err);
@@ -232,13 +259,12 @@ class PureHttp {
    * @param url
    * @param params
    */
-  public axiosGetRequest<T>(url, params): Promise<T> {
+  public axiosGetRequest(url, params) {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .get(url + "?" + qs.stringify(params), {})
         .then(response => {
-          response.data = response.data || {};
-          resolve(response.data);
+          resolve(response);
         })
         .catch(err => {
           reject(err);

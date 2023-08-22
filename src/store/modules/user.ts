@@ -5,7 +5,7 @@ import { routerArrays } from "@/layout/types";
 import { router, resetRouter } from "@/router";
 import { storageSession } from "@pureadmin/utils";
 import { getLogin, refreshTokenApi } from "@/api/user";
-import { UserResult, RefreshTokenResult } from "@/api/user";
+import { UserResult } from "@/api/user";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 import { type DataInfo, setToken, removeToken, sessionKey } from "@/utils/auth";
 import aesUtils from "@/utils/aes";
@@ -14,10 +14,17 @@ export const useUserStore = defineStore({
   id: "pure-user",
   state: (): userType => ({
     // 用户名
-    username:
-      storageSession().getItem<DataInfo<number>>(sessionKey)?.username ?? "",
+    username: storageSession().getItem<DataInfo>(sessionKey)
+      ? storageSession().getItem<DataInfo>(sessionKey).username
+        ? storageSession().getItem<DataInfo>(sessionKey).username
+        : ""
+      : "",
     // 页面级别权限
-    roles: storageSession().getItem<DataInfo<number>>(sessionKey)?.roles ?? [],
+    roles: storageSession().getItem<DataInfo>(sessionKey)
+      ? storageSession().getItem<DataInfo>(sessionKey).roles
+        ? storageSession().getItem<DataInfo>(sessionKey).roles
+        : []
+      : [],
     // 前端生成的验证码（按实际需求替换）
     verifyCode: "",
     // 判断登录页面显示哪个组件（0：登录（默认）、1：手机登录、2：二维码登录、3：注册、4：忘记密码）
@@ -43,12 +50,16 @@ export const useUserStore = defineStore({
     /** 登入 */
     async loginByUsername(data) {
       data.password = aesUtils.encode(data.password, "");
+      data.grant_type = "password";
+      data.scope = "select";
+      data.client_id = "th_client";
+      data.client_secret = "th";
       return new Promise<UserResult>((resolve, reject) => {
         getLogin(data)
-          .then(data => {
-            if (data) {
-              setToken(data.data);
-              resolve(data);
+          .then(res => {
+            if (res) {
+              setToken(res);
+              resolve(res);
             }
           })
           .catch(error => {
@@ -67,17 +78,10 @@ export const useUserStore = defineStore({
     },
     /** 刷新`token` */
     async handRefreshToken(data) {
-      return new Promise<RefreshTokenResult>((resolve, reject) => {
-        refreshTokenApi(data)
-          .then(data => {
-            if (data) {
-              setToken(data.data);
-              resolve(data);
-            }
-          })
-          .catch(error => {
-            reject(error);
-          });
+      return refreshTokenApi(data).then(res => {
+        if (res) {
+          console.log(res);
+        }
       });
     }
   }
