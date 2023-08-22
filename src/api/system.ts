@@ -7,19 +7,6 @@ type Result = {
   data?: Array<any>;
 };
 
-type PageData = {
-  records: Array<any>;
-  total: number;
-  size: number;
-  page: number;
-};
-
-type ResultPage = {
-  code: number;
-  msg: string;
-  data?: PageData;
-};
-
 const orgurls = {
   allList: `/api/upms/sysOrg/allList`,
   saveSysOrg: `/api/upms/sysOrg`,
@@ -59,7 +46,7 @@ const authUrls = {
 
 /** 获取部门管理列表 */
 export const getDeptList = (data?: object) => {
-  return http.axiosGetRequest<Result>(orgurls.allList, data);
+  return http.axiosGetRequest(orgurls.allList, data);
 };
 
 /**
@@ -87,7 +74,7 @@ export const removeById = (param: internal) => {
  * 分页查询用户
  */
 export const userPage = (query?: object) => {
-  return http.axiosGetRequest<ResultPage>(userUrls.userPage, query);
+  return http.axiosGetRequest(userUrls.userPage, query);
 };
 
 /**
@@ -118,7 +105,7 @@ export const saveUser = (param?: object) => {
 
 /** 获取角色管理列表 */
 export const getRoleList = (query?: object) => {
-  return http.axiosGetRequest<ResultPage>(roleUrls.rolePage, query);
+  return http.axiosGetRequest(roleUrls.rolePage, query);
 };
 
 /** 保存角色 */
@@ -138,12 +125,12 @@ export const deleteRole = (param: object) => {
 
 /** 获取所有角色 */
 export const listAllRole = () => {
-  return http.axiosGetRequest<Result>(roleUrls.listAll, {});
+  return http.axiosGetRequest(roleUrls.listAll, {});
 };
 
 /** 菜单页面 */
 export const menuPage = (query?: object) => {
-  return http.axiosGet<Result>(menuUrls.menuPage, query);
+  return http.axiosGet(menuUrls.menuPage, query);
 };
 
 /** 保存菜单 */
@@ -163,12 +150,12 @@ export const deleteSysMenu = (param?: object) => {
 
 /** 获取权限菜单列表 */
 export const getMenuData = (adminCode?: string) => {
-  return http.axiosGetRequest<Result>(authUrls.getMenuData + adminCode, {});
+  return http.axiosGetRequest(authUrls.getMenuData + adminCode, {});
 };
 
 /** 获取角色列表 */
 export const getRoleData = (data?: object) => {
-  return http.axiosGetRequest<Result>(authUrls.getRoleData, data);
+  return http.axiosGetRequest(authUrls.getRoleData, data);
 };
 
 /**设置角色权限 */

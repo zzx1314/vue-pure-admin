@@ -30,7 +30,6 @@ export function getToken(): DataInfo {
  * 将`username`、`roles`、`refreshToken`、`expires`这四条信息放在key值为`user-info`的sessionStorage里（浏览器关闭自动销毁）
  */
 export function setToken(data: DataInfo) {
-  debugger;
   const { access_token, refresh_token } = data;
   function setSessionKey(
     username: string,
