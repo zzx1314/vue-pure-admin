@@ -7,7 +7,7 @@ import {
   userResetPwd
 } from "@/api/system";
 import { ElMessageBox } from "element-plus";
-import { type PaginationProps } from "@pureadmin/table";
+import { type PaginationProps, AdaptiveConfig } from "@pureadmin/table";
 import { reactive, ref, computed, h } from "vue";
 import { FormInstance, FormRules } from "element-plus";
 import { SUCCESS } from "@/api/base";
@@ -76,6 +76,17 @@ export function useUser() {
     sex: [{ required: true, message: "性别必填", trigger: "change" }],
     role: [{ required: true, message: "角色必填", trigger: "change" }]
   });
+  /** 撑满内容区自适应高度相关配置 */
+  const adaptiveConfig: AdaptiveConfig = {
+    /** 表格距离页面底部的偏移量，默认值为 `96` */
+    offsetBottom: 110
+    /** 是否固定表头，默认值为 `true`（如果不想固定表头，fixHeader设置为false并且表格要设置table-layout="auto"） */
+    // fixHeader: true
+    /** 页面 `resize` 时的防抖时间，默认值为 `60` ms */
+    // timeout: 60
+    /** 表头的 `z-index`，默认值为 `100` */
+    // zIndex: 100
+  };
   // 分页参数
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -667,6 +678,7 @@ export function useUser() {
     handleCurrentChange,
     handleSelectionChange,
     queryInfo,
-    addFormInfo
+    addFormInfo,
+    adaptiveConfig
   };
 }

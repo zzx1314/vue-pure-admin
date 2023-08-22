@@ -41,7 +41,8 @@ const {
   handleSelectionChange,
   resetPwd,
   queryInfo,
-  resetForm
+  resetForm,
+  adaptiveConfig
 } = useUser();
 
 defineOptions({
@@ -72,41 +73,14 @@ async function getAllRole() {
       @setOrgIds="setOrgIds"
     />
     <div class="float-right w-[81%]">
-      <div style="display: inline-flex">
+      <div style="display: inline-flex; height: 40px">
         <DynamicForm
           ref="formRef"
           :options="formOptions"
           :model="queryForm"
           class="demo-form-inline"
           @ready="onReady"
-        >
-          <template #formCeil="{ item }">
-            <template v-if="item.name == 'moreQuery'">
-              <div class="demo-row">
-                <el-collapse-transition>
-                  <div v-show="moreCondition">
-                    <el-form-item label="开始时间：" prop="beginTime">
-                      <el-date-picker
-                        v-model="queryForm.beginTime"
-                        type="date"
-                        placeholder="请输入开始时间"
-                        class="!w-[200px]"
-                      />
-                    </el-form-item>
-                    <el-form-item label="结束时间：" prop="endTime">
-                      <el-date-picker
-                        v-model="queryForm.endTime"
-                        placeholder="请输入结束时间"
-                        type="date"
-                        class="!w-[200px]"
-                      />
-                    </el-form-item>
-                  </div>
-                </el-collapse-transition>
-              </div>
-            </template>
-          </template>
-        </DynamicForm>
+        />
         <el-button
           type="primary"
           :icon="useRenderIcon(Search)"
@@ -118,6 +92,30 @@ async function getAllRole() {
         <el-button :icon="useRenderIcon(Refresh)" @click="resetForm()">
           重置
         </el-button>
+      </div>
+      <div class="demo-row">
+        <el-collapse-transition>
+          <div v-show="moreCondition">
+            <el-form :inline="true" :model="queryForm" class="demo-form-inline">
+              <el-form-item label="开始时间：" prop="beginTime">
+                <el-date-picker
+                  v-model="queryForm.beginTime"
+                  type="date"
+                  placeholder="请输入开始时间"
+                  class="!w-[200px]"
+                />
+              </el-form-item>
+              <el-form-item label="结束时间：" prop="endTime">
+                <el-date-picker
+                  v-model="queryForm.endTime"
+                  placeholder="请输入结束时间"
+                  type="date"
+                  class="!w-[200px]"
+                />
+              </el-form-item>
+            </el-form>
+          </div>
+        </el-collapse-transition>
       </div>
       <el-button
         link
@@ -137,7 +135,10 @@ async function getAllRole() {
         </template>
         <template v-slot="{ size, dynamicColumns }">
           <pure-table
+            ref="tableRef"
             border
+            adaptive
+            :adaptiveConfig="adaptiveConfig"
             align-whole="center"
             table-layout="auto"
             :loading="loading"
@@ -221,7 +222,7 @@ async function getAllRole() {
 }
 
 .demo-row {
-  margin-top: 10px;
+  display: inline-flex;
 }
 
 .mc-btn {
