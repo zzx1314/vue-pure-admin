@@ -62,14 +62,9 @@
 import { defineComponent, PropType } from "vue";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-import { IDynamicFormItem, IDynamicFormObject } from "../DynamicForm";
+import { IDynamicFormItem } from "../DynamicForm";
 
 export default defineComponent({
-  computed: {
-    IDynamicFormObject() {
-      return IDynamicFormObject;
-    }
-  },
   emits: ["up", "down", "delete", "update:childData"],
   props: {
     childData: {
