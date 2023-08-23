@@ -259,15 +259,15 @@ class PureHttp {
    * @param url
    * @param params
    */
-  public axiosGetRequest(url, params) {
+  public axiosGetRequest<T>(url, params): Promise<T> {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .get(url + "?" + qs.stringify(params), {})
-        .then(response => {
+        .then((response: undefined) => {
           resolve(response);
         })
-        .catch(err => {
-          reject(err);
+        .catch(error => {
+          reject(error);
         });
     });
   }

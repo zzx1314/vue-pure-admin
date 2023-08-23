@@ -7,6 +7,15 @@ type Result = {
   data?: Array<any>;
 };
 
+type ResultPage = {
+  code: number;
+  msg: string;
+  data?: {
+    records: Array<any>;
+    total: number;
+  };
+};
+
 const orgurls = {
   allList: `/api/upms/sysOrg/allList`,
   saveSysOrg: `/api/upms/sysOrg`,
@@ -74,7 +83,7 @@ export const removeById = (param: internal) => {
  * 分页查询用户
  */
 export const userPage = (query?: object) => {
-  return http.axiosGetRequest(userUrls.userPage, query);
+  return http.axiosGetRequest<ResultPage>(userUrls.userPage, query);
 };
 
 /**
