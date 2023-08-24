@@ -31,7 +31,7 @@ const urls = {
 
 /** 登录 */
 export const getLogin = (data?: object) => {
-  return http.axiosPostFrom(urls.token, data);
+  return http.axiosPostFrom<UserResult>(urls.token, data);
 };
 
 /** 刷新token */

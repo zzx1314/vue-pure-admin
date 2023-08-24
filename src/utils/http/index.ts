@@ -183,8 +183,8 @@ class PureHttp {
             "content-type": "application/x-www-form-urlencoded"
           }
         })
-        .then(response => {
-          resolve(response.data);
+        .then((response: undefined) => {
+          resolve(response);
         })
         .catch(err => {
           reject(err);
@@ -197,7 +197,7 @@ class PureHttp {
    * @param url
    * @param params
    */
-  public axiosPostFrom(url, params): Promise<any> {
+  public axiosPostFrom<T>(url, params): Promise<T> {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .post(url, qs.stringify(params), {
@@ -205,7 +205,7 @@ class PureHttp {
             "content-type": "application/x-www-form-urlencoded"
           }
         })
-        .then(response => {
+        .then((response: undefined) => {
           resolve(response);
         })
         .catch(err => {
@@ -227,8 +227,8 @@ class PureHttp {
             "content-type": "application/json"
           }
         })
-        .then(response => {
-          resolve(response.data);
+        .then((response: undefined) => {
+          resolve(response);
         })
         .catch(err => {
           reject(err);
@@ -282,8 +282,8 @@ class PureHttp {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .delete(url, params)
-        .then(response => {
-          resolve(response.data);
+        .then((response: undefined) => {
+          resolve(response);
         })
         .catch(err => {
           reject(err);
@@ -300,8 +300,8 @@ class PureHttp {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .put(url, params)
-        .then(response => {
-          resolve(response.data);
+        .then((response: undefined) => {
+          resolve(response);
         })
         .catch(err => {
           reject(err);
@@ -319,8 +319,8 @@ class PureHttp {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .put(url, params, config)
-        .then(response => {
-          resolve(response.data);
+        .then((response: undefined) => {
+          resolve(response);
         })
         .catch(err => {
           reject(err);
@@ -332,8 +332,8 @@ class PureHttp {
     const promise = new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .patch(url, params)
-        .then(response => {
-          resolve(response.data);
+        .then((response: undefined) => {
+          resolve(response);
         })
         .catch(err => {
           reject(err);
@@ -346,7 +346,7 @@ class PureHttp {
     const promise = new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .get(url, config)
-        .then(response => {
+        .then((response: undefined) => {
           resolve(response);
         })
         .catch(err => {
@@ -377,11 +377,11 @@ class PureHttp {
         },
         responseType: "arraybuffer"
       })
-        .then(response => {
-          const blob = new Blob([response.data], {
+        .then((response: undefined) => {
+          const blob = new Blob([response], {
             type: "application/" + fileType
           });
-          resolve(response.data);
+          resolve(response);
           const fileName = name + "." + fileType;
           // const fileName = name;
           const link = document.createElement("a");
@@ -417,8 +417,8 @@ class PureHttp {
         },
         responseType: type
       })
-        .then(response => {
-          resolve(response.data);
+        .then((response: undefined) => {
+          resolve(response);
         })
         .catch(err => {
           reject(err);
@@ -440,8 +440,8 @@ class PureHttp {
         Accept: "application/json"
       },
       responseType: "blob"
-    }).then(response => {
-      const blob = new Blob([response.data], { type: "application/zip" });
+    }).then((response: undefined) => {
+      const blob = new Blob([response], { type: "application/zip" });
       const downloadElement = document.createElement("a");
       const url = window.URL.createObjectURL(blob);
       downloadElement.href = url;
