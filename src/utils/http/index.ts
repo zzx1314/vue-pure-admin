@@ -507,6 +507,20 @@ class PureHttp {
     });
     return promise;
   }
+
+  /**
+   * 将二进制文件转化成base64
+   * @param data
+   */
+  public getImageBase64(data) {
+    const blob = new Blob([data], { type: "image/jpg" }); //类型一定要写！！！
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
 }
 
 export const http = new PureHttp();
