@@ -241,11 +241,11 @@ class PureHttp {
    * @param url url
    * @param params 参数
    */
-  public axiosGet(url, params) {
+  public axiosGet<T>(url, params): Promise<T> {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .get(url, { params })
-        .then(response => {
+        .then((response: undefined) => {
           resolve(response);
         })
         .catch(err => {

@@ -55,7 +55,7 @@ const authUrls = {
 
 /** 获取部门管理列表 */
 export const getDeptList = (data?: object) => {
-  return http.axiosGetRequest(orgurls.allList, data);
+  return http.axiosGetRequest<Result>(orgurls.allList, data);
 };
 
 /**
@@ -114,7 +114,7 @@ export const saveUser = (param?: object) => {
 
 /** 获取角色管理列表 */
 export const getRoleList = (query?: object) => {
-  return http.axiosGetRequest(roleUrls.rolePage, query);
+  return http.axiosGetRequest<ResultPage>(roleUrls.rolePage, query);
 };
 
 /** 保存角色 */
@@ -139,7 +139,7 @@ export const listAllRole = () => {
 
 /** 菜单页面 */
 export const menuPage = (query?: object) => {
-  return http.axiosGet(menuUrls.menuPage, query);
+  return http.axiosGet<Result>(menuUrls.menuPage, query);
 };
 
 /** 保存菜单 */
@@ -159,12 +159,12 @@ export const deleteSysMenu = (param?: object) => {
 
 /** 获取权限菜单列表 */
 export const getMenuData = (adminCode?: string) => {
-  return http.axiosGetRequest(authUrls.getMenuData + adminCode, {});
+  return http.axiosGetRequest<Result>(authUrls.getMenuData + adminCode, {});
 };
 
 /** 获取角色列表 */
 export const getRoleData = (data?: object) => {
-  return http.axiosGetRequest(authUrls.getRoleData, data);
+  return http.axiosGetRequest<Result>(authUrls.getRoleData, data);
 };
 
 /**设置角色权限 */
