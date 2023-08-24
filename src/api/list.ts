@@ -15,5 +15,8 @@ export const getCardList = (data?: object) => {
 
 /** 版本日志 */
 export const getReleases = () => {
-  return http.request<Result>("get", "/releases");
+  return http.request<Result>(
+    "get",
+    "https://github.com/pure-admin/vue-pure-admin/releases"
+  );
 };
