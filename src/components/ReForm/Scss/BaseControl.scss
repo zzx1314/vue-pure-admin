@@ -1,7 +1,3 @@
-$primary-color: #1a91f3;
-$border-color: #dcdfe6;
-$base-color: #fff;
-
 input[type="text"].dynamic-form-base-control,
 input[type="password"].dynamic-form-base-control,
 textarea.dynamic-form-base-control,
@@ -10,9 +6,9 @@ select.dynamic-form-base-control {
   padding: 1px 11px;
   font-size: 14px;
   line-height: 30px;
-  background-color: $base-color;
+  background-color: #fff;
   background-image: none;
-  border: 1px solid $border-color;
+  border: 1px solid #dcdfe6;
   border-radius: 5px;
   outline: none;
 
@@ -24,7 +20,7 @@ select.dynamic-form-base-control {
   &:hover,
   &:active,
   &:focus {
-    border-color: $primary-color;
+    border-color: #1a91f3;
   }
 }
 
@@ -45,8 +41,8 @@ select.dynamic-form-base-control {
     margin: 0;
     margin-right: 5px;
     appearance: none;
-    background-color: $base-color;
-    border: 1px solid $border-color;
+    background-color: #fff;
+    border: 1px solid #dcdfe6;
     border-radius: 22px;
 
     &::after {
@@ -64,7 +60,7 @@ select.dynamic-form-base-control {
 
     &:checked {
       &::after {
-        background-color: $primary-color;
+        background-color: #1a91f3;
       }
     }
   }
@@ -118,13 +114,13 @@ textarea.dynamic-form-base-control {
   margin: 0;
   margin-right: 10px;
   overflow: hidden;
-  color: $primary-color;
+  color: #1a91f3;
   vertical-align: middle;
   appearance: none;
   background: transparent;
-  background-color: $base-color;
+  background-color: #fff;
   background-image: none;
-  border: 1px solid $border-color;
+  border: 1px solid #dcdfe6;
   border-radius: 5px;
 
   &::after {
@@ -133,14 +129,14 @@ textarea.dynamic-form-base-control {
     width: 22px;
     font-size: 12px;
     line-height: 22px;
-    color: $primary-color;
+    color: #1a91f3;
     text-align: center;
     content: "";
     border: none;
   }
 
   &:checked::after {
-    color: $primary-color;
+    color: #1a91f3;
     content: "✔️";
   }
 }
