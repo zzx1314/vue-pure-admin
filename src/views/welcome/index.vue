@@ -1,16 +1,12 @@
 <script setup lang="ts">
-import dayjs from "dayjs";
-import MdEditor from "md-editor-v3";
 import Bar from "./components/Bar.vue";
 import Pie from "./components/Pie.vue";
 import Line from "./components/Line.vue";
 import { getReleases } from "@/api/list";
 import TypeIt from "@/components/ReTypeit";
 import { useWindowSize } from "@vueuse/core";
-import { ref, computed, markRaw } from "vue";
+import { ref } from "vue";
 import Github from "./components/Github.vue";
-import { randomColor } from "@pureadmin/utils";
-import { useRenderFlicker } from "@/components/ReFlicker";
 
 defineOptions({
   name: "Welcome"
@@ -19,9 +15,6 @@ defineOptions({
 const list = ref();
 const loading = ref<boolean>(true);
 const { version } = __APP_INFO__.pkg;
-const titleClass = computed(() => {
-  return ["text-base", "font-medium"];
-});
 
 const { height } = useWindowSize();
 
@@ -29,18 +22,8 @@ setTimeout(() => {
   loading.value = !loading.value;
 }, 800);
 
-getReleases().then(({ data }) => {
-  list.value = data.list.map(v => {
-    return {
-      content: v.body,
-      timestamp: dayjs(v.published_at).format("YYYY/MM/DD hh:mm:ss A"),
-      icon: markRaw(
-        useRenderFlicker({
-          background: randomColor({ type: "hex" }) as string
-        })
-      )
-    };
-  });
+getReleases().then(res => {
+  list.value = res;
 });
 </script>
 
@@ -72,18 +55,12 @@ getReleases().then(({ data }) => {
           :style="{ height: `calc(${height}px - 35vh - 250px)` }"
         >
           <template #header>
-            <a
-              :class="titleClass"
-              href="https://github.com/pure-admin/vue-pure-admin/releases"
-              target="_black"
-            >
-              <TypeIt
-                :className="'type-it2'"
-                :values="[`PureAdmin 版本日志（当前版本 v${version}）`]"
-                :cursor="false"
-                :speed="60"
-              />
-            </a>
+            <TypeIt
+              :className="'type-it2'"
+              :values="[`版本日志（当前版本 v${version}）`]"
+              :cursor="false"
+              :speed="60"
+            />
           </template>
           <el-skeleton animated :rows="7" :loading="loading">
             <template #default>
@@ -93,9 +70,13 @@ getReleases().then(({ data }) => {
                     v-for="(item, index) in list"
                     :key="index"
                     :icon="item.icon"
+                    :type="item.type"
+                    :color="item.color"
+                    :size="item.size"
+                    :hollow="item.hollow"
                     :timestamp="item.timestamp"
                   >
-                    <md-editor v-model="item.content" preview-only />
+                    {{ item.content }}
                   </el-timeline-item>
                 </el-timeline>
                 <el-empty v-show="list?.length === 0" />
@@ -130,18 +111,12 @@ getReleases().then(({ data }) => {
           :style="{ height: `calc(${height}px - 35vh - 250px)` }"
         >
           <template #header>
-            <a
-              :class="titleClass"
-              href="https://github.com/xiaoxian521"
-              target="_black"
-            >
-              <TypeIt
-                :className="'type-it1'"
-                :values="['GitHub信息']"
-                :cursor="false"
-                :speed="120"
-              />
-            </a>
+            <TypeIt
+              :className="'type-it1'"
+              :values="['系统信息']"
+              :cursor="false"
+              :speed="120"
+            />
           </template>
           <el-skeleton animated :rows="7" :loading="loading">
             <template #default>
@@ -175,18 +150,12 @@ getReleases().then(({ data }) => {
       >
         <el-card shadow="never">
           <template #header>
-            <a
-              :class="titleClass"
-              href="https://github.com/pure-admin/vue-pure-admin"
-              target="_black"
-            >
-              <TypeIt
-                :className="'type-it4'"
-                :values="['GitHub折线图信息']"
-                :cursor="false"
-                :speed="120"
-              />
-            </a>
+            <TypeIt
+              :className="'type-it4'"
+              :values="['折线图信息']"
+              :cursor="false"
+              :speed="120"
+            />
           </template>
           <el-skeleton animated :rows="7" :loading="loading">
             <template #default>
@@ -218,18 +187,12 @@ getReleases().then(({ data }) => {
       >
         <el-card shadow="never">
           <template #header>
-            <a
-              :class="titleClass"
-              href="https://github.com/pure-admin/vue-pure-admin"
-              target="_black"
-            >
-              <TypeIt
-                :className="'type-it3'"
-                :values="['GitHub饼图信息']"
-                :cursor="false"
-                :speed="120"
-              />
-            </a>
+            <TypeIt
+              :className="'type-it3'"
+              :values="['饼图信息']"
+              :cursor="false"
+              :speed="120"
+            />
           </template>
           <el-skeleton animated :rows="7" :loading="loading">
             <template #default>
@@ -261,18 +224,12 @@ getReleases().then(({ data }) => {
       >
         <el-card shadow="never">
           <template #header>
-            <a
-              :class="titleClass"
-              href="https://github.com/pure-admin/vue-pure-admin"
-              target="_black"
-            >
-              <TypeIt
-                :className="'type-it5'"
-                :values="['GitHub柱状图信息']"
-                :cursor="false"
-                :speed="120"
-              />
-            </a>
+            <TypeIt
+              :className="'type-it5'"
+              :values="['柱状图信息']"
+              :cursor="false"
+              :speed="120"
+            />
           </template>
           <el-skeleton animated :rows="7" :loading="loading">
             <template #default>
