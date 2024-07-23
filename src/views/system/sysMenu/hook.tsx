@@ -66,7 +66,7 @@ export function useMenu() {
     },
     {
       label: "组件路径",
-      prop: "component",
+      prop: "pathUrl",
       width: 180,
       align: "left"
     },
