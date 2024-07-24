@@ -463,7 +463,10 @@ class PureHttp {
    */
   public uploadFile(URL, formData) {
     const url = URL;
-    const headers = { "Content-Type": "multipart/form-data" };
+    const headers = {
+      Authentication: sessionStorage.getItem("token"),
+      "Content-Type": "multipart/form-data"
+    };
     return PureHttp.axiosInstance.post(url, formData, { headers: headers });
   }
 
