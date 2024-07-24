@@ -64,7 +64,9 @@ export function useMenu() {
       prop: "type",
       minWidth: 100,
       cellRenderer: ({ row }) => (
-        <el-tag>{row.type === 1 ? "菜单" : "按钮"}</el-tag>
+        <el-tag type={row.type === 1 ? "success" : "info"}>
+          {row.type === 1 ? "菜单" : "按钮"}
+        </el-tag>
       )
     },
     {
