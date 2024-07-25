@@ -224,7 +224,7 @@ class PureHttp {
    * @param url
    * @param params
    */
-  public axiosPostRequest<T>(url, params): Promise<T> {
+  public axiosPostRequest<T>(url, params?: object): Promise<T> {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .post(url, params, {
@@ -246,7 +246,7 @@ class PureHttp {
    * @param url url
    * @param params 参数
    */
-  public axiosGet<T>(url, params): Promise<T> {
+  public axiosGet<T>(url, params?: object): Promise<T> {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .get(url, { params })
