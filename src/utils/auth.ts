@@ -38,6 +38,7 @@ export function setToken(data: DataInfo) {
   ) {
     useUserStoreHook().SET_USERNAME(username);
     useUserStoreHook().SET_ROLES(roles);
+    storageSession().setItem("token", "Bearer " + access_token);
     storageSession().setItem(sessionKey, {
       access_token,
       refresh_token,

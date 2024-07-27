@@ -48,10 +48,6 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
           // 这里填写后端地址
           target: "http://127.0.0.1:58089",
           changeOrigin: true
-        },
-        "/gitee": {
-          target: "https://gitee.com",
-          changeOrigin: true
         }
       }
     },

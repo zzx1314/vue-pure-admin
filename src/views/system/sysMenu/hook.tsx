@@ -62,11 +62,16 @@ export function useMenu() {
     {
       label: "类型",
       prop: "type",
-      minWidth: 100
+      minWidth: 100,
+      cellRenderer: ({ row }) => (
+        <el-tag type={row.type === 1 ? "success" : "info"}>
+          {row.type === 1 ? "菜单" : "按钮"}
+        </el-tag>
+      )
     },
     {
       label: "组件路径",
-      prop: "component",
+      prop: "pathUrl",
       width: 180,
       align: "left"
     },

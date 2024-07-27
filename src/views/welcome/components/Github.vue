@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { useColumns } from "./columns";
-const { columnsA, columnsB, columnsC } = useColumns();
+const { columnsA, columnsC } = useColumns();
 
 const list = [
   {
     columns: columnsA,
     column: 3
-  },
-  {
-    columns: columnsB,
-    column: 2
   },
   {
     columns: columnsC,

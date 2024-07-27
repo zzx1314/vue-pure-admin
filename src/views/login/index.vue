@@ -21,21 +21,17 @@ import update from "./components/update.vue";
 import { useNav } from "@/layout/hooks/useNav";
 import type { FormInstance } from "element-plus";
 import { $t, transformI18n } from "@/plugins/i18n";
-import { operates, thirdParty } from "./utils/enums";
 import { useLayout } from "@/layout/hooks/useLayout";
 import { useUserStoreHook } from "@/store/modules/user";
 import { initRouter } from "@/router/utils";
 import { bg, avatar, illustration } from "./utils/static";
 import { ReImageVerify } from "@/components/ReImageVerify";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import { useTranslationLang } from "@/layout/hooks/useTranslationLang";
 import { useDataThemeChange } from "@/layout/hooks/useDataThemeChange";
 
 import dayIcon from "@/assets/svg/day.svg?component";
 import darkIcon from "@/assets/svg/dark.svg?component";
-import globalization from "@/assets/svg/globalization.svg?component";
 import Lock from "@iconify-icons/ri/lock-fill";
-import Check from "@iconify-icons/ep/check";
 import User from "@iconify-icons/ri/user-3-fill";
 
 defineOptions({
@@ -45,7 +41,6 @@ defineOptions({
 const imgCode = ref("");
 const router = useRouter();
 const loading = ref(false);
-const checked = ref(false);
 const ruleFormRef = ref<FormInstance>();
 const currentPage = computed(() => {
   return useUserStoreHook().currentPage;
@@ -56,8 +51,7 @@ const { initStorage } = useLayout();
 initStorage();
 const { dataTheme, dataThemeChange } = useDataThemeChange();
 dataThemeChange();
-const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
-const { locale, translationCh, translationEn } = useTranslationLang();
+const { title } = useNav();
 
 const ruleForm = reactive({
   username: "sysadmin",
@@ -121,38 +115,6 @@ watch(imgCode, value => {
         :inactive-icon="darkIcon"
         @change="dataThemeChange"
       />
-      <!-- 国际化 -->
-      <el-dropdown trigger="click">
-        <globalization
-          class="hover:text-primary hover:!bg-[transparent] w-[20px] h-[20px] ml-1.5 cursor-pointer outline-none duration-300"
-        />
-        <template #dropdown>
-          <el-dropdown-menu class="translation">
-            <el-dropdown-item
-              :style="getDropdownItemStyle(locale, 'zh')"
-              :class="['dark:!text-white', getDropdownItemClass(locale, 'zh')]"
-              @click="translationCh"
-            >
-              <IconifyIconOffline
-                class="check-zh"
-                v-show="locale === 'zh'"
-                :icon="Check"
-              />
-              简体中文
-            </el-dropdown-item>
-            <el-dropdown-item
-              :style="getDropdownItemStyle(locale, 'en')"
-              :class="['dark:!text-white', getDropdownItemClass(locale, 'en')]"
-              @click="translationEn"
-            >
-              <span class="check-en" v-show="locale === 'en'">
-                <IconifyIconOffline :icon="Check" />
-              </span>
-              English
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
     </div>
     <div class="login-container">
       <div class="img">
@@ -223,18 +185,6 @@ watch(imgCode, value => {
 
             <Motion :delay="250">
               <el-form-item>
-                <div class="w-full h-[20px] flex justify-between items-center">
-                  <el-checkbox v-model="checked">
-                    {{ t("login.remember") }}
-                  </el-checkbox>
-                  <el-button
-                    link
-                    type="primary"
-                    @click="useUserStoreHook().SET_CURRENTPAGE(4)"
-                  >
-                    {{ t("login.forget") }}
-                  </el-button>
-                </div>
                 <el-button
                   class="w-full mt-4"
                   size="default"
@@ -246,44 +196,7 @@ watch(imgCode, value => {
                 </el-button>
               </el-form-item>
             </Motion>
-
-            <Motion :delay="300">
-              <el-form-item>
-                <div class="w-full h-[20px] flex justify-between items-center">
-                  <el-button
-                    v-for="(item, index) in operates"
-                    :key="index"
-                    class="w-full mt-4"
-                    size="default"
-                    @click="useUserStoreHook().SET_CURRENTPAGE(index + 1)"
-                  >
-                    {{ t(item.title) }}
-                  </el-button>
-                </div>
-              </el-form-item>
-            </Motion>
           </el-form>
-
-          <Motion v-if="currentPage === 0" :delay="350">
-            <el-form-item>
-              <el-divider>
-                <p class="text-gray-500 text-xs">{{ t("login.thirdLogin") }}</p>
-              </el-divider>
-              <div class="w-full flex justify-evenly">
-                <span
-                  v-for="(item, index) in thirdParty"
-                  :key="index"
-                  :title="t(item.title)"
-                >
-                  <IconifyIconOnline
-                    :icon="`ri:${item.icon}-fill`"
-                    width="20"
-                    class="cursor-pointer text-gray-500 hover:text-blue-400"
-                  />
-                </span>
-              </div>
-            </el-form-item>
-          </Motion>
           <!-- 手机号登录 -->
           <phone v-if="currentPage === 1" />
           <!-- 二维码登录 -->

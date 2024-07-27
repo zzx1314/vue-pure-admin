@@ -73,7 +73,7 @@ async function getAllRole() {
       @setOrgIds="setOrgIds"
     />
     <div class="float-right w-[81%]">
-      <div style="display: inline-flex; height: 40px">
+      <div class="search-top">
         <DynamicForm
           ref="formRef"
           :options="formOptions"
@@ -93,9 +93,9 @@ async function getAllRole() {
           重置
         </el-button>
       </div>
-      <div class="demo-row">
+      <div class="demo-row" v-show="moreCondition">
         <el-collapse-transition>
-          <div v-show="moreCondition">
+          <div>
             <el-form :inline="true" :model="queryForm" class="demo-form-inline">
               <el-form-item label="开始时间：" prop="beginTime">
                 <el-date-picker
@@ -223,6 +223,17 @@ async function getAllRole() {
 
 .demo-row {
   display: inline-flex;
+  padding-top: 5px;
+  padding-left: 5px;
+  background: white;
+}
+
+.search-top {
+  display: inline-flex;
+  height: 56px;
+  padding-top: 10px;
+  padding-left: 10px;
+  background: white;
 }
 
 .mc-btn {

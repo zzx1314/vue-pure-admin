@@ -13,6 +13,8 @@ import qs from "qs";
 import { stringify } from "qs";
 import NProgress from "../progress";
 import { getToken, formatToken } from "@/utils/auth";
+import { message } from "@/utils/message";
+import { useUserStoreHook } from "@/store/modules/user";
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
@@ -115,10 +117,13 @@ class PureHttp {
         return response.data;
       },
       (error: PureHttpError) => {
+        console.log("拦截异常：", error.response);
         const $error = error;
         $error.isCancelRequest = Axios.isCancel($error);
         // 关闭进度条动画
         NProgress.done();
+        useUserStoreHook().logOut();
+        message("登录超时，请重新登录", { type: "error" });
         // 所有的响应异常 区分来源为取消请求/非取消请求
         return Promise.reject($error);
       }
@@ -220,7 +225,7 @@ class PureHttp {
    * @param url
    * @param params
    */
-  public axiosPostRequest<T>(url, params): Promise<T> {
+  public axiosPostRequest<T>(url, params?: object): Promise<T> {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .post(url, params, {
@@ -242,7 +247,7 @@ class PureHttp {
    * @param url url
    * @param params 参数
    */
-  public axiosGet<T>(url, params): Promise<T> {
+  public axiosGet<T>(url, params?: object): Promise<T> {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .get(url, { params })
@@ -459,7 +464,10 @@ class PureHttp {
    */
   public uploadFile(URL, formData) {
     const url = URL;
-    const headers = { "Content-Type": "multipart/form-data" };
+    const headers = {
+      Authentication: sessionStorage.getItem("token"),
+      "Content-Type": "multipart/form-data"
+    };
     return PureHttp.axiosInstance.post(url, formData, { headers: headers });
   }
 

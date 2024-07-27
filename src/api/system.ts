@@ -53,6 +53,31 @@ const authUrls = {
   setRoleAuth: `/api/upms/sysAuth/setRoleAuth`
 };
 
+const fileUploadUrls = {
+  taskInfo: `/api/upms/minio/tasks`,
+  initTask: `/api/upms/minio/tasks/init`,
+  preSignUrl: `/api/upms/minio/tasks/preSignUrl`,
+  merge: `/api/upms/minio/tasks/uploadFile`
+};
+
+export const taskInfo = (data?: object) => {
+  return http.axiosGet<Result>(fileUploadUrls.taskInfo + data);
+};
+
+export const initTask = (data?: object) => {
+  return http.axiosPostRequest<Result>(fileUploadUrls.initTask, data);
+};
+
+export const preSignUrl = (identifier: string, partNumber: string) => {
+  return http.axiosGet<Result>(
+    fileUploadUrls.preSignUrl + identifier + partNumber
+  );
+};
+
+export const merge = (data?: object) => {
+  return http.axiosPostRequest<Result>(fileUploadUrls.merge + data);
+};
+
 /** 获取部门管理列表 */
 export const getDeptList = (data?: object) => {
   return http.axiosGetRequest<Result>(orgurls.allList, data);
