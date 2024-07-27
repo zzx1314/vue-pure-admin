@@ -52,8 +52,6 @@ export const useUserStore = defineStore({
       data.password = aesUtils.encode(data.password, "");
       data.grant_type = "password";
       data.scope = "select";
-      data.client_id = "th_client";
-      data.client_secret = "th";
       return new Promise<UserResult>((resolve, reject) => {
         getLogin(data)
           .then(res => {

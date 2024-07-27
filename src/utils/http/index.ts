@@ -197,11 +197,12 @@ class PureHttp {
    * @param url
    * @param params
    */
-  public axiosPostFrom<T>(url, params): Promise<T> {
+  public axiosPostFrom<T>(url: string, params: any, heads?: any): Promise<T> {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .post(url, qs.stringify(params), {
           headers: {
+            ...(heads || {}),
             "content-type": "application/x-www-form-urlencoded"
           }
         })

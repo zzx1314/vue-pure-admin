@@ -31,7 +31,10 @@ const urls = {
 
 /** 登录 */
 export const getLogin = (data?: object) => {
-  return http.axiosPostFrom<UserResult>(urls.token, data);
+  const headers = {
+    Authorization: "Basic dGhfY2xpZW50OnRo"
+  };
+  return http.axiosPostFrom<UserResult>(urls.token, data, headers);
 };
 
 /** 刷新token */
