@@ -54,10 +54,10 @@ const authUrls = {
 };
 
 const fileUploadUrls = {
-  taskInfo: `/api/upms/minio/tasks`,
+  taskInfo: `/api/upms/minio/tasks/`,
   initTask: `/api/upms/minio/tasks/init`,
-  preSignUrl: `/api/upms/minio/tasks/preSignUrl`,
-  merge: `/api/upms/minio/tasks/uploadFile`
+  preSignUrl: `/api/upms/minio/tasks/preSignUrl/`,
+  merge: `/api/upms/minio/tasks/merge/`
 };
 
 export const taskInfo = (data?: object) => {
@@ -68,9 +68,13 @@ export const initTask = (data?: object) => {
   return http.axiosPostRequest<Result>(fileUploadUrls.initTask, data);
 };
 
-export const preSignUrl = (identifier: string, partNumber: string) => {
+type upParam = {
+  identifier: object;
+  partNumber: number;
+};
+export const preSignUrl = (data: upParam) => {
   return http.axiosGet<Result>(
-    fileUploadUrls.preSignUrl + identifier + partNumber
+    fileUploadUrls.preSignUrl + data.identifier + "/" + data.partNumber
   );
 };
 
