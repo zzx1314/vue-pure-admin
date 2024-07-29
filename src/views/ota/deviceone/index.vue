@@ -1,3 +1,168 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import { FormInstance } from "element-plus";
+import { useDevice } from "@/views/ota/deviceone/hook";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import Search from "@iconify-icons/ep/search";
+import Refresh from "@iconify-icons/ep/refresh";
+import AddFill from "@iconify-icons/ri/add-circle-line";
+import EditPen from "@iconify-icons/ep/edit-pen";
+import Delete from "@iconify-icons/ep/delete";
+import { PureTableBar } from "@/components/RePureTableBar";
+
+defineOptions({
+  name: "Device"
+});
+
+const formRef = ref();
+const addFormRef = ref<FormInstance>();
+
+const {
+  queryForm,
+  loading,
+  columns,
+  dataList,
+  pagination,
+  dialogFormVisible,
+  title,
+  addForm,
+  rules,
+  cancel,
+  submitForm,
+  openDia,
+  onSearch,
+  resetForm,
+  handleUpdate,
+  handleDelete,
+  handleSizeChange,
+  handleCurrentChange,
+  handleSelectionChange
+} = useDevice();
+</script>
 <template>
-  <h1>设备管理</h1>
+  <div class="main">
+    <el-form
+      ref="formRef"
+      :inline="true"
+      :model="queryForm"
+      class="bg-bg_color w-[99/100] pl-8 pt-4"
+    >
+      <el-form-item label="设备名称：" prop="name">
+        <el-input
+          v-model="queryForm.name"
+          placeholder="请输入设备名称"
+          clearable
+          class="!w-[180px]"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          type="primary"
+          :icon="useRenderIcon(Search)"
+          :loading="loading"
+          @click="onSearch"
+        >
+          搜索
+        </el-button>
+        <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
+          重置
+        </el-button>
+      </el-form-item>
+    </el-form>
+
+    <PureTableBar title="设备列表" @refresh="onSearch">
+      <template #buttons>
+        <el-button
+          type="primary"
+          :icon="useRenderIcon(AddFill)"
+          @click="openDia('新增设备')"
+        >
+          添加
+        </el-button>
+      </template>
+      <template v-slot="{ size, checkList }">
+        <pure-table
+          border
+          align-whole="center"
+          showOverflowTooltip
+          table-layout="auto"
+          :loading="loading"
+          :size="size"
+          :data="dataList"
+          :columns="columns"
+          :checkList="checkList"
+          :pagination="pagination"
+          :paginationSmall="size === 'small'"
+          :header-cell-style="{
+            background: 'var(--el-table-row-hover-bg-color)',
+            color: 'var(--el-text-color-primary)'
+          }"
+          @selection-change="handleSelectionChange"
+          @page-size-change="handleSizeChange"
+          @page-current-change="handleCurrentChange"
+        >
+          <template #operation="{ row }">
+            <el-button
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
+              :icon="useRenderIcon(EditPen)"
+              @click="handleUpdate(row)"
+            >
+              修改
+            </el-button>
+            <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
+              <template #reference>
+                <el-button
+                  class="reset-margin"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(Delete)"
+                >
+                  删除
+                </el-button>
+              </template>
+            </el-popconfirm>
+          </template>
+        </pure-table>
+      </template>
+    </PureTableBar>
+
+    <el-dialog v-model="dialogFormVisible" :title="title">
+      <el-form
+        ref="addFormRef"
+        :model="addForm.value"
+        :inline="true"
+        :rules="rules"
+        label-width="100px"
+      >
+        <el-form-item label="设备名称" prop="name">
+          <el-input v-model="addForm.value.name" placeholder="请输入软件名称" />
+        </el-form-item>
+
+        <el-form-item label="类型" prop="description">
+          <el-input
+            v-model="addForm.value.description"
+            placeholder="请输入类型"
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="cancel(addFormRef)">取消</el-button>
+          <el-button type="primary" @click="submitForm(addFormRef)"
+            >确认</el-button
+          >
+        </span>
+      </template>
+    </el-dialog>
+  </div>
 </template>
+
+<style scoped lang="scss">
+:deep(.el-dropdown-menu__item i) {
+  margin: 0;
+}
+</style>

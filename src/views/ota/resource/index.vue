@@ -75,9 +75,16 @@ const {
         <el-button
           type="primary"
           :icon="useRenderIcon(AddFill)"
-          @click="openDia('新增资源')"
+          @click="openDia('上传资源')"
         >
-          新增
+          上传
+        </el-button>
+        <el-button
+          type="primary"
+          :icon="useRenderIcon(AddFill)"
+          @click="openDia('推送资源')"
+        >
+          推送
         </el-button>
       </template>
       <template v-slot="{ size, checkList }">
