@@ -157,6 +157,7 @@ const handleUpload = (file, taskRecord, options) => {
  * el-upload 自定义上传方法入口
  */
 const handleHttpRequest = async options => {
+  debugger;
   const file = options.file;
   const task = await getTaskInfo(file);
   if (task) {
@@ -203,6 +204,11 @@ const handleRemoveFile = uploadFile => {
   }
 };
 
+const upload = ref();
+const submitUpload = () => {
+  upload.value.submit();
+};
+
 import { reactive } from "vue";
 
 const formInline = reactive({
@@ -240,13 +246,24 @@ const formInline = reactive({
         />
       </el-form-item>
     </el-form>
+
+    <el-button
+      style="margin-left: 10px"
+      size="small"
+      type="success"
+      @click="submitUpload"
+      >上传到服务器</el-button
+    >
+
     <el-upload
+      ref="upload"
       class="upload-demo"
       drag
       action="/"
       multiple
       :http-request="handleHttpRequest"
       :on-remove="handleRemoveFile"
+      :auto-upload="false"
     >
       <el-icon class="el-icon--upload"><upload-filled /></el-icon>
       <div class="el-upload__text">
