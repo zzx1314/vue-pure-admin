@@ -8,6 +8,7 @@ import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Delete from "@iconify-icons/ep/delete";
+import Position from "@iconify-icons/ep/position";
 import { PureTableBar } from "@/components/RePureTableBar";
 
 defineOptions({
@@ -27,6 +28,8 @@ const {
   title,
   addForm,
   rules,
+  addType,
+  devOption,
   cancel,
   submitForm,
   openDia,
@@ -75,13 +78,20 @@ const {
         <el-button
           type="primary"
           :icon="useRenderIcon(AddFill)"
-          @click="openDia('上传资源')"
+          @click="openDia('添加操作系统')"
         >
-          上传
+          添加操作系统
         </el-button>
         <el-button
           type="primary"
           :icon="useRenderIcon(AddFill)"
+          @click="openDia('添加模块')"
+        >
+          添加模块
+        </el-button>
+        <el-button
+          type="primary"
+          :icon="useRenderIcon(Position)"
           @click="openDia('推送资源')"
         >
           推送
@@ -93,6 +103,7 @@ const {
           align-whole="center"
           showOverflowTooltip
           table-layout="auto"
+          default-expand-all
           :loading="loading"
           :size="size"
           :data="dataList"
@@ -137,27 +148,94 @@ const {
       </template>
     </PureTableBar>
 
-    <el-dialog v-model="dialogFormVisible" :title="title">
+    <el-dialog v-model="dialogFormVisible" :title="title" width="60%">
       <el-form
         ref="addFormRef"
         :model="addForm.value"
         :inline="true"
         :rules="rules"
-        label-width="100px"
+        label-width="150px"
       >
-        <el-form-item label="软件名称" prop="name">
-          <el-input v-model="addForm.value.name" placeholder="请输入软件名称" />
-        </el-form-item>
-
-        <el-form-item label="安装包名称" prop="code">
-          <el-input v-model="addForm.value.code" placeholder="请输入角色编码" />
-        </el-form-item>
-
-        <el-form-item label="类型" prop="description">
+        <el-form-item
+          label="操作系统名称"
+          prop="softwareName"
+          v-if="addType === 'addSoftware'"
+        >
           <el-input
-            v-model="addForm.value.description"
-            placeholder="请输入类型"
+            v-model="addForm.value.softwareName"
+            placeholder="请输入软件名称"
           />
+        </el-form-item>
+
+        <el-form-item
+          label="操作系统版本"
+          prop="softwareVersion"
+          v-if="addType === 'addSoftware'"
+        >
+          <el-input
+            v-model="addForm.value.softwareVersion"
+            placeholder="请输入操作系统版本"
+          />
+        </el-form-item>
+
+        <el-form-item
+          label="设备类型"
+          prop="devType"
+          v-if="addType === 'addSoftware'"
+        >
+          <el-select
+            v-model="addForm.value.devType"
+            placeholder="选择设备类型"
+            style="width: 200px"
+          >
+            <el-option
+              v-for="item in devOption"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item
+          label="模块包名称"
+          prop="pkgName"
+          v-if="addType !== 'addSoftware'"
+        >
+          <el-input
+            v-model="addForm.value.pkgName"
+            placeholder="请输入模块包名称"
+          />
+        </el-form-item>
+
+        <el-form-item
+          label="模块版本"
+          prop="version"
+          v-if="addType !== 'addSoftware'"
+        >
+          <el-input
+            v-model="addForm.value.version"
+            placeholder="请输入模块包类型"
+          />
+        </el-form-item>
+
+        <el-form-item
+          label="操作系统"
+          prop="parentId"
+          v-if="addType !== 'addSoftware'"
+        >
+          <el-select
+            v-model="addForm.value.parentId"
+            placeholder="请选择所属操作系统"
+            style="width: 200px"
+          >
+            <el-option
+              v-for="item in devOption"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
       <template #footer>
