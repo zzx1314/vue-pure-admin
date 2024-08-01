@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useI18n } from "vue-i18n";
+import FileTable from "./FileTable.vue";
+import UploadModal from "./UploadModal.vue";
 
 defineOptions({
   name: "Menu1-3"
 });
 
-const input = ref("");
-const { t } = useI18n();
+const visible = ref(false);
 </script>
 
 <template>
-  <div class="dark:text-white">
-    <p>{{ t("menus.hsmenu1") }}</p>
-    <p style="text-indent: 2em">{{ t("menus.hsmenu1-3") }}</p>
-    <el-input v-model="input" />
+  <div style="margin-bottom: 20px; text-align: left">
+    <el-button type="primary" @click="visible = true">上传文件</el-button>
+    <FileTable />
+    <UploadModal :visible="visible" />
   </div>
 </template>
