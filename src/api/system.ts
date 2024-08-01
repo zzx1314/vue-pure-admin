@@ -60,6 +60,40 @@ const fileUploadUrls = {
   merge: `/api/upms/minio/tasks/merge/`
 };
 
+const fileMinoUp = {
+  checkFileByMd5: `/api/upms/files/multipart/check/`,
+  initMultiPartUpload: "/api/upms/files/multipart/init",
+  mergeMultipartUpload: "/api/upms/files/multipart/merge/",
+  downloadMultipartFile: "/api/upms/files/download/",
+  getFileList: "/api/upms/files/list"
+};
+export const checkFileByMd5 = (data?: object) => {
+  return http.axiosGet(fileMinoUp.checkFileByMd5 + data);
+};
+
+export const initMultPartFile = (data?: object) => {
+  return http.axiosPostRequest<Result>(fileMinoUp.initMultiPartUpload, data);
+};
+
+export const mergeFileByMd5 = (data?: object) => {
+  return http.axiosPostRequest<Result>(fileMinoUp.mergeMultipartUpload + data);
+};
+
+type queryParam = {
+  bytes: string;
+  data: object;
+};
+export const chunkDownloadFile = (data: queryParam) => {
+  return http.axiosGetDown(
+    fileMinoUp.downloadMultipartFile + data.data,
+    data.bytes
+  );
+};
+
+export const fetchFileList = () => {
+  return http.axiosGet<Result>(fileMinoUp.getFileList);
+};
+
 export const taskInfo = (data?: object) => {
   return http.axiosGet<Result>(fileUploadUrls.taskInfo + data);
 };

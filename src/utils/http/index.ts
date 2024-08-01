@@ -260,6 +260,25 @@ class PureHttp {
     });
   }
 
+  public axiosGetDown<T>(url, bytes): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .get(url, {
+          responseType: "blob",
+          headers: {
+            Authentication: sessionStorage.getItem("token"),
+            Range: bytes
+          }
+        })
+        .then((response: undefined) => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
   /**
    * get请求
    * @param url
