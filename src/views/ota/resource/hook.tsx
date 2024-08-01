@@ -31,7 +31,8 @@ export function useResource() {
       type: "",
       pkgName: "",
       version: "",
-      parentId: null
+      parentId: null,
+      level: null
     }
   });
   const rules = reactive<FormRules>({
@@ -196,7 +197,8 @@ export function useResource() {
       type: "",
       pkgName: "",
       version: "",
-      parentId: null
+      parentId: null,
+      level: null
     };
     resetForm(formEl);
     dialogFormVisible.value = false;
@@ -216,6 +218,7 @@ export function useResource() {
             addType.value == "addSoftware" ? "操作系统" : "模块";
           addForm.value.parentId =
             addForm.value.parentId == null ? 0 : addForm.value.parentId;
+          addForm.value.level = addForm.value.parentId == 0 ? 1 : 2;
           resSave(addForm.value).then(res => {
             if (res.code === SUCCESS) {
               message("保存成功！", { type: "success" });
