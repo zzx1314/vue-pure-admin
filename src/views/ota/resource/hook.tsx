@@ -72,6 +72,16 @@ export function useResource() {
       width: 70
     },
     {
+      label: "类型",
+      prop: "type",
+      width: 100,
+      cellRenderer: ({ row }) => (
+        <el-tag type={row.type === "操作系统" ? "success" : "info"}>
+          {row.type}
+        </el-tag>
+      )
+    },
+    {
       label: "操作系统",
       prop: "softwareName",
       minWidth: 100
@@ -84,11 +94,6 @@ export function useResource() {
     {
       label: "设备类型",
       prop: "devType",
-      minWidth: 100
-    },
-    {
-      label: "类型",
-      prop: "type",
       minWidth: 100
     },
     {
