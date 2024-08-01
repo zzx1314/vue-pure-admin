@@ -8,11 +8,16 @@ defineOptions({
 });
 
 const visible = ref(false);
+
+function updateFile() {
+  visible.value = true;
+  console.log("updateFile", visible.value);
+}
 </script>
 
 <template>
   <div style="margin-bottom: 20px; text-align: left">
-    <el-button type="primary" @click="visible = true">上传文件</el-button>
+    <el-button type="primary" @click="updateFile">上传文件</el-button>
     <FileTable />
     <UploadModal :visible="visible" />
   </div>

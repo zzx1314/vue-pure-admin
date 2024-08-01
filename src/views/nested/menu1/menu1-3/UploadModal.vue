@@ -1,58 +1,12 @@
-<template>
-  <el-dialog title="上传" :width="800" v-model="visibleObj">
-    <el-card title="Arco Card" size="small">
-      <template #header>
-        <el-space>
-          <el-upload
-            ref="uploadRef"
-            multiple
-            :http-request="onUpload"
-            :show-file-list="false"
-          >
-            <el-button icon="UploadFilled" type="primary">
-              <template #default>点击上传</template>
-            </el-button>
-          </el-upload>
-          <!--          <el-button icon="UploadFilled" type="primary" @click="handleupload">-->
-          <!--            <template #default>上传文件</template>-->
-          <!--          </el-button>-->
-        </el-space>
-      </template>
-      <el-card v-for="item in state.dataSource" :key="item.uid">
-        <div style="display: flex; justify-content: space-between">
-          <div>
-            <div>
-              大小: <span style="color: blue">{{ item.unitSize }}</span>
-            </div>
-            <div>
-              md5:
-              <span style="color: red">
-                <template v-if="item.md5Progress">
-                  {{ `${item.md5Progress}%` }}
-                </template>
-                <template v-else>{{ item.md5 }}</template>
-              </span>
-            </div>
-          </div>
-          <el-tag :color="tagMap[item.status].color">{{
-            tagMap[item.status].text
-          }}</el-tag>
-        </div>
-        <el-progress v-if="item.progress" :percentage="item.progress" />
-      </el-card>
-    </el-card>
-  </el-dialog>
-</template>
 <script setup lang="ts">
 import axios from "axios";
 import pLimit from "p-limit";
 import { CHUNK_SIZE } from "@/constants";
-// import createChunkFileAndMd5 from '../util/createChunkFileAndMd5'
 import { convertFileSizeUnit } from "./fileUtil";
 import { checkFileByMd5, initMultPartFile, mergeFileByMd5 } from "@/api/system";
 import cutFile from "@/lib/cutFile";
 import { MerkleTree } from "@/lib/MerkleTree";
-import { onMounted, reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 
 const props = defineProps({
   visible: Boolean
@@ -76,7 +30,6 @@ const tagMap = {
   error: { color: "error", text: "上传失败" }
 };
 
-const visibleObj = ref(true);
 const state = reactive({
   dataSource: []
 });
@@ -285,16 +238,54 @@ const uploadChunkUrl = (
       });
   });
 };
-/*const handleupload = () => {
-  uploadRef.value!.submit();
-};*/
 
-function initData() {
-  console.log("init..");
-  visibleObj.value = props.visible;
-}
-
-onMounted(() => {
-  initData();
+const dialogShow = computed(() => {
+  return props.visible;
 });
 </script>
+
+<template>
+  <el-dialog title="上传" :width="800" v-model="dialogShow">
+    <el-card title="Arco Card" size="small">
+      <template #header>
+        <el-space>
+          <el-upload
+            ref="uploadRef"
+            multiple
+            :http-request="onUpload"
+            :show-file-list="false"
+          >
+            <el-button icon="UploadFilled" type="primary">
+              <template #default>点击上传</template>
+            </el-button>
+          </el-upload>
+          <!--          <el-button icon="UploadFilled" type="primary" @click="handleupload">-->
+          <!--            <template #default>上传文件</template>-->
+          <!--          </el-button>-->
+        </el-space>
+      </template>
+      <el-card v-for="item in state.dataSource" :key="item.uid">
+        <div style="display: flex; justify-content: space-between">
+          <div>
+            <div>
+              大小: <span style="color: blue">{{ item.unitSize }}</span>
+            </div>
+            <div>
+              md5:
+              <span style="color: red">
+                <template v-if="item.md5Progress">
+                  {{ `${item.md5Progress}%` }}
+                </template>
+                <template v-else>{{ item.md5 }}</template>
+              </span>
+            </div>
+          </div>
+          <el-tag :color="tagMap[item.status].color">{{
+            tagMap[item.status].text
+          }}</el-tag>
+        </div>
+        <el-progress v-if="item.progress" :percentage="item.progress" />
+      </el-card>
+    </el-card>
+  </el-dialog>
+</template>
