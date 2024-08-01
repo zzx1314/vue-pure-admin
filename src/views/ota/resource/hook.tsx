@@ -1,7 +1,7 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import { FormInstance, FormRules } from "element-plus";
-import { resPage, resSave } from "@/api/otaRes";
+import { resPage, resSave, resUpdate } from "@/api/otaRes";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 
@@ -217,6 +217,14 @@ export function useResource() {
         if (addForm.value.id) {
           // 修改
           console.log("修改资源");
+          resUpdate(addForm.value).then(res => {
+            if (res.code === SUCCESS) {
+              message("修改成功！", { type: "success" });
+              cancel(formEl);
+            } else {
+              message(res.msg, { type: "error" });
+            }
+          });
         } else {
           // 新增
           addForm.value.type =
