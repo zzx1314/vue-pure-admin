@@ -8,9 +8,12 @@ import { message } from "@/utils/message";
 export function useResource() {
   // ----变量定义-----
   const queryForm = reactive({
-    name: "",
-    code: "",
-    status: ""
+    softwareName: "",
+    softwareVersion: "",
+    devType: "",
+    type: "",
+    pkgName: "",
+    version: ""
   });
   const dataList = ref([]);
   const loading = ref(true);
@@ -53,6 +56,7 @@ export function useResource() {
   // 定义添加类型
   const addType = ref("");
   const updateType = ref("");
+  const moreCondition = ref(false);
 
   const devOption = [
     {
@@ -295,6 +299,7 @@ export function useResource() {
     buttonClass,
     addType,
     updateType,
+    moreCondition,
     devOption,
     onSearch,
     resetForm,

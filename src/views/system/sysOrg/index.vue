@@ -109,15 +109,13 @@ const {
         <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
           重置
         </el-button>
+        <el-button
+          type="text"
+          @click="moreCondition = !moreCondition"
+          :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
+        />
       </el-form-item>
     </el-form>
-
-    <el-button
-      link
-      class="mc-btn"
-      @click="moreCondition = !moreCondition"
-      :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
-    />
 
     <PureTableBar
       title="组织列表"

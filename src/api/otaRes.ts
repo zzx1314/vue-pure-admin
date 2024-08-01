@@ -23,9 +23,22 @@ const otaBusResourceUrls = {
   push: "/api/ota/otaBusResource/push"
 };
 
+export const cleanQuery = (query: Record<string, any>): Record<string, any> => {
+  if (!query) return {};
+  return Object.fromEntries(
+    Object.entries(query).filter(
+      ([_, value]) => value !== null && value !== undefined && value !== ""
+    )
+  );
+};
+
 // 资源分页
 export const resPage = (query?: object) => {
-  return http.axiosGetRequest<ResultPage>(otaBusResourceUrls.page, query);
+  const cleanedQuery = cleanQuery(query);
+  return http.axiosGetRequest<ResultPage>(
+    otaBusResourceUrls.page,
+    cleanedQuery
+  );
 };
 // 资源保存
 export const resSave = (param?: object) => {

@@ -10,6 +10,8 @@ import EditPen from "@iconify-icons/ep/edit-pen";
 import Delete from "@iconify-icons/ep/delete";
 import Position from "@iconify-icons/ep/position";
 import { PureTableBar } from "@/components/RePureTableBar";
+import Down from "@iconify-icons/ep/arrow-down";
+import Up from "@iconify-icons/ep/arrow-up";
 
 defineOptions({
   name: "Resource"
@@ -30,6 +32,7 @@ const {
   rules,
   addType,
   updateType,
+  moreCondition,
   devOption,
   cancel,
   submitForm,
@@ -51,14 +54,58 @@ const {
       :model="queryForm"
       class="bg-bg_color w-[99/100] pl-8 pt-4"
     >
-      <el-form-item label="资源名称：" prop="name">
+      <el-form-item label="操作系统：" prop="softwareName">
         <el-input
-          v-model="queryForm.name"
-          placeholder="请输入资源名称"
+          v-model="queryForm.softwareName"
+          placeholder="请输入操作系统名称"
           clearable
           class="!w-[180px]"
         />
       </el-form-item>
+      <el-form-item label="操作系统版本：" prop="softwareVersion">
+        <el-input
+          v-model="queryForm.softwareVersion"
+          placeholder="请输入系统版本名称"
+          clearable
+          class="!w-[180px]"
+        />
+      </el-form-item>
+      <el-form-item label="设备类型：" prop="devType">
+        <el-select
+          v-model="queryForm.devType"
+          placeholder="选择设备类型"
+          style="width: 200px"
+        >
+          <el-option
+            v-for="item in devOption"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+
+      <el-collapse-transition>
+        <div v-show="moreCondition">
+          <el-form-item label="组件包名称：" prop="pkgName">
+            <el-input
+              v-model="queryForm.pkgName"
+              placeholder="请输入组件包名称"
+              clearable
+              class="!w-[200px]"
+            />
+          </el-form-item>
+          <el-form-item label="组件包版本：" prop="version">
+            <el-input
+              v-model="queryForm.version"
+              placeholder="请输入组件包版本"
+              clearable
+              class="!w-[200px]"
+            />
+          </el-form-item>
+        </div>
+      </el-collapse-transition>
+
       <el-form-item>
         <el-button
           type="primary"
@@ -71,6 +118,12 @@ const {
         <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
           重置
         </el-button>
+
+        <el-button
+          type="text"
+          @click="moreCondition = !moreCondition"
+          :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
+        />
       </el-form-item>
     </el-form>
 
