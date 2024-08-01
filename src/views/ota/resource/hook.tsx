@@ -1,7 +1,9 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import { FormInstance, FormRules } from "element-plus";
-import { resPage } from "@/api/otaRes";
+import { resPage, resSave } from "@/api/otaRes";
+import { SUCCESS } from "@/api/base";
+import { message } from "@/utils/message";
 
 export function useResource() {
   // ----变量定义-----
@@ -210,6 +212,18 @@ export function useResource() {
           console.log("修改资源");
         } else {
           // 新增
+          addForm.value.type =
+            addType.value == "addSoftware" ? "操作系统" : "模块";
+          addForm.value.parentId =
+            addForm.value.parentId == null ? 0 : addForm.value.parentId;
+          resSave(addForm.value).then(res => {
+            if (res.code === SUCCESS) {
+              message("保存成功！", { type: "success" });
+              cancel(formEl);
+            } else {
+              message(res.msg, { type: "error" });
+            }
+          });
           console.log("新增资源");
         }
       } else {
