@@ -52,6 +52,7 @@ export function useResource() {
 
   // 定义添加类型
   const addType = ref("");
+  const updateType = ref("");
 
   const devOption = [
     {
@@ -150,9 +151,13 @@ export function useResource() {
   // 修改
   function handleUpdate(row) {
     console.log(row);
-    const roleInfo = JSON.stringify(row);
-    addForm.value = JSON.parse(roleInfo);
-    openDia("修改资源");
+    addForm.value = row;
+    const type = row.type;
+    if (type === "操作系统") {
+      openUpdateDia("修改操作系统");
+    } else {
+      openUpdateDia("修改模块");
+    }
   }
   // 删除
   function handleDelete(row) {
@@ -246,6 +251,17 @@ export function useResource() {
     console.log(addType.value);
   }
 
+  function openUpdateDia(param) {
+    dialogFormVisible.value = true;
+    title.value = param;
+    if (param === "修改操作系统") {
+      updateType.value = "updateSoftware";
+    } else {
+      updateType.value = "updateMode";
+    }
+    console.log(updateType.value);
+  }
+
   onMounted(() => {
     onSearch();
   });
@@ -262,6 +278,7 @@ export function useResource() {
     columns,
     buttonClass,
     addType,
+    updateType,
     devOption,
     onSearch,
     resetForm,

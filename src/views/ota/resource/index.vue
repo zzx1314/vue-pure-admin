@@ -29,6 +29,7 @@ const {
   addForm,
   rules,
   addType,
+  updateType,
   devOption,
   cancel,
   submitForm,
@@ -159,7 +160,7 @@ const {
         <el-form-item
           label="操作系统名称"
           prop="softwareName"
-          v-if="addType === 'addSoftware'"
+          v-if="addType === 'addSoftware' || updateType === 'updateSoftware'"
         >
           <el-input
             v-model="addForm.value.softwareName"
@@ -170,7 +171,7 @@ const {
         <el-form-item
           label="操作系统版本"
           prop="softwareVersion"
-          v-if="addType === 'addSoftware'"
+          v-if="addType === 'addSoftware' || updateType === 'updateSoftware'"
         >
           <el-input
             v-model="addForm.value.softwareVersion"
@@ -181,7 +182,7 @@ const {
         <el-form-item
           label="设备类型"
           prop="devType"
-          v-if="addType === 'addSoftware'"
+          v-if="addType === 'addSoftware' || updateType === 'updateSoftware'"
         >
           <el-select
             v-model="addForm.value.devType"
@@ -200,7 +201,7 @@ const {
         <el-form-item
           label="模块包名称"
           prop="pkgName"
-          v-if="addType !== 'addSoftware'"
+          v-if="addType !== 'addSoftware' && updateType !== 'updateSoftware'"
         >
           <el-input
             v-model="addForm.value.pkgName"
@@ -211,7 +212,7 @@ const {
         <el-form-item
           label="模块版本"
           prop="version"
-          v-if="addType !== 'addSoftware'"
+          v-if="addType !== 'addSoftware' && updateType !== 'updateSoftware'"
         >
           <el-input
             v-model="addForm.value.version"
@@ -222,7 +223,7 @@ const {
         <el-form-item
           label="操作系统"
           prop="parentId"
-          v-if="addType !== 'addSoftware'"
+          v-if="addType !== 'addSoftware' && updateType !== 'updateSoftware'"
         >
           <el-select
             v-model="addForm.value.parentId"
