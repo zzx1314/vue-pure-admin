@@ -1,7 +1,7 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import { FormInstance, FormRules } from "element-plus";
-import { resPage, resSave, resUpdate } from "@/api/otaRes";
+import { resDelete, resPage, resSave, resUpdate } from "@/api/otaRes";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 
@@ -162,6 +162,14 @@ export function useResource() {
   // 删除
   function handleDelete(row) {
     console.log(row);
+    resDelete(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        message("删除成功！", { type: "success" });
+        onSearch();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
   }
 
   function handleSizeChange(val: number) {

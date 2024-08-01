@@ -37,7 +37,7 @@ export const resUpdate = (param?: object) => {
 };
 // 资源删除
 export const resDelete = (param?: object) => {
-  return http.axiosDelete<Result>(otaBusResourceUrls.delete, param);
+  return http.axiosDelete<Result>(otaBusResourceUrls.delete + param);
 };
 // 资源推送
 export const resPush = (param?: object) => {
