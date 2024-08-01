@@ -1,7 +1,7 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import { FormInstance, FormRules } from "element-plus";
-import { resDelete, resPage, resSave, resUpdate } from "@/api/otaRes";
+import { resDelete, resList, resPage, resSave, resUpdate } from "@/api/otaRes";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 
@@ -151,6 +151,8 @@ export function useResource() {
     ];
   });
 
+  const resOsList = ref([]);
+
   // -----方法定义---
   // 修改
   function handleUpdate(row) {
@@ -197,6 +199,16 @@ export function useResource() {
     setTimeout(() => {
       loading.value = false;
     }, 500);
+  }
+
+  async function findList() {
+    console.log("查询资源集合");
+    const query = {
+      parentId: 0
+    };
+    const { data } = await resList(query);
+    resOsList.value = data;
+    console.log(resOsList.value);
   }
 
   const resetForm = formEl => {
@@ -284,6 +296,7 @@ export function useResource() {
 
   onMounted(() => {
     onSearch();
+    findList();
   });
 
   return {
@@ -301,6 +314,7 @@ export function useResource() {
     updateType,
     moreCondition,
     devOption,
+    resOsList,
     onSearch,
     resetForm,
     handleUpdate,

@@ -34,6 +34,7 @@ const {
   updateType,
   moreCondition,
   devOption,
+  resOsList,
   cancel,
   submitForm,
   openDia,
@@ -284,10 +285,10 @@ const {
             style="width: 200px"
           >
             <el-option
-              v-for="item in devOption"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in resOsList"
+              :key="item.id"
+              :label="item.softwareName"
+              :value="item.id"
             />
           </el-select>
         </el-form-item>

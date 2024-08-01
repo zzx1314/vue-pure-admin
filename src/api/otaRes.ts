@@ -20,7 +20,8 @@ const otaBusResourceUrls = {
   save: "/api/ota/otaBusResource/save",
   delete: `/api/ota/otaBusResource/`,
   update: "/api/ota/otaBusResource/update",
-  push: "/api/ota/otaBusResource/push"
+  push: "/api/ota/otaBusResource/push",
+  list: "/api/ota/otaBusResource/list"
 };
 
 export const cleanQuery = (query: Record<string, any>): Record<string, any> => {
@@ -55,4 +56,9 @@ export const resDelete = (param?: object) => {
 // 资源推送
 export const resPush = (param?: object) => {
   return http.axiosPost<Result>(otaBusResourceUrls.push, param);
+};
+
+// 查询资源集合
+export const resList = (param?: object) => {
+  return http.axiosGetRequest<Result>(otaBusResourceUrls.list, param);
 };
