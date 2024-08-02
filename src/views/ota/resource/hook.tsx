@@ -35,7 +35,8 @@ export function useResource() {
       pkgName: "",
       version: "",
       parentId: null,
-      level: null
+      level: null,
+      remark: ""
     }
   });
   const rules = reactive<FormRules>({
@@ -251,7 +252,8 @@ export function useResource() {
       pkgName: "",
       version: "",
       parentId: null,
-      level: null
+      level: null,
+      remark: ""
     };
     dialogFormVisible.value = false;
     fileList.value = [];

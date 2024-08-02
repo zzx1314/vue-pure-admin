@@ -611,6 +611,10 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
           </el-select>
         </el-form-item>
 
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="addForm.value.remark" placeholder="请输入备注" />
+        </el-form-item>
+
         <el-form-item
           label="上传文件"
           prop="file"
