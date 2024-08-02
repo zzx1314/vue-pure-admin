@@ -26,7 +26,7 @@
           v-if="scope.row.status === undefined || scope.row.status === 'error'"
         >
           <el-button
-            icon="Download"
+            :icon="useRenderIcon(Down)"
             type="primary"
             @click="downloadFile(scope.row)"
           />
@@ -36,7 +36,7 @@
           <el-button
             v-if="scope.row.status === 'downloading'"
             type="primary"
-            icon="VideoPause"
+            :icon="useRenderIcon(VideoPause)"
             @click="puaseDownload(scope.row)"
           />
           <!-- 继续下载 -->
@@ -56,6 +56,9 @@ import { reactive, onMounted } from "vue";
 import { convertFileSizeUnit, downloadFileByBlob } from "./fileUtil";
 import { CHUNK_SIZE } from "@/constants";
 import { chunkDownloadFile, fetchFileList } from "@/api/system";
+import Down from "@iconify-icons/ep/download";
+import VideoPause from "@iconify-icons/ep/video-pause";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 const state = reactive({
   dataSource: [],
   blobRef: new Map<number, BlobPart[]>()

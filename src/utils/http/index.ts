@@ -260,14 +260,14 @@ class PureHttp {
     });
   }
 
-  public axiosGetDown<T>(url, bytes): Promise<T> {
+  public axiosGetDown<T>(url, range): Promise<T> {
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
         .get(url, {
           responseType: "blob",
           headers: {
             Authentication: sessionStorage.getItem("token"),
-            Range: bytes
+            Range: range
           }
         })
         .then((response: undefined) => {

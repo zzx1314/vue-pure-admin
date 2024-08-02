@@ -80,13 +80,13 @@ export const mergeFileByMd5 = (data?: object) => {
 };
 
 type queryParam = {
-  bytes: string;
-  data: object;
+  range: string;
+  id: object;
 };
 export const chunkDownloadFile = (data: queryParam) => {
   return http.axiosGetDown(
-    fileMinoUp.downloadMultipartFile + data.data,
-    data.bytes
+    fileMinoUp.downloadMultipartFile + data.id,
+    data.range
   );
 };
 
