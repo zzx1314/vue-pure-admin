@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from "axios";
 import { reactive, ref } from "vue";
-import { FormInstance, genFileId } from "element-plus";
+import { FormInstance, genFileId, UploadFile, UploadFiles } from "element-plus";
 import { useResource } from "@/views/ota/resource/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Search from "@iconify-icons/ep/search";
@@ -46,18 +46,22 @@ const {
   moreCondition,
   devOption,
   resOsList,
+  fileList,
+  typeOption,
   cancel,
   openDia,
   onSearch,
-  resetForm,
   handleUpdate,
   handleDelete,
   handleSizeChange,
   handleCurrentChange,
-  handleSelectionChange
+  handleSelectionChange,
+  restartForm
 } = useResource();
 
-const uploadRef = ref<UploadInstance>();
+const uploadRef = ref<UploadInstance>(null);
+const uploadFileTemp = ref<UploadFile>(null);
+
 const limit = pLimit(3);
 const HttpCodeUploadEnum = {
   SUCCESS: 2001,
@@ -124,11 +128,6 @@ const selectFile = async option => {
 
 // 查询文件状态并上传
 const onUpload = async option => {
-  console.log("上传");
-  if (!option.file) {
-    message("请先选择文件上传", { type: "error" });
-    return;
-  }
   await selectFile(option);
 
   for (let i = 0; i < state.dataSource.length; i++) {
@@ -290,7 +289,11 @@ const uploadChunkUrl = (
 };
 
 const submitUpload = () => {
-  uploadRef.value.submit();
+  if (uploadFileTemp.value !== null) {
+    uploadRef.value.submit();
+  } else {
+    message("请先上传文件", { type: "error" });
+  }
 };
 
 const handleExceed: UploadProps["onExceed"] = files => {
@@ -343,6 +346,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
+const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+  console.log("上传文件前。。", uploadFile, uploadFiles);
+  uploadFileTemp.value = uploadFile;
+};
 </script>
 <template>
   <div class="main">
@@ -368,14 +375,14 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           class="!w-[180px]"
         />
       </el-form-item>
-      <el-form-item label="设备类型：" prop="devType">
+      <el-form-item label="类型：" prop="devType">
         <el-select
-          v-model="queryForm.devType"
+          v-model="queryForm.type"
           placeholder="选择设备类型"
           style="width: 200px"
         >
           <el-option
-            v-for="item in devOption"
+            v-for="item in typeOption"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -385,6 +392,20 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
       <el-collapse-transition>
         <div v-show="moreCondition">
+          <el-form-item label="设备类型：" prop="devType">
+            <el-select
+              v-model="queryForm.devType"
+              placeholder="选择设备类型"
+              style="width: 200px"
+            >
+              <el-option
+                v-for="item in devOption"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
           <el-form-item label="组件包名称：" prop="pkgName">
             <el-input
               v-model="queryForm.pkgName"
@@ -413,7 +434,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         >
           搜索
         </el-button>
-        <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
+        <el-button :icon="useRenderIcon(Refresh)" @click="restartForm(formRef)">
           重置
         </el-button>
 
@@ -596,11 +617,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           v-if="addType !== 'addSoftware' && updateType !== 'updateSoftware'"
         >
           <el-upload
+            v-model:file-list="fileList"
             ref="uploadRef"
             :http-request="onUpload"
             :auto-upload="false"
             :limit="1"
             :on-exceed="handleExceed"
+            :on-change="beforeUpload"
           >
             <template #trigger>
               <el-button

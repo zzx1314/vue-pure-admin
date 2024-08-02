@@ -1,6 +1,6 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
-import { FormRules } from "element-plus";
+import { FormRules, UploadUserFile } from "element-plus";
 import { resDelete, resList, resPage } from "@/api/otaRes";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -52,6 +52,7 @@ export function useResource() {
       { required: true, message: "所属操作系统必填", trigger: "change" }
     ]
   });
+  const fileList = ref<UploadUserFile[]>();
 
   // 定义添加类型
   const addType = ref("");
@@ -66,6 +67,17 @@ export function useResource() {
     {
       value: "sd3403",
       label: "sd3403"
+    }
+  ];
+
+  const typeOption = [
+    {
+      value: "操作系统",
+      label: "操作系统"
+    },
+    {
+      value: "模块",
+      label: "模块"
     }
   ];
   const columns: TableColumnList = [
@@ -214,10 +226,22 @@ export function useResource() {
   const resetForm = formEl => {
     if (!formEl) return;
     formEl.resetFields();
+  };
+  const restartForm = formEl => {
+    if (!formEl) return;
+    formEl.resetFields();
+    cancel();
     onSearch();
   };
   // 取消
   function cancel() {
+    queryForm.softwareName = "";
+    queryForm.softwareVersion = "";
+    queryForm.devType = "";
+    queryForm.type = "";
+    queryForm.pkgName = "";
+    queryForm.version = "";
+
     addForm.value = {
       id: null,
       softwareName: "",
@@ -230,6 +254,8 @@ export function useResource() {
       level: null
     };
     dialogFormVisible.value = false;
+    fileList.value = [];
+    onSearch();
   }
   // 打开弹框
   function openDia(param, formEl?) {
@@ -276,6 +302,8 @@ export function useResource() {
     moreCondition,
     devOption,
     resOsList,
+    fileList,
+    typeOption,
     onSearch,
     resetForm,
     handleUpdate,
@@ -284,6 +312,7 @@ export function useResource() {
     handleCurrentChange,
     handleSelectionChange,
     cancel,
-    openDia
+    openDia,
+    restartForm
   };
 }
