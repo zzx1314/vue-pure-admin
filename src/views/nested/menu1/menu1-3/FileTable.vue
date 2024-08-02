@@ -53,7 +53,7 @@
 </template>
 <script setup lang="ts">
 import { reactive, onMounted } from "vue";
-import { convertFileSizeUnit, downloadFileByBlob } from "./fileUtil";
+import { convertFileSizeUnit, downloadFileByBlob } from "@/lib/fileUtil";
 import { CHUNK_SIZE } from "@/constants";
 import { chunkDownloadFile, fetchFileList } from "@/api/system";
 import Down from "@iconify-icons/ep/download";

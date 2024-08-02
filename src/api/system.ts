@@ -68,11 +68,20 @@ const fileMinoUp = {
   getFileList: "/api/upms/files/list"
 };
 export const checkFileByMd5 = (data?: object) => {
-  return http.axiosGet(fileMinoUp.checkFileByMd5 + data);
+  return http.axiosGet<Result>(fileMinoUp.checkFileByMd5 + data);
 };
 
+type initMultPartFileResultType = {
+  code: number;
+  data: {
+    urls: Array<any>;
+  };
+};
 export const initMultPartFile = (data?: object) => {
-  return http.axiosPostRequest<Result>(fileMinoUp.initMultiPartUpload, data);
+  return http.axiosPostRequest<initMultPartFileResultType>(
+    fileMinoUp.initMultiPartUpload,
+    data
+  );
 };
 
 export const mergeFileByMd5 = (data?: object) => {

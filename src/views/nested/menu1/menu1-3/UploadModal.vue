@@ -2,7 +2,7 @@
 import axios from "axios";
 import pLimit from "p-limit";
 import { CHUNK_SIZE } from "@/constants";
-import { convertFileSizeUnit } from "./fileUtil";
+import { convertFileSizeUnit } from "@/lib/fileUtil";
 import { checkFileByMd5, initMultPartFile, mergeFileByMd5 } from "@/api/system";
 import cutFile from "@/lib/cutFile";
 import { MerkleTree } from "@/lib/MerkleTree";

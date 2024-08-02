@@ -1,7 +1,7 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
-import { FormInstance, FormRules } from "element-plus";
-import { resDelete, resList, resPage, resSave, resUpdate } from "@/api/otaRes";
+import { FormRules } from "element-plus";
+import { resDelete, resList, resPage } from "@/api/otaRes";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 
@@ -217,7 +217,7 @@ export function useResource() {
     onSearch();
   };
   // 取消
-  function cancel(formEl) {
+  function cancel() {
     addForm.value = {
       id: null,
       softwareName: "",
@@ -229,50 +229,10 @@ export function useResource() {
       parentId: null,
       level: null
     };
-    resetForm(formEl);
     dialogFormVisible.value = false;
   }
-  // 保存
-  const submitForm = async (formEl: FormInstance | undefined) => {
-    if (!formEl) return;
-    await formEl.validate((valid, fields) => {
-      if (valid) {
-        console.log(addForm.value);
-        if (addForm.value.id) {
-          // 修改
-          console.log("修改资源");
-          resUpdate(addForm.value).then(res => {
-            if (res.code === SUCCESS) {
-              message("修改成功！", { type: "success" });
-              cancel(formEl);
-            } else {
-              message(res.msg, { type: "error" });
-            }
-          });
-        } else {
-          // 新增
-          addForm.value.type =
-            addType.value == "addSoftware" ? "操作系统" : "模块";
-          addForm.value.parentId =
-            addForm.value.parentId == null ? 0 : addForm.value.parentId;
-          addForm.value.level = addForm.value.parentId == 0 ? 1 : 2;
-          resSave(addForm.value).then(res => {
-            if (res.code === SUCCESS) {
-              message("保存成功！", { type: "success" });
-              cancel(formEl);
-            } else {
-              message(res.msg, { type: "error" });
-            }
-          });
-          console.log("新增资源");
-        }
-      } else {
-        console.log("error submit!", fields);
-      }
-    });
-  };
   // 打开弹框
-  function openDia(param) {
+  function openDia(param, formEl?) {
     dialogFormVisible.value = true;
     title.value = param;
     if (param === "添加操作系统") {
@@ -280,6 +240,7 @@ export function useResource() {
     } else {
       addType.value = "addMode";
     }
+    resetForm(formEl);
     console.log(addType.value);
   }
 
@@ -323,7 +284,6 @@ export function useResource() {
     handleCurrentChange,
     handleSelectionChange,
     cancel,
-    submitForm,
     openDia
   };
 }
