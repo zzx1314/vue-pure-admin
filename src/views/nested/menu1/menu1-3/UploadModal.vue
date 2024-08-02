@@ -247,10 +247,21 @@ const dialogShow = computed(() => {
 const submitUpload = () => {
   uploadRef.value.submit();
 };
+
+const emit = defineEmits(["updateData"]);
+
+const closeDiaLog = () => {
+  emit("updateData", false);
+};
 </script>
 
 <template>
-  <el-dialog title="上传" :width="800" v-model="dialogShow">
+  <el-dialog
+    title="上传"
+    :width="800"
+    v-model="dialogShow"
+    @close="closeDiaLog"
+  >
     <el-card title="Arco Card" size="small">
       <template #header>
         <el-space>
