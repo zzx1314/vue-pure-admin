@@ -4,6 +4,9 @@ import { FormRules, UploadUserFile } from "element-plus";
 import { resDelete, resList, resPage } from "@/api/otaRes";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
+import { CHUNK_SIZE } from "@/constants";
+import { chunkDownloadFile } from "@/api/system";
+import { downloadFileByBlob } from "@/lib/fileUtil";
 
 export function useResource() {
   // ----变量定义-----
@@ -288,8 +291,37 @@ export function useResource() {
     console.log(updateType.value);
   }
 
-  function handleDown(row) {
-    console.log("下载", row);
+  // ----下载---
+  const state = reactive({
+    dataSource: [],
+    blobRef: new Map<number, BlobPart[]>()
+  });
+  async function handleDown(record) {
+    console.log("下载", record);
+    const totalChunks = Math.ceil(record.fileSize / CHUNK_SIZE);
+    for (let i = 0; i <= totalChunks; i++) {
+      const start = CHUNK_SIZE * (i - 1);
+      let end = CHUNK_SIZE * i - 1;
+      if (end > record.fileSize) end = record.fileSize; // 虽然超出不会影响内容读取，但是会影响进度条的展示
+      try {
+        console.log("调用接口", start, end);
+        const query = {
+          id: record.fileId,
+          range: `bytes=${start}-${end}`
+        };
+        const res = await chunkDownloadFile(query);
+        const currentDataBlob = state.blobRef.get(record.id) || [];
+        // 记录当前数据的分片 blob
+        state.blobRef.set(record.fileId, [
+          ...currentDataBlob,
+          res as unknown as BlobPart
+        ]);
+      } catch (error) {
+        return;
+      }
+    }
+    const blob = new Blob(state.blobRef.get(record.fileId));
+    downloadFileByBlob(blob, record.originFileName);
   }
 
   onMounted(() => {
