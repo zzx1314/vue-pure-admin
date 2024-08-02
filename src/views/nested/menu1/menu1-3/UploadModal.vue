@@ -148,8 +148,9 @@ const uploadFile = async (index, item) => {
 
   try {
     const result = await mergeFileByMd5(item.md5);
+    console.log("合并结果", result);
     const data = result.data;
-    const code = data.code;
+    const code = result.code;
     if (code === 200) {
       console.log(data);
       state.dataSource[index].status = "success";
