@@ -13,6 +13,8 @@ import Position from "@iconify-icons/ep/position";
 import { PureTableBar } from "@/components/RePureTableBar";
 import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
+
+import Download from "@iconify-icons/ep/download";
 import pLimit from "p-limit";
 import { CHUNK_SIZE } from "@/constants";
 import { convertFileSizeUnit } from "@/lib/fileUtil";
@@ -56,7 +58,8 @@ const {
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
-  restartForm
+  restartForm,
+  handleDown
 } = useResource();
 
 const uploadRef = ref<UploadInstance>(null);
@@ -502,6 +505,18 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
               @click="handleUpdate(row)"
             >
               修改
+            </el-button>
+
+            <el-button
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
+              v-if="row.type === '模块'"
+              :icon="useRenderIcon(Download)"
+              @click="handleDown(row)"
+            >
+              下载
             </el-button>
             <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>

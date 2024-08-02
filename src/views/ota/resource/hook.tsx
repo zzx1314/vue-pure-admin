@@ -283,6 +283,10 @@ export function useResource() {
     console.log(updateType.value);
   }
 
+  function handleDown(row) {
+    console.log("下载", row);
+  }
+
   onMounted(() => {
     onSearch();
     findList();
@@ -315,6 +319,7 @@ export function useResource() {
     handleSelectionChange,
     cancel,
     openDia,
-    restartForm
+    restartForm,
+    handleDown
   };
 }
