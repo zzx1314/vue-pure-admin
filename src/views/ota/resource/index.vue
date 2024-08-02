@@ -573,7 +573,7 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
         <el-form-item
           label="模块包名称"
           prop="pkgName"
-          v-if="addType !== 'addSoftware' && updateType !== 'updateSoftware'"
+          v-if="addType === 'addMode' || updateType === 'updateMode'"
         >
           <el-input
             v-model="addForm.value.pkgName"
@@ -584,7 +584,7 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
         <el-form-item
           label="模块版本"
           prop="version"
-          v-if="addType !== 'addSoftware' && updateType !== 'updateSoftware'"
+          v-if="addType === 'addMode' || updateType === 'updateMode'"
         >
           <el-input
             v-model="addForm.value.version"
@@ -595,7 +595,7 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
         <el-form-item
           label="操作系统"
           prop="parentId"
-          v-if="addType !== 'addSoftware' && updateType !== 'updateSoftware'"
+          v-if="addType === 'addMode' || updateType === 'updateMode'"
         >
           <el-select
             v-model="addForm.value.parentId"
@@ -618,7 +618,7 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
         <el-form-item
           label="上传文件"
           prop="file"
-          v-if="addType !== 'addSoftware' && updateType !== 'updateSoftware'"
+          v-if="addType === 'addMode' || updateType === 'updateMode'"
         >
           <el-upload
             v-model:file-list="fileList"
