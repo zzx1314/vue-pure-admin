@@ -243,6 +243,10 @@ const uploadChunkUrl = (
 const dialogShow = computed(() => {
   return props.visible;
 });
+
+const submitUpload = () => {
+  uploadRef.value.submit();
+};
 </script>
 
 <template>
@@ -254,15 +258,17 @@ const dialogShow = computed(() => {
             ref="uploadRef"
             multiple
             :http-request="onUpload"
-            :show-file-list="false"
+            :auto-upload="false"
           >
-            <el-button icon="UploadFilled" type="primary">
+            <template #trigger>
+              <el-button type="primary" style="margin-right: 10px"
+                >选取文件</el-button
+              >
+            </template>
+            <el-button icon="UploadFilled" type="primary" @click="submitUpload">
               <template #default>点击上传</template>
             </el-button>
           </el-upload>
-          <!--          <el-button icon="UploadFilled" type="primary" @click="handleupload">-->
-          <!--            <template #default>上传文件</template>-->
-          <!--          </el-button>-->
         </el-space>
       </template>
       <el-card v-for="item in state.dataSource" :key="item.uid">
