@@ -133,6 +133,11 @@ export function useResource() {
       minWidth: 120
     },
     {
+      label: "文件名称",
+      prop: "originFileName",
+      minWidth: 120
+    },
+    {
       label: "MD5值",
       prop: "md5",
       minWidth: 120
