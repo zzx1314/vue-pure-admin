@@ -291,11 +291,28 @@ const uploadChunkUrl = (
   });
 };
 
+// 模块添加
 const submitUpload = () => {
   if (uploadFileTemp.value !== null) {
     uploadRef.value.submit();
   } else {
     message("请先上传文件", { type: "error" });
+  }
+};
+
+// 模块修改
+const submitUploadUpdate = () => {
+  if (uploadFileTemp.value !== null) {
+    uploadRef.value.submit();
+  } else {
+    resUpdate(addForm.value).then(res => {
+      if (res.code === SUCCESS) {
+        message("修改成功！", { type: "success" });
+        cancel();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
   }
 };
 
@@ -315,14 +332,18 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       if (addForm.value.id) {
         // 修改
         console.log("修改资源");
-        resUpdate(addForm.value).then(res => {
-          if (res.code === SUCCESS) {
-            message("修改成功！", { type: "success" });
-            cancel();
-          } else {
-            message(res.msg, { type: "error" });
-          }
-        });
+        if (addForm.value.type == "模块") {
+          submitUploadUpdate();
+        } else {
+          resUpdate(addForm.value).then(res => {
+            if (res.code === SUCCESS) {
+              message("修改成功！", { type: "success" });
+              cancel();
+            } else {
+              message(res.msg, { type: "error" });
+            }
+          });
+        }
       } else {
         // 新增
         addForm.value.type =
