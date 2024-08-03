@@ -6,7 +6,7 @@ import { convertFileSizeUnit } from "@/lib/fileUtil";
 import { checkFileByMd5, initMultPartFile, mergeFileByMd5 } from "@/api/system";
 import cutFile from "@/lib/cutFile";
 import { MerkleTree } from "@/lib/MerkleTree";
-import { computed, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 
 const props = defineProps({
   visible: Boolean
@@ -240,9 +240,11 @@ const uploadChunkUrl = (
   });
 };
 
-const dialogShow = computed(() => {
+/*const dialogShow = computed(() => {
   return props.visible;
-});
+});*/
+
+const dialogShow = ref(props.visible);
 
 const submitUpload = () => {
   uploadRef.value.submit();
