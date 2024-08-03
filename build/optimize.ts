@@ -28,6 +28,7 @@ const include = [
   "vue-json-pretty",
   "@logicflow/core",
   "@pureadmin/utils",
+  "@wangeditor/editor",
   "responsive-storage",
   "@howdyjs/mouse-menu",
   "@logicflow/extension",
@@ -35,6 +36,7 @@ const include = [
   "@amap/amap-jsapi-loader",
   "el-table-infinite-scroll",
   "vue-waterfall-plugin-next",
+  "@wangeditor/editor-for-vue",
   "vuedraggable/src/vuedraggable"
 ];
 
