@@ -62,6 +62,7 @@
     "qrcode": "^1.5.3",
     "qs": "^6.11.2",
     "responsive-storage": "^2.2.0",
+    "scroll-into-view-if-needed": "^3.1.0",
     "sortablejs": "^1.15.0",
     "spark-md5": "^3.0.2",
     "swiper": "^9.4.0",

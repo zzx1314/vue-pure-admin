@@ -1,5 +1,5 @@
 import { http } from "@/utils/http";
 
 export const getAsyncRoutes = () => {
-  return http.axiosGet("/api/upms/sysMenu", "");
+  return http.axiosGet("/api/upms/sysMenu");
 };

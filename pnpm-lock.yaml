@@ -106,6 +106,9 @@ importers:
       responsive-storage:
         specifier: ^2.2.0
         version: 2.2.0
+      scroll-into-view-if-needed:
+        specifier: ^3.1.0
+        version: 3.1.0
       sortablejs:
         specifier: ^1.15.0
         version: 1.15.0
@@ -3012,6 +3015,12 @@ packages:
     resolution:
       {
         integrity: sha512-zHig5N+tPWARooBnb0Zx1MFcdfpyJrfTJ3Y5L+IFvUm8rM74hHz66z0gw0x4tijh5CorKkKUCnW82R2vmpeCRA==
+      }
+
+  compute-scroll-into-view@3.1.0:
+    resolution:
+      {
+        integrity: sha512-rj8l8pD4bJ1nx+dAkMhV1xB5RuZEyVysfxJqB1pRchh1KVvwOv9b7CGB8ZfjTImVv2oF+sYMUkMZq6Na5Ftmbg==
       }
 
   concat-map@0.0.1:
@@ -7137,6 +7146,12 @@ packages:
       }
     engines: { node: ">= 10.13.0" }
 
+  scroll-into-view-if-needed@3.1.0:
+    resolution:
+      {
+        integrity: sha512-49oNpRjWRvnU8NyGVmUaYG4jtTkNonFZI86MmGRDqBphEK2EXT9gdEUoQPZhuBM8yWHxCWbobltqYO5M4XrUvQ==
+      }
+
   scule@1.0.0:
     resolution:
       {
@@ -10631,6 +10646,8 @@ snapshots:
       array-ify: 1.0.0
       dot-prop: 5.3.0
 
+  compute-scroll-into-view@3.1.0: {}
+
   concat-map@0.0.1: {}
 
   connect@3.7.0:
@@ -13303,6 +13320,10 @@ snapshots:
       "@types/json-schema": 7.0.15
       ajv: 6.12.6
       ajv-keywords: 3.5.2(ajv@6.12.6)
+
+  scroll-into-view-if-needed@3.1.0:
+    dependencies:
+      compute-scroll-into-view: 3.1.0
 
   scule@1.0.0:
     optional: true
