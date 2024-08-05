@@ -8,8 +8,8 @@ import { message } from "@/utils/message";
 export function useTask() {
   // ----变量定义-----
   const queryForm = reactive({
-    name: "",
-    code: "",
+    taskName: "",
+    taskType: "",
     status: ""
   });
   const dataList = ref([]);
@@ -25,10 +25,9 @@ export function useTask() {
   const addForm = reactive({
     value: {
       id: null,
-      name: "",
-      code: "",
-      status: "",
-      description: ""
+      taskName: "",
+      taskType: "",
+      status: ""
     }
   });
   const rules = reactive<FormRules>({
@@ -54,7 +53,8 @@ export function useTask() {
     {
       label: "任务类型",
       prop: "taskType",
-      minWidth: 120
+      minWidth: 120,
+      cellRenderer: ({ row }) => <el-tag type="success">{row.taskType}</el-tag>
     },
     {
       label: "创建时间",
@@ -74,7 +74,12 @@ export function useTask() {
     {
       label: "状态值",
       minWidth: 100,
-      prop: "status"
+      prop: "status",
+      cellRenderer: ({ row }) => (
+        <el-tag type={row.status === "完成" ? "success" : "info"}>
+          {row.status}
+        </el-tag>
+      )
     },
     {
       label: "设备ID",
@@ -167,11 +172,13 @@ export function useTask() {
   function cancel() {
     addForm.value = {
       id: null,
-      name: "",
-      code: "",
-      status: "",
-      description: ""
+      taskName: "",
+      taskType: "",
+      status: ""
     };
+    queryForm.taskName = "";
+    queryForm.taskType = "";
+    queryForm.status = "";
     dialogFormVisible.value = false;
     onSearch();
   }
