@@ -1,7 +1,7 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import { FormInstance, FormRules } from "element-plus";
-import { devPage, devSave } from "@/api/otaDev";
+import { devDelete, devPage, devSave, devUpdate } from "@/api/otaDev";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 
@@ -62,7 +62,7 @@ export function useDevice() {
     },
     {
       label: "设备IP",
-      prop: "devId",
+      prop: "devIp",
       minWidth: 100
     },
     {
@@ -128,6 +128,14 @@ export function useDevice() {
   // 删除
   function handleDelete(row) {
     console.log(row);
+    devDelete(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        message("删除成功！", { type: "success" });
+        onSearch();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
   }
 
   function handleSizeChange(val: number) {
@@ -174,6 +182,11 @@ export function useDevice() {
       devGroup: "",
       remark: ""
     };
+
+    queryForm.devIp = "";
+    queryForm.devId = "";
+    queryForm.devGroup = "";
+    queryForm.type = "";
     dialogFormVisible.value = false;
     onSearch();
   }
@@ -186,6 +199,14 @@ export function useDevice() {
         if (addForm.value.id) {
           // 修改
           console.log("修改修改设备");
+          devUpdate(addForm.value).then(res => {
+            if (res.code === SUCCESS) {
+              message("修改成功！", { type: "success" });
+              cancel();
+            } else {
+              message(res.msg, { type: "error" });
+            }
+          });
         } else {
           // 新增
           console.log("新增设备信息");

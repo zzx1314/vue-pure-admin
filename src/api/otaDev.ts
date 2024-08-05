@@ -18,7 +18,7 @@ type ResultPage = {
 const otaDevUrls = {
   page: `/api/ota/otaBusDev/page`,
   save: "/api/ota/otaBusDev/save",
-  delete: `/api/ota/otaBusDev`,
+  delete: `/api/ota/otaBusDev/`,
   update: "/api/ota/otaBusDev/update"
 };
 
@@ -36,5 +36,5 @@ export const devUpdate = (param?: object) => {
 };
 // 设备删除
 export const devDelete = (param?: object) => {
-  return http.axiosDelete<Result>(otaDevUrls.delete, param);
+  return http.axiosDelete<Result>(otaDevUrls.delete + param);
 };
