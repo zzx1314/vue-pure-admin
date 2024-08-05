@@ -1,13 +1,17 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import { FormInstance, FormRules } from "element-plus";
+import { devPage, devSave } from "@/api/otaDev";
+import { SUCCESS } from "@/api/base";
+import { message } from "@/utils/message";
 
 export function useDevice() {
   // ----变量定义-----
   const queryForm = reactive({
-    name: "",
-    code: "",
-    status: ""
+    devId: "",
+    devIp: "",
+    type: "",
+    devGroup: ""
   });
   const dataList = ref([]);
   const loading = ref(true);
@@ -22,16 +26,24 @@ export function useDevice() {
   const addForm = reactive({
     value: {
       id: null,
-      name: "",
-      code: "",
-      status: "",
-      description: ""
+      devId: "",
+      devIp: "",
+      type: "",
+      versionInfo: "",
+      devGroup: "",
+      remark: ""
     }
   });
   const rules = reactive<FormRules>({
-    name: [{ required: true, message: "角色名称必填", trigger: "blur" }],
-    code: [{ required: true, message: "角色编码必填", trigger: "blur" }]
+    devId: [{ required: true, message: "设备ip必填", trigger: "blur" }],
+    devIp: [{ required: true, message: "设备ip必填", trigger: "blur" }],
+    type: [{ required: true, message: "设备类型必填", trigger: "blur" }],
+    versionInfo: [{ required: true, message: "版本信息必填", trigger: "blur" }],
+    devGroup: [{ required: true, message: "组别必填", trigger: "blur" }]
   });
+
+  const moreCondition = ref(false);
+
   const columns: TableColumnList = [
     {
       type: "selection",
@@ -44,14 +56,24 @@ export function useDevice() {
       width: 70
     },
     {
-      label: "设备id",
+      label: "设备ID",
+      prop: "devId",
+      minWidth: 100
+    },
+    {
+      label: "设备IP",
       prop: "devId",
       minWidth: 100
     },
     {
       label: "状态值",
       prop: "status",
-      minWidth: 120
+      minWidth: 120,
+      cellRenderer: ({ row }) => (
+        <el-tag type={row.status === "在线" ? "success" : "danger"}>
+          {row.status}
+        </el-tag>
+      )
     },
     {
       label: "类型",
@@ -62,6 +84,16 @@ export function useDevice() {
       label: "创建时间",
       minWidth: 180,
       prop: "createTime"
+    },
+    {
+      label: "组别",
+      minWidth: 180,
+      prop: "devGroup"
+    },
+    {
+      label: "版本信息",
+      minWidth: 180,
+      prop: "versionInfo"
     },
     {
       label: "备注",
@@ -113,6 +145,9 @@ export function useDevice() {
   async function onSearch() {
     loading.value = true;
     console.log("查询资源信息");
+    const { data } = await devPage(queryForm);
+    dataList.value = data.records;
+    pagination.total = data.total;
     setTimeout(() => {
       loading.value = false;
     }, 500);
@@ -121,19 +156,26 @@ export function useDevice() {
   const resetForm = formEl => {
     if (!formEl) return;
     formEl.resetFields();
+  };
+  const restartForm = formEl => {
+    if (!formEl) return;
+    formEl.resetFields();
+    cancel();
     onSearch();
   };
   // 取消
-  function cancel(formEl) {
+  function cancel() {
     addForm.value = {
       id: null,
-      name: "",
-      code: "",
-      status: "",
-      description: ""
+      devId: "",
+      devIp: "",
+      type: "",
+      versionInfo: "",
+      devGroup: "",
+      remark: ""
     };
-    resetForm(formEl);
     dialogFormVisible.value = false;
+    onSearch();
   }
   // 保存
   const submitForm = async (formEl: FormInstance | undefined) => {
@@ -147,6 +189,14 @@ export function useDevice() {
         } else {
           // 新增
           console.log("新增设备信息");
+          devSave(addForm.value).then(res => {
+            if (res.code === SUCCESS) {
+              message("保存成功！", { type: "success" });
+              cancel();
+            } else {
+              message(res.msg, { type: "error" });
+            }
+          });
         }
       } else {
         console.log("error submit!", fields);
@@ -154,9 +204,10 @@ export function useDevice() {
     });
   };
   // 打开弹框
-  function openDia(param) {
+  function openDia(param, formEl?) {
     dialogFormVisible.value = true;
     title.value = param;
+    resetForm(formEl);
   }
 
   onMounted(() => {
@@ -172,6 +223,7 @@ export function useDevice() {
     pagination,
     addForm,
     rules,
+    moreCondition,
     columns,
     buttonClass,
     onSearch,
@@ -182,6 +234,7 @@ export function useDevice() {
     handleCurrentChange,
     handleSelectionChange,
     cancel,
+    restartForm,
     submitForm,
     openDia
   };

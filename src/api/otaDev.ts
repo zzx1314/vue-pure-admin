@@ -28,7 +28,7 @@ export const devPage = (query?: object) => {
 };
 // 设备保存，设备注册
 export const devSave = (param?: object) => {
-  return http.axiosPost<Result>(otaDevUrls.save, param);
+  return http.axiosPostRequest<Result>(otaDevUrls.save, param);
 };
 // 设备修改
 export const devUpdate = (param?: object) => {

@@ -29,7 +29,7 @@ export const taskPage = (query?: object) => {
 };
 // 任务保存
 export const taskSave = (param?: object) => {
-  return http.axiosPost<Result>(otaBusTaskUrls.save, param);
+  return http.axiosPostRequest<Result>(otaBusTaskUrls.save, param);
 };
 // 任务修改
 export const taskUpdate = (param?: object) => {

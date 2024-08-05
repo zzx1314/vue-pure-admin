@@ -31,6 +31,15 @@ const defaultConfig: AxiosRequestConfig = {
   }
 };
 
+export const cleanQuery = (query: Record<string, any>): Record<string, any> => {
+  if (!query) return {};
+  return Object.fromEntries(
+    Object.entries(query).filter(
+      ([_, value]) => value !== null && value !== undefined && value !== ""
+    )
+  );
+};
+
 class PureHttp {
   constructor() {
     this.httpInterceptorsRequest();
@@ -285,9 +294,10 @@ class PureHttp {
    * @param params
    */
   public axiosGetRequest<T>(url, params): Promise<T> {
+    const cleanedQuery = cleanQuery(params);
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
-        .get(url + "?" + qs.stringify(params), {})
+        .get(url + "?" + qs.stringify(cleanedQuery), {})
         .then((response: undefined) => {
           resolve(response);
         })

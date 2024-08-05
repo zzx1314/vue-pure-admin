@@ -9,6 +9,8 @@ import AddFill from "@iconify-icons/ri/add-circle-line";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
+import Down from "@iconify-icons/ep/arrow-down";
+import Up from "@iconify-icons/ep/arrow-up";
 
 defineOptions({
   name: "Device"
@@ -27,11 +29,12 @@ const {
   title,
   addForm,
   rules,
+  moreCondition,
   cancel,
+  restartForm,
   submitForm,
   openDia,
   onSearch,
-  resetForm,
   handleUpdate,
   handleDelete,
   handleSizeChange,
@@ -47,14 +50,44 @@ const {
       :model="queryForm"
       class="bg-bg_color w-[99/100] pl-8 pt-4"
     >
-      <el-form-item label="设备名称：" prop="name">
+      <el-form-item label="设备ID" prop="name">
         <el-input
-          v-model="queryForm.name"
-          placeholder="请输入设备名称"
+          v-model="queryForm.devId"
+          placeholder="请输入设备ID"
           clearable
           class="!w-[180px]"
         />
       </el-form-item>
+      <el-form-item label="设备IP" prop="name">
+        <el-input
+          v-model="queryForm.devIp"
+          placeholder="请输入设备IP"
+          clearable
+          class="!w-[180px]"
+        />
+      </el-form-item>
+      <el-form-item label="设备类型" prop="name">
+        <el-input
+          v-model="queryForm.devIp"
+          placeholder="请输入设备类型"
+          clearable
+          class="!w-[180px]"
+        />
+      </el-form-item>
+
+      <el-collapse-transition>
+        <div v-show="moreCondition">
+          <el-form-item label="设备组别：" prop="devType">
+            <el-input
+              v-model="queryForm.devGroup"
+              placeholder="请输入设备组别"
+              clearable
+              class="!w-[200px]"
+            />
+          </el-form-item>
+        </div>
+      </el-collapse-transition>
+
       <el-form-item>
         <el-button
           type="primary"
@@ -64,9 +97,14 @@ const {
         >
           搜索
         </el-button>
-        <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
+        <el-button :icon="useRenderIcon(Refresh)" @click="restartForm(formRef)">
           重置
         </el-button>
+        <el-button
+          type="text"
+          @click="moreCondition = !moreCondition"
+          :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
+        />
       </el-form-item>
     </el-form>
 
@@ -138,20 +176,38 @@ const {
         :rules="rules"
         label-width="100px"
       >
-        <el-form-item label="设备名称" prop="name">
-          <el-input v-model="addForm.value.name" placeholder="请输入软件名称" />
+        <el-form-item label="设备ID" prop="devId">
+          <el-input v-model="addForm.value.devId" placeholder="请输入设备ID" />
         </el-form-item>
 
-        <el-form-item label="类型" prop="description">
+        <el-form-item label="设备IP" prop="devIp">
+          <el-input v-model="addForm.value.devIp" placeholder="请输入设备IP" />
+        </el-form-item>
+
+        <el-form-item label="设备类型" prop="type">
+          <el-input v-model="addForm.value.type" placeholder="请输入设备类型" />
+        </el-form-item>
+
+        <el-form-item label="设备版本" prop="versionInfo">
           <el-input
-            v-model="addForm.value.description"
-            placeholder="请输入类型"
+            v-model="addForm.value.versionInfo"
+            placeholder="请输入设备版本"
           />
+        </el-form-item>
+        <el-form-item label="设备组别" prop="group">
+          <el-input
+            v-model="addForm.value.devGroup"
+            placeholder="请输入设备组别"
+          />
+        </el-form-item>
+
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="addForm.value.remark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="cancel(addFormRef)">取消</el-button>
+          <el-button @click="cancel()">取消</el-button>
           <el-button type="primary" @click="submitForm(addFormRef)"
             >确认</el-button
           >
