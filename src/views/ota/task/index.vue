@@ -20,20 +20,22 @@ const {
   loading,
   columns,
   dataList,
+  devDataList,
   pagination,
   dialogFormVisible,
   title,
-  addForm,
-  rules,
-  cancel,
+  devClumns,
+  resDataList,
   restartForm,
-  submitForm,
   onSearch,
-  handleUpdate,
+  handleDesc,
   handleDelete,
   handleSizeChange,
+  handleDevSizeChange,
   handleCurrentChange,
-  handleSelectionChange
+  handleDevCurrentChange,
+  handleSelectionChange,
+  handleDevSelectionChange
 } = useTask();
 </script>
 <template>
@@ -117,7 +119,7 @@ const {
               type="primary"
               :size="size"
               :icon="useRenderIcon(Search)"
-              @click="handleUpdate(row, addFormRef)"
+              @click="handleDesc(row, addFormRef)"
             >
               详情
             </el-button>
@@ -139,37 +141,43 @@ const {
       </template>
     </PureTableBar>
 
-    <el-dialog v-model="dialogFormVisible" :title="title">
-      <el-form
-        ref="addFormRef"
-        :model="addForm.value"
-        :inline="true"
-        :rules="rules"
-        label-width="100px"
-      >
-        <el-form-item label="软件名称" prop="name">
-          <el-input v-model="addForm.value.name" placeholder="请输入软件名称" />
-        </el-form-item>
-
-        <el-form-item label="安装包名称" prop="code">
-          <el-input v-model="addForm.value.code" placeholder="请输入角色编码" />
-        </el-form-item>
-
-        <el-form-item label="类型" prop="description">
-          <el-input
-            v-model="addForm.value.description"
-            placeholder="请输入类型"
-          />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="cancel()">取消</el-button>
-          <el-button type="primary" @click="submitForm(addFormRef)"
-            >确认</el-button
+    <el-dialog v-model="dialogFormVisible" :title="title" width="70%">
+      <div>
+        <div class="flex gap-2">
+          <p style="font-weight: bold">资源信息:</p>
+          <el-tag
+            v-for="(item, index) in resDataList"
+            :key="index"
+            type="success"
           >
-        </span>
-      </template>
+            {{ item }}</el-tag
+          >
+        </div>
+        <PureTableBar title="下发设备列表" @refresh="onSearch">
+          <template v-slot="{ size, checkList }">
+            <pure-table
+              border
+              align-whole="center"
+              showOverflowTooltip
+              table-layout="auto"
+              :loading="loading"
+              :size="size"
+              :data="devDataList"
+              :columns="devClumns"
+              :checkList="checkList"
+              :pagination="pagination"
+              :paginationSmall="size === 'small'"
+              :header-cell-style="{
+                background: 'var(--el-table-row-hover-bg-color)',
+                color: 'var(--el-text-color-primary)'
+              }"
+              @selection-change="handleDevSelectionChange"
+              @page-size-change="handleDevSizeChange"
+              @page-current-change="handleDevCurrentChange"
+            />
+          </template>
+        </PureTableBar>
+      </div>
     </el-dialog>
   </div>
 </template>

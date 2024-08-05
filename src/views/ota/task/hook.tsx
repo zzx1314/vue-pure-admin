@@ -13,6 +13,8 @@ export function useTask() {
     status: ""
   });
   const dataList = ref([]);
+  const devDataList = ref([]);
+  const resDataList = ref([]);
   const loading = ref(true);
   const dialogFormVisible = ref(false);
   const title = ref("");
@@ -34,6 +36,43 @@ export function useTask() {
     name: [{ required: true, message: "角色名称必填", trigger: "blur" }],
     code: [{ required: true, message: "角色编码必填", trigger: "blur" }]
   });
+  const devClumns: TableColumnList = [
+    {
+      type: "selection",
+      width: 55,
+      align: "left"
+    },
+    {
+      label: "序号",
+      type: "index",
+      width: 70
+    },
+    {
+      label: "设备Ip",
+      prop: "devIp",
+      minWidth: 100
+    },
+    {
+      label: "设备Id",
+      prop: "otaDevId",
+      minWidth: 100
+    },
+    {
+      label: "任务状态",
+      prop: "status",
+      minWidth: 100
+    },
+    {
+      label: "类型",
+      prop: "status",
+      minWidth: 100
+    },
+    {
+      label: "组别",
+      prop: "status",
+      minWidth: 100
+    }
+  ];
   const columns: TableColumnList = [
     {
       type: "selection",
@@ -115,11 +154,13 @@ export function useTask() {
 
   // -----方法定义---
   // 修改
-  function handleUpdate(row, formEl) {
+  function handleDesc(row, formEl) {
     console.log(row);
     const roleInfo = JSON.stringify(row);
     addForm.value = JSON.parse(roleInfo);
-    openDia("修改任务", formEl);
+
+    resDataList.value = ["资源1", "资源2", "资源3"];
+    openDia("查看详情", formEl);
   }
   // 删除
   function handleDelete(row) {
@@ -138,11 +179,23 @@ export function useTask() {
     console.log(`${val} items per page`);
   }
 
+  function handleDevSizeChange(val: number) {
+    console.log(`${val} items per page`);
+  }
+
   function handleCurrentChange(val: number) {
     console.log(`current page: ${val}`);
   }
 
+  function handleDevCurrentChange(val: number) {
+    console.log(`current page: ${val}`);
+  }
+
   function handleSelectionChange(val) {
+    console.log("handleSelectionChange", val);
+  }
+
+  function handleDevSelectionChange(val) {
     console.log("handleSelectionChange", val);
   }
   // 查询
@@ -222,6 +275,7 @@ export function useTask() {
   return {
     queryForm,
     dataList,
+    devDataList,
     loading,
     dialogFormVisible,
     title,
@@ -230,13 +284,18 @@ export function useTask() {
     rules,
     columns,
     buttonClass,
+    devClumns,
+    resDataList,
     onSearch,
     resetForm,
-    handleUpdate,
+    handleDesc,
     handleDelete,
     handleSizeChange,
+    handleDevSizeChange,
     handleCurrentChange,
+    handleDevCurrentChange,
     handleSelectionChange,
+    handleDevSelectionChange,
     cancel,
     restartForm,
     submitForm,
