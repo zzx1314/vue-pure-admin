@@ -60,12 +60,9 @@ export function useResource() {
     ]
   });
   const fileList = ref<UploadUserFile[]>();
-
-  // 定义添加类型
   const addType = ref("");
   const updateType = ref("");
   const moreCondition = ref(false);
-
   const devOption = [
     {
       value: "altas200",
@@ -76,7 +73,6 @@ export function useResource() {
       label: "sd3403"
     }
   ];
-
   const typeOption = [
     {
       value: "操作系统",
@@ -87,6 +83,9 @@ export function useResource() {
       label: "模块"
     }
   ];
+  const resOsList = ref([]);
+  const downPush = ref(false);
+  const active = ref(1);
   const columns: TableColumnList = [
     {
       type: "selection",
@@ -165,7 +164,6 @@ export function useResource() {
       slot: "operation"
     }
   ];
-
   const devClumns: TableColumnList = [
     {
       type: "selection",
@@ -212,9 +210,6 @@ export function useResource() {
       "dark:hover:!text-primary"
     ];
   });
-
-  const resOsList = ref([]);
-
   // -----方法定义---
   // 修改
   function handleUpdate(row) {
@@ -408,6 +403,8 @@ export function useResource() {
     typeOption,
     devClumns,
     resDataList,
+    downPush,
+    active,
     onSearch,
     resetForm,
     handleUpdate,

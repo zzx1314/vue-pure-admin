@@ -56,6 +56,8 @@ const {
   fileList,
   typeOption,
   resDataList,
+  downPush,
+  active,
   cancel,
   openDia,
   openPushDia,
@@ -698,7 +700,7 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
 
     <el-dialog v-model="dialogPushVisible" title="推送资源" width="60%">
       <div class="centered">
-        <el-steps class="mb-4" :space="200" :active="1" simple>
+        <el-steps class="mb-4" :space="200" :active="active" simple>
           <el-step title="任务配置" :icon="useRenderIcon(EditPen)" />
           <el-step title="资源选择" :icon="useRenderIcon(UploadFilled)" />
         </el-steps>
@@ -734,47 +736,62 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
           <el-input v-model="addForm.value.remark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
-      <div class="flex gap-2">
-        <p style="font-weight: bold">资源信息:</p>
-        <el-tag
-          v-for="(item, index) in resDataList"
-          :key="index"
-          type="success"
-        >
-          {{ item }}</el-tag
-        >
+      <div v-show="downPush">
+        <div class="flex gap-2">
+          <p style="font-weight: bold">资源信息:</p>
+          <el-tag
+            v-for="(item, index) in resDataList"
+            :key="index"
+            type="success"
+          >
+            {{ item }}</el-tag
+          >
+        </div>
+        <PureTableBar title="下发设备列表" @refresh="onSearch">
+          <template v-slot="{ size, checkList }">
+            <pure-table
+              border
+              align-whole="center"
+              showOverflowTooltip
+              table-layout="auto"
+              :loading="loading"
+              :size="size"
+              :data="devDataList"
+              :columns="devClumns"
+              :checkList="checkList"
+              :pagination="pagination"
+              :paginationSmall="size === 'small'"
+              :header-cell-style="{
+                background: 'var(--el-table-row-hover-bg-color)',
+                color: 'var(--el-text-color-primary)'
+              }"
+              @selection-change="handleDevSelectionChange"
+              @page-size-change="handleDevSizeChange"
+              @page-current-change="handleDevCurrentChange"
+            />
+          </template>
+        </PureTableBar>
       </div>
-      <PureTableBar title="下发设备列表" @refresh="onSearch">
-        <template v-slot="{ size, checkList }">
-          <pure-table
-            border
-            align-whole="center"
-            showOverflowTooltip
-            table-layout="auto"
-            :loading="loading"
-            :size="size"
-            :data="devDataList"
-            :columns="devClumns"
-            :checkList="checkList"
-            :pagination="pagination"
-            :paginationSmall="size === 'small'"
-            :header-cell-style="{
-              background: 'var(--el-table-row-hover-bg-color)',
-              color: 'var(--el-text-color-primary)'
-            }"
-            @selection-change="handleDevSelectionChange"
-            @page-size-change="handleDevSizeChange"
-            @page-current-change="handleDevCurrentChange"
-          />
-        </template>
-      </PureTableBar>
+
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="cancel()">取消</el-button>
-          <el-button type="primary" @click="submitForm(addFormRef)"
+          <el-button
+            type="primary"
+            @click="submitForm(addFormRef)"
+            v-if="active == 1"
             >下一步</el-button
           >
-          <el-button type="primary" @click="submitForm(addFormRef)"
+          <el-button
+            type="primary"
+            @click="submitForm(addFormRef)"
+            v-if="active == 2"
+            >上一步</el-button
+          >
+          <el-button
+            type="primary"
+            @click="submitForm(addFormRef)"
+            v-if="active == 2"
             >确认</el-button
           >
         </span>
