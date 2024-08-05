@@ -11,7 +11,8 @@ export function useDevice() {
     devId: "",
     devIp: "",
     type: "",
-    devGroup: ""
+    devGroup: "",
+    status: ""
   });
   const dataList = ref([]);
   const loading = ref(true);
@@ -44,6 +45,22 @@ export function useDevice() {
 
   const moreCondition = ref(false);
 
+  // 状态类型
+  const status = ref([
+    {
+      value: "在线",
+      label: "在线"
+    },
+    {
+      value: "离线",
+      label: "离线"
+    },
+    {
+      value: "故障",
+      label: "故障"
+    }
+  ]);
+
   const columns: TableColumnList = [
     {
       type: "selection",
@@ -68,9 +85,17 @@ export function useDevice() {
     {
       label: "状态值",
       prop: "status",
-      minWidth: 120,
+      minWidth: 100,
       cellRenderer: ({ row }) => (
-        <el-tag type={row.status === "在线" ? "success" : "danger"}>
+        <el-tag
+          type={
+            row.status === "在线"
+              ? "success"
+              : row.status === "离线"
+              ? "warning"
+              : "danger"
+          }
+        >
           {row.status}
         </el-tag>
       )
@@ -87,7 +112,7 @@ export function useDevice() {
     },
     {
       label: "组别",
-      minWidth: 180,
+      minWidth: 150,
       prop: "devGroup"
     },
     {
@@ -187,6 +212,7 @@ export function useDevice() {
     queryForm.devId = "";
     queryForm.devGroup = "";
     queryForm.type = "";
+    queryForm.status = "";
     dialogFormVisible.value = false;
     onSearch();
   }
@@ -246,6 +272,7 @@ export function useDevice() {
     rules,
     moreCondition,
     columns,
+    status,
     buttonClass,
     onSearch,
     resetForm,

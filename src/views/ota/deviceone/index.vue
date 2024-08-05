@@ -28,6 +28,7 @@ const {
   dialogFormVisible,
   title,
   addForm,
+  status,
   rules,
   moreCondition,
   cancel,
@@ -84,6 +85,21 @@ const {
               clearable
               class="!w-[200px]"
             />
+          </el-form-item>
+
+          <el-form-item label="设备状态：" prop="status">
+            <el-select
+              v-model="queryForm.status"
+              placeholder="请选择设备状态"
+              class="!w-[200px]"
+            >
+              <el-option
+                v-for="item in status"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
           </el-form-item>
         </div>
       </el-collapse-transition>
