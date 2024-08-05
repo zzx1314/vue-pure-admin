@@ -19,8 +19,11 @@ export function useResource() {
     version: ""
   });
   const dataList = ref([]);
+  const devDataList = ref([]);
   const loading = ref(true);
   const dialogFormVisible = ref(false);
+  const dialogPushVisible = ref(false);
+  const resDataList = ref([]);
   const title = ref("");
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -162,6 +165,44 @@ export function useResource() {
       slot: "operation"
     }
   ];
+
+  const devClumns: TableColumnList = [
+    {
+      type: "selection",
+      width: 55,
+      align: "left"
+    },
+    {
+      label: "序号",
+      type: "index",
+      width: 70
+    },
+    {
+      label: "设备Ip",
+      prop: "devIp",
+      minWidth: 100
+    },
+    {
+      label: "设备Id",
+      prop: "otaDevId",
+      minWidth: 100
+    },
+    {
+      label: "任务状态",
+      prop: "status",
+      minWidth: 100
+    },
+    {
+      label: "类型",
+      prop: "status",
+      minWidth: 100
+    },
+    {
+      label: "组别",
+      prop: "status",
+      minWidth: 100
+    }
+  ];
   const buttonClass = computed(() => {
     return [
       "!h-[20px]",
@@ -202,12 +243,22 @@ export function useResource() {
   function handleSizeChange(val: number) {
     console.log(`${val} items per page`);
   }
+  function handleDevSizeChange(val: number) {
+    console.log(`${val} items per page`);
+  }
 
   function handleCurrentChange(val: number) {
     console.log(`current page: ${val}`);
   }
 
+  function handleDevCurrentChange(val: number) {
+    console.log(`current page: ${val}`);
+  }
+
   function handleSelectionChange(val) {
+    console.log("handleSelectionChange", val);
+  }
+  function handleDevSelectionChange(val) {
     console.log("handleSelectionChange", val);
   }
   // 查询
@@ -280,6 +331,12 @@ export function useResource() {
     console.log(addType.value);
   }
 
+  function openPushDia(formEl?) {
+    dialogPushVisible.value = true;
+    resetForm(formEl);
+    resDataList.value = ["资源1", "资源2", "资源3"];
+  }
+
   function openUpdateDia(param) {
     dialogFormVisible.value = true;
     title.value = param;
@@ -332,8 +389,10 @@ export function useResource() {
   return {
     queryForm,
     dataList,
+    devDataList,
     loading,
     dialogFormVisible,
+    dialogPushVisible,
     title,
     pagination,
     addForm,
@@ -347,15 +406,21 @@ export function useResource() {
     resOsList,
     fileList,
     typeOption,
+    devClumns,
+    resDataList,
     onSearch,
     resetForm,
     handleUpdate,
     handleDelete,
     handleSizeChange,
+    handleDevSizeChange,
     handleCurrentChange,
+    handleDevCurrentChange,
     handleSelectionChange,
+    handleDevSelectionChange,
     cancel,
     openDia,
+    openPushDia,
     restartForm,
     handleDown
   };

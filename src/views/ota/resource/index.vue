@@ -13,6 +13,7 @@ import Position from "@iconify-icons/ep/position";
 import { PureTableBar } from "@/components/RePureTableBar";
 import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
+import UploadFilled from "@iconify-icons/ep/upload-filled";
 
 import Download from "@iconify-icons/ep/download";
 import pLimit from "p-limit";
@@ -32,14 +33,18 @@ defineOptions({
 
 const formRef = ref();
 const addFormRef = ref<FormInstance>();
+const pushFormRef = ref<FormInstance>();
 
 const {
   queryForm,
   loading,
   columns,
   dataList,
+  devDataList,
+  devClumns,
   pagination,
   dialogFormVisible,
+  dialogPushVisible,
   title,
   addForm,
   rules,
@@ -50,14 +55,19 @@ const {
   resOsList,
   fileList,
   typeOption,
+  resDataList,
   cancel,
   openDia,
+  openPushDia,
   onSearch,
   handleUpdate,
   handleDelete,
   handleSizeChange,
+  handleDevSizeChange,
   handleCurrentChange,
+  handleDevCurrentChange,
   handleSelectionChange,
+  handleDevSelectionChange,
   restartForm,
   handleDown
 } = useResource();
@@ -489,7 +499,7 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
         <el-button
           type="primary"
           :icon="useRenderIcon(Position)"
-          @click="openDia('推送资源')"
+          @click="openPushDia()"
         >
           推送
         </el-button>
@@ -685,11 +695,100 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
         </span>
       </template>
     </el-dialog>
+
+    <el-dialog v-model="dialogPushVisible" title="推送资源" width="60%">
+      <div class="centered">
+        <el-steps class="mb-4" :space="200" :active="1" simple>
+          <el-step title="任务配置" :icon="useRenderIcon(EditPen)" />
+          <el-step title="资源选择" :icon="useRenderIcon(UploadFilled)" />
+        </el-steps>
+      </div>
+      <el-form
+        ref="pushFormRef"
+        :model="addForm.value"
+        :rules="rules"
+        label-width="150px"
+      >
+        <el-form-item label="任务名称" prop="softwareName">
+          <el-input
+            v-model="addForm.value.softwareName"
+            placeholder="请输入任务名称"
+          />
+        </el-form-item>
+
+        <el-form-item label="任务类型" prop="softwareVersion">
+          <el-input
+            v-model="addForm.value.softwareVersion"
+            placeholder="请输入任务类型"
+          />
+        </el-form-item>
+
+        <el-form-item label="升级配置" prop="pkgName">
+          <el-input
+            v-model="addForm.value.pkgName"
+            placeholder="请输入模块包名称"
+          />
+        </el-form-item>
+
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="addForm.value.remark" placeholder="请输入备注" />
+        </el-form-item>
+      </el-form>
+      <div class="flex gap-2">
+        <p style="font-weight: bold">资源信息:</p>
+        <el-tag
+          v-for="(item, index) in resDataList"
+          :key="index"
+          type="success"
+        >
+          {{ item }}</el-tag
+        >
+      </div>
+      <PureTableBar title="下发设备列表" @refresh="onSearch">
+        <template v-slot="{ size, checkList }">
+          <pure-table
+            border
+            align-whole="center"
+            showOverflowTooltip
+            table-layout="auto"
+            :loading="loading"
+            :size="size"
+            :data="devDataList"
+            :columns="devClumns"
+            :checkList="checkList"
+            :pagination="pagination"
+            :paginationSmall="size === 'small'"
+            :header-cell-style="{
+              background: 'var(--el-table-row-hover-bg-color)',
+              color: 'var(--el-text-color-primary)'
+            }"
+            @selection-change="handleDevSelectionChange"
+            @page-size-change="handleDevSizeChange"
+            @page-current-change="handleDevCurrentChange"
+          />
+        </template>
+      </PureTableBar>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="cancel()">取消</el-button>
+          <el-button type="primary" @click="submitForm(addFormRef)"
+            >下一步</el-button
+          >
+          <el-button type="primary" @click="submitForm(addFormRef)"
+            >确认</el-button
+          >
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <style scoped lang="scss">
 :deep(.el-dropdown-menu__item i) {
   margin: 0;
+}
+
+.centered {
+  width: 100%;
 }
 </style>
