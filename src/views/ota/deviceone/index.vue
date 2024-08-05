@@ -129,7 +129,7 @@ const {
         <el-button
           type="primary"
           :icon="useRenderIcon(AddFill)"
-          @click="openDia('新增设备')"
+          @click="openDia('新增设备', addFormRef)"
         >
           添加
         </el-button>
@@ -162,7 +162,7 @@ const {
               type="primary"
               :size="size"
               :icon="useRenderIcon(EditPen)"
-              @click="handleUpdate(row)"
+              @click="handleUpdate(row, addFormRef)"
             >
               修改
             </el-button>

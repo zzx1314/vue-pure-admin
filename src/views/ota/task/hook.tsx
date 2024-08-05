@@ -1,6 +1,9 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import { FormInstance, FormRules } from "element-plus";
+import { taskDelete, taskPage, taskUpdate } from "@/api/otaTask";
+import { SUCCESS } from "@/api/base";
+import { message } from "@/utils/message";
 
 export function useTask() {
   // ----变量定义-----
@@ -74,14 +77,19 @@ export function useTask() {
       prop: "status"
     },
     {
-      label: "设备信息",
+      label: "设备ID",
       minWidth: 180,
-      prop: "deviceInfo"
+      prop: "otaDevId"
     },
     {
-      label: "资源信息",
+      label: "资源名称",
       minWidth: 180,
-      prop: "resourceInfo"
+      prop: "resName"
+    },
+    {
+      label: "操作人",
+      minWidth: 150,
+      prop: "operator"
     },
     {
       label: "操作",
@@ -102,15 +110,23 @@ export function useTask() {
 
   // -----方法定义---
   // 修改
-  function handleUpdate(row) {
+  function handleUpdate(row, formEl) {
     console.log(row);
     const roleInfo = JSON.stringify(row);
     addForm.value = JSON.parse(roleInfo);
-    openDia("修改任务");
+    openDia("修改任务", formEl);
   }
   // 删除
   function handleDelete(row) {
     console.log(row);
+    taskDelete(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        message("删除成功！", { type: "success" });
+        onSearch();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
   }
 
   function handleSizeChange(val: number) {
@@ -128,6 +144,9 @@ export function useTask() {
   async function onSearch() {
     loading.value = true;
     console.log("查询信息");
+    const { data } = await taskPage(queryForm);
+    dataList.value = data.records;
+    pagination.total = data.total;
     setTimeout(() => {
       loading.value = false;
     }, 500);
@@ -136,10 +155,16 @@ export function useTask() {
   const resetForm = formEl => {
     if (!formEl) return;
     formEl.resetFields();
+  };
+
+  const restartForm = formEl => {
+    if (!formEl) return;
+    formEl.resetFields();
+    cancel();
     onSearch();
   };
   // 取消
-  function cancel(formEl) {
+  function cancel() {
     addForm.value = {
       id: null,
       name: "",
@@ -147,8 +172,8 @@ export function useTask() {
       status: "",
       description: ""
     };
-    resetForm(formEl);
     dialogFormVisible.value = false;
+    onSearch();
   }
   // 保存
   const submitForm = async (formEl: FormInstance | undefined) => {
@@ -159,6 +184,14 @@ export function useTask() {
         if (addForm.value.id) {
           // 修改
           console.log("修改任务");
+          taskUpdate(addForm.value).then(res => {
+            if (res.code === SUCCESS) {
+              message("修改成功！", { type: "success" });
+              cancel();
+            } else {
+              message("修改失败！", { type: "error" });
+            }
+          });
         } else {
           // 新增
           console.log("新增任务");
@@ -169,9 +202,10 @@ export function useTask() {
     });
   };
   // 打开弹框
-  function openDia(param) {
+  function openDia(param, formEl) {
     dialogFormVisible.value = true;
     title.value = param;
+    resetForm(formEl);
   }
 
   onMounted(() => {
@@ -197,6 +231,7 @@ export function useTask() {
     handleCurrentChange,
     handleSelectionChange,
     cancel,
+    restartForm,
     submitForm,
     openDia
   };

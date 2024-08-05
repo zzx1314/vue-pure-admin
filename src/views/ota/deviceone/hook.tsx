@@ -144,11 +144,11 @@ export function useDevice() {
 
   // -----方法定义---
   // 修改
-  function handleUpdate(row) {
+  function handleUpdate(row, formEl) {
     console.log(row);
     const roleInfo = JSON.stringify(row);
     addForm.value = JSON.parse(roleInfo);
-    openDia("修改资源");
+    openDia("修改资源", formEl);
   }
   // 删除
   function handleDelete(row) {

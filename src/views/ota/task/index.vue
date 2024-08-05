@@ -27,9 +27,9 @@ const {
   addForm,
   rules,
   cancel,
+  restartForm,
   submitForm,
   onSearch,
-  resetForm,
   handleUpdate,
   handleDelete,
   handleSizeChange,
@@ -62,7 +62,7 @@ const {
         >
           搜索
         </el-button>
-        <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
+        <el-button :icon="useRenderIcon(Refresh)" @click="restartForm(formRef)">
           重置
         </el-button>
       </el-form-item>
@@ -97,7 +97,7 @@ const {
               type="primary"
               :size="size"
               :icon="useRenderIcon(EditPen)"
-              @click="handleUpdate(row)"
+              @click="handleUpdate(row, addFormRef)"
             >
               修改
             </el-button>
@@ -144,7 +144,7 @@ const {
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="cancel(addFormRef)">取消</el-button>
+          <el-button @click="cancel()">取消</el-button>
           <el-button type="primary" @click="submitForm(addFormRef)"
             >确认</el-button
           >
