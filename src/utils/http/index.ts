@@ -9,10 +9,11 @@ import type {
   PureHttpResponse,
   PureHttpRequestConfig
 } from "./types.d";
+import qs from "qs";
 import { stringify } from "qs";
 import NProgress from "../progress";
 import { getToken, formatToken } from "@/utils/auth";
-import { useUserStoreHook } from "@/store/modules/user";
+import type { UserResult } from "@/api/user";
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
@@ -73,37 +74,15 @@ class PureHttp {
           return config;
         }
         /** 请求白名单，放置一些不需要`token`的接口（通过设置请求白名单，防止`token`过期后再请求造成的死循环问题） */
-        const whiteList = ["/refresh-token", "/login"];
+        const whiteList = ["/refreshToken", "/login"];
         return whiteList.some(url => config.url.endsWith(url))
           ? config
           : new Promise(resolve => {
               const data = getToken();
               if (data) {
-                const now = new Date().getTime();
-                const expired = parseInt(data.expires) - now <= 0;
-                if (expired) {
-                  if (!PureHttp.isRefreshing) {
-                    PureHttp.isRefreshing = true;
-                    // token过期刷新
-                    useUserStoreHook()
-                      .handRefreshToken({ refreshToken: data.refreshToken })
-                      .then(res => {
-                        const token = res.data.accessToken;
-                        config.headers["Authorization"] = formatToken(token);
-                        PureHttp.requests.forEach(cb => cb(token));
-                        PureHttp.requests = [];
-                      })
-                      .finally(() => {
-                        PureHttp.isRefreshing = false;
-                      });
-                  }
-                  resolve(PureHttp.retryOriginalRequest(config));
-                } else {
-                  config.headers["Authorization"] = formatToken(
-                    data.accessToken
-                  );
-                  resolve(config);
-                }
+                // 在请求头添加权限
+                config.headers["Authorization"] = formatToken(data.accessToken);
+                resolve(config);
               } else {
                 resolve(config);
               }
@@ -188,6 +167,414 @@ class PureHttp {
     config?: PureHttpRequestConfig
   ): Promise<T> {
     return this.request<T>("get", url, params, config);
+  }
+
+  /**
+   * post请求,from表单
+   * @param url url
+   * @param params 参数
+   */
+  public axiosPost<T>(url, params): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .post(url, qs.stringify(params), {
+          headers: {
+            "content-type": "application/x-www-form-urlencoded"
+          }
+        })
+        .then((response: undefined) => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * from 请求直接返回response
+   * @param url
+   * @param params
+   */
+  public axiosPostFrom<T>(url: string, params: any, heads?: any): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .post(url, qs.stringify(params), {
+          headers: {
+            ...(heads || {}),
+            "content-type": "application/x-www-form-urlencoded"
+          }
+        })
+        .then((response: undefined) => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+  public axiosPostFromLogin(
+    url: string,
+    params: any,
+    heads?: any
+  ): Promise<UserResult> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .post(url, qs.stringify(params), {
+          headers: {
+            ...(heads || {}),
+            "content-type": "application/x-www-form-urlencoded"
+          }
+        })
+        .then((response: any) => {
+          const result = {
+            success: true,
+            data: {
+              avatar: "", // 需要填充实际值
+              accessToken: response.access_token,
+              refreshToken: response.refresh_token,
+              expires: response.expires,
+              username: response.username, // 需要填充实际值
+              nickname: response.username, // 需要填充实际值
+              roles: response.roles
+            }
+          };
+          resolve(result);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * post请求
+   * @param url
+   * @param params
+   */
+  public axiosPostRequest<T>(url, params?: object): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .post(url, params, {
+          headers: {
+            "content-type": "application/json"
+          }
+        })
+        .then((response: undefined) => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * get请求
+   * @param url url
+   * @param params 参数
+   */
+  public axiosGet<T>(url, params?: object): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .get(url, { params })
+        .then((response: undefined) => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  public axiosGetDown<T>(url, range): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .get(url, {
+          responseType: "blob",
+          headers: {
+            Authentication: sessionStorage.getItem("token"),
+            Range: range
+          }
+        })
+        .then((response: undefined) => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * get请求
+   * @param url
+   * @param params
+   */
+  public axiosGetRequest<T>(url, params): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .get(url + "?" + qs.stringify(params), {})
+        .then((response: undefined) => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  /**
+   * delete 请求
+   * @param url
+   * @param params
+   */
+
+  public axiosDelete<T>(url, params?: object): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .delete(url, params)
+        .then((response: undefined) => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * put请求
+   * @param url
+   * @param params
+   */
+  public axiosPut<T>(url, params): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .put(url, params)
+        .then((response: undefined) => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * put请求添加config
+   * @param url
+   * @param params
+   * @param config
+   */
+  public axiosPutRequest<T>(url, params, config): Promise<T> {
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .put(url, params, config)
+        .then((response: undefined) => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
+  public axiosPatch(url, params) {
+    const promise = new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .patch(url, params)
+        .then((response: undefined) => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+    return promise;
+  }
+
+  public axiosGetAll(url, config) {
+    const promise = new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .get(url, config)
+        .then((response: undefined) => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+    return promise;
+  }
+
+  /**
+   *
+   * @param URL 下载地址
+   * @param mode 下载方式 get post
+   * @param name 下载文件名
+   * @param param 参数
+   * @param fileType 下载文件格式
+   */
+  public downloadUrlMode(url, mode, name, param, fileType) {
+    const promise = new Promise((resolve, reject) => {
+      PureHttp.axiosInstance({
+        url: url,
+        method: mode,
+        data: param,
+        params: param,
+        headers: {
+          Authentication: sessionStorage.getItem("token"),
+          Accept: "application/json"
+        },
+        responseType: "arraybuffer"
+      })
+        .then((response: undefined) => {
+          const blob = new Blob([response], {
+            type: "application/" + fileType
+          });
+          resolve(response);
+          const fileName = name + "." + fileType;
+          // const fileName = name;
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          window.setTimeout(function () {
+            URL.revokeObjectURL(link.href);
+            document.body.removeChild(link);
+          }, 0);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+    return promise;
+  }
+
+  /**
+   * 文件预览
+   * @param url
+   * @param type
+   */
+  public previewFile(url, type) {
+    const promise = new Promise((resolve, reject) => {
+      PureHttp.axiosInstance({
+        url: url,
+        method: "GET",
+        headers: {
+          Authentication: sessionStorage.getItem("token"),
+          Accept: "application/json"
+        },
+        responseType: type
+      })
+        .then((response: undefined) => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+    return promise;
+  }
+
+  /**
+   * 下载
+   * @param URL
+   */
+  public downloadUrl(URL) {
+    PureHttp.axiosInstance({
+      method: "get",
+      url: URL,
+      headers: {
+        Authentication: sessionStorage.getItem("token"),
+        Accept: "application/json"
+      },
+      responseType: "blob"
+    }).then((response: undefined) => {
+      const blob = new Blob([response], { type: "application/zip" });
+      const downloadElement = document.createElement("a");
+      const url = window.URL.createObjectURL(blob);
+      downloadElement.href = url;
+      downloadElement.download = name + ".zip";
+      downloadElement.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
+  /**
+   * 上传文件
+   * @param URL
+   * @param formData
+   */
+  public uploadFile(URL, formData) {
+    const url = URL;
+    const headers = {
+      Authentication: sessionStorage.getItem("token"),
+      "Content-Type": "multipart/form-data"
+    };
+    return PureHttp.axiosInstance.post(url, formData, { headers: headers });
+  }
+
+  /**
+   * 获取数据流
+   * @param url
+   */
+  public getBufferFile(url) {
+    const promise = new Promise((resolve, reject) => {
+      PureHttp.axiosInstance({
+        url,
+        method: "get",
+        headers: {
+          Authentication: sessionStorage.getItem("token"),
+          Accept: "application/json"
+        },
+        responseType: "arraybuffer"
+      })
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+    return promise;
+  }
+
+  /**
+   * 上传文件
+   * @param URL
+   * @param formData
+   */
+  public upFile(URL, formData) {
+    const url = URL;
+    const headers = { "Content-Type": "multipart/form-data" };
+    const promise = new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .post(url, formData, { headers: headers })
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+    return promise;
+  }
+
+  /**
+   * 将二进制文件转化成base64
+   * @param data
+   */
+  public getImageBase64(data) {
+    const blob = new Blob([data], { type: "image/jpg" }); //类型一定要写！！！
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
   }
 }
 

@@ -66,14 +66,27 @@ type ResultTable = {
   };
 };
 
+const urls = {
+  token: `/api/auth/oauth/token`,
+  refreshToken: `/api/auth/oauth/refreshToken`,
+  getInfo: `/api/upms/sysUser/info`
+};
+
 /** 登录 */
-export const getLogin = (data?: object) => {
-  return http.request<UserResult>("post", "/login", { data });
+export const getLogin = (data?: object): Promise<UserResult> => {
+  const headers = {
+    Authorization: "Basic dGhfY2xpZW50OnRo"
+  };
+  return http.axiosPostFromLogin(urls.token, data, headers);
 };
 
 /** 刷新`token` */
 export const refreshTokenApi = (data?: object) => {
-  return http.request<RefreshTokenResult>("post", "/refresh-token", { data });
+  return http.request<RefreshTokenResult>(
+    "post",
+    "/api/auth/oauth/refreshToken",
+    { data }
+  );
 };
 
 /** 账户设置-个人信息 */
