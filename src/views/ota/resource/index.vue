@@ -529,7 +529,7 @@ const backoff = () => {
         <el-button
           type="primary"
           :icon="useRenderIcon(Position)"
-          @click="openPushDia()"
+          @click="openPushDia(pushFormRef)"
         >
           推送
         </el-button>
