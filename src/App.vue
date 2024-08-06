@@ -13,9 +13,6 @@ import en from "element-plus/lib/locale/lang/en";
 import { ReDialog } from "@/components/ReDialog";
 import zhCn from "element-plus/lib/locale/lang/zh-cn";
 
-import { registerAllFormComponents } from "@/components/ReForm/IngrateArcoDesgin";
-import { onMounted, nextTick } from "vue";
-
 export default defineComponent({
   name: "app",
   components: {
@@ -26,13 +23,6 @@ export default defineComponent({
     currentLocale() {
       return this.$storage.locale?.locale === "zh" ? zhCn : en;
     }
-  },
-  setup() {
-    onMounted(() => {
-      nextTick(() => {
-        registerAllFormComponents();
-      });
-    });
   },
   beforeCreate() {
     const { version, name: title } = __APP_INFO__.pkg;

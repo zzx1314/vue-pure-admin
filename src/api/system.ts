@@ -206,7 +206,7 @@ export const deleteRole = (param: object) => {
 
 /** 获取所有角色 */
 export const listAllRole = () => {
-  return http.axiosGetRequest(roleUrls.listAll, {});
+  return http.axiosGetRequest<Result>(roleUrls.listAll, {});
 };
 
 /** 菜单页面 */

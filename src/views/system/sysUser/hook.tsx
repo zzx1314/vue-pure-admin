@@ -8,29 +8,22 @@ import {
 } from "@/api/system";
 import { ElMessageBox } from "element-plus";
 import { type PaginationProps, AdaptiveConfig } from "@pureadmin/table";
-import { reactive, ref, computed, h } from "vue";
+import { reactive, ref, computed } from "vue";
 import { FormInstance, FormRules } from "element-plus";
 import { SUCCESS } from "@/api/base";
-import { IDynamicFormRef, IDynamicFormOptions } from "@/components/ReForm/main";
-
-import { defaultConfig } from "@/components/ReForm/IngrateArcoDesgin";
-import { addDialog } from "@/components/ReDialog";
-import userForm from "./userForm.vue";
-
-import {
-  IDynamicFormItemSelectValueOption,
-  SimpleSelectValueFormItemRef
-} from "@/components/ReForm/view/MySelect";
 
 export function useUser() {
   // 查询动态form
-  const formRef = ref<IDynamicFormRef>();
+  const formRef = ref();
   // 添加动态form
-  const addFormRef = ref<IDynamicFormRef>();
+  const addFormRef = ref();
   // 更多查询条件
   const moreCondition = ref(false);
   // 性别
-  const sexArray = ref([]);
+  const sexArray = ref([
+    { text: "男", value: 1 },
+    { text: "女", value: 2 }
+  ]);
   // 查询form
   const queryForm = ref({
     orgIds: null,
@@ -67,11 +60,28 @@ export function useUser() {
   // 角色结果
   const roleArry = ref([]);
   // 添加校验规则
+  const validatePass = (rule: any, value: any, callback: any) => {
+    if (value === "") {
+      callback(new Error("请输入密码"));
+    } else {
+      callback();
+    }
+  };
+  const validatePass2 = (rule: any, value: any, callback: any) => {
+    if (value === "") {
+      callback(new Error("请输入密码"));
+    } else if (value !== addForm.value.newpassword) {
+      callback(new Error("两次密码不一样"));
+    } else {
+      callback();
+    }
+  };
+
   const rules = reactive<FormRules>({
     realName: [{ required: true, message: "姓名必填", trigger: "blur" }],
     username: [{ required: true, message: "账号必填", trigger: "blur" }],
-    newpassword: [{ required: true, message: "密码必填", trigger: "blur" }],
-    newpassword1: [{ required: true, message: "密码必填", trigger: "blur" }],
+    newpassword: [{ validator: validatePass, trigger: "blur" }],
+    newpassword1: [{ validator: validatePass2, trigger: "blur" }],
     lockFlag: [{ required: true, message: "类型必填", trigger: "change" }],
     sex: [{ required: true, message: "性别必填", trigger: "change" }],
     role: [{ required: true, message: "角色必填", trigger: "change" }]
@@ -173,162 +183,8 @@ export function useUser() {
       "dark:hover:!text-primary"
     ];
   });
-  // 动态表单
-  // 动态表单-查询动态表单
-  const formOptions: IDynamicFormOptions = {
-    ...defaultConfig,
-    formRules: {},
-    formAdditionaProps: {
-      inline: true
-    },
-    formItems: [
-      {
-        type: "text",
-        label: "用户名",
-        name: "realName",
-        additionalProps: { placeholder: "请输入用户名", clearable: true }
-      },
-      {
-        type: "my-select",
-        label: "性别",
-        name: "sex",
-        additionalProps: { placeholder: "请选择性别" }
-      },
-      {
-        type: "my-select",
-        label: "角色",
-        name: "role",
-        additionalProps: { placeholder: "请选择角色" }
-      },
-      {
-        type: "custom",
-        label: "",
-        name: "moreQuery"
-      }
-    ]
-  };
-
-  // 添加动态表单
-  const addFormOptions: IDynamicFormOptions = {
-    ...defaultConfig,
-    formRules: {
-      realName: [{ required: true, message: "姓名必填", trigger: "blur" }],
-      username: [{ required: true, message: "账号必填", trigger: "blur" }],
-      newpassword: [{ required: true, message: "密码必填", trigger: "blur" }],
-      newpassword1: [{ required: true, message: "密码必填", trigger: "blur" }],
-      lockFlag: [{ required: true, message: "类型必填", trigger: "change" }],
-      sex: [{ required: true, message: "性别必填", trigger: "change" }],
-      role: [{ required: true, message: "角色必填", trigger: "change" }]
-    },
-    formAdditionaProps: {},
-    formItems: [
-      {
-        type: "text",
-        label: "账号",
-        name: "username",
-        additionalProps: { placeholder: "请输入账号", clearable: true },
-        colProps: { span: 12 }
-      },
-      {
-        type: "text",
-        label: "姓名",
-        name: "realName",
-        additionalProps: { placeholder: "请输入姓名", clearable: true },
-        colProps: { span: 12 }
-      },
-      {
-        type: "my-select",
-        label: "性别",
-        name: "sex",
-        additionalProps: { placeholder: "请选择性别" },
-        colProps: { span: 12 }
-      },
-      {
-        type: "my-select",
-        label: "状态",
-        name: "lockFlag",
-        additionalProps: { placeholder: "请选择状态" },
-        colProps: { span: 12 }
-      },
-      {
-        type: "my-select",
-        label: "角色",
-        name: "role",
-        additionalProps: { placeholder: "请选择角色" },
-        colProps: { span: 12 }
-      },
-      {
-        type: "text",
-        label: "部门",
-        name: "orgId",
-        additionalProps: { placeholder: "请选择部门" },
-        colProps: { span: 12 }
-      },
-      {
-        type: "text",
-        label: "密码",
-        name: "newpassword",
-        additionalProps: {
-          placeholder: "请输入密码",
-          type: "password",
-          showPassword: true
-        },
-        colProps: { span: 12 }
-      },
-      {
-        type: "text",
-        label: "确认密码",
-        name: "newpassword1",
-        additionalProps: {
-          placeholder: "请输入密码",
-          type: "password",
-          showPassword: true
-        },
-        colProps: { span: 12 }
-      }
-    ]
-  };
 
   // -----方法定义---
-  /**
-   * 动态form表单数据初始化
-   */
-  function onReady() {
-    // 加载性别数据
-    sexArray.value.push({ text: "男", value: 1 });
-    sexArray.value.push({ text: "女", value: 2 });
-    formRef.value
-      ?.getFormItemControlRef<SimpleSelectValueFormItemRef>("sex")
-      ?.setData(sexArray.value as IDynamicFormItemSelectValueOption[]);
-
-    // 加载角色数据
-    formRef.value
-      ?.getFormItemControlRef<SimpleSelectValueFormItemRef>("role")
-      ?.setData(roleArry.value as IDynamicFormItemSelectValueOption[]);
-  }
-
-  /**
-   * 动态form表单添加加载数据
-   */
-  function onReadyAdd(param) {
-    sexArray.value.push({ text: "男", value: 1 });
-    sexArray.value.push({ text: "女", value: 2 });
-    // 加载性别数据
-    addFormRef.value
-      ?.getFormItemControlRef<SimpleSelectValueFormItemRef>("sex")
-      ?.setData(sexArray.value as IDynamicFormItemSelectValueOption[]);
-    // 加载角色数据
-    addFormRef.value
-      ?.getFormItemControlRef<SimpleSelectValueFormItemRef>("role")
-      ?.setData(param as IDynamicFormItemSelectValueOption[]);
-    // 加载状态
-    const lockFlag = ref([]);
-    lockFlag.value.push({ text: "开启", value: 1 });
-    lockFlag.value.push({ text: "关闭", value: 2 });
-    addFormRef.value
-      ?.getFormItemControlRef<SimpleSelectValueFormItemRef>("lockFlag")
-      ?.setData(lockFlag.value as IDynamicFormItemSelectValueOption[]);
-  }
 
   /**
    * 取消事件
@@ -353,50 +209,19 @@ export function useUser() {
       role: "",
       orgId: null
     };
-    resetForm();
     dialogFormVisible.value = false;
+    onSearch();
   }
 
-  const formRefOne = ref();
   /**
    * 开启弹框
    * @param param
    */
-  function openDia(param) {
-    console.log("openDia", roleArry.value);
-    addDialog({
-      title: param,
-      width: "40%",
-      draggable: true,
-      fullscreenIcon: true,
-      closeOnClickModal: false,
-      contentRenderer: () =>
-        h(userForm, {
-          ref: formRefOne,
-          roleArry: roleArry.value,
-          addForm: addForm.value
-        }),
-      beforeSure: done => {
-        const FormRef = formRefOne.value.getRef();
-
-        function chores() {
-          done(); // 关闭弹框
-          onSearch(); // 刷新表格数据
-        }
-        FormRef.validate(valid => {
-          if (valid) {
-            // 表单规则校验通过
-            if (title.value === "新增") {
-              // 实际开发先调用新增接口，再进行下面操作
-              chores();
-            } else {
-              // 实际开发先调用编辑接口，再进行下面操作
-              chores();
-            }
-          }
-        });
-      }
-    });
+  function openDia(param, formEl) {
+    console.log(roleArry.value);
+    dialogFormVisible.value = true;
+    resetForm(formEl);
+    title.value = param;
   }
   /**
    * 停用启用
@@ -455,10 +280,10 @@ export function useUser() {
    * 处理修改
    * @param row
    */
-  function handleUpdate(row) {
+  function handleUpdate(row, ref) {
     const userInfo = JSON.stringify(row);
     console.log(row);
-    openDia("修改用户");
+    openDia("修改用户", ref);
     addForm.value = JSON.parse(userInfo);
     // 目前是单角色，以后修改成多角色
     addForm.value.role = row.roleList[0].id;
@@ -567,41 +392,19 @@ export function useUser() {
   }
 
   /**
-   * 动态表单查询
-   */
-  function queryInfo() {
-    (formRef.value?.getFormRef?.() as FormInstance)
-      .validate()
-      .then(res => {
-        console.log(res);
-        onSubmit();
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
-
-  /**
-   * 提交查询
-   */
-  function onSubmit() {
-    onSearch();
-  }
-
-  /**
    * 添加表单数据
    */
-  function addFormInfo() {
-    (addFormRef.value?.getFormRef?.() as FormInstance)
-      .validate()
-      .then(res => {
-        console.log(res);
+  const addFormInfo = async (formEl: FormInstance | undefined) => {
+    if (!formEl) return;
+    await formEl.validate((valid, fields) => {
+      if (valid) {
+        console.log("新增资源");
         addSubmit();
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
+      } else {
+        console.log("error submit!", fields);
+      }
+    });
+  };
   /**
    *  保存添加
    */
@@ -636,11 +439,17 @@ export function useUser() {
   /**
    * 查询重置
    */
-  function resetForm() {
-    (formRef.value.getFormRef() as FormInstance).resetFields();
-    (addFormRef.value.getFormRef() as FormInstance).resetFields();
-    onSearch();
+  function resetForm(formEl) {
+    if (!formEl) return;
+    formEl.resetFields();
   }
+
+  const restartForm = formEl => {
+    if (!formEl) return;
+    formEl.resetFields();
+    cancel();
+    onSearch();
+  };
 
   return {
     formRef,
@@ -660,13 +469,10 @@ export function useUser() {
     roleArry,
     allCheckItem,
     defauleCheckItem,
-    formOptions,
-    addFormOptions,
+    adaptiveConfig,
     setOrgId,
     setOrgIds,
     cancelEvent,
-    onReady,
-    onReadyAdd,
     resetPwd,
     cancel,
     openDia,
@@ -677,8 +483,7 @@ export function useUser() {
     handleSizeChange,
     handleCurrentChange,
     handleSelectionChange,
-    queryInfo,
     addFormInfo,
-    adaptiveConfig
+    restartForm
   };
 }

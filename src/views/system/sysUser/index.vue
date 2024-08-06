@@ -16,7 +16,6 @@ import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
-import { DynamicForm } from "@/components/ReForm/main";
 
 const {
   formRef,
@@ -28,10 +27,15 @@ const {
   pagination,
   buttonClass,
   roleArry,
-  formOptions,
+  sexArray,
+  dialogFormVisible,
+  title,
+  rules,
+  addForm,
+  adaptiveConfig,
+  cancel,
   setOrgId,
   setOrgIds,
-  onReady,
   openDia,
   onSearch,
   handleUpdate,
@@ -40,9 +44,8 @@ const {
   handleCurrentChange,
   handleSelectionChange,
   resetPwd,
-  queryInfo,
-  resetForm,
-  adaptiveConfig
+  restartForm,
+  addFormInfo
 } = useUser();
 
 defineOptions({
@@ -52,6 +55,8 @@ defineOptions({
 onMounted(() => {
   getAllRole();
 });
+
+const addFormRef = ref();
 
 // 获取所有角色列表
 async function getAllRole() {
@@ -73,62 +78,101 @@ async function getAllRole() {
       @setOrgIds="setOrgIds"
     />
     <div class="float-right w-[81%]">
-      <div class="search-top">
-        <DynamicForm
-          ref="formRef"
-          :options="formOptions"
-          :model="queryForm"
-          class="demo-form-inline"
-          @ready="onReady"
-        />
-        <el-button
-          type="primary"
-          :icon="useRenderIcon(Search)"
-          :loading="loading"
-          @click="queryInfo"
-        >
-          搜索
-        </el-button>
-        <el-button :icon="useRenderIcon(Refresh)" @click="resetForm()">
-          重置
-        </el-button>
-      </div>
-      <div class="demo-row" v-show="moreCondition">
+      <el-form
+        ref="formRef"
+        :inline="true"
+        :model="queryForm"
+        class="bg-bg_color w-[99/100] pl-8 pt-4"
+      >
+        <el-form-item label="用户名" prop="realName">
+          <el-input
+            v-model="queryForm.realName"
+            placeholder="请输入用户名"
+            clearable
+            class="!w-[150px]"
+          />
+        </el-form-item>
+
+        <el-form-item label="角色" prop="role">
+          <el-select
+            v-model="queryForm.role"
+            placeholder="请选择角色"
+            style="width: 150px"
+          >
+            <el-option
+              v-for="item in roleArry"
+              :key="item.value"
+              :label="item.text"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="性别" prop="sex">
+          <el-select
+            v-model="queryForm.sex"
+            placeholder="请选择性别"
+            style="width: 150px"
+          >
+            <el-option
+              v-for="item in sexArray"
+              :key="item.value"
+              :label="item.text"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
         <el-collapse-transition>
-          <div>
-            <el-form :inline="true" :model="queryForm" class="demo-form-inline">
-              <el-form-item label="开始时间：" prop="beginTime">
-                <el-date-picker
-                  v-model="queryForm.beginTime"
-                  type="date"
-                  placeholder="请输入开始时间"
-                  class="!w-[200px]"
-                />
-              </el-form-item>
-              <el-form-item label="结束时间：" prop="endTime">
-                <el-date-picker
-                  v-model="queryForm.endTime"
-                  placeholder="请输入结束时间"
-                  type="date"
-                  class="!w-[200px]"
-                />
-              </el-form-item>
-            </el-form>
+          <div v-show="moreCondition">
+            <el-form-item label="开始时间：" prop="beginTime">
+              <el-date-picker
+                v-model="queryForm.beginTime"
+                type="date"
+                placeholder="请输入开始时间"
+                class="!w-[200px]"
+              />
+            </el-form-item>
+            <el-form-item label="结束时间：" prop="endTime">
+              <el-date-picker
+                v-model="queryForm.endTime"
+                placeholder="请输入结束时间"
+                type="date"
+                class="!w-[200px]"
+              />
+            </el-form-item>
           </div>
         </el-collapse-transition>
-      </div>
-      <el-button
-        link
-        class="mc-btn"
-        @click="moreCondition = !moreCondition"
-        :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
-      />
+
+        <el-form-item>
+          <el-button
+            type="primary"
+            :icon="useRenderIcon(Search)"
+            :loading="loading"
+            @click="onSearch"
+          >
+            搜索
+          </el-button>
+          <el-button
+            :icon="useRenderIcon(Refresh)"
+            @click="restartForm(formRef)"
+          >
+            重置
+          </el-button>
+
+          <el-button
+            type="text"
+            @click="moreCondition = !moreCondition"
+            :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
+          />
+        </el-form-item>
+      </el-form>
       <PureTableBar title="用户管理" :columns="columns" @refresh="onSearch">
         <template #buttons>
           <el-button
             type="primary"
             :icon="useRenderIcon(AddFill)"
-            @click="openDia('添加用户')"
+            @click="openDia('添加用户', addFormRef)"
           >
             新增
           </el-button>
@@ -161,7 +205,7 @@ async function getAllRole() {
                 link
                 type="primary"
                 :size="size"
-                @click="handleUpdate(row)"
+                @click="handleUpdate(row, addFormRef)"
                 :icon="useRenderIcon(EditPen)"
               >
                 修改
@@ -208,6 +252,77 @@ async function getAllRole() {
           </pure-table>
         </template>
       </PureTableBar>
+
+      <el-dialog v-model="dialogFormVisible" :title="title" width="60%">
+        <el-form
+          ref="addFormRef"
+          :model="addForm"
+          :inline="true"
+          :rules="rules"
+          label-width="150px"
+        >
+          <el-form-item label="账号" prop="username">
+            <el-input v-model="addForm.username" placeholder="请输入账号" />
+          </el-form-item>
+          <el-form-item label="姓名" prop="realName">
+            <el-input v-model="addForm.realName" placeholder="请输入姓名" />
+          </el-form-item>
+          <el-form-item label="性别" prop="sex">
+            <el-select
+              v-model="addForm.sex"
+              placeholder="请选择性别"
+              style="width: 200px"
+            >
+              <el-option label="男" value="1" />
+              <el-option label="女" value="0" />
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="状态" prop="lockFlag">
+            <el-select
+              v-model="addForm.lockFlag"
+              style="width: 200px"
+              placeholder="请选择状态"
+            >
+              <el-option label="启用" value="1" />
+              <el-option label="禁用" value="0" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="角色" prop="role">
+            <el-select
+              v-model="addForm.role"
+              style="width: 200px"
+              placeholder="请选择角色"
+            >
+              <el-option
+                v-for="item in roleArry"
+                :key="item.value"
+                :label="item.text"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="部门" prop="orgId">
+            <el-input v-model="addForm.orgId" />
+          </el-form-item>
+
+          <el-form-item label="密码" prop="newpassword">
+            <el-input v-model="addForm.newpassword" type="password" />
+          </el-form-item>
+          <el-form-item label="确认密码" prop="newpassword1">
+            <el-input v-model="addForm.newpassword1" type="password" />
+          </el-form-item>
+        </el-form>
+
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="cancel()">取消</el-button>
+            <el-button type="primary" @click="addFormInfo(addFormRef)"
+              >确认</el-button
+            >
+          </span>
+        </template>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -246,11 +361,4 @@ async function getAllRole() {
 .mc-btn:hover {
   background-color: #f2f6fc;
 }
-
-// .el-button:hover {
-//   background: #f2f6fc !important;
-//   color: rgb(54, 77, 223) !important;
-//   font-weight: bold;
-//   border-color: #f2f6fc !important;
-// }
 </style>
