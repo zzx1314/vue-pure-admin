@@ -265,8 +265,10 @@ export function useResource() {
     console.log(`current page: ${val}`);
   }
 
-  function handleSelectionChange(val) {
-    console.log("handleSelectionChange", val);
+  function handleSelectionChange(val: any[]) {
+    console.log("选择资源信息", val);
+    resDataList.value = val;
+    console.log("resDataList", resDataList.value);
   }
   function handleDevSelectionChange(val) {
     console.log("handleSelectionChange", val);
@@ -328,6 +330,16 @@ export function useResource() {
     fileList.value = [];
     onSearch();
   }
+  function cancelPush() {
+    dialogPushVisible.value = false;
+    resDataList.value = [];
+    pushForm.value = {
+      taskName: "",
+      taskType: "",
+      remark: "",
+      configure: ""
+    };
+  }
   // 打开弹框
   function openDia(param, formEl?) {
     dialogFormVisible.value = true;
@@ -342,9 +354,12 @@ export function useResource() {
   }
 
   function openPushDia(formEl?) {
-    dialogPushVisible.value = true;
     resetForm(formEl);
-    resDataList.value = ["资源1", "资源2", "资源3"];
+    if (resDataList.value.length === 0) {
+      message("请先选择资源！", { type: "warning" });
+      return;
+    }
+    dialogPushVisible.value = true;
   }
 
   function openUpdateDia(param) {
@@ -433,6 +448,7 @@ export function useResource() {
     handleSelectionChange,
     handleDevSelectionChange,
     cancel,
+    cancelPush,
     openDia,
     openPushDia,
     restartForm,

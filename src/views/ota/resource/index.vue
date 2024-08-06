@@ -61,6 +61,7 @@ const {
   downPush,
   active,
   cancel,
+  cancelPush,
   openDia,
   openPushDia,
   onSearch,
@@ -768,7 +769,11 @@ const backoff = () => {
             :key="index"
             type="success"
           >
-            {{ item }}</el-tag
+            {{
+              item.type === "操作系统"
+                ? item.softwareName + "_" + item.softwareVersion
+                : item.pkgName + "_" + item.version
+            }}</el-tag
           >
         </div>
         <PureTableBar title="下发设备列表" @refresh="onSearch">
@@ -799,7 +804,7 @@ const backoff = () => {
 
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="cancel()">取消</el-button>
+          <el-button @click="cancelPush()">取消</el-button>
           <el-button
             type="primary"
             @click="netStep(pushFormRef)"
