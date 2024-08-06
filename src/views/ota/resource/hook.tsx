@@ -31,6 +31,13 @@ export function useResource() {
     currentPage: 1,
     background: true
   });
+
+  const paginationDev = reactive<PaginationProps>({
+    total: 0,
+    pageSize: 10,
+    currentPage: 1,
+    background: true
+  });
   const addForm = reactive({
     value: {
       id: null,
@@ -420,6 +427,7 @@ export function useResource() {
     dialogPushVisible,
     title,
     pagination,
+    paginationDev,
     addForm,
     pushForm,
     rules,

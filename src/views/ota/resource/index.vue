@@ -43,6 +43,7 @@ const {
   devDataList,
   devClumns,
   pagination,
+  paginationDev,
   dialogFormVisible,
   dialogPushVisible,
   title,
@@ -788,7 +789,7 @@ const backoff = () => {
               :data="devDataList"
               :columns="devClumns"
               :checkList="checkList"
-              :pagination="pagination"
+              :pagination="paginationDev"
               :paginationSmall="size === 'small'"
               :header-cell-style="{
                 background: 'var(--el-table-row-hover-bg-color)',
