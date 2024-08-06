@@ -130,7 +130,7 @@ async function getAllRole() {
                 v-model="queryForm.beginTime"
                 type="date"
                 placeholder="请输入开始时间"
-                class="!w-[200px]"
+                class="!w-[180px]"
               />
             </el-form-item>
             <el-form-item label="结束时间：" prop="endTime">
@@ -138,7 +138,7 @@ async function getAllRole() {
                 v-model="queryForm.endTime"
                 placeholder="请输入结束时间"
                 type="date"
-                class="!w-[200px]"
+                class="!w-[180px]"
               />
             </el-form-item>
           </div>
