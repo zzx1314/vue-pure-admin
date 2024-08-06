@@ -61,8 +61,8 @@ export function useResource() {
       taskType: "",
       remark: "",
       clientRestart: "",
-      deviceIds: [],
-      resourceIds: []
+      devInfos: [],
+      resInfos: []
     }
   });
   const rules = reactive<FormRules>({
@@ -351,8 +351,8 @@ export function useResource() {
       taskType: "",
       remark: "",
       clientRestart: "",
-      deviceIds: [],
-      resourceIds: []
+      devInfos: [],
+      resInfos: []
     };
     const { clearSelection } = tableRef.getTableRef();
     clearSelection();

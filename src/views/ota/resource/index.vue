@@ -23,7 +23,7 @@ import cutFile from "@/lib/cutFile";
 import { MerkleTree } from "@/lib/MerkleTree";
 import { checkFileByMd5, initMultPartFile, mergeFileByMd5 } from "@/api/system";
 import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
-import { resSave, resUpdate } from "@/api/otaRes";
+import { resPush, resSave, resUpdate } from "@/api/otaRes";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 
@@ -386,6 +386,26 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       }
     } else {
       console.log("error submit!", fields);
+    }
+  });
+};
+
+const submitPushForm = () => {
+  console.log("推送任务");
+  if (devSecDataList.value.length === 0) {
+    message("请选择设备", { type: "error" });
+    return;
+  }
+  const param = { ...pushForm };
+  param.value.devInfos = devSecDataList.value;
+  param.value.resInfos = resDataList.value;
+  console.log(param);
+  resPush(param.value).then(res => {
+    if (res.code === SUCCESS) {
+      message("推送成功！", { type: "success" });
+      cancelPush(tableRef);
+    } else {
+      message(res.msg, { type: "error" });
     }
   });
 };
@@ -824,10 +844,7 @@ const backoff = () => {
           <el-button type="primary" @click="backoff" v-if="active == 2"
             >上一步</el-button
           >
-          <el-button
-            type="primary"
-            @click="submitForm(addFormRef)"
-            v-if="active == 2"
+          <el-button type="primary" @click="submitPushForm" v-if="active == 2"
             >确认</el-button
           >
         </span>

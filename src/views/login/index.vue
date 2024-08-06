@@ -33,6 +33,7 @@ import dayIcon from "@/assets/svg/day.svg?component";
 import darkIcon from "@/assets/svg/dark.svg?component";
 import Lock from "@iconify-icons/ri/lock-fill";
 import User from "@iconify-icons/ri/user-3-fill";
+import key from "@iconify-icons/ri/shield-keyhole-line";
 
 defineOptions({
   name: "Login"
@@ -174,7 +175,7 @@ watch(imgCode, value => {
                   clearable
                   v-model="ruleForm.verifyCode"
                   :placeholder="t('login.verifyCode')"
-                  :prefix-icon="useRenderIcon('ri:shield-keyhole-line')"
+                  :prefix-icon="useRenderIcon(key)"
                 >
                   <template v-slot:append>
                     <ReImageVerify v-model:code="imgCode" />

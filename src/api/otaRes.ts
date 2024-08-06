@@ -42,7 +42,7 @@ export const resDelete = (param?: object) => {
 };
 // 资源推送
 export const resPush = (param?: object) => {
-  return http.axiosPost<Result>(otaBusResourceUrls.push, param);
+  return http.axiosPostRequest<Result>(otaBusResourceUrls.push, param);
 };
 
 // 查询资源集合
