@@ -45,6 +45,15 @@ export function useResource() {
       remark: ""
     }
   });
+
+  const pushForm = reactive({
+    value: {
+      taskName: "",
+      taskType: "",
+      remark: "",
+      configure: ""
+    }
+  });
   const rules = reactive<FormRules>({
     softwareName: [
       { required: true, message: "操作系统名称必填", trigger: "blur" }
@@ -58,6 +67,12 @@ export function useResource() {
     parentId: [
       { required: true, message: "所属操作系统必填", trigger: "change" }
     ]
+  });
+
+  const pushRules = reactive<FormRules>({
+    taskName: [{ required: true, message: "任务名称必填", trigger: "blur" }],
+    taskType: [{ required: true, message: "任务类型必填", trigger: "blur" }],
+    configure: [{ required: true, message: "配置必填", trigger: "change" }]
   });
   const fileList = ref<UploadUserFile[]>();
   const addType = ref("");
@@ -391,7 +406,9 @@ export function useResource() {
     title,
     pagination,
     addForm,
+    pushForm,
     rules,
+    pushRules,
     columns,
     buttonClass,
     addType,

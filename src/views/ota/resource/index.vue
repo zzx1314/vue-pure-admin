@@ -47,7 +47,9 @@ const {
   dialogPushVisible,
   title,
   addForm,
+  pushForm,
   rules,
+  pushRules,
   addType,
   updateType,
   moreCondition,
@@ -386,6 +388,27 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
   console.log("上传文件前。。", uploadFile, uploadFiles);
   uploadFileTemp.value = uploadFile;
 };
+
+// 下一步
+const netStep = async (formEl: FormInstance | undefined) => {
+  console.log("下一步");
+  if (!formEl) return;
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      console.log(addForm.value);
+      active.value = 2;
+      downPush.value = true;
+    } else {
+      console.log("error submit!", fields);
+    }
+  });
+};
+// 后退
+const backoff = () => {
+  console.log("后退");
+  active.value = 1;
+  downPush.value = false;
+};
 </script>
 <template>
   <div class="main">
@@ -707,33 +730,34 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
       </div>
       <el-form
         ref="pushFormRef"
-        :model="addForm.value"
-        :rules="rules"
+        :model="pushForm.value"
+        :rules="pushRules"
         label-width="150px"
+        v-show="!downPush"
       >
-        <el-form-item label="任务名称" prop="softwareName">
+        <el-form-item label="任务名称" prop="taskName">
           <el-input
-            v-model="addForm.value.softwareName"
+            v-model="pushForm.value.taskName"
             placeholder="请输入任务名称"
           />
         </el-form-item>
 
-        <el-form-item label="任务类型" prop="softwareVersion">
+        <el-form-item label="任务类型" prop="taskType">
           <el-input
-            v-model="addForm.value.softwareVersion"
+            v-model="pushForm.value.taskType"
             placeholder="请输入任务类型"
           />
         </el-form-item>
 
-        <el-form-item label="升级配置" prop="pkgName">
+        <el-form-item label="升级配置" prop="configure">
           <el-input
-            v-model="addForm.value.pkgName"
-            placeholder="请输入模块包名称"
+            v-model="pushForm.value.configure"
+            placeholder="请输入升级配置"
           />
         </el-form-item>
 
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="addForm.value.remark" placeholder="请输入备注" />
+          <el-input v-model="pushForm.value.remark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <div v-show="downPush">
@@ -778,14 +802,11 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
           <el-button @click="cancel()">取消</el-button>
           <el-button
             type="primary"
-            @click="submitForm(addFormRef)"
+            @click="netStep(pushFormRef)"
             v-if="active == 1"
             >下一步</el-button
           >
-          <el-button
-            type="primary"
-            @click="submitForm(addFormRef)"
-            v-if="active == 2"
+          <el-button type="primary" @click="backoff" v-if="active == 2"
             >上一步</el-button
           >
           <el-button
