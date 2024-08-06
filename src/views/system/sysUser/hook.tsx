@@ -13,10 +13,6 @@ import { FormInstance, FormRules } from "element-plus";
 import { SUCCESS } from "@/api/base";
 
 export function useUser() {
-  // 查询动态form
-  const formRef = ref();
-  // 添加动态form
-  const addFormRef = ref();
   // 更多查询条件
   const moreCondition = ref(false);
   // 性别
@@ -452,7 +448,6 @@ export function useUser() {
   };
 
   return {
-    formRef,
     moreCondition,
     sexArray,
     queryForm,
@@ -463,7 +458,6 @@ export function useUser() {
     buttonClass,
     dialogFormVisible,
     addForm,
-    addFormRef,
     title,
     rules,
     roleArry,
