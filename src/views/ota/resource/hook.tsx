@@ -60,7 +60,7 @@ export function useResource() {
       taskName: "",
       taskType: "",
       remark: "",
-      configure: "",
+      clientRestart: "",
       deviceIds: [],
       resourceIds: []
     }
@@ -83,7 +83,7 @@ export function useResource() {
   const pushRules = reactive<FormRules>({
     taskName: [{ required: true, message: "任务名称必填", trigger: "blur" }],
     taskType: [{ required: true, message: "任务类型必填", trigger: "blur" }],
-    configure: [{ required: true, message: "配置必填", trigger: "change" }]
+    clientRestart: [{ required: true, message: "配置必填", trigger: "change" }]
   });
   const fileList = ref<UploadUserFile[]>();
   const addType = ref("");
@@ -350,12 +350,14 @@ export function useResource() {
       taskName: "",
       taskType: "",
       remark: "",
-      configure: "",
+      clientRestart: "",
       deviceIds: [],
       resourceIds: []
     };
     const { clearSelection } = tableRef.getTableRef();
     clearSelection();
+    active.value = 1;
+    downPush.value = false;
   }
   // 打开弹框
   function openDia(param, formEl?) {

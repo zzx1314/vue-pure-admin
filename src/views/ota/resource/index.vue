@@ -82,6 +82,7 @@ const {
 const uploadRef = ref<UploadInstance>(null);
 const uploadFileTemp = ref<UploadFile>(null);
 const tableRef = ref();
+const tableRefDev = ref();
 
 const limit = pLimit(3);
 const HttpCodeUploadEnum = {
@@ -754,11 +755,11 @@ const backoff = () => {
           />
         </el-form-item>
 
-        <el-form-item label="升级配置" prop="configure">
-          <el-input
-            v-model="pushForm.value.configure"
-            placeholder="请输入升级配置"
-          />
+        <el-form-item label="自动重启" prop="clientRestart">
+          <el-radio-group v-model="pushForm.value.clientRestart">
+            <el-radio label="是">是</el-radio>
+            <el-radio label="否">否</el-radio>
+          </el-radio-group>
         </el-form-item>
 
         <el-form-item label="备注" prop="remark">
@@ -788,6 +789,7 @@ const backoff = () => {
           <template v-slot="{ size, checkList }">
             <pure-table
               border
+              ref="tableRefDev"
               align-whole="center"
               showOverflowTooltip
               table-layout="auto"
