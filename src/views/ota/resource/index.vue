@@ -59,6 +59,7 @@ const {
   fileList,
   typeOption,
   resDataList,
+  devSecDataList,
   downPush,
   active,
   cancel,
@@ -80,6 +81,7 @@ const {
 
 const uploadRef = ref<UploadInstance>(null);
 const uploadFileTemp = ref<UploadFile>(null);
+const tableRef = ref();
 
 const limit = pLimit(3);
 const HttpCodeUploadEnum = {
@@ -534,6 +536,7 @@ const backoff = () => {
       <template v-slot="{ size, checkList }">
         <pure-table
           border
+          ref="tableRef"
           align-whole="center"
           showOverflowTooltip
           table-layout="auto"
@@ -764,7 +767,7 @@ const backoff = () => {
       </el-form>
       <div v-show="downPush">
         <div class="flex gap-2">
-          <p style="font-weight: bold">资源信息:</p>
+          <p style="font-weight: bold">所选资源:</p>
           <el-tag
             v-for="(item, index) in resDataList"
             :key="index"
@@ -775,6 +778,10 @@ const backoff = () => {
                 ? item.softwareName + "_" + item.softwareVersion
                 : item.pkgName + "_" + item.version
             }}</el-tag
+          >
+          <p style="font-weight: bold">所选设备:</p>
+          <el-tag v-for="(item, index) in devSecDataList" :key="index">
+            {{ item.devId }}</el-tag
           >
         </div>
         <PureTableBar title="下发设备列表" @refresh="onSearch">
@@ -805,7 +812,7 @@ const backoff = () => {
 
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="cancelPush()">取消</el-button>
+          <el-button @click="cancelPush(tableRef)">取消</el-button>
           <el-button
             type="primary"
             @click="netStep(pushFormRef)"

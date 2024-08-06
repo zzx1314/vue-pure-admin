@@ -7,6 +7,7 @@ import { message } from "@/utils/message";
 import { CHUNK_SIZE } from "@/constants";
 import { chunkDownloadFile } from "@/api/system";
 import { downloadFileByBlob } from "@/lib/fileUtil";
+import { devPage } from "@/api/otaDev";
 
 export function useResource() {
   // ----变量定义-----
@@ -24,6 +25,7 @@ export function useResource() {
   const dialogFormVisible = ref(false);
   const dialogPushVisible = ref(false);
   const resDataList = ref([]);
+  const devSecDataList = ref([]);
   const title = ref("");
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -58,7 +60,9 @@ export function useResource() {
       taskName: "",
       taskType: "",
       remark: "",
-      configure: ""
+      configure: "",
+      deviceIds: [],
+      resourceIds: []
     }
   });
   const rules = reactive<FormRules>({
@@ -204,7 +208,7 @@ export function useResource() {
     },
     {
       label: "设备Id",
-      prop: "otaDevId",
+      prop: "devId",
       minWidth: 100
     },
     {
@@ -214,12 +218,12 @@ export function useResource() {
     },
     {
       label: "类型",
-      prop: "status",
+      prop: "type",
       minWidth: 100
     },
     {
       label: "组别",
-      prop: "status",
+      prop: "devGroup",
       minWidth: 100
     }
   ];
@@ -277,8 +281,10 @@ export function useResource() {
     resDataList.value = val;
     console.log("resDataList", resDataList.value);
   }
-  function handleDevSelectionChange(val) {
-    console.log("handleSelectionChange", val);
+  function handleDevSelectionChange(val: any[]) {
+    console.log("设备信息", val);
+    devSecDataList.value = val;
+    console.log("devSecDataList", devSecDataList.value);
   }
   // 查询
   async function onSearch() {
@@ -337,15 +343,19 @@ export function useResource() {
     fileList.value = [];
     onSearch();
   }
-  function cancelPush() {
+  function cancelPush(tableRef) {
     dialogPushVisible.value = false;
     resDataList.value = [];
     pushForm.value = {
       taskName: "",
       taskType: "",
       remark: "",
-      configure: ""
+      configure: "",
+      deviceIds: [],
+      resourceIds: []
     };
+    const { clearSelection } = tableRef.getTableRef();
+    clearSelection();
   }
   // 打开弹框
   function openDia(param, formEl?) {
@@ -360,12 +370,16 @@ export function useResource() {
     console.log(addType.value);
   }
 
-  function openPushDia(formEl?) {
+  async function openPushDia(formEl?) {
     resetForm(formEl);
     if (resDataList.value.length === 0) {
       message("请先选择资源！", { type: "warning" });
       return;
     }
+    // 查询设备信息
+    const { data } = await devPage();
+    devDataList.value = data.records;
+    paginationDev.total = data.total;
     dialogPushVisible.value = true;
   }
 
@@ -443,6 +457,7 @@ export function useResource() {
     typeOption,
     devClumns,
     resDataList,
+    devSecDataList,
     downPush,
     active,
     onSearch,
