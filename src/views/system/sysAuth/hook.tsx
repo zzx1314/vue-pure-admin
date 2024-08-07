@@ -25,11 +25,11 @@ export function sysAuth() {
     },
     {
       code: "101",
-      label: "安全管理员"
+      label: "设备管理员"
     },
     {
-      code: "000",
-      label: "普通人员"
+      code: "011",
+      label: "发布人员"
     }
   ];
 
