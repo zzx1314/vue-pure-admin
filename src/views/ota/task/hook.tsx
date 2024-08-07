@@ -180,7 +180,9 @@ export function useTask() {
   }
 
   function handleDevSizeChange(val: number) {
-    console.log(`${val} items per page`);
+    console.log(`current page: ${val}`);
+    pagination.currentPage = val;
+    onSearch();
   }
 
   function handleCurrentChange(val: number) {
@@ -202,7 +204,15 @@ export function useTask() {
   async function onSearch() {
     loading.value = true;
     console.log("查询信息");
-    const { data } = await taskPage(queryForm);
+    const page = {
+      size: pagination.pageSize,
+      current: pagination.currentPage
+    };
+    const query = {
+      ...page,
+      ...queryForm
+    };
+    const { data } = await taskPage(query);
     dataList.value = data.records;
     pagination.total = data.total;
     setTimeout(() => {

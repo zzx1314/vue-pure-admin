@@ -270,6 +270,8 @@ export function useResource() {
 
   function handleCurrentChange(val: number) {
     console.log(`current page: ${val}`);
+    pagination.currentPage = val;
+    onSearch();
   }
 
   function handleDevCurrentChange(val: number) {
@@ -290,7 +292,15 @@ export function useResource() {
   async function onSearch() {
     loading.value = true;
     console.log("查询资源信息");
-    const { data } = await resPage(queryForm);
+    const page = {
+      size: pagination.pageSize,
+      current: pagination.currentPage
+    };
+    const query = {
+      ...page,
+      ...queryForm
+    };
+    const { data } = await resPage(query);
     dataList.value = data.records;
     pagination.total = data.total;
     setTimeout(() => {
