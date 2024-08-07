@@ -240,6 +240,7 @@ export function useMenu() {
     loading.value = true;
     const { data } = await menuPage(searchForm);
     dataList.value = handleTree(data);
+    console.log("查询结果", dataList.value);
     setTimeout(() => {
       loading.value = false;
     }, 500);

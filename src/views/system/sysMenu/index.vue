@@ -111,12 +111,16 @@ const {
         :rules="rules"
         label-width="100px"
       >
-        <el-form-item label="名称" prop="name">
+        <el-form-item label="菜单名称" prop="name">
           <el-input v-model="addForm.value.name" placeholder="请输入菜单名称" />
         </el-form-item>
 
         <el-form-item label="类型" prop="type">
-          <el-select v-model="addForm.value.type" placeholder="请选择类型">
+          <el-select
+            v-model="addForm.value.type"
+            placeholder="请选择类型"
+            style="width: 200px"
+          >
             <el-option
               v-for="item in options"
               :key="item.type"
@@ -156,6 +160,7 @@ const {
             filterable
             check-strictly
             :render-after-expand="false"
+            style="width: 200px"
           />
         </el-form-item>
 
@@ -171,7 +176,12 @@ const {
         </el-form-item>
 
         <el-form-item label="排序" prop="sort">
-          <el-input-number v-model="addForm.value.sort" :min="1" :max="10" />
+          <el-input-number
+            v-model="addForm.value.sort"
+            :min="1"
+            :max="10"
+            style="width: 200px"
+          />
         </el-form-item>
 
         <el-form-item
