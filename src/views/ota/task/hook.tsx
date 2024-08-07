@@ -115,7 +115,7 @@ export function useTask() {
       minWidth: 100,
       prop: "status",
       cellRenderer: ({ row }) => (
-        <el-tag type={row.status === "完成" ? "success" : "info"}>
+        <el-tag type={row.status === "完成" ? "success" : "primary"}>
           {row.status}
         </el-tag>
       )
