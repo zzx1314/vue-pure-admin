@@ -189,10 +189,24 @@ const {
           prop="leaf"
           v-if="addForm.value.type !== 4"
         >
-          <el-radio-group v-model="addForm.value.leaf">
+          <el-radio-group v-model="addForm.value.leaf" style="width: 200px">
             <el-radio :label="1">是</el-radio>
             <el-radio :label="0">不是</el-radio>
           </el-radio-group>
+        </el-form-item>
+
+        <el-form-item label="所属角色" prop="roleCodeList">
+          <el-select
+            multiple
+            v-model="addForm.value.roleCodeList"
+            placeholder="所属角色"
+            clearable
+            style="width: 200px"
+          >
+            <el-option label="系统管理员" value="110" />
+            <el-option label="设备管理员" value="101" />
+            <el-option label="发布管理员" value="011" />
+          </el-select>
         </el-form-item>
       </el-form>
       <template #footer>
