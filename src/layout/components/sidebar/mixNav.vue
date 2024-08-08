@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import extraIcon from "./extraIcon.vue";
 import Search from "../search/index.vue";
-import Notice from "../notice/index.vue";
 import { isAllEmpty } from "@pureadmin/utils";
 import { useNav } from "@/layout/hooks/useNav";
 import { transformI18n } from "@/plugins/i18n";
@@ -85,7 +84,7 @@ watch(
       <!-- 菜单搜索 -->
       <Search />
       <!-- 通知 -->
-      <Notice id="header-notice" />
+      <!-- <Notice id="header-notice" />-->
       <!-- 退出登录 -->
       <el-dropdown trigger="click">
         <span class="el-dropdown-link navbar-bg-hover select-none">

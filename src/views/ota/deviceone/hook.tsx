@@ -169,6 +169,8 @@ export function useDevice() {
 
   function handleCurrentChange(val: number) {
     console.log(`current page: ${val}`);
+    pagination.currentPage = val;
+    onSearch();
   }
 
   function handleSelectionChange(val) {
@@ -178,7 +180,15 @@ export function useDevice() {
   async function onSearch() {
     loading.value = true;
     console.log("查询资源信息");
-    const { data } = await devPage(queryForm);
+    const page = {
+      size: pagination.pageSize,
+      current: pagination.currentPage
+    };
+    const query = {
+      ...page,
+      ...queryForm
+    };
+    const { data } = await devPage(query);
     dataList.value = data.records;
     pagination.total = data.total;
     setTimeout(() => {

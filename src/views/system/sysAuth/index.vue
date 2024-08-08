@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import splitpane, { ContextProps } from "@/components/ReSplitPane";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { sysAuth } from "./hook";
 
 const {
@@ -10,9 +10,10 @@ const {
   options,
   sysMenuTitleVoData,
   activeNames,
-  handleNodeClick,
+  currentRoleCode,
   handleCheckAllChange,
-  setCheck
+  setCheck,
+  getAuthAll
 } = sysAuth();
 
 defineOptions({
@@ -24,6 +25,26 @@ const settingLR: ContextProps = reactive({
   defaultPercent: 30,
   split: "vertical"
 });
+
+const treeRef = ref(null);
+
+interface SysRoleType {
+  id: number;
+  code: string;
+  label: string;
+  children?: SysRoleType[];
+}
+
+/** 点击角色 */
+const handleNodeClick = (data: SysRoleType) => {
+  console.log(data.code);
+  getAuthAll(data.code);
+  currentRoleCode.value = data.code;
+
+  const currentId = data.id;
+  // 清除其他所有节点的选择状态
+  treeRef.value.setCheckedKeys([currentId]);
+};
 </script>
 
 <template>
@@ -45,8 +66,11 @@ const settingLR: ContextProps = reactive({
                   <span>角色权限</span>
                 </template>
                 <el-tree
+                  ref="treeRef"
+                  node-key="id"
                   :data="roleData"
                   :props="defaultProps"
+                  show-checkbox
                   @node-click="handleNodeClick"
                 />
               </el-card>

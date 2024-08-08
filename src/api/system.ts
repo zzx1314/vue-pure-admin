@@ -50,7 +50,8 @@ const menuUrls = {
 const authUrls = {
   getMenuData: `/api/upms/sysAuth/getMenuData/`,
   getRoleData: `/api/upms/sysAuth/getRoleData`,
-  setRoleAuth: `/api/upms/sysAuth/setRoleAuth`
+  setRoleAuth: `/api/upms/sysAuth/setRoleAuth`,
+  setMenuAuth: `/api/upms/sysAuth/setMenuAuth`
 };
 
 const fileUploadUrls = {
@@ -242,4 +243,9 @@ export const getRoleData = (data?: object) => {
 /**设置角色权限 */
 export const setRoleAuth = (param?: object) => {
   return http.axiosPostRequest<Result>(authUrls.setRoleAuth, param);
+};
+
+/**设置菜单权限 */
+export const setMenuAuth = (param?: object) => {
+  return http.axiosPostRequest<Result>(authUrls.setMenuAuth, param);
 };

@@ -54,7 +54,7 @@ const filterNode = (value: string, data: Tree) => {
   return data.name.includes(value);
 };
 
-const emit = defineEmits(["updatePage", "setOrgId", "setOrgIds"]);
+const emit = defineEmits(["updatePage", "setOrgId", "setOrgIds", "setOrgName"]);
 
 /** 点击节点 */
 function nodeClick(value) {
@@ -80,6 +80,7 @@ function nodeClick(value) {
   emit("setOrgIds", resultId);
 
   emit("setOrgId", value.id);
+  emit("setOrgName", value.name);
 }
 
 function toggleRowExpansionAll(status) {
@@ -119,6 +120,7 @@ onMounted(() => {
       getOrgIds(treeData.value[0].id, treeData.value, resultId);
       emit("setOrgIds", resultId);
       emit("setOrgId", treeData.value[0].id);
+      emit("setOrgName", treeData.value[0].name);
     }
   });
 });

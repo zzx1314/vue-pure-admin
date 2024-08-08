@@ -111,12 +111,16 @@ const {
         :rules="rules"
         label-width="100px"
       >
-        <el-form-item label="名称" prop="name">
+        <el-form-item label="菜单名称" prop="name">
           <el-input v-model="addForm.value.name" placeholder="请输入菜单名称" />
         </el-form-item>
 
         <el-form-item label="类型" prop="type">
-          <el-select v-model="addForm.value.type" placeholder="请选择类型">
+          <el-select
+            v-model="addForm.value.type"
+            placeholder="请选择类型"
+            style="width: 200px"
+          >
             <el-option
               v-for="item in options"
               :key="item.type"
@@ -156,6 +160,7 @@ const {
             filterable
             check-strictly
             :render-after-expand="false"
+            style="width: 200px"
           />
         </el-form-item>
 
@@ -171,7 +176,12 @@ const {
         </el-form-item>
 
         <el-form-item label="排序" prop="sort">
-          <el-input-number v-model="addForm.value.sort" :min="1" :max="10" />
+          <el-input-number
+            v-model="addForm.value.sort"
+            :min="1"
+            :max="10"
+            style="width: 200px"
+          />
         </el-form-item>
 
         <el-form-item
@@ -179,10 +189,24 @@ const {
           prop="leaf"
           v-if="addForm.value.type !== 4"
         >
-          <el-radio-group v-model="addForm.value.leaf">
+          <el-radio-group v-model="addForm.value.leaf" style="width: 200px">
             <el-radio :label="1">是</el-radio>
             <el-radio :label="0">不是</el-radio>
           </el-radio-group>
+        </el-form-item>
+
+        <el-form-item label="所属角色" prop="roleCodeList">
+          <el-select
+            multiple
+            v-model="addForm.value.roleCodeList"
+            placeholder="所属角色"
+            clearable
+            style="width: 200px"
+          >
+            <el-option label="系统管理员" value="110" />
+            <el-option label="设备管理员" value="101" />
+            <el-option label="发布管理员" value="011" />
+          </el-select>
         </el-form-item>
       </el-form>
       <template #footer>

@@ -23,7 +23,7 @@ const { setOptions, getInstance, resize } = useECharts(
 
 const xData = (() => {
   const data: any[] = [];
-  for (let i = 1; i < 31; i++) {
+  for (let i = 1; i < 13; i++) {
     data.push(`${i}日`);
   }
   return data;
@@ -44,7 +44,7 @@ setOptions(
     legend: {
       //@ts-expect-error
       right: true,
-      data: ["fork", "star"]
+      data: ["设备数"]
     },
     calculable: true,
     xAxis: [
@@ -83,34 +83,7 @@ setOptions(
     ],
     series: [
       {
-        name: "fork",
-        type: "line",
-        symbolSize: 10,
-        symbol: "circle",
-        color: "#f56c6c",
-        markPoint: {
-          label: {
-            color: "#fff"
-          },
-          data: [
-            {
-              type: "max",
-              name: "最大值"
-            },
-            {
-              type: "min",
-              name: "最小值"
-            }
-          ]
-        },
-        data: [
-          509, 917, 2455, 2610, 2719, 3033, 3044, 3085, 2708, 2809, 2117, 2000,
-          1455, 1210, 719, 733, 944, 2285, 2208, 3372, 3936, 3693, 2962, 2810,
-          3519, 2455, 2610, 2719, 2484, 2078
-        ]
-      },
-      {
-        name: "star",
+        name: "设备数",
         type: "line",
         symbolSize: 10,
         symbol: "circle",
@@ -130,11 +103,7 @@ setOptions(
             }
           ]
         },
-        data: [
-          2136, 3693, 2962, 3810, 3519, 3484, 3915, 3823, 3455, 4310, 4019,
-          3433, 3544, 3885, 4208, 3372, 3484, 3915, 3748, 3675, 4009, 4433,
-          3544, 3285, 4208, 3372, 3484, 3915, 3823, 4265, 4298
-        ]
+        data: [50, 60, 70, 80, 50, 20, 30, 15, 69, 90, 70, 100]
       }
     ],
     addTooltip: true
