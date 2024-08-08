@@ -4,6 +4,7 @@ import { getMenuData, setMenuAuth } from "@/api/system";
 
 export function sysAuth() {
   interface SysRoleType {
+    id: number;
     code: string;
     label: string;
     children?: SysRoleType[];
@@ -20,16 +21,21 @@ export function sysAuth() {
 
   const currentRoleCode = ref("");
 
+  const defaultCheckedKeys = ref([]);
+
   const roleData: SysRoleType[] = [
     {
+      id: 1,
       code: "110",
       label: "系统管理员"
     },
     {
+      id: 2,
       code: "101",
       label: "设备管理员"
     },
     {
+      id: 3,
       code: "011",
       label: "发布人员"
     }
@@ -47,13 +53,6 @@ export function sysAuth() {
       label: "权限2"
     }
   ];
-
-  /** 点击角色 */
-  const handleNodeClick = (data: SysRoleType) => {
-    console.log(data.code);
-    getAuthAll(data.code);
-    currentRoleCode.value = data.code;
-  };
 
   /** 点击全部 */
   const handleCheckAllChange = (id: number, val: boolean) => {
@@ -113,8 +112,10 @@ export function sysAuth() {
     value,
     options,
     activeNames,
-    handleNodeClick,
+    defaultCheckedKeys,
+    currentRoleCode,
     handleCheckAllChange,
-    setCheck
+    setCheck,
+    getAuthAll
   };
 }
