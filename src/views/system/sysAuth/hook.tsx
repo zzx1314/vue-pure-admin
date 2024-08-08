@@ -1,6 +1,6 @@
 import { ref } from "vue";
 // @ts-ignore
-import { getMenuData } from "@/api/system";
+import { getMenuData, setMenuAuth } from "@/api/system";
 
 export function sysAuth() {
   interface SysRoleType {
@@ -17,6 +17,8 @@ export function sysAuth() {
   const sysMenuTitleVoData = ref([]);
 
   const activeNames = ref([]);
+
+  const currentRoleCode = ref("");
 
   const roleData: SysRoleType[] = [
     {
@@ -50,6 +52,7 @@ export function sysAuth() {
   const handleNodeClick = (data: SysRoleType) => {
     console.log(data.code);
     getAuthAll(data.code);
+    currentRoleCode.value = data.code;
   };
 
   /** 点击全部 */
@@ -65,6 +68,13 @@ export function sysAuth() {
       }
       allUse.push(...val.useAuthList);
     }
+    const params = {
+      roleCode: currentRoleCode.value,
+      authList: allUse
+    };
+    setMenuAuth(params).then(res => {
+      console.log(res);
+    });
     console.log("useAuth", allUse);
   };
 
@@ -79,7 +89,13 @@ export function sysAuth() {
       }
       allUse.push(...val.useAuthList);
     }
-
+    const params = {
+      roleCode: currentRoleCode.value,
+      authList: allUse
+    };
+    setMenuAuth(params).then(res => {
+      console.log(res);
+    });
     console.log("useAuth", allUse);
   };
 
