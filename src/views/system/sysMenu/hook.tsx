@@ -1,6 +1,6 @@
 import { message } from "@/utils/message";
 import { handleTree } from "@/utils/tree";
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, onMounted, h } from "vue";
 import {
   menuPage,
   saveSysMenu,
@@ -9,6 +9,7 @@ import {
 } from "@/api/system";
 import { FormInstance, FormRules } from "element-plus";
 import { SUCCESS } from "@/api/base";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
 export function useMenu() {
   const addForm = reactive({
@@ -59,7 +60,17 @@ export function useMenu() {
       label: "名称",
       prop: "name",
       width: 180,
-      align: "left"
+      align: "left",
+      cellRenderer: ({ row }) => (
+        <>
+          <span class="inline-block mr-1">
+            {h(useRenderIcon(row.icon), {
+              style: { paddingTop: "1px" }
+            })}
+          </span>
+          <span>{row.name}</span>
+        </>
+      )
     },
     {
       label: "类型",
@@ -86,8 +97,16 @@ export function useMenu() {
     {
       label: "图标",
       prop: "icon",
-      width: 180,
-      align: "left"
+      width: 100,
+      cellRenderer: ({ row }) => (
+        <>
+          <span class="inline-block mr-1">
+            {h(useRenderIcon(row.icon), {
+              style: { paddingTop: "1px" }
+            })}
+          </span>
+        </>
+      )
     },
     {
       label: "角色编码",
