@@ -87,6 +87,7 @@
     "qs": "^6.12.2",
     "responsive-storage": "^2.2.0",
     "sortablejs": "^1.15.2",
+    "spark-md5": "^3.0.2",
     "swiper": "^11.1.4",
     "typeit": "^8.8.3",
     "v-contextmenu": "^3.2.0",
