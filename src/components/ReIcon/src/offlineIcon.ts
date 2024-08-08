@@ -68,3 +68,13 @@ addIcon("ri:history-fill", OperationLog);
 addIcon("ri:information-line", InformationLine);
 addIcon("ri:terminal-window-line", TerminalWindowLine);
 addIcon("ri:checkbox-circle-line", CheckboxCircleLine);
+
+import Device from "@iconify-icons/tdesign/system-device";
+import DeviceOne from "@iconify-icons/tdesign/device";
+import Resource from "@iconify-icons/mdi/resource-description-framework";
+import Task from "@iconify-icons/tdesign/task";
+
+addIcon("device", Device);
+addIcon("deviceOne", DeviceOne);
+addIcon("resource", Resource);
+addIcon("task", Task);
