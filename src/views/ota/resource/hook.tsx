@@ -8,6 +8,7 @@ import { CHUNK_SIZE } from "@/constants";
 import { chunkDownloadFile } from "@/api/system";
 import { downloadFileByBlob } from "@/lib/fileUtil";
 import { devPage } from "@/api/otaDev";
+import { ElLoading } from "element-plus";
 
 export function useResource() {
   // ----变量定义-----
@@ -414,6 +415,11 @@ export function useResource() {
     blobRef: new Map<number, BlobPart[]>()
   });
   async function handleDown(record) {
+    const loading = ElLoading.service({
+      lock: true,
+      text: "下载中",
+      background: "rgba(0, 0, 0, 0.7)"
+    });
     console.log("下载", record);
     const totalChunks = Math.ceil(record.fileSize / CHUNK_SIZE);
     for (let i = 0; i <= totalChunks; i++) {
@@ -439,6 +445,7 @@ export function useResource() {
     }
     const blob = new Blob(state.blobRef.get(record.fileId));
     downloadFileByBlob(blob, record.originFileName);
+    loading.close();
   }
 
   onMounted(() => {
