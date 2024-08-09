@@ -168,7 +168,8 @@ const onUpload = async option => {
  * @param item
  */
 const uploadFile = async (index, item) => {
-  const result = await checkFileByMd5(item.md5);
+  const paramData = { busStr: JSON.stringify(addForm.value) };
+  const result = await checkFileByMd5(item.md5, paramData);
   console.log(result);
   const data = result.data;
   state.dataSource[index].status = "uploading";

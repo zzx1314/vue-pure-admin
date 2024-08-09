@@ -68,8 +68,8 @@ const fileMinoUp = {
   downloadMultipartFile: "/api/upms/files/download/",
   getFileList: "/api/upms/files/list"
 };
-export const checkFileByMd5 = (data?: object) => {
-  return http.axiosGet<Result>(fileMinoUp.checkFileByMd5 + data);
+export const checkFileByMd5 = (data: object, busstr: Object) => {
+  return http.axiosGetRequest<Result>(fileMinoUp.checkFileByMd5 + data, busstr);
 };
 
 type initMultPartFileResultType = {
