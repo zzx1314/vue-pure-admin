@@ -26,6 +26,7 @@ import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
 import { resPush, resSave, resUpdate } from "@/api/otaRes";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
+import { ElLoading } from "element-plus";
 
 defineOptions({
   name: "Resource"
@@ -150,6 +151,11 @@ const selectFile = async option => {
 
 // 查询文件状态并上传
 const onUpload = async option => {
+  const loading = ElLoading.service({
+    lock: true,
+    text: "上传中",
+    background: "rgba(0, 0, 0, 0.7)"
+  });
   await selectFile(option);
 
   for (let i = 0; i < state.dataSource.length; i++) {
@@ -160,6 +166,7 @@ const onUpload = async option => {
 
     await uploadFile(i, state.dataSource[i]);
   }
+  loading.close();
 };
 
 /**

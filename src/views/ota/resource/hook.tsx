@@ -377,6 +377,7 @@ export function useResource() {
       addType.value = "addSoftware";
     } else {
       addType.value = "addMode";
+      findList();
     }
     resetForm(formEl);
     console.log(addType.value);
@@ -402,6 +403,7 @@ export function useResource() {
       updateType.value = "updateSoftware";
     } else {
       updateType.value = "updateMode";
+      findList();
     }
     console.log(updateType.value);
   }
@@ -441,7 +443,6 @@ export function useResource() {
 
   onMounted(() => {
     onSearch();
-    findList();
   });
 
   return {
