@@ -153,8 +153,12 @@ const {
             {{ item }}</el-tag
           >
         </div>
-        <PureTableBar title="下发设备列表" @refresh="onSearch">
-          <template v-slot="{ size, checkList }">
+        <PureTableBar
+          title="下发设备列表"
+          :columns="devClumns"
+          @refresh="onSearch"
+        >
+          <template v-slot="{ size, checkList, dynamicColumns }">
             <pure-table
               border
               align-whole="center"
@@ -163,9 +167,8 @@ const {
               :loading="loading"
               :size="size"
               :data="devDataList"
-              :columns="devClumns"
+              :columns="dynamicColumns"
               :checkList="checkList"
-              :pagination="pagination"
               :paginationSmall="size === 'small'"
               :header-cell-style="{
                 background: 'var(--el-table-row-hover-bg-color)',

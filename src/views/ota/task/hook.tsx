@@ -1,7 +1,7 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import { FormInstance, FormRules } from "element-plus";
-import { taskDelete, taskPage, taskUpdate } from "@/api/otaTask";
+import { taskDelete, taskPage, taskUpdate, taskGetById } from "@/api/otaTask";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 
@@ -54,7 +54,7 @@ export function useTask() {
     },
     {
       label: "设备Id",
-      prop: "otaDevId",
+      prop: "devId",
       minWidth: 100
     },
     {
@@ -64,12 +64,12 @@ export function useTask() {
     },
     {
       label: "类型",
-      prop: "status",
+      prop: "type",
       minWidth: 100
     },
     {
       label: "组别",
-      prop: "status",
+      prop: "devGroup",
       minWidth: 100
     }
   ];
@@ -156,10 +156,13 @@ export function useTask() {
   // 修改
   function handleDesc(row, formEl) {
     console.log(row);
-    const roleInfo = JSON.stringify(row);
-    addForm.value = JSON.parse(roleInfo);
-
-    resDataList.value = ["资源1", "资源2", "资源3"];
+    taskGetById(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        console.log(res.data);
+        devDataList.value = res.data.otaBusTaskDevList;
+        resDataList.value = res.data.otaResList;
+      }
+    });
     openDia("查看详情", formEl);
   }
   // 删除
