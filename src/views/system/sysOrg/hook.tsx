@@ -107,25 +107,6 @@ export function useDept() {
     }
   ];
 
-  // 动态Table-所有选项
-  const allCheckItem = ref([]);
-  // 动态Table-默认选中的选项
-  const defauleCheckItem = ref([
-    "序号",
-    "部门名称",
-    "排序",
-    "类型",
-    "创建时间",
-    "备注"
-  ]);
-  // 动态Table-动态列处理
-  columns.map(one => {
-    if (one.label && one.label != "操作") {
-      allCheckItem.value.push(one.label);
-      return one.label;
-    }
-  });
-
   const rules = reactive<FormRules>({
     name: [{ required: true, message: "名称必填", trigger: "blur" }],
     type: [{ required: true, message: "类型必填", trigger: "change" }],
@@ -243,7 +224,6 @@ export function useDept() {
     rules,
     title,
     moreCondition,
-    defauleCheckItem,
     changeSelet,
     onSearch,
     resetForm,

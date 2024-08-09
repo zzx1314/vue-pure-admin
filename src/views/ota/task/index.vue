@@ -90,8 +90,8 @@ const {
       </el-form-item>
     </el-form>
 
-    <PureTableBar title="任务列表" @refresh="onSearch">
-      <template v-slot="{ size, checkList }">
+    <PureTableBar title="任务列表" :columns="columns" @refresh="onSearch">
+      <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
           border
           align-whole="center"
@@ -100,7 +100,7 @@ const {
           :loading="loading"
           :size="size"
           :data="dataList"
-          :columns="columns"
+          :columns="dynamicColumns"
           :checkList="checkList"
           :pagination="pagination"
           :paginationSmall="size === 'small'"

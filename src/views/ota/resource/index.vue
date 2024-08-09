@@ -538,7 +538,7 @@ const backoff = () => {
       </el-form-item>
     </el-form>
 
-    <PureTableBar title="资源列表" @refresh="onSearch">
+    <PureTableBar title="资源列表" :columns="columns" @refresh="onSearch">
       <template #buttons>
         <el-button
           type="primary"
@@ -562,7 +562,7 @@ const backoff = () => {
           推送
         </el-button>
       </template>
-      <template v-slot="{ size, checkList }">
+      <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
           border
           ref="tableRef"
@@ -573,7 +573,7 @@ const backoff = () => {
           :loading="loading"
           :size="size"
           :data="dataList"
-          :columns="columns"
+          :columns="dynamicColumns"
           :checkList="checkList"
           :pagination="pagination"
           :paginationSmall="size === 'small'"

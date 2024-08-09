@@ -124,7 +124,7 @@ const {
       </el-form-item>
     </el-form>
 
-    <PureTableBar title="设备列表" @refresh="onSearch">
+    <PureTableBar title="设备列表" :columns="columns" @refresh="onSearch">
       <template #buttons>
         <el-button
           type="primary"
@@ -134,7 +134,7 @@ const {
           添加
         </el-button>
       </template>
-      <template v-slot="{ size, checkList }">
+      <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
           border
           align-whole="center"
@@ -143,7 +143,7 @@ const {
           :loading="loading"
           :size="size"
           :data="dataList"
-          :columns="columns"
+          :columns="dynamicColumns"
           :checkList="checkList"
           :pagination="pagination"
           :paginationSmall="size === 'small'"
