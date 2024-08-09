@@ -7,6 +7,8 @@ import { message } from "@/utils/message";
 import { CHUNK_SIZE } from "@/constants";
 import { chunkDownloadFile } from "@/api/system";
 import { downloadFileByBlob } from "@/lib/fileUtil";
+import { devPage } from "@/api/otaDev";
+import { ElLoading } from "element-plus";
 
 export function useResource() {
   // ----变量定义-----
@@ -19,10 +21,21 @@ export function useResource() {
     version: ""
   });
   const dataList = ref([]);
+  const devDataList = ref([]);
   const loading = ref(true);
   const dialogFormVisible = ref(false);
+  const dialogPushVisible = ref(false);
+  const resDataList = ref([]);
+  const devSecDataList = ref([]);
   const title = ref("");
   const pagination = reactive<PaginationProps>({
+    total: 0,
+    pageSize: 10,
+    currentPage: 1,
+    background: true
+  });
+
+  const paginationDev = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,
     currentPage: 1,
@@ -42,6 +55,17 @@ export function useResource() {
       remark: ""
     }
   });
+
+  const pushForm = reactive({
+    value: {
+      taskName: "",
+      taskType: "",
+      remark: "",
+      clientRestart: "",
+      devInfos: [],
+      resInfos: []
+    }
+  });
   const rules = reactive<FormRules>({
     softwareName: [
       { required: true, message: "操作系统名称必填", trigger: "blur" }
@@ -56,13 +80,16 @@ export function useResource() {
       { required: true, message: "所属操作系统必填", trigger: "change" }
     ]
   });
-  const fileList = ref<UploadUserFile[]>();
 
-  // 定义添加类型
+  const pushRules = reactive<FormRules>({
+    taskName: [{ required: true, message: "任务名称必填", trigger: "blur" }],
+    taskType: [{ required: true, message: "任务类型必填", trigger: "blur" }],
+    clientRestart: [{ required: true, message: "配置必填", trigger: "change" }]
+  });
+  const fileList = ref<UploadUserFile[]>();
   const addType = ref("");
   const updateType = ref("");
   const moreCondition = ref(false);
-
   const devOption = [
     {
       value: "altas200",
@@ -73,7 +100,6 @@ export function useResource() {
       label: "sd3403"
     }
   ];
-
   const typeOption = [
     {
       value: "操作系统",
@@ -84,6 +110,9 @@ export function useResource() {
       label: "模块"
     }
   ];
+  const resOsList = ref([]);
+  const downPush = ref(false);
+  const active = ref(1);
   const columns: TableColumnList = [
     {
       type: "selection",
@@ -162,6 +191,43 @@ export function useResource() {
       slot: "operation"
     }
   ];
+  const devClumns: TableColumnList = [
+    {
+      type: "selection",
+      width: 55,
+      align: "left"
+    },
+    {
+      label: "序号",
+      type: "index",
+      width: 70
+    },
+    {
+      label: "设备Ip",
+      prop: "devIp",
+      minWidth: 100
+    },
+    {
+      label: "设备Id",
+      prop: "devId",
+      minWidth: 100
+    },
+    {
+      label: "任务状态",
+      prop: "status",
+      minWidth: 100
+    },
+    {
+      label: "类型",
+      prop: "type",
+      minWidth: 100
+    },
+    {
+      label: "组别",
+      prop: "devGroup",
+      minWidth: 100
+    }
+  ];
   const buttonClass = computed(() => {
     return [
       "!h-[20px]",
@@ -171,9 +237,6 @@ export function useResource() {
       "dark:hover:!text-primary"
     ];
   });
-
-  const resOsList = ref([]);
-
   // -----方法定义---
   // 修改
   function handleUpdate(row) {
@@ -202,19 +265,43 @@ export function useResource() {
   function handleSizeChange(val: number) {
     console.log(`${val} items per page`);
   }
+  function handleDevSizeChange(val: number) {
+    console.log(`${val} items per page`);
+  }
 
   function handleCurrentChange(val: number) {
     console.log(`current page: ${val}`);
+    pagination.currentPage = val;
+    onSearch();
   }
 
-  function handleSelectionChange(val) {
-    console.log("handleSelectionChange", val);
+  function handleDevCurrentChange(val: number) {
+    console.log(`current page: ${val}`);
+  }
+
+  function handleSelectionChange(val: any[]) {
+    console.log("选择资源信息", val);
+    resDataList.value = val;
+    console.log("resDataList", resDataList.value);
+  }
+  function handleDevSelectionChange(val: any[]) {
+    console.log("设备信息", val);
+    devSecDataList.value = val;
+    console.log("devSecDataList", devSecDataList.value);
   }
   // 查询
   async function onSearch() {
     loading.value = true;
     console.log("查询资源信息");
-    const { data } = await resPage(queryForm);
+    const page = {
+      size: pagination.pageSize,
+      current: pagination.currentPage
+    };
+    const query = {
+      ...page,
+      ...queryForm
+    };
+    const { data } = await resPage(query);
     dataList.value = data.records;
     pagination.total = data.total;
     setTimeout(() => {
@@ -267,6 +354,22 @@ export function useResource() {
     fileList.value = [];
     onSearch();
   }
+  function cancelPush(tableRef) {
+    dialogPushVisible.value = false;
+    resDataList.value = [];
+    pushForm.value = {
+      taskName: "",
+      taskType: "",
+      remark: "",
+      clientRestart: "",
+      devInfos: [],
+      resInfos: []
+    };
+    const { clearSelection } = tableRef.getTableRef();
+    clearSelection();
+    active.value = 1;
+    downPush.value = false;
+  }
   // 打开弹框
   function openDia(param, formEl?) {
     dialogFormVisible.value = true;
@@ -275,9 +378,23 @@ export function useResource() {
       addType.value = "addSoftware";
     } else {
       addType.value = "addMode";
+      findList();
     }
     resetForm(formEl);
     console.log(addType.value);
+  }
+
+  async function openPushDia(formEl?) {
+    resetForm(formEl);
+    if (resDataList.value.length === 0) {
+      message("请先选择资源！", { type: "warning" });
+      return;
+    }
+    // 查询设备信息
+    const { data } = await devPage();
+    devDataList.value = data.records;
+    paginationDev.total = data.total;
+    dialogPushVisible.value = true;
   }
 
   function openUpdateDia(param) {
@@ -287,6 +404,7 @@ export function useResource() {
       updateType.value = "updateSoftware";
     } else {
       updateType.value = "updateMode";
+      findList();
     }
     console.log(updateType.value);
   }
@@ -297,6 +415,11 @@ export function useResource() {
     blobRef: new Map<number, BlobPart[]>()
   });
   async function handleDown(record) {
+    const loading = ElLoading.service({
+      lock: true,
+      text: "下载中",
+      background: "rgba(0, 0, 0, 0.7)"
+    });
     console.log("下载", record);
     const totalChunks = Math.ceil(record.fileSize / CHUNK_SIZE);
     for (let i = 0; i <= totalChunks; i++) {
@@ -322,22 +445,27 @@ export function useResource() {
     }
     const blob = new Blob(state.blobRef.get(record.fileId));
     downloadFileByBlob(blob, record.originFileName);
+    loading.close();
   }
 
   onMounted(() => {
     onSearch();
-    findList();
   });
 
   return {
     queryForm,
     dataList,
+    devDataList,
     loading,
     dialogFormVisible,
+    dialogPushVisible,
     title,
     pagination,
+    paginationDev,
     addForm,
+    pushForm,
     rules,
+    pushRules,
     columns,
     buttonClass,
     addType,
@@ -347,15 +475,25 @@ export function useResource() {
     resOsList,
     fileList,
     typeOption,
+    devClumns,
+    resDataList,
+    devSecDataList,
+    downPush,
+    active,
     onSearch,
     resetForm,
     handleUpdate,
     handleDelete,
     handleSizeChange,
+    handleDevSizeChange,
     handleCurrentChange,
+    handleDevCurrentChange,
     handleSelectionChange,
+    handleDevSelectionChange,
     cancel,
+    cancelPush,
     openDia,
+    openPushDia,
     restartForm,
     handleDown
   };

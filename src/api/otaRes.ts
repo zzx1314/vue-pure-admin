@@ -24,22 +24,9 @@ const otaBusResourceUrls = {
   list: "/api/ota/otaBusResource/list"
 };
 
-export const cleanQuery = (query: Record<string, any>): Record<string, any> => {
-  if (!query) return {};
-  return Object.fromEntries(
-    Object.entries(query).filter(
-      ([_, value]) => value !== null && value !== undefined && value !== ""
-    )
-  );
-};
-
 // 资源分页
 export const resPage = (query?: object) => {
-  const cleanedQuery = cleanQuery(query);
-  return http.axiosGetRequest<ResultPage>(
-    otaBusResourceUrls.page,
-    cleanedQuery
-  );
+  return http.axiosGetRequest<ResultPage>(otaBusResourceUrls.page, query);
 };
 // 资源保存
 export const resSave = (param?: object) => {
@@ -55,7 +42,7 @@ export const resDelete = (param?: object) => {
 };
 // 资源推送
 export const resPush = (param?: object) => {
-  return http.axiosPost<Result>(otaBusResourceUrls.push, param);
+  return http.axiosPostRequest<Result>(otaBusResourceUrls.push, param);
 };
 
 // 查询资源集合

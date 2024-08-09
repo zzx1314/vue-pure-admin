@@ -1,6 +1,6 @@
 import { message } from "@/utils/message";
 import { handleTree } from "@/utils/tree";
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, onMounted, h } from "vue";
 import {
   menuPage,
   saveSysMenu,
@@ -9,6 +9,7 @@ import {
 } from "@/api/system";
 import type { FormInstance, FormRules } from "element-plus";
 import { SUCCESS } from "@/api/base";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
 export function useMenu() {
   const addForm = reactive({
@@ -23,7 +24,9 @@ export function useMenu() {
       leaf: 1, // 0：false 不是，1：true 是
       parentName: "",
       pathUrl: "",
-      permission: ""
+      permission: "",
+      roleCode: "",
+      roleCodeList: []
     }
   });
 
@@ -57,7 +60,17 @@ export function useMenu() {
       label: "名称",
       prop: "name",
       width: 180,
-      align: "left"
+      align: "left",
+      cellRenderer: ({ row }) => (
+        <>
+          <span class="inline-block mr-1">
+            {h(useRenderIcon(row.icon), {
+              style: { paddingTop: "1px" }
+            })}
+          </span>
+          <span>{row.name}</span>
+        </>
+      )
     },
     {
       label: "类型",
@@ -84,8 +97,16 @@ export function useMenu() {
     {
       label: "图标",
       prop: "icon",
-      width: 180,
-      align: "left"
+      width: 100,
+      cellRenderer: ({ row }) => (
+        <>
+          <span class="inline-block mr-1">
+            {h(useRenderIcon(row.icon), {
+              style: { paddingTop: "1px" }
+            })}
+          </span>
+        </>
+      )
     },
     {
       label: "角色编码",
@@ -159,10 +180,11 @@ export function useMenu() {
         trigger: "blur"
       }
     ],
-    roleCode: [
+    roleCodeList: [
       {
         required: true,
-        message: "请选择角色！"
+        message: "请选择角色！",
+        trigger: "change"
       }
     ],
     leaf: [
@@ -225,7 +247,9 @@ export function useMenu() {
       leaf: 1, // 0：false 不是，1：true 是
       parentName: "",
       pathUrl: "",
-      permission: ""
+      permission: "",
+      roleCode: "",
+      roleCodeList: []
     };
     resetForm(formEl);
     dialogFormVisible.value = false;
@@ -240,6 +264,7 @@ export function useMenu() {
     loading.value = true;
     const { data } = await menuPage(searchForm);
     dataList.value = handleTree(data);
+    console.log("查询结果", dataList.value);
     setTimeout(() => {
       loading.value = false;
     }, 500);
@@ -258,6 +283,8 @@ export function useMenu() {
             }
           });
         } else {
+          const roleCode = addForm.value.roleCodeList;
+          addForm.value.roleCode = roleCode.join(",");
           saveSysMenu(addForm.value).then(res => {
             if (res.code == SUCCESS) {
               message("添加成功！", { type: "success" });

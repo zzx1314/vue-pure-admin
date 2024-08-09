@@ -120,6 +120,7 @@ const {
     <PureTableBar
       title="组织列表"
       :tableRef="tableRef?.getTableRef()"
+      :columns="columns"
       @refresh="onSearch"
     >
       <template #buttons>
@@ -131,7 +132,7 @@ const {
           新增部门
         </el-button>
       </template>
-      <template v-slot="{ size, checkList }">
+      <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
           ref="tableRef"
           border
@@ -143,7 +144,7 @@ const {
           :loading="loading"
           :size="size"
           :data="dataList"
-          :columns="columns"
+          :columns="dynamicColumns"
           :checkList="checkList"
           :header-cell-style="{
             background: 'var(--el-table-row-hover-bg-color)',

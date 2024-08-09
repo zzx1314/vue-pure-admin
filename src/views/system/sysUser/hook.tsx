@@ -13,16 +13,12 @@ import type { FormInstance, FormRules } from "element-plus";
 import { SUCCESS } from "@/api/base";
 
 export function useUser() {
-  // 查询动态form
-  const formRef = ref();
-  // 添加动态form
-  const addFormRef = ref();
   // 更多查询条件
   const moreCondition = ref(false);
   // 性别
   const sexArray = ref([
-    { text: "男", value: 1 },
-    { text: "女", value: 2 }
+    { text: "男", value: "男" },
+    { text: "女", value: "女" }
   ]);
   // 查询form
   const queryForm = ref({
@@ -45,7 +41,8 @@ export function useUser() {
     lockFlag: "",
     sex: "",
     role: "",
-    orgId: null
+    orgId: null,
+    orgName: ""
   });
   // 查询结果集
   const dataList = ref([]);
@@ -207,7 +204,8 @@ export function useUser() {
       lockFlag: "",
       sex: "",
       role: "",
-      orgId: null
+      orgId: null,
+      orgName: ""
     };
     dialogFormVisible.value = false;
     onSearch();
@@ -391,6 +389,11 @@ export function useUser() {
     onSearch();
   }
 
+  function setOrgName(orgName) {
+    console.log("setOrgName", orgName);
+    addForm.value.orgName = orgName;
+  }
+
   /**
    * 添加表单数据
    */
@@ -452,7 +455,6 @@ export function useUser() {
   };
 
   return {
-    formRef,
     moreCondition,
     sexArray,
     queryForm,
@@ -463,7 +465,6 @@ export function useUser() {
     buttonClass,
     dialogFormVisible,
     addForm,
-    addFormRef,
     title,
     rules,
     roleArry,
@@ -472,6 +473,7 @@ export function useUser() {
     adaptiveConfig,
     setOrgId,
     setOrgIds,
+    setOrgName,
     cancelEvent,
     resetPwd,
     cancel,

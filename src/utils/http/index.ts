@@ -18,7 +18,7 @@ import type { UserResult } from "@/api/user";
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
   // 请求超时时间
-  timeout: 10000,
+  timeout: 100000,
   headers: {
     Accept: "application/json, text/plain, */*",
     "Content-Type": "application/json",
@@ -28,6 +28,15 @@ const defaultConfig: AxiosRequestConfig = {
   paramsSerializer: {
     serialize: stringify as unknown as CustomParamsSerializer
   }
+};
+
+export const cleanQuery = (query: Record<string, any>): Record<string, any> => {
+  if (!query) return {};
+  return Object.fromEntries(
+    Object.entries(query).filter(
+      ([_, value]) => value !== null && value !== undefined && value !== ""
+    )
+  );
 };
 
 class PureHttp {
@@ -312,9 +321,10 @@ class PureHttp {
    * @param params
    */
   public axiosGetRequest<T>(url, params): Promise<T> {
+    const cleanedQuery = cleanQuery(params);
     return new Promise((resolve, reject) => {
       PureHttp.axiosInstance
-        .get(url + "?" + qs.stringify(params), {})
+        .get(url + "?" + qs.stringify(cleanedQuery), {})
         .then((response: undefined) => {
           resolve(response);
         })

@@ -5,7 +5,6 @@ import { useTask } from "@/views/ota/task/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
-import EditPen from "@iconify-icons/ep/edit-pen";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 
@@ -21,20 +20,22 @@ const {
   loading,
   columns,
   dataList,
+  devDataList,
   pagination,
   dialogFormVisible,
   title,
-  addForm,
-  rules,
-  cancel,
-  submitForm,
+  devClumns,
+  resDataList,
+  restartForm,
   onSearch,
-  resetForm,
-  handleUpdate,
+  handleDesc,
   handleDelete,
   handleSizeChange,
+  handleDevSizeChange,
   handleCurrentChange,
-  handleSelectionChange
+  handleDevCurrentChange,
+  handleSelectionChange,
+  handleDevSelectionChange
 } = useTask();
 </script>
 <template>
@@ -45,13 +46,34 @@ const {
       :model="queryForm"
       class="bg-bg_color w-[99/100] pl-8 pt-4"
     >
-      <el-form-item label="任务名称：" prop="name">
+      <el-form-item label="任务名称" prop="name">
         <el-input
-          v-model="queryForm.name"
-          placeholder="请输入资源名称"
+          v-model="queryForm.taskName"
+          placeholder="请输入任务名称"
           clearable
           class="!w-[180px]"
         />
+      </el-form-item>
+      <el-form-item label="任务类型" prop="taskType">
+        <el-select
+          v-model="queryForm.taskType"
+          placeholder="请选择任务类型"
+          class="!w-[180px]"
+        >
+          <el-option label="全量升级" value="全量升级" />
+          <el-option label="部分升级" value="部分升级" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="任务状态" prop="status">
+        <el-select
+          v-model="queryForm.status"
+          placeholder="请选择状态"
+          class="!w-[180px]"
+        >
+          <el-option label="开始" value="开始" />
+          <el-option label="下发" value="下发" />
+          <el-option label="完成" value="完成" />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button
@@ -62,14 +84,14 @@ const {
         >
           搜索
         </el-button>
-        <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
+        <el-button :icon="useRenderIcon(Refresh)" @click="restartForm(formRef)">
           重置
         </el-button>
       </el-form-item>
     </el-form>
 
-    <PureTableBar title="任务列表" @refresh="onSearch">
-      <template v-slot="{ size, checkList }">
+    <PureTableBar title="任务列表" :columns="columns" @refresh="onSearch">
+      <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
           border
           align-whole="center"
@@ -78,7 +100,7 @@ const {
           :loading="loading"
           :size="size"
           :data="dataList"
-          :columns="columns"
+          :columns="dynamicColumns"
           :checkList="checkList"
           :pagination="pagination"
           :paginationSmall="size === 'small'"
@@ -96,10 +118,10 @@ const {
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(EditPen)"
-              @click="handleUpdate(row)"
+              :icon="useRenderIcon(Search)"
+              @click="handleDesc(row, addFormRef)"
             >
-              修改
+              详情
             </el-button>
             <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>
@@ -119,37 +141,46 @@ const {
       </template>
     </PureTableBar>
 
-    <el-dialog v-model="dialogFormVisible" :title="title">
-      <el-form
-        ref="addFormRef"
-        :model="addForm.value"
-        :inline="true"
-        :rules="rules"
-        label-width="100px"
-      >
-        <el-form-item label="软件名称" prop="name">
-          <el-input v-model="addForm.value.name" placeholder="请输入软件名称" />
-        </el-form-item>
-
-        <el-form-item label="安装包名称" prop="code">
-          <el-input v-model="addForm.value.code" placeholder="请输入角色编码" />
-        </el-form-item>
-
-        <el-form-item label="类型" prop="description">
-          <el-input
-            v-model="addForm.value.description"
-            placeholder="请输入类型"
-          />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="cancel(addFormRef)">取消</el-button>
-          <el-button type="primary" @click="submitForm(addFormRef)"
-            >确认</el-button
+    <el-dialog v-model="dialogFormVisible" :title="title" width="70%">
+      <div>
+        <div class="flex gap-2">
+          <p style="font-weight: bold">资源信息:</p>
+          <el-tag
+            v-for="(item, index) in resDataList"
+            :key="index"
+            type="success"
           >
-        </span>
-      </template>
+            {{ item }}</el-tag
+          >
+        </div>
+        <PureTableBar
+          title="下发设备列表"
+          :columns="devClumns"
+          @refresh="onSearch"
+        >
+          <template v-slot="{ size, checkList, dynamicColumns }">
+            <pure-table
+              border
+              align-whole="center"
+              showOverflowTooltip
+              table-layout="auto"
+              :loading="loading"
+              :size="size"
+              :data="devDataList"
+              :columns="dynamicColumns"
+              :checkList="checkList"
+              :paginationSmall="size === 'small'"
+              :header-cell-style="{
+                background: 'var(--el-table-row-hover-bg-color)',
+                color: 'var(--el-text-color-primary)'
+              }"
+              @selection-change="handleDevSelectionChange"
+              @page-size-change="handleDevSizeChange"
+              @page-current-change="handleDevCurrentChange"
+            />
+          </template>
+        </PureTableBar>
+      </div>
     </el-dialog>
   </div>
 </template>

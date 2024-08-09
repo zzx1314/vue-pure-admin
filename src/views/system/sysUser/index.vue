@@ -18,7 +18,6 @@ import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
 
 const {
-  formRef,
   moreCondition,
   queryForm,
   loading,
@@ -36,6 +35,7 @@ const {
   cancel,
   setOrgId,
   setOrgIds,
+  setOrgName,
   openDia,
   onSearch,
   handleUpdate,
@@ -57,6 +57,7 @@ onMounted(() => {
 });
 
 const addFormRef = ref();
+const formRef = ref();
 
 // 获取所有角色列表
 async function getAllRole() {
@@ -76,6 +77,7 @@ async function getAllRole() {
       @updatePage="onSearch"
       @setOrgId="setOrgId"
       @setOrgIds="setOrgIds"
+      @setOrgName="setOrgName"
     />
     <div class="float-right w-[81%]">
       <el-form
@@ -130,7 +132,7 @@ async function getAllRole() {
                 v-model="queryForm.beginTime"
                 type="date"
                 placeholder="请输入开始时间"
-                class="!w-[200px]"
+                class="!w-[180px]"
               />
             </el-form-item>
             <el-form-item label="结束时间：" prop="endTime">
@@ -138,7 +140,7 @@ async function getAllRole() {
                 v-model="queryForm.endTime"
                 placeholder="请输入结束时间"
                 type="date"
-                class="!w-[200px]"
+                class="!w-[180px]"
               />
             </el-form-item>
           </div>
@@ -303,7 +305,7 @@ async function getAllRole() {
             </el-select>
           </el-form-item>
           <el-form-item label="部门" prop="orgId">
-            <el-input v-model="addForm.orgId" />
+            <el-input v-model="addForm.orgName" disabled />
           </el-form-item>
 
           <el-form-item label="密码" prop="newpassword">

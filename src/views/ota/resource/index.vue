@@ -13,6 +13,7 @@ import Position from "@iconify-icons/ep/position";
 import { PureTableBar } from "@/components/RePureTableBar";
 import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
+import UploadFilled from "@iconify-icons/ep/upload-filled";
 
 import Download from "@iconify-icons/ep/download";
 import pLimit from "p-limit";
@@ -22,9 +23,10 @@ import cutFile from "@/lib/cutFile";
 import { MerkleTree } from "@/lib/MerkleTree";
 import { checkFileByMd5, initMultPartFile, mergeFileByMd5 } from "@/api/system";
 import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
-import { resSave, resUpdate } from "@/api/otaRes";
+import { resPush, resSave, resUpdate } from "@/api/otaRes";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
+import { ElLoading } from "element-plus";
 
 defineOptions({
   name: "Resource"
@@ -32,17 +34,24 @@ defineOptions({
 
 const formRef = ref();
 const addFormRef = ref<FormInstance>();
+const pushFormRef = ref<FormInstance>();
 
 const {
   queryForm,
   loading,
   columns,
   dataList,
+  devDataList,
+  devClumns,
   pagination,
+  paginationDev,
   dialogFormVisible,
+  dialogPushVisible,
   title,
   addForm,
+  pushForm,
   rules,
+  pushRules,
   addType,
   updateType,
   moreCondition,
@@ -50,20 +59,31 @@ const {
   resOsList,
   fileList,
   typeOption,
+  resDataList,
+  devSecDataList,
+  downPush,
+  active,
   cancel,
+  cancelPush,
   openDia,
+  openPushDia,
   onSearch,
   handleUpdate,
   handleDelete,
   handleSizeChange,
+  handleDevSizeChange,
   handleCurrentChange,
+  handleDevCurrentChange,
   handleSelectionChange,
+  handleDevSelectionChange,
   restartForm,
   handleDown
 } = useResource();
 
 const uploadRef = ref<UploadInstance>(null);
 const uploadFileTemp = ref<UploadFile>(null);
+const tableRef = ref();
+const tableRefDev = ref();
 
 const limit = pLimit(3);
 const HttpCodeUploadEnum = {
@@ -131,6 +151,11 @@ const selectFile = async option => {
 
 // 查询文件状态并上传
 const onUpload = async option => {
+  const loading = ElLoading.service({
+    lock: true,
+    text: "上传中",
+    background: "rgba(0, 0, 0, 0.7)"
+  });
   await selectFile(option);
 
   for (let i = 0; i < state.dataSource.length; i++) {
@@ -141,6 +166,7 @@ const onUpload = async option => {
 
     await uploadFile(i, state.dataSource[i]);
   }
+  loading.close();
 };
 
 /**
@@ -149,7 +175,8 @@ const onUpload = async option => {
  * @param item
  */
 const uploadFile = async (index, item) => {
-  const result = await checkFileByMd5(item.md5);
+  const paramData = { busStr: JSON.stringify(addForm.value) };
+  const result = await checkFileByMd5(item.md5, paramData);
   console.log(result);
   const data = result.data;
   state.dataSource[index].status = "uploading";
@@ -370,9 +397,50 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
+
+const submitPushForm = () => {
+  console.log("推送任务");
+  if (devSecDataList.value.length === 0) {
+    message("请选择设备", { type: "error" });
+    return;
+  }
+  const param = { ...pushForm };
+  param.value.devInfos = devSecDataList.value;
+  param.value.resInfos = resDataList.value;
+  console.log(param);
+  resPush(param.value).then(res => {
+    if (res.code === SUCCESS) {
+      message("推送成功！", { type: "success" });
+      cancelPush(tableRef);
+    } else {
+      message(res.msg, { type: "error" });
+    }
+  });
+};
 const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
   console.log("上传文件前。。", uploadFile, uploadFiles);
   uploadFileTemp.value = uploadFile;
+};
+
+// 下一步
+const netStep = async (formEl: FormInstance | undefined) => {
+  console.log("下一步");
+  if (!formEl) return;
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      console.log(addForm.value);
+      active.value = 2;
+      downPush.value = true;
+    } else {
+      console.log("error submit!", fields);
+    }
+  });
+};
+// 后退
+const backoff = () => {
+  console.log("后退");
+  active.value = 1;
+  downPush.value = false;
 };
 </script>
 <template>
@@ -470,7 +538,7 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
       </el-form-item>
     </el-form>
 
-    <PureTableBar title="资源列表" @refresh="onSearch">
+    <PureTableBar title="资源列表" :columns="columns" @refresh="onSearch">
       <template #buttons>
         <el-button
           type="primary"
@@ -489,13 +557,14 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
         <el-button
           type="primary"
           :icon="useRenderIcon(Position)"
-          @click="openDia('推送资源')"
+          @click="openPushDia(pushFormRef)"
         >
           推送
         </el-button>
       </template>
-      <template v-slot="{ size, checkList }">
+      <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
+          ref="tableRef"
           border
           align-whole="center"
           showOverflowTooltip
@@ -504,7 +573,7 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
           :loading="loading"
           :size="size"
           :data="dataList"
-          :columns="columns"
+          :columns="dynamicColumns"
           :checkList="checkList"
           :pagination="pagination"
           :paginationSmall="size === 'small'"
@@ -685,11 +754,119 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
         </span>
       </template>
     </el-dialog>
+
+    <el-dialog v-model="dialogPushVisible" title="推送资源" width="60%">
+      <div class="centered">
+        <el-steps class="mb-4" :space="200" :active="active" simple>
+          <el-step title="任务配置" :icon="useRenderIcon(EditPen)" />
+          <el-step title="资源选择" :icon="useRenderIcon(UploadFilled)" />
+        </el-steps>
+      </div>
+      <el-form
+        v-show="!downPush"
+        ref="pushFormRef"
+        :model="pushForm.value"
+        :rules="pushRules"
+        label-width="150px"
+      >
+        <el-form-item label="任务名称" prop="taskName">
+          <el-input
+            v-model="pushForm.value.taskName"
+            placeholder="请输入任务名称"
+          />
+        </el-form-item>
+
+        <el-form-item label="任务类型" prop="taskType">
+          <el-input
+            v-model="pushForm.value.taskType"
+            placeholder="请输入任务类型"
+          />
+        </el-form-item>
+
+        <el-form-item label="自动重启" prop="clientRestart">
+          <el-radio-group v-model="pushForm.value.clientRestart">
+            <el-radio label="是">是</el-radio>
+            <el-radio label="否">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="pushForm.value.remark" placeholder="请输入备注" />
+        </el-form-item>
+      </el-form>
+      <div v-show="downPush">
+        <div class="flex gap-2">
+          <p style="font-weight: bold">所选资源:</p>
+          <el-tag
+            v-for="(item, index) in resDataList"
+            :key="index"
+            type="success"
+          >
+            {{
+              item.type === "操作系统"
+                ? item.softwareName + "_" + item.softwareVersion
+                : item.pkgName + "_" + item.version
+            }}</el-tag
+          >
+          <p style="font-weight: bold">所选设备:</p>
+          <el-tag v-for="(item, index) in devSecDataList" :key="index">
+            {{ item.devId }}</el-tag
+          >
+        </div>
+        <PureTableBar title="下发设备列表" @refresh="onSearch">
+          <template v-slot="{ size, checkList }">
+            <pure-table
+              ref="tableRefDev"
+              border
+              align-whole="center"
+              showOverflowTooltip
+              table-layout="auto"
+              :loading="loading"
+              :size="size"
+              :data="devDataList"
+              :columns="devClumns"
+              :checkList="checkList"
+              :pagination="paginationDev"
+              :paginationSmall="size === 'small'"
+              :header-cell-style="{
+                background: 'var(--el-table-row-hover-bg-color)',
+                color: 'var(--el-text-color-primary)'
+              }"
+              @selection-change="handleDevSelectionChange"
+              @page-size-change="handleDevSizeChange"
+              @page-current-change="handleDevCurrentChange"
+            />
+          </template>
+        </PureTableBar>
+      </div>
+
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="cancelPush(tableRef)">取消</el-button>
+          <el-button
+            v-if="active == 1"
+            type="primary"
+            @click="netStep(pushFormRef)"
+            >下一步</el-button
+          >
+          <el-button v-if="active == 2" type="primary" @click="backoff"
+            >上一步</el-button
+          >
+          <el-button v-if="active == 2" type="primary" @click="submitPushForm"
+            >确认</el-button
+          >
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <style scoped lang="scss">
 :deep(.el-dropdown-menu__item i) {
   margin: 0;
+}
+
+.centered {
+  width: 100%;
 }
 </style>
