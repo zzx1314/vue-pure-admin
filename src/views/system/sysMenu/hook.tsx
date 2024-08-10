@@ -203,9 +203,11 @@ export function useMenu() {
 
   // 修改
   function handleUpdate(row) {
+    console.log("row", row);
     const menuInfo = JSON.stringify(row);
     openDia("修改菜单");
     addForm.value = JSON.parse(menuInfo);
+    addForm.value.roleCodeList = addForm.value.roleCode.split(",");
   }
 
   // 确认删除

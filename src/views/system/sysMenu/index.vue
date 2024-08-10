@@ -151,7 +151,7 @@ const {
         </el-form-item>
 
         <el-form-item
-          v-if="addForm.value.type !== 1"
+          v-if="addForm.value.type == 2"
           label="上级菜单"
           prop="parentId"
         >
@@ -166,7 +166,7 @@ const {
         </el-form-item>
 
         <el-form-item
-          v-if="addForm.value.type == 4"
+          v-if="addForm.value.type == 2"
           label="权限标识"
           prop="permission"
         >
