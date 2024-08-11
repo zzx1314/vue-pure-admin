@@ -143,7 +143,7 @@ $H: 70vh;
 }
 
 .split-pane {
-  width: 86vw;
+  width: 100%;
   height: $H;
   font-size: 15px;
   color: #fff;
@@ -196,6 +196,7 @@ $H: 70vh;
   .el-collapse-item__header {
     flex: 1 0 auto;
     order: -1;
+    text-align: left;
   }
 }
 
