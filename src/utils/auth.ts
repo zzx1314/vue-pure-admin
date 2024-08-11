@@ -72,6 +72,7 @@ export function setToken(data: DataInfo<Date>) {
     useUserStoreHook().SET_NICKNAME(nickname);
     useUserStoreHook().SET_ROLES(roles);
     storageLocal().setItem(userKey, {
+      accessToken,
       refreshToken,
       expires,
       avatar,

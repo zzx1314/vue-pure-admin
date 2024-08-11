@@ -196,8 +196,11 @@ $H: 70vh;
   .el-collapse-item__header {
     flex: 1 0 auto;
     order: -1;
-    text-align: left;
   }
+}
+
+:deep(.el-collapse-item__header) {
+  text-align: left;
 }
 
 :deep(.el-collapse-item__arrow.is-active) {
