@@ -28,7 +28,8 @@ export function useRole() {
       name: "",
       code: "",
       status: "",
-      description: ""
+      description: "",
+      remarks: ""
     }
   });
   const rules = reactive<FormRules>({
@@ -59,6 +60,11 @@ export function useRole() {
     {
       label: "角色描述",
       prop: "description",
+      minWidth: 150
+    },
+    {
+      label: "备注",
+      prop: "remarks",
       minWidth: 150
     },
     {
@@ -138,7 +144,8 @@ export function useRole() {
       name: "",
       code: "",
       status: "",
-      description: ""
+      description: "",
+      remarks: ""
     };
     resetForm(formEl);
     dialogFormVisible.value = false;

@@ -28,7 +28,8 @@ const userUrls = {
   saveUser: "/api/upms/sysUser",
   deleteUserById: "/api/upms/sysUser/",
   update: "/api/upms/sysUser",
-  resetPwd: "/api/upms/sysUser/resetPwd"
+  resetPwd: "/api/upms/sysUser/resetPwd",
+  userInfo: `/api/upms/sysUser/info`
 };
 
 const roleUrls = {
@@ -183,6 +184,13 @@ export const updateUser = (param: object) => {
  */
 export const saveUser = (param?: object) => {
   return http.axiosPostRequest<Result>(userUrls.saveUser, param);
+};
+
+/**
+ * 获取用户信息
+ */
+export const getUserInfo = () => {
+  return http.axiosGetRequest<any>(userUrls.userInfo, {});
 };
 
 /** 获取角色管理列表 */

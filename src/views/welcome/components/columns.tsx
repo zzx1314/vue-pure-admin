@@ -1,10 +1,11 @@
 import TypeIt from "@/components/ReTypeit";
-import Location from "@iconify-icons/ep/location";
-import Iphone from "@iconify-icons/ep/iphone";
+import Role from "@iconify-icons/ri/admin-fill";
+import Iphone from "@iconify-icons/ep/user";
 import Notebook from "@iconify-icons/ep/notebook";
 import User from "@iconify-icons/ri/user-3-fill";
+import Dept from "@iconify-icons/ri/organization-chart";
 
-export function useColumns() {
+export function useColumns(param) {
   const columnsA = [
     {
       labelRenderer: () => (
@@ -12,10 +13,21 @@ export function useColumns() {
           <el-icon>
             <iconify-icon-offline icon={User} />
           </el-icon>
-          用户名
+          账号
         </div>
       ),
-      value: "张三"
+      value: param.value.userName
+    },
+    {
+      labelRenderer: () => (
+        <div class="flex items-center">
+          <el-icon>
+            <iconify-icon-offline icon={Dept} />
+          </el-icon>
+          部门
+        </div>
+      ),
+      value: param.value.orgName
     },
     {
       labelRenderer: () => (
@@ -23,21 +35,21 @@ export function useColumns() {
           <el-icon>
             <iconify-icon-offline icon={Iphone} />
           </el-icon>
-          手机号
+          用户名
         </div>
       ),
-      value: "123456789"
+      value: param.value.user
     },
     {
       labelRenderer: () => (
         <div class="flex items-center">
           <el-icon>
-            <iconify-icon-offline icon={Location} />
+            <iconify-icon-offline icon={Role} />
           </el-icon>
           角色
         </div>
       ),
-      value: "系统管理员"
+      value: param.value.role
     }
   ];
   const columnsC = [
@@ -53,7 +65,7 @@ export function useColumns() {
       cellRenderer: () => (
         <TypeIt
           className={"github"}
-          values={["维护系统运行状态"]}
+          values={[param.value.desc]}
           cursor={false}
           speed={100}
         />

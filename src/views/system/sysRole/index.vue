@@ -161,6 +161,13 @@ const {
             placeholder="请输入角色编码"
           />
         </el-form-item>
+
+        <el-form-item label="备注" prop="remarks">
+          <el-input
+            v-model="addForm.value.remarks"
+            placeholder="请输入角色编码"
+          />
+        </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
