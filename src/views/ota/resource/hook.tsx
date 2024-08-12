@@ -422,7 +422,7 @@ export function useResource() {
     });
     console.log("下载", record);
     const totalChunks = Math.ceil(record.fileSize / CHUNK_SIZE);
-    for (let i = 0; i <= totalChunks; i++) {
+    for (let i = 1; i <= totalChunks; i++) {
       const start = CHUNK_SIZE * (i - 1);
       let end = CHUNK_SIZE * i - 1;
       if (end > record.fileSize) end = record.fileSize; // 虽然超出不会影响内容读取，但是会影响进度条的展示
