@@ -398,7 +398,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   });
 };
 
-const submitPushForm = () => {
+const submitPushForm = refo => {
   console.log("推送任务");
   if (devSecDataList.value.length === 0) {
     message("请选择设备", { type: "error" });
@@ -411,7 +411,7 @@ const submitPushForm = () => {
   resPush(param.value).then(res => {
     if (res.code === SUCCESS) {
       message("推送成功！", { type: "success" });
-      cancelPush(tableRef);
+      cancelPush(refo);
     } else {
       message(res.msg, { type: "error" });
     }
@@ -852,7 +852,10 @@ const backoff = () => {
           <el-button type="primary" @click="backoff" v-if="active == 2"
             >上一步</el-button
           >
-          <el-button type="primary" @click="submitPushForm" v-if="active == 2"
+          <el-button
+            type="primary"
+            @click="submitPushForm(tableRef)"
+            v-if="active == 2"
             >确认</el-button
           >
         </span>
