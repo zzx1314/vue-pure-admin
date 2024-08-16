@@ -60,7 +60,12 @@ export function useTask() {
     {
       label: "任务状态",
       prop: "status",
-      minWidth: 100
+      minWidth: 100,
+      cellRenderer: ({ row }) => (
+        <el-tag type={row.status === "生效成功" ? "success" : "primary"}>
+          {row.status}
+        </el-tag>
+      )
     },
     {
       label: "类型",
