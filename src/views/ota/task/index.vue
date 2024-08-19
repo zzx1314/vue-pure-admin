@@ -7,6 +7,7 @@ import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
+import Download from "@iconify-icons/ep/download";
 
 defineOptions({
   name: "Task"
@@ -35,7 +36,8 @@ const {
   handleCurrentChange,
   handleDevCurrentChange,
   handleSelectionChange,
-  handleDevSelectionChange
+  handleDevSelectionChange,
+  handleDown
 } = useTask();
 </script>
 <template>
@@ -175,7 +177,21 @@ const {
               @selection-change="handleDevSelectionChange"
               @page-size-change="handleDevSizeChange"
               @page-current-change="handleDevCurrentChange"
-            />
+            >
+              <template #operation="{ row }">
+                <el-button
+                  v-if="row.status === '生效失败'"
+                  class="reset-margin"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(Download)"
+                  @click="handleDown(row)"
+                >
+                  下载日志
+                </el-button>
+              </template>
+            </pure-table>
           </template>
         </PureTableBar>
       </div>

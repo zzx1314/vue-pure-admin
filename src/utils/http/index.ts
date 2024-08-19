@@ -397,9 +397,8 @@ class PureHttp {
    * @param mode 下载方式 get post
    * @param name 下载文件名
    * @param param 参数
-   * @param fileType 下载文件格式
    */
-  public downloadUrlMode(url, mode, name, param, fileType) {
+  public downloadUrlMode(url, mode, name, param) {
     const promise = new Promise((resolve, reject) => {
       PureHttp.axiosInstance({
         url: url,
@@ -413,11 +412,13 @@ class PureHttp {
         responseType: "arraybuffer"
       })
         .then((response: undefined) => {
+          // name 截取后缀，以点
+          const fileType = name.substring(name.lastIndexOf(".") + 1);
           const blob = new Blob([response], {
             type: "application/" + fileType
           });
           resolve(response);
-          const fileName = name + "." + fileType;
+          const fileName = name;
           // const fileName = name;
           const link = document.createElement("a");
           link.href = URL.createObjectURL(blob);
