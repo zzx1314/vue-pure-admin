@@ -69,7 +69,15 @@ type ResultTable = {
 const urls = {
   token: `/api/auth/oauth/token`,
   refreshToken: `/api/auth/oauth/refreshToken`,
-  getInfo: `/api/upms/sysUser/info`
+  getInfo: `/api/upms/sysUser/info`,
+  checkToken: `/api/upms/checkToken/isExpire`
+};
+
+/**
+ * 检查token
+ */
+export const checkToken = () => {
+  return http.request<Result>("get", urls.checkToken);
 };
 
 /** 登录 */
