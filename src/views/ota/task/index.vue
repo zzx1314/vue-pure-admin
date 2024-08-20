@@ -7,6 +7,7 @@ import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
+import Download from "@iconify-icons/ep/download";
 
 defineOptions({
   name: "Task"
@@ -35,7 +36,8 @@ const {
   handleCurrentChange,
   handleDevCurrentChange,
   handleSelectionChange,
-  handleDevSelectionChange
+  handleDevSelectionChange,
+  handleDown
 } = useTask();
 </script>
 <template>
@@ -55,14 +57,12 @@ const {
         />
       </el-form-item>
       <el-form-item label="任务类型" prop="taskType">
-        <el-select
+        <el-input
           v-model="queryForm.taskType"
-          placeholder="请选择任务类型"
+          placeholder="请输入任务类型"
+          clearable
           class="!w-[180px]"
-        >
-          <el-option label="全量升级" value="全量升级" />
-          <el-option label="部分升级" value="部分升级" />
-        </el-select>
+        />
       </el-form-item>
       <el-form-item label="任务状态" prop="status">
         <el-select
@@ -70,9 +70,9 @@ const {
           placeholder="请选择状态"
           class="!w-[180px]"
         >
-          <el-option label="开始" value="开始" />
-          <el-option label="下发" value="下发" />
-          <el-option label="完成" value="完成" />
+          <el-option label="已下发" value="已下发" />
+          <el-option label="已完成" value="已完成" />
+          <el-option label="未完成" value="未完成" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -177,7 +177,21 @@ const {
               @selection-change="handleDevSelectionChange"
               @page-size-change="handleDevSizeChange"
               @page-current-change="handleDevCurrentChange"
-            />
+            >
+              <template #operation="{ row }">
+                <el-button
+                  v-if="row.status === '生效失败'"
+                  class="reset-margin"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(Download)"
+                  @click="handleDown(row)"
+                >
+                  下载日志
+                </el-button>
+              </template>
+            </pure-table>
           </template>
         </PureTableBar>
       </div>

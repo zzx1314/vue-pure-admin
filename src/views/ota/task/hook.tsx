@@ -1,7 +1,13 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormInstance, FormRules } from "element-plus";
-import { taskDelete, taskPage, taskUpdate, taskGetById } from "@/api/otaTask";
+import {
+  taskDelete,
+  taskPage,
+  taskUpdate,
+  taskGetById,
+  downLog
+} from "@/api/otaTask";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 
@@ -60,7 +66,12 @@ export function useTask() {
     {
       label: "任务状态",
       prop: "status",
-      minWidth: 100
+      minWidth: 100,
+      cellRenderer: ({ row }) => (
+        <el-tag type={row.status === "生效成功" ? "success" : "primary"}>
+          {row.status}
+        </el-tag>
+      )
     },
     {
       label: "类型",
@@ -71,6 +82,12 @@ export function useTask() {
       label: "组别",
       prop: "devGroup",
       minWidth: 100
+    },
+    {
+      label: "操作",
+      fixed: "right",
+      width: 180,
+      slot: "operation"
     }
   ];
   const columns: TableColumnList = [
@@ -203,6 +220,11 @@ export function useTask() {
   function handleDevSelectionChange(val) {
     console.log("handleSelectionChange", val);
   }
+
+  function handleDown(row) {
+    console.log("下载", row);
+    downLog(row);
+  }
   // 查询
   async function onSearch() {
     loading.value = true;
@@ -309,6 +331,7 @@ export function useTask() {
     handleDevCurrentChange,
     handleSelectionChange,
     handleDevSelectionChange,
+    handleDown,
     cancel,
     restartForm,
     submitForm,
