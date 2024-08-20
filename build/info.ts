@@ -7,7 +7,7 @@ import boxen, { type Options as BoxenOptions } from "boxen";
 dayjs.extend(duration);
 
 const welcomeMessage = gradientString("cyan", "magenta").multiline(
-  `前端打包。。。`
+  `华郅服务端前端`
 );
 
 const boxenOptions: BoxenOptions = {
