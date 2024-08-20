@@ -21,7 +21,8 @@ const otaBusTaskUrls = {
   delete: `/api/ota/otaBusTask/`,
   update: "/api/ota/otaBusTask/update",
   push: "/api/ota/otaBusTask/push",
-  getById: "/api/ota/otaBusTask/"
+  getById: "/api/ota/otaBusTask/",
+  downLog: "/api/ota/otaBusTask/downLog"
 };
 
 // 任务分页
@@ -43,4 +44,17 @@ export const taskDelete = (param?: object) => {
 // 查询详情信息
 export const taskGetById = (param?: object) => {
   return http.axiosGet<any>(otaBusTaskUrls.getById + param);
+};
+
+export const downLog = (param?: any) => {
+  const query = {
+    taskId: param.taskId,
+    devId: param.id
+  };
+  return http.downloadUrlMode(
+    otaBusTaskUrls.downLog,
+    "post",
+    param.logFileName,
+    query
+  );
 };
