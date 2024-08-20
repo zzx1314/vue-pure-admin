@@ -136,6 +136,7 @@ const {
         <pure-table
           ref="tableRef"
           border
+          adaptive
           align-whole="center"
           row-key="id"
           showOverflowTooltip

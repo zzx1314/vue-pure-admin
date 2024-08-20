@@ -566,6 +566,7 @@ const backoff = () => {
         <pure-table
           ref="tableRef"
           border
+          adaptive
           align-whole="center"
           showOverflowTooltip
           table-layout="auto"
@@ -818,6 +819,7 @@ const backoff = () => {
             <pure-table
               ref="tableRefDev"
               border
+              adaptive
               align-whole="center"
               showOverflowTooltip
               table-layout="auto"
