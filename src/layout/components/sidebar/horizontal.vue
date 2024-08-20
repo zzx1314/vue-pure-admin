@@ -29,7 +29,6 @@ nextTick(() => {
     class="horizontal-header"
   >
     <div class="horizontal-header-left" @click="backTopMenu">
-      <img src="/logo.svg" alt="logo" />
       <span>{{ title }}</span>
     </div>
     <el-menu
