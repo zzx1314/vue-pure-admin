@@ -13,6 +13,8 @@ import AccountSettingsIcon from "@iconify-icons/ri/user-settings-line";
 import LogoutCircleRLine from "@iconify-icons/ri/logout-circle-r-line";
 import Setting from "@iconify-icons/ri/settings-3-line";
 import Check from "@iconify-icons/ep/check";
+import UserInfoForm from "@/layout/components/lay-sidebar/UserInfoForm.vue";
+import { ref } from "vue";
 
 const {
   layout,
@@ -28,6 +30,16 @@ const {
   getDropdownItemStyle,
   getDropdownItemClass
 } = useNav();
+
+const showDia = ref(false);
+
+const showUserSet = () => {
+  showDia.value = true;
+};
+
+const closeDia = () => {
+  showDia.value = false;
+};
 
 const { t, locale, translationCh, translationEn } = useTranslationLang();
 </script>
@@ -60,7 +72,7 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
         </span>
         <template #dropdown>
           <el-dropdown-menu class="logout">
-            <el-dropdown-item @click="toAccountSettings">
+            <el-dropdown-item @click="showUserSet">
               <IconifyIconOffline
                 :icon="AccountSettingsIcon"
                 style="margin: 5px"
@@ -85,6 +97,11 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
         <IconifyIconOffline :icon="Setting" />
       </span>
     </div>
+
+    <UserInfoForm
+      :dialog-form-visible="showDia"
+      @update:dialogFormVisible="closeDia"
+    />
   </div>
 </template>
 
