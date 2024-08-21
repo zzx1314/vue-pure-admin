@@ -116,6 +116,13 @@ declare global {
         zoom?: number;
       };
     };
+    VersionList?: Array<{
+      content: string;
+      timestamp: string;
+      size: string;
+      type: string;
+      color?: string;
+    }>;
   }
 
   /**

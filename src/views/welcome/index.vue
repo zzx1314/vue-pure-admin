@@ -2,10 +2,9 @@
 import Bar from "./components/Bar.vue";
 import Pie from "./components/Pie.vue";
 import Line from "./components/Line.vue";
-import { getReleases } from "@/api/list";
 import TypeIt from "@/components/ReTypeit";
 import { useWindowSize } from "@vueuse/core";
-import { ref } from "vue";
+import { ref, getCurrentInstance } from "vue";
 import Github from "./components/Github.vue";
 
 defineOptions({
@@ -16,15 +15,16 @@ const list = ref();
 const loading = ref<boolean>(true);
 const { version } = __APP_INFO__.pkg;
 
+const { VersionList } =
+  getCurrentInstance().appContext.config.globalProperties.$config;
+console.log("VersionList：", VersionList);
+list.value = VersionList;
+
 const { height } = useWindowSize();
 
 setTimeout(() => {
   loading.value = !loading.value;
 }, 800);
-
-getReleases().then(res => {
-  list.value = res;
-});
 </script>
 
 <template>
