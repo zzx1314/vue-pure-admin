@@ -122,7 +122,7 @@ const rules = {
         <el-form-item label="原密码" prop="password">
           <el-input v-model="addForm.password" type="password" />
         </el-form-item>
-        <el-form-item label="密码" prop="newpassword">
+        <el-form-item label="新密码" prop="newpassword">
           <el-input v-model="addForm.newpassword" type="password" />
         </el-form-item>
         <el-form-item label="确认密码" prop="newpassword1">
