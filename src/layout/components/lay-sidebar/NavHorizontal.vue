@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { isAllEmpty } from "@pureadmin/utils";
-import { ref, nextTick, computed } from "vue";
+import { ref, nextTick, computed, onMounted } from "vue";
 import { useNav } from "@/layout/hooks/useNav";
 import LaySearch from "../lay-search/index.vue";
 import LayNotice from "../lay-notice/index.vue";
@@ -40,10 +40,6 @@ const defaultActive = computed(() =>
 
 nextTick(() => {
   menuRef.value?.handleResize();
-  const tokenCheckInterval = setInterval(() => {
-    checkToken();
-  }, 20000);
-  usePermissionStoreHook().setCheckTokenTimeId(tokenCheckInterval);
 });
 </script>
 

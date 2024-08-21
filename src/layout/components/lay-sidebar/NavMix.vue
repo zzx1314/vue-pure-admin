@@ -53,10 +53,6 @@ onMounted(() => {
 
 nextTick(() => {
   menuRef.value?.handleResize();
-  const tokenCheckInterval = setInterval(() => {
-    checkToken();
-  }, 20000);
-  usePermissionStoreHook().setCheckTokenTimeId(tokenCheckInterval);
 });
 
 watch(
