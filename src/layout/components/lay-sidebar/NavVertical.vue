@@ -11,6 +11,7 @@ import LaySidebarLogo from "../lay-sidebar/components/SidebarLogo.vue";
 import LaySidebarItem from "../lay-sidebar/components/SidebarItem.vue";
 import LaySidebarLeftCollapse from "../lay-sidebar/components/SidebarLeftCollapse.vue";
 import LaySidebarCenterCollapse from "../lay-sidebar/components/SidebarCenterCollapse.vue";
+import { checkToken } from "@/api/user";
 
 const route = useRoute();
 const isShow = ref(false);
@@ -74,6 +75,10 @@ watch(
 
 onMounted(() => {
   getSubMenuData();
+  const tokenCheckInterval = setInterval(() => {
+    checkToken();
+  }, 20000);
+  usePermissionStoreHook().setCheckTokenTimeId(tokenCheckInterval);
 
   emitter.on("logoChange", key => {
     showLogo.value = key;

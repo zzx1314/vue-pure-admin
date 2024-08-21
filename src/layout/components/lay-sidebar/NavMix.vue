@@ -17,6 +17,7 @@ import AccountSettingsIcon from "@iconify-icons/ri/user-settings-line";
 import LogoutCircleRLine from "@iconify-icons/ri/logout-circle-r-line";
 import Setting from "@iconify-icons/ri/settings-3-line";
 import Check from "@iconify-icons/ep/check";
+import { checkToken } from "@/api/user";
 
 const menuRef = ref();
 const defaultActive = ref(null);
@@ -52,6 +53,10 @@ onMounted(() => {
 
 nextTick(() => {
   menuRef.value?.handleResize();
+  const tokenCheckInterval = setInterval(() => {
+    checkToken();
+  }, 20000);
+  usePermissionStoreHook().setCheckTokenTimeId(tokenCheckInterval);
 });
 
 watch(

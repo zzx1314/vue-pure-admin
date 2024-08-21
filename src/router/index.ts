@@ -31,8 +31,6 @@ import {
   removeToken,
   multipleTabsKey
 } from "@/utils/auth";
-import { checkToken } from "@/api/user";
-
 /** 自动导入全部静态路由，无需再手动引入！匹配 src/router/modules 目录（任何嵌套级别）中具有 .ts 扩展名的所有文件，除了 remaining.ts 文件
  * 如何匹配所有文件请看：https://github.com/mrmlnc/fast-glob#basic-syntax
  * 如何排除文件请看：https://cn.vitejs.dev/guide/features.html#negative-patterns
@@ -107,27 +105,10 @@ const whiteList = ["/login"];
 
 const { VITE_HIDE_HOME } = import.meta.env;
 
-let tokenCheckInterval: any;
-function startTokenCheck() {
-  tokenCheckInterval = setInterval(() => {
-    checkToken();
-  }, 20000);
-}
-
-function stopTokenCheck() {
-  if (tokenCheckInterval) {
-    clearInterval(tokenCheckInterval);
-    tokenCheckInterval = null;
-  }
-}
-
 router.beforeEach((to: ToRouteType, _from, next) => {
   console.log("to...", to);
-  if (to.path === "/welcome") {
-    startTokenCheck();
-  }
   if (to.path === "/login") {
-    stopTokenCheck();
+    usePermissionStoreHook().clearCheckTokenTimeId();
   }
   if (to.meta?.keepAlive) {
     handleAliveRoute(to, "add");

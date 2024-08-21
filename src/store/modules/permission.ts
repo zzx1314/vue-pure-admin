@@ -22,7 +22,9 @@ export const usePermissionStore = defineStore({
     // 整体路由（一维数组格式）
     flatteningRoutes: [],
     // 缓存页面keepAlive
-    cachePageList: []
+    cachePageList: [],
+    // 检测token是否过期
+    checkTokenTimeId: null
   }),
   actions: {
     /** 组装整体路由生成的菜单 */
@@ -66,6 +68,14 @@ export const usePermissionStore = defineStore({
     clearAllCachePage() {
       this.wholeMenus = [];
       this.cachePageList = [];
+    },
+    setCheckTokenTimeId(timeId: any) {
+      this.checkTokenTimeId = timeId;
+    },
+    clearCheckTokenTimeId() {
+      console.log("clearCheckTokenTimeId", this.checkTokenTimeId);
+      clearInterval(this.checkTokenTimeId);
+      this.checkTokenTimeId = null;
     }
   }
 });
