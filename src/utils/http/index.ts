@@ -4,7 +4,6 @@ import Axios, {
   type CustomParamsSerializer
 } from "axios";
 import type {
-  PureHttpError,
   RequestMethods,
   PureHttpResponse,
   PureHttpRequestConfig
@@ -126,14 +125,18 @@ class PureHttp {
         }
         return response.data;
       },
-      (error: PureHttpError) => {
+      (error: any) => {
         console.log("拦截异常：", error.response);
         const $error = error;
         $error.isCancelRequest = Axios.isCancel($error);
         // 关闭进度条动画
         NProgress.done();
         useUserStoreHook().logOut();
-        message("登录超时，请重新登录", { type: "error" });
+        if (error.response.data && error.response.data.error_description) {
+          message(error.response.data.error_description, { type: "error" });
+        } else {
+          message("登录超时，重新登录", { type: "error" });
+        }
         // 所有的响应异常 区分来源为取消请求/非取消请求
         return Promise.reject($error);
       }
