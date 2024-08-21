@@ -72,6 +72,9 @@ export const usePermissionStore = defineStore({
     setCheckTokenTimeId(timeId: any) {
       this.checkTokenTimeId = timeId;
     },
+    getCheckTokenTimeId() {
+      return this.checkTokenTimeId;
+    },
     clearCheckTokenTimeId() {
       console.log("clearCheckTokenTimeId", this.checkTokenTimeId);
       clearInterval(this.checkTokenTimeId);
