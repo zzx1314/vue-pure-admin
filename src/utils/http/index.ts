@@ -252,7 +252,8 @@ class PureHttp {
               expires: response.expires,
               username: response.username, // 需要填充实际值
               nickname: response.username, // 需要填充实际值
-              roles: response.roles
+              roles: response.roles,
+              user_id: response.user_id
             }
           };
           resolve(result);

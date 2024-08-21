@@ -17,6 +17,8 @@ export type UserResult = {
     refreshToken: string;
     /** `accessToken`的过期时间（格式'xxxx/xx/xx xx:xx:xx'） */
     expires: Date;
+    // 用户id
+    user_id?: Number;
   };
 };
 
@@ -70,7 +72,8 @@ const urls = {
   token: `/api/auth/oauth/token`,
   refreshToken: `/api/auth/oauth/refreshToken`,
   getInfo: `/api/upms/sysUser/info`,
-  checkToken: `/api/upms/checkToken/isExpire`
+  checkToken: `/api/upms/checkToken/isExpire`,
+  updatePassword: `/api/upms/sysUser/edit`
 };
 
 /**
@@ -105,4 +108,9 @@ export const getMine = (data?: object) => {
 /** 账户设置-个人安全日志 */
 export const getMineLogs = (data?: object) => {
   return http.request<ResultTable>("get", "/mine-logs", { data });
+};
+
+/** 账户设置-修改密码 */
+export const updatePassword = (data?: object) => {
+  return http.axiosPut<Result>(urls.updatePassword, data);
 };

@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import type { FormInstance } from "element-plus";
+import { ElMessage, FormInstance } from "element-plus";
+import { updatePassword } from "@/api/user";
+import { SUCCESS } from "@/api/base";
+import { DataInfo, userKey } from "@/utils/auth";
+import { storageLocal } from "@pureadmin/utils";
+import aesUtils from "@/utils/aes";
 
 const props = defineProps({
   dialogFormVisible: {
@@ -23,6 +28,10 @@ function resetForm(formEl) {
   formEl.resetFields();
 }
 
+function closeDialog() {
+  emit("update:dialogFormVisible", false);
+}
+
 const cancel = formEl => {
   addForm.value = {
     id: null,
@@ -31,7 +40,7 @@ const cancel = formEl => {
     newpassword1: ""
   };
   resetForm(formEl);
-  emit("update:dialogFormVisible", false);
+  closeDialog();
 };
 
 const addFormInfo = async (formEl: FormInstance | undefined) => {
@@ -39,7 +48,26 @@ const addFormInfo = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       console.log("修改密码");
-      emit("update:dialogFormVisible", false);
+      addForm.value.password = aesUtils.encode(addForm.value.password, "");
+      addForm.value.newpassword = aesUtils.encode(
+        addForm.value.newpassword,
+        ""
+      );
+      addForm.value.newpassword1 = aesUtils.encode(
+        addForm.value.newpassword1,
+        ""
+      );
+      addForm.value.id =
+        storageLocal().getItem<DataInfo<number>>(userKey).user_id;
+      console.log(addForm.value);
+      updatePassword(addForm.value).then(res => {
+        if (res.code === SUCCESS) {
+          ElMessage.success("修改成功");
+          closeDialog();
+        } else {
+          ElMessage.error("修改失败");
+        }
+      });
     } else {
       console.log("error submit!", fields);
     }
@@ -81,7 +109,7 @@ const rules = {
   <div>
     <el-dialog
       :model-value="dialogFormVisible"
-      title="用户信息"
+      title="密码修改"
       width="40%"
       @close="cancel(addFormRef)"
     >
