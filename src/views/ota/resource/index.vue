@@ -819,7 +819,6 @@ const backoff = () => {
             <pure-table
               ref="tableRefDev"
               border
-              adaptive
               align-whole="center"
               showOverflowTooltip
               table-layout="auto"
