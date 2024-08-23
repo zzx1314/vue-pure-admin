@@ -15,7 +15,6 @@ defineOptions({
     <el-form
       ref="addFormRef"
       :model="addForm"
-      :inline="true"
       :rules="rules"
       label-width="150px"
     >
@@ -23,7 +22,7 @@ defineOptions({
         <el-select
           v-model="addForm.sysLoginMaxLockTime"
           placeholder="请选择锁定时长"
-          style="width: 200px"
+          style="width: 300px"
         >
           <el-option label="5分钟" value="5" />
           <el-option label="10分钟" value="10" />
@@ -36,7 +35,7 @@ defineOptions({
         <el-select
           v-model="addForm.sysLoginMaxTryCount"
           placeholder="请选择最大尝试次数"
-          style="width: 200px"
+          style="width: 300px"
         >
           <el-option label="5次" value="5" />
           <el-option label="10次" value="10" />
@@ -50,16 +49,26 @@ defineOptions({
           <el-select
             v-model="addForm.sysPassShortLength"
             placeholder="请输入密码最短长度"
-            style="width: 84px; margin-right: 16px"
+            style="width: 140px"
           >
             <el-option label="8" value="8" />
             <el-option label="9" value="9" />
             <el-option label="10" value="10" />
           </el-select>
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 20px;
+            "
+          >
+            --
+          </div>
           <el-select
             v-model="addForm.sysPassLength"
             placeholder="请输入密码最长长度"
-            style="width: 100px"
+            style="width: 140px"
           >
             <el-option label="11" value="11" />
             <el-option label="12" value="12" />
@@ -72,7 +81,7 @@ defineOptions({
         <el-select
           v-model="addForm.sysPassChange"
           placeholder="请选择密码有效期"
-          style="width: 200px"
+          style="width: 300px"
         >
           <el-option label="5天" value="5" />
           <el-option label="7天" value="7" />
@@ -84,7 +93,7 @@ defineOptions({
         <el-select
           v-model="addForm.passCom"
           placeholder="请选择密码强度"
-          style="width: 200px"
+          style="width: 300px"
         >
           <el-option label="密码是数字" value="1" />
           <el-option label="密码是数字，字母组合" value="2" />
@@ -93,24 +102,19 @@ defineOptions({
       </el-form-item>
       <el-form-item label="密码超时时间" prop="sysOvertime">
         <el-select
-          v-model="addForm.sysPassChange"
+          v-model="addForm.sysOvertime"
           placeholder="请选择密码超时时间"
-          style="width: 200px"
+          style="width: 300px"
         >
           <el-option label="15分钟" value="900" />
           <el-option label="30分钟" value="1800" />
           <el-option label="1小时" value="3600" />
         </el-select>
       </el-form-item>
-
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="cancel()">取消</el-button>
-          <el-button type="primary" @click="addFormInfo(addFormRef)"
-            >确认</el-button
-          >
-        </span>
-      </template>
+      <el-form-item>
+        <el-button type="primary" @click="addFormInfo">保存</el-button>
+        <el-button @click="cancel">取消</el-button>
+      </el-form-item>
     </el-form>
   </div>
 </template>

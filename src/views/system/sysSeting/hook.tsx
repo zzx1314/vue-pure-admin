@@ -3,13 +3,13 @@ import type { FormRules } from "element-plus";
 
 export function useSysSeting() {
   const addForm = ref({
-    sysLoginMaxLockTime: 5,
-    sysLoginMaxTryCount: 5,
-    sysPassLength: 10,
+    sysLoginMaxLockTime: "5分钟",
+    sysLoginMaxTryCount: "5次",
+    sysPassLength: 11,
     sysPassShortLength: 8,
-    sysPassChange: 5,
-    sysOvertime: 1800,
-    passCom: 1
+    sysPassChange: "5天",
+    sysOvertime: "30分钟",
+    passCom: "密码是数字，字母组合"
   });
 
   const rules = reactive<FormRules>({
@@ -36,9 +36,9 @@ export function useSysSeting() {
 
   const cancel = () => {
     addForm.value = {
-      sysLoginMaxLockTime: 5,
-      sysLoginMaxTryCount: 5,
-      sysPassLength: 10,
+      sysLoginMaxLockTime: "5分钟",
+      sysLoginMaxTryCount: "5次",
+      sysPassLength: 11,
       sysPassShortLength: 8,
       sysPassChange: 5,
       sysOvertime: 1800,

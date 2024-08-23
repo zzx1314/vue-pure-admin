@@ -151,7 +151,7 @@ const {
         </el-form-item>
 
         <el-form-item
-          v-if="addForm.value.type == 2"
+          v-if="addForm.value.type == 2 || addForm.value.type == 3"
           label="上级菜单"
           prop="parentId"
         >

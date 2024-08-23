@@ -73,8 +73,10 @@ import Device from "@iconify-icons/tdesign/system-device";
 import DeviceOne from "@iconify-icons/tdesign/device";
 import Resource from "@iconify-icons/mdi/resource-description-framework";
 import Task from "@iconify-icons/tdesign/task";
+import secSeting from "@iconify-icons/tdesign/lock-on";
 
 addIcon("tdesign:system-device", Device);
 addIcon("tdesign:device", DeviceOne);
 addIcon("mdi:resource-description-framework", Resource);
 addIcon("tdesign:task", Task);
+addIcon("tdesign:lock-on", secSeting);

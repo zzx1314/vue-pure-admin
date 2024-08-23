@@ -45,6 +45,10 @@ export function useMenu() {
     {
       type: 2,
       name: "按钮"
+    },
+    {
+      type: 3,
+      name: "路由"
     }
   ];
   const dataList = ref([]);
@@ -77,8 +81,12 @@ export function useMenu() {
       prop: "type",
       minWidth: 100,
       cellRenderer: ({ row }) => (
-        <el-tag type={row.type === 1 ? "success" : "info"}>
-          {row.type === 1 ? "菜单" : "按钮"}
+        <el-tag
+          type={
+            row.type === 1 ? "success" : row.type === 2 ? "warning" : "info"
+          }
+        >
+          {row.type === 1 ? "菜单" : row.type === 2 ? "按钮" : "路由"}
         </el-tag>
       )
     },
@@ -193,7 +201,7 @@ export function useMenu() {
         message: "请选择子节点类型！"
       }
     ],
-    parentName: [
+    parentId: [
       {
         required: true,
         message: "上级菜单不能为空！"
