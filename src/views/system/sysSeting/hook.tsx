@@ -1,8 +1,11 @@
-import { reactive, ref } from "vue";
-import type { FormRules } from "element-plus";
+import { onMounted, reactive, ref } from "vue";
+import { ElMessage, type FormRules } from "element-plus";
+import { getSafePolicy, updateSafePolicy } from "@/api/system";
+import { SUCCESS } from "@/api/base";
 
 export function useSysSeting() {
   const addForm = ref({
+    type: "sys_security_policy",
     sysLoginMaxLockTime: "5分钟",
     sysLoginMaxTryCount: "5次",
     sysPassLength: 11,
@@ -36,17 +39,36 @@ export function useSysSeting() {
 
   const cancel = () => {
     addForm.value = {
+      type: "sys_security_policy",
       sysLoginMaxLockTime: "5分钟",
       sysLoginMaxTryCount: "5次",
       sysPassLength: 11,
       sysPassShortLength: 8,
-      sysPassChange: 5,
-      sysOvertime: 1800,
-      passCom: 1
+      sysPassChange: "5天",
+      sysOvertime: "30分钟",
+      passCom: "密码是数字，字母组合"
     };
   };
+
+  const getSysSeting = () => {
+    getSafePolicy().then(res => {
+      if (res.code === SUCCESS) {
+        addForm.value = res.data;
+      }
+    });
+  };
+
+  onMounted(() => {
+    getSysSeting();
+  });
+
   const addFormInfo = ref => {
     console.log("保存", ref);
+    updateSafePolicy(addForm.value).then(res => {
+      if (res.code === SUCCESS) {
+        ElMessage.success("保存成功");
+      }
+    });
   };
 
   return {

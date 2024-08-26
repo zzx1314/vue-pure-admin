@@ -7,6 +7,12 @@ type Result = {
   data?: Array<any>;
 };
 
+type ResultOne = {
+  code: number;
+  msg: string;
+  data?: any;
+};
+
 type ResultPage = {
   code: number;
   msg: string;
@@ -69,6 +75,20 @@ const fileMinoUp = {
   downloadMultipartFile: "/api/upms/files/download/",
   getFileList: "/api/upms/files/list"
 };
+
+const dictUrls = {
+  getSafePolicy: `/api/upms/sysDictItem/getSafePolicy`,
+  updateSafePolicy: `/api/upms/sysDictItem/updateSafePolicy`
+};
+
+export const getSafePolicy = () => {
+  return http.axiosGetRequest<ResultOne>(dictUrls.getSafePolicy, null);
+};
+
+export const updateSafePolicy = (data?: object) => {
+  return http.axiosPut<Result>(dictUrls.updateSafePolicy, data);
+};
+
 export const checkFileByMd5 = (data: object, busstr: Object) => {
   return http.axiosGetRequest<Result>(fileMinoUp.checkFileByMd5 + data, busstr);
 };
