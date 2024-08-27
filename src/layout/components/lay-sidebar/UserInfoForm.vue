@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { updatePassword } from "@/api/user";
 import { SUCCESS } from "@/api/base";
 import { DataInfo, userKey } from "@/utils/auth";
 import { storageLocal } from "@pureadmin/utils";
 import aesUtils from "@/utils/aes";
+import { getSafePolicy } from "@/api/system";
 
 const props = defineProps({
   dialogFormVisible: {
@@ -21,6 +22,29 @@ const addForm = ref({
   password: "",
   newpassword: "",
   newpassword1: ""
+});
+
+const addFormRul = ref({
+  type: "sys_security_policy",
+  sysLoginMaxLockTime: "5分钟",
+  sysLoginMaxTryCount: "5次",
+  sysPassLength: 11,
+  sysPassShortLength: 8,
+  sysPassChange: "5天",
+  sysOvertime: "30分钟",
+  passCom: "密码是数字，字母组合"
+});
+
+const getSysSeting = () => {
+  getSafePolicy().then(res => {
+    if (res.code === SUCCESS) {
+      addFormRul.value = res.data;
+    }
+  });
+};
+
+onMounted(() => {
+  getSysSeting();
 });
 
 function resetForm(formEl) {
@@ -91,15 +115,66 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
     callback();
   }
 };
+// 对密码长度进行校验
+const validatePass3 = (rule: any, value: any, callback: any) => {
+  // sessionStorage 中获取密码长度
+  const passMaxLengthStr = addFormRul.value.sysPassLength;
+  const passMinLengthStr = addFormRul.value.sysPassShortLength;
+
+  // 转换为整数
+  const passMaxLength = parseInt(passMaxLengthStr, 10);
+  const passMinLength = parseInt(passMinLengthStr, 10);
+
+  if (value.length < passMinLength) {
+    callback(new Error(`密码长度不能小于${passMinLength}位`));
+  } else if (value.length > passMaxLength) {
+    callback(new Error(`密码长度不能大于${passMaxLength}位`));
+  } else {
+    callback();
+  }
+};
+// 对密码的复杂度进行校验
+const validatePass4 = (rule: any, value: any, callback: any) => {
+  // 从sessionStorage 中获取密码复杂度
+  const passComplexityStr = addFormRul.value.passCom;
+  if (passComplexityStr === "1") {
+    // 密码是数字
+    if (value.match(/^[0-9]+$/)) {
+      callback(new Error("密码是数字"));
+    } else {
+      callback();
+    }
+  }
+  if (passComplexityStr === "2") {
+    // 密码是数字，字母组合
+    if (value.match(/^[0-9a-zA-Z]+$/)) {
+      callback(new Error("密码是数字，字母组合"));
+    } else {
+      callback();
+    }
+  }
+  if (passComplexityStr === "3") {
+    // 密码是数字，字母，特殊字符组合
+    if (value.match(/^[0-9a-zA-Z\W]+$/)) {
+      callback(new Error("密码是数字，字母，特殊字符组合"));
+    } else {
+      callback();
+    }
+  }
+};
 
 const rules = {
   password: [{ required: true, message: "密码必填", trigger: "blur" }],
   newpassword: [
     { validator: validatePass, trigger: "blur" },
+    { validator: validatePass3, trigger: "blur" },
+    { validator: validatePass4, trigger: "blur" },
     { required: true, message: "密码必填", trigger: "blur" }
   ],
   newpassword1: [
     { validator: validatePass2, trigger: "blur" },
+    { validator: validatePass3, trigger: "blur" },
+    { validator: validatePass4, trigger: "blur" },
     { required: true, message: "密码必填", trigger: "blur" }
   ]
 };
