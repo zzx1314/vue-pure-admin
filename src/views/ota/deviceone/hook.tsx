@@ -111,6 +111,11 @@ export function useDevice() {
       prop: "createTime"
     },
     {
+      label: "心跳时间",
+      minWidth: 180,
+      prop: "heartbeatTime"
+    },
+    {
       label: "组别",
       minWidth: 150,
       prop: "devGroup"

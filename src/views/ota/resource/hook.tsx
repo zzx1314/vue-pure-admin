@@ -170,8 +170,8 @@ export function useResource() {
       minWidth: 120
     },
     {
-      label: "MD5值",
-      prop: "md5",
+      label: "操作人",
+      prop: "operator",
       minWidth: 120
     },
     {
