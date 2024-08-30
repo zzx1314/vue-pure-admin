@@ -103,6 +103,7 @@ const selectFile = async option => {
   // return;
   // let fileItem=option.raw
   const file = option.file;
+  console.log("选择文件", file.size);
   if (!file) return;
 
   const chunkCount = Math.ceil((file.size ?? 0) / CHUNK_SIZE);
@@ -122,6 +123,7 @@ const selectFile = async option => {
     uploadedSize: 0
   };
   state.dataSource.push(dataItem);
+  console.log("选择文件", state.dataSource);
   const i = state.dataSource.findIndex(item => item.uid == dataItem.uid);
   // 同步计算分片文件和 md5，实时更新计算进度
   // const { md5, chunkFileList } = await createChunkFileAndMd5(
@@ -136,6 +138,7 @@ const selectFile = async option => {
   const chunks = await cutFile(file);
   const merkleTree = new MerkleTree(chunks.map(chunk => chunk.hash));
   const md5 = merkleTree.getRootHash();
+  console.log("计算md5", md5);
   const chunkFileList = chunks.map(chunk => chunk.blob);
   // console.log(md5, chunkFileList)
 
@@ -151,6 +154,7 @@ const selectFile = async option => {
 
 // 查询文件状态并上传
 const onUpload = async option => {
+  state.dataSource = [];
   const loading = ElLoading.service({
     lock: true,
     text: "上传中",
@@ -159,7 +163,7 @@ const onUpload = async option => {
   await selectFile(option);
 
   for (let i = 0; i < state.dataSource.length; i++) {
-    console.log("循环" + i);
+    console.log("循环上传" + i);
     // md5 未计算完成和正在上传的跳过（重复点击的情况）
     if (!state.dataSource[i].md5 || state.dataSource[i].status == "uploading")
       continue;
@@ -176,6 +180,7 @@ const onUpload = async option => {
  */
 const uploadFile = async (index, item) => {
   const paramData = { busStr: JSON.stringify(addForm.value) };
+  console.log("文件md5计算", item.md5);
   const result = await checkFileByMd5(item.md5, paramData);
   console.log(result);
   const data = result.data;
