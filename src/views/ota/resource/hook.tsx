@@ -359,7 +359,6 @@ export function useResource() {
     };
     dialogFormVisible.value = false;
     fileList.value = [];
-    state.dataSource = [];
     onSearch();
   }
   function cancelPush(tableRef) {
@@ -441,7 +440,7 @@ export function useResource() {
           range: `bytes=${start}-${end}`
         };
         const res = await chunkDownloadFile(query);
-        const currentDataBlob = state.blobRef.get(record.id) || [];
+        const currentDataBlob = state.blobRef.get(record.fileId) || [];
         // 记录当前数据的分片 blob
         state.blobRef.set(record.fileId, [
           ...currentDataBlob,
