@@ -9,6 +9,7 @@ import { chunkDownloadFile } from "@/api/system";
 import { downloadFileByBlob } from "@/lib/fileUtil";
 import { devPage } from "@/api/otaDev";
 import { ElLoading } from "element-plus";
+import { convertFileSizeUnit } from "@/lib/fileUtil";
 
 export function useResource() {
   // ----变量定义-----
@@ -170,8 +171,8 @@ export function useResource() {
       minWidth: 120
     },
     {
-      label: "MD5值",
-      prop: "md5",
+      label: "操作人",
+      prop: "operator",
       minWidth: 120
     },
     {
@@ -304,6 +305,12 @@ export function useResource() {
     const { data } = await resPage(query);
     dataList.value = data.records;
     pagination.total = data.total;
+    // 对dataList中的fileSize 进行格式化
+    dataList.value.forEach(item => {
+      if (item.fileSize) {
+        item.fileSize = convertFileSizeUnit(item.fileSize);
+      }
+    });
     setTimeout(() => {
       loading.value = false;
     }, 500);
