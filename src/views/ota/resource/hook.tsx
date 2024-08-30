@@ -352,6 +352,7 @@ export function useResource() {
     };
     dialogFormVisible.value = false;
     fileList.value = [];
+    state.dataSource = [];
     onSearch();
   }
   function cancelPush(tableRef) {

@@ -186,12 +186,14 @@ const uploadFile = async (index, item) => {
     state.dataSource[index].progress = 100;
     state.dataSource[index].status = "success";
     message("上传成功", { type: "success" });
+    state.dataSource = [];
     cancel();
     return;
   } else if (code === HttpCodeUploadEnum.FAIL) {
     //  上传失败
     state.dataSource[index].status = "error";
     message("上传失败", { type: "error" });
+    state.dataSource = [];
     cancel();
     return;
   } /*  else if (code === HttpCodeUploadEnum.UPLOADING) {
