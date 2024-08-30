@@ -162,7 +162,7 @@ export function useResource() {
     },
     {
       label: "文件大小",
-      prop: "fileSize",
+      prop: "fileSizeShow",
       minWidth: 120
     },
     {
@@ -308,7 +308,7 @@ export function useResource() {
     // 对dataList中的fileSize 进行格式化
     dataList.value.forEach(item => {
       if (item.fileSize) {
-        item.fileSize = convertFileSizeUnit(item.fileSize);
+        item.fileSizeShow = convertFileSizeUnit(item.fileSize);
       }
     });
     setTimeout(() => {
