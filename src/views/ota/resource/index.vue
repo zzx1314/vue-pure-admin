@@ -190,22 +190,18 @@ const uploadFile = async (index, item) => {
     //  上传成功
     state.dataSource[index].progress = 100;
     state.dataSource[index].status = "success";
-    message("上传成功", { type: "success" });
     state.dataSource = [];
+    message("上传成功", { type: "success" });
     cancel();
     return;
   } else if (code === HttpCodeUploadEnum.FAIL) {
     //  上传失败
     state.dataSource[index].status = "error";
-    message("上传失败", { type: "error" });
     state.dataSource = [];
+    message("上传失败", { type: "error" });
     cancel();
     return;
-  } /*  else if (code === HttpCodeUploadEnum.UPLOADING) {
-        // 上传中，返回已上传的文件数据和分片列表
-      } else {
-        // 未上传
-      } */
+  }
 
   // 返回需要上传分片和对应地址
   const needUploadFile = await initSliceFile(item, data);
