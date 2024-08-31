@@ -238,6 +238,9 @@ export function useResource() {
       "dark:hover:!text-primary"
     ];
   });
+
+  const progressVisible = ref(false);
+  const progress = ref(0);
   // -----方法定义---
   // 修改
   function handleUpdate(row) {
@@ -489,6 +492,8 @@ export function useResource() {
     devSecDataList,
     downPush,
     active,
+    progressVisible,
+    progress,
     onSearch,
     resetForm,
     handleUpdate,

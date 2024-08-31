@@ -64,6 +64,8 @@ const {
   devSecDataList,
   downPush,
   active,
+  progressVisible,
+  progress,
   cancel,
   cancelPush,
   openDia,
@@ -445,6 +447,10 @@ const backoff = () => {
   console.log("后退");
   active.value = 1;
   downPush.value = false;
+};
+
+const closePro = () => {
+  progressVisible.value = false;
 };
 </script>
 <template>
@@ -866,12 +872,12 @@ const backoff = () => {
         </span>
       </template>
     </el-dialog>
+    <progress-modal
+      :is-visible="progressVisible"
+      :progress="progress"
+      @update:is-visible="closePro"
+    />
   </div>
-  <progress-modal
-    :is-visible="false"
-    :progress="50"
-    @update:is-visible="() => false"
-  />
 </template>
 
 <style scoped lang="scss">

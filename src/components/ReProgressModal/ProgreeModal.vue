@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { watchEffect } from "vue";
+
 defineOptions({
   name: "ProgressModal"
 });
@@ -14,9 +16,13 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["update:isVisible"]);
-const handleClose = () => {
-  emit("update:isVisible", false);
-};
+
+// 监听 progress 变化
+watchEffect(() => {
+  if (props.progress === 100) {
+    emit("update:isVisible", false);
+  }
+});
 </script>
 
 <template>
@@ -28,7 +34,6 @@ const handleClose = () => {
       :show-close="false"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
-      :before-close="handleClose"
     >
       <el-progress
         :text-inside="true"
