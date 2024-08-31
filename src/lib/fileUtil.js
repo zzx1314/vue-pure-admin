@@ -23,6 +23,7 @@ export function convertFileSizeUnit(size = 0) {
  * @param filename 文件名
  */
 export function downloadFileByBlob(blob, filename) {
+  console.log("下载的文件名:" + filename);
   const href = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.style.display = "none";

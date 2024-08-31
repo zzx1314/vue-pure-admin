@@ -427,7 +427,7 @@ export function useResource() {
       text: "下载中",
       background: "rgba(0, 0, 0, 0.7)"
     });
-    console.log("下载", record);
+    console.log("下载", record.originFileName);
     const totalChunks = Math.ceil(record.fileSize / CHUNK_SIZE);
     for (let i = 1; i <= totalChunks; i++) {
       const start = CHUNK_SIZE * (i - 1);
@@ -450,7 +450,9 @@ export function useResource() {
         return;
       }
     }
-    const blob = new Blob(state.blobRef.get(record.fileId));
+    const blob = new Blob(state.blobRef.get(record.fileId), {
+      type: "application/octet-stream"
+    });
     downloadFileByBlob(blob, record.originFileName);
     loading.close();
   }
