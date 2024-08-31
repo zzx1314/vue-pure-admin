@@ -27,6 +27,7 @@ import { resPush, resSave, resUpdate } from "@/api/otaRes";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import { ElLoading } from "element-plus";
+import ProgressModal from "@/components/ReProgressModal/ProgreeModal.vue";
 
 defineOptions({
   name: "Resource"
@@ -866,6 +867,11 @@ const backoff = () => {
       </template>
     </el-dialog>
   </div>
+  <progress-modal
+    :is-visible="false"
+    :progress="50"
+    @update:is-visible="() => false"
+  />
 </template>
 
 <style scoped lang="scss">
