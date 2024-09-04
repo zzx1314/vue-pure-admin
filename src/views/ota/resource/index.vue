@@ -227,6 +227,7 @@ const uploadFile = async (index, item) => {
   }
 
   try {
+    console.log("分片上传进度：" + state.dataSource[index].progress);
     const result = await mergeFileByMd5(item.md5);
     console.log("合并结果", result);
     const data = result.data;
@@ -704,7 +705,7 @@ const closePro = () => {
         >
           <el-input
             v-model="addForm.value.version"
-            placeholder="请输入模块包类型"
+            placeholder="请输入模块版本"
           />
         </el-form-item>
 
