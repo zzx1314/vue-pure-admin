@@ -1,6 +1,9 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormInstance, FormRules } from "element-plus";
+import { cerPage, cerSave, cerUpdate, cerDelete } from "@/api/otaCer";
+import { SUCCESS } from "@/api/base";
+import { message } from "@/utils/message";
 
 export function useCa() {
   // ----变量定义-----
@@ -150,6 +153,14 @@ export function useCa() {
   // 删除
   function handleDelete(row) {
     console.log(row);
+    cerDelete(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        message("删除成功！", { type: "success" });
+        onSearch();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
   }
 
   function handleSizeChange(val: number) {
@@ -167,7 +178,22 @@ export function useCa() {
   }
   // 查询
   async function onSearch() {
-    console.log("onSearch");
+    loading.value = true;
+    console.log("查询CA信息");
+    const page = {
+      size: pagination.pageSize,
+      current: pagination.currentPage
+    };
+    const query = {
+      ...page,
+      ...queryForm
+    };
+    const { data } = await cerPage(query);
+    dataList.value = data.records;
+    pagination.total = data.total;
+    setTimeout(() => {
+      loading.value = false;
+    }, 500);
   }
 
   const resetForm = formEl => {
@@ -204,7 +230,37 @@ export function useCa() {
   }
   // 保存
   const submitForm = async (formEl: FormInstance | undefined) => {
-    console.log("submitForm", formEl);
+    if (!formEl) return;
+    await formEl.validate((valid, fields) => {
+      if (valid) {
+        console.log(addForm.value);
+        if (addForm.value.id) {
+          // 修改
+          console.log("修改修改CA信息");
+          cerUpdate(addForm.value).then(res => {
+            if (res.code === SUCCESS) {
+              message("修改成功！", { type: "success" });
+              cancel();
+            } else {
+              message(res.msg, { type: "error" });
+            }
+          });
+        } else {
+          // 新增
+          console.log("新增设备信息");
+          cerSave(addForm.value).then(res => {
+            if (res.code === SUCCESS) {
+              message("保存成功！", { type: "success" });
+              cancel();
+            } else {
+              message(res.msg, { type: "error" });
+            }
+          });
+        }
+      } else {
+        console.log("error submit!", fields);
+      }
+    });
   };
   // 打开弹框
   function openDia(param, formEl?) {

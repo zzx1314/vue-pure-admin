@@ -23,18 +23,18 @@ const otaDevUrls = {
 };
 
 // otaCa分页
-export const devPage = (query?: object) => {
+export const cerPage = (query?: object) => {
   return http.axiosGetRequest<ResultPage>(otaDevUrls.page, query);
 };
 // OTACa保存
-export const devSave = (param?: object) => {
+export const cerSave = (param?: object) => {
   return http.axiosPostRequest<Result>(otaDevUrls.save, param);
 };
 // OTACa修改
-export const devUpdate = (param?: object) => {
+export const cerUpdate = (param?: object) => {
   return http.axiosPut<Result>(otaDevUrls.update, param);
 };
 // OTACa删除
-export const devDelete = (param?: object) => {
+export const cerDelete = (param?: object) => {
   return http.axiosDelete<Result>(otaDevUrls.delete + param);
 };
