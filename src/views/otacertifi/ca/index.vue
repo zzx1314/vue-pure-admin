@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { FormInstance } from "element-plus";
-import { useCa } from "@/views/ota/otacertifi/ca/hook";
+import { useCa } from "@/views/otacertifi/ca/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
