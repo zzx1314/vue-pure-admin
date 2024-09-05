@@ -1,6 +1,7 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormInstance, FormRules } from "element-plus";
+import { cerPage } from "@/api/otaCer";
 
 export function useServer() {
   // ----变量定义-----
@@ -8,7 +9,9 @@ export function useServer() {
     name: "",
     domain: "",
     type: "",
-    status: ""
+    status: "",
+    beginTime: "",
+    endTime: ""
   });
   const dataList = ref([]);
   const loading = ref(true);
@@ -165,7 +168,22 @@ export function useServer() {
   }
   // 查询
   async function onSearch() {
-    console.log("onSearch");
+    loading.value = true;
+    console.log("查询CA信息");
+    const page = {
+      size: pagination.pageSize,
+      current: pagination.currentPage
+    };
+    const query = {
+      ...page,
+      ...queryForm
+    };
+    const { data } = await cerPage(query);
+    dataList.value = data.records;
+    pagination.total = data.total;
+    setTimeout(() => {
+      loading.value = false;
+    }, 500);
   }
 
   const resetForm = formEl => {

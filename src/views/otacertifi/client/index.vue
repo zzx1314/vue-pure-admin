@@ -59,11 +59,11 @@ const handleNodeClick = (data: ClientCa) => {
 const data: ClientCa[] = [
   {
     id: 1,
-    label: "ota证书"
+    label: "项目1-模块1-CA证书"
   },
   {
     id: 2,
-    label: "山东证书"
+    label: "项目1-模块2-CA证书"
   }
 ];
 
