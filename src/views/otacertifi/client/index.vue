@@ -76,7 +76,7 @@ const defaultProps = {
 <template>
   <div class="main">
     <el-container>
-      <el-aside width="250px">
+      <el-aside width="240px">
         <div
           class="h-full bg-bg_color overflow-auto"
           :style="{ minHeight: `calc(100vh - 141px)`, paddingTop: '20px' }"
@@ -103,7 +103,7 @@ const defaultProps = {
               v-model="queryForm.name"
               placeholder="请输入CA名称"
               clearable
-              class="!w-[180px]"
+              class="!w-[150px]"
             />
           </el-form-item>
           <el-form-item label="域名" prop="name">
@@ -111,14 +111,14 @@ const defaultProps = {
               v-model="queryForm.domain"
               placeholder="请输入CA域名"
               clearable
-              class="!w-[180px]"
+              class="!w-[150px]"
             />
           </el-form-item>
           <el-form-item label="状态" prop="name">
             <el-select
               v-model="queryForm.status"
               placeholder="请输入证书状态"
-              class="!w-[180px]"
+              class="!w-[150px]"
             >
               <el-option label="未生效" value="未生效" />
               <el-option label="已使用" value="已使用" />
