@@ -44,6 +44,11 @@ import OperationLog from "@iconify-icons/ri/history-fill";
 import InformationLine from "@iconify-icons/ri/information-line";
 import TerminalWindowLine from "@iconify-icons/ri/terminal-window-line";
 import CheckboxCircleLine from "@iconify-icons/ri/checkbox-circle-line";
+import FolderShield2Line from "@iconify-icons/ri/folder-shield-2-line";
+import FileLockLine from "@iconify-icons/ri/file-lock-line";
+import ShieldFlashLine from "@iconify-icons/ri/shield-flash-line";
+import SlideshowLine from "@iconify-icons/ri/slideshow-line";
+
 addIcon("ri:bookmark-2-line", Tag);
 addIcon("ri:file-ppt-2-line", Ppt);
 addIcon("ri:bank-card-line", Card);
@@ -68,6 +73,10 @@ addIcon("ri:history-fill", OperationLog);
 addIcon("ri:information-line", InformationLine);
 addIcon("ri:terminal-window-line", TerminalWindowLine);
 addIcon("ri:checkbox-circle-line", CheckboxCircleLine);
+addIcon("ri:folder-shield-2-line", FolderShield2Line);
+addIcon("ri:file-lock-line", FileLockLine);
+addIcon("ri:shield-flash-line", ShieldFlashLine);
+addIcon("ri:slideshow-line", SlideshowLine);
 
 import Device from "@iconify-icons/tdesign/system-device";
 import DeviceOne from "@iconify-icons/tdesign/device";
