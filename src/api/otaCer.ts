@@ -19,7 +19,10 @@ const otaDevUrls = {
   page: `/api/ota/otaBusCer/page`,
   save: "/api/ota/otaBusCer/save",
   delete: `/api/ota/otaBusCer/`,
-  update: "/api/ota/otaBusCer/update"
+  update: "/api/ota/otaBusCer/update",
+  getCaList: "/api/ota/otaBusCer/getCaList",
+  getSonCer: "/api/ota/otaBusCer/getSonCer/",
+  downCer: "/api/ota/otaBusCer/downCer"
 };
 
 // otaCa分页
@@ -37,4 +40,27 @@ export const cerUpdate = (param?: object) => {
 // OTACa删除
 export const cerDelete = (param?: object) => {
   return http.axiosDelete<Result>(otaDevUrls.delete + param);
+};
+// OTACa获取ca列表
+export const getCaList = () => {
+  return http.axiosGetRequest<Result>(otaDevUrls.getCaList, null);
+};
+// OTACa获取子证书列表
+export const getSonCer = (param?: object) => {
+  return http.axiosGetRequest<Result>(otaDevUrls.getSonCer + param, null);
+};
+
+type DownParam = {
+  id: number;
+  type: string;
+  parentId: number;
+};
+// 下载证书
+export const downCer = (param?: DownParam) => {
+  const query = {
+    id: param.id,
+    type: param.type,
+    parentId: param.parentId
+  };
+  return http.downloadUrlMode(otaDevUrls.downCer, "post", "证书.zip", query);
 };
