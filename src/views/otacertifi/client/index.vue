@@ -167,7 +167,7 @@ const defaultProps = {
             <el-button
               type="primary"
               :icon="useRenderIcon(AddFill)"
-              @click="openDia('新增CA', addFormRef)"
+              @click="openDia('新增客户端证书', addFormRef)"
             >
               添加
             </el-button>
@@ -250,19 +250,22 @@ const defaultProps = {
           />
         </el-form-item>
 
-        <el-form-item label="CA名称" prop="name">
+        <el-form-item label="证书名称" prop="name">
           <el-input v-model="addForm.value.name" placeholder="请输入设备版本" />
         </el-form-item>
         <el-form-item label="域名" prop="domain">
           <el-input v-model="addForm.value.domain" placeholder="请输入CA域名" />
         </el-form-item>
 
-        <el-form-item label="失效时间" prop="expiryData">
+        <el-form-item
+          v-if="addForm.value.expiryData !== '自定义'"
+          label="失效时间"
+          prop="expiryData"
+        >
           <el-select
-            v-if="addForm.value.expiryData !== '自定义'"
             v-model="addForm.value.expiryData"
             placeholder="请选择失效时间"
-            class="!w-[180px]"
+            class="!w-[200px]"
           >
             <el-option label="30天" value="30" />
             <el-option label="3个月" value="90" />
@@ -272,12 +275,13 @@ const defaultProps = {
             <el-option label="5年" value="1825" />
             <el-option label="自定义" value="自定义" />
           </el-select>
+        </el-form-item>
+        <el-form-item v-else label="失效时间" prop="commonExpireDta">
           <el-date-picker
-            v-else
-            v-model="addForm.value.expiryData"
+            v-model="addForm.value.commonExpireDta"
             type="date"
             placeholder="请输入失效时间"
-            class="!w-[180px]"
+            class="!w-[200px]"
           />
         </el-form-item>
 
