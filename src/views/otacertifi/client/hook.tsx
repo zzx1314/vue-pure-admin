@@ -13,6 +13,7 @@ import { message } from "@/utils/message";
 
 export function useClient() {
   // ----变量定义-----
+  const deftCheck = ref([]);
   const queryForm = reactive({
     parentId: null,
     name: "",
@@ -193,6 +194,10 @@ export function useClient() {
     getCaList().then(res => {
       console.log(res.data);
       caInfo.value = res.data;
+      if (caInfo.value) {
+        deftCheck.value = [caInfo.value[0].id];
+        getCerInfo(caInfo.value[0].id);
+      }
     });
     setTimeout(() => {
       loading.value = false;
@@ -321,6 +326,7 @@ export function useClient() {
     status,
     buttonClass,
     caInfo,
+    deftCheck,
     getCerInfo,
     onSearch,
     resetForm,

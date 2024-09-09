@@ -33,6 +33,7 @@ const {
   rules,
   moreCondition,
   caInfo,
+  deftCheck,
   cancel,
   getCerInfo,
   restartForm,
@@ -76,6 +77,7 @@ const defaultProps = {
           <el-tree
             ref="treeRef"
             node-key="id"
+            :default-checked-keys="deftCheck"
             :data="caInfo"
             :props="defaultProps"
             show-checkbox

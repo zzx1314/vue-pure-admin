@@ -7,6 +7,7 @@ import { message } from "@/utils/message";
 
 export function useServer() {
   // ----变量定义-----
+  const deftCheck = ref([]);
   const queryForm = reactive({
     parentId: null,
     name: "",
@@ -166,7 +167,7 @@ export function useServer() {
   function handleCurrentChange(val: number) {
     console.log(`current page: ${val}`);
     pagination.currentPage = val;
-    onSearch();
+    getCerInfo(parentId.value);
   }
 
   function handleSelectionChange(val) {
@@ -179,6 +180,10 @@ export function useServer() {
     getCaList().then(res => {
       console.log(res.data);
       caInfo.value = res.data;
+      if (caInfo.value) {
+        deftCheck.value = [caInfo.value[0].id];
+        getCerInfo(caInfo.value[0].id);
+      }
     });
     setTimeout(() => {
       loading.value = false;
@@ -215,7 +220,7 @@ export function useServer() {
     if (!formEl) return;
     formEl.resetFields();
     cancel();
-    onSearch();
+    getCerInfo(parentId.value);
   };
   // 取消
   function cancel() {
@@ -307,6 +312,7 @@ export function useServer() {
     status,
     buttonClass,
     caInfo,
+    deftCheck,
     onSearch,
     getCerInfo,
     resetForm,
