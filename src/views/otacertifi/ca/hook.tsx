@@ -1,6 +1,6 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
-import type { FormInstance, FormRules } from "element-plus";
+import { ElLoading, type FormInstance, type FormRules } from "element-plus";
 import { cerPage, cerSave, cerUpdate, cerDelete } from "@/api/otaCer";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -31,10 +31,10 @@ export function useCa() {
       parentId: 0,
       projName: "",
       modelName: "",
-      password: "",
       name: "",
       domain: "",
       expiryData: "",
+      commonExpireDta: "",
       type: "ca",
       remark: ""
     }
@@ -45,7 +45,12 @@ export function useCa() {
     password: [{ required: true, message: "密码必填", trigger: "blur" }],
     name: [{ required: true, message: "名称必填", trigger: "blur" }],
     domain: [{ required: true, message: "域名必填", trigger: "blur" }],
-    expiryData: [{ required: true, message: "失效时间必填", trigger: "change" }]
+    expiryData: [
+      { required: true, message: "失效时间必填", trigger: "change" }
+    ],
+    commonExpireDta: [
+      { required: true, message: "失效时间必填", trigger: "change" }
+    ]
   });
 
   const moreCondition = ref(false);
@@ -213,10 +218,10 @@ export function useCa() {
       parentId: 0,
       projName: "",
       modelName: "",
-      password: "",
       name: "",
       domain: "",
       expiryData: "",
+      commonExpireDta: "",
       type: "ca",
       remark: ""
     };
@@ -233,10 +238,15 @@ export function useCa() {
     if (!formEl) return;
     await formEl.validate((valid, fields) => {
       if (valid) {
+        const loading = ElLoading.service({
+          lock: true,
+          text: "制作CA中",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
         console.log(addForm.value);
         if (addForm.value.id) {
           // 修改
-          console.log("修改修改CA信息");
+          console.log("修改CA信息");
           cerUpdate(addForm.value).then(res => {
             if (res.code === SUCCESS) {
               message("修改成功！", { type: "success" });
@@ -244,10 +254,11 @@ export function useCa() {
             } else {
               message(res.msg, { type: "error" });
             }
+            loading.close();
           });
         } else {
           // 新增
-          console.log("新增设备信息");
+          console.log("新增信息");
           cerSave(addForm.value).then(res => {
             if (res.code === SUCCESS) {
               message("保存成功！", { type: "success" });
@@ -255,6 +266,7 @@ export function useCa() {
             } else {
               message(res.msg, { type: "error" });
             }
+            loading.close();
           });
         }
       } else {

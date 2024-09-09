@@ -258,13 +258,6 @@ const defaultProps = {
           />
         </el-form-item>
 
-        <el-form-item label="CA密码" prop="password">
-          <el-input
-            v-model="addForm.value.password"
-            placeholder="请输入CA密码"
-          />
-        </el-form-item>
-
         <el-form-item label="CA名称" prop="name">
           <el-input v-model="addForm.value.name" placeholder="请输入设备版本" />
         </el-form-item>
