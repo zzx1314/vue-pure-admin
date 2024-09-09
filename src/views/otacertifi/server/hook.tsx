@@ -116,7 +116,7 @@ export function useServer() {
     {
       label: "失效期限",
       minWidth: 180,
-      prop: "expiryData"
+      prop: "expiryDataStr"
     },
     {
       label: "备注",
@@ -169,7 +169,7 @@ export function useServer() {
   // 查询
   async function onSearch() {
     loading.value = true;
-    console.log("查询CA信息");
+    console.log("查询服务端证书");
     const page = {
       size: pagination.pageSize,
       current: pagination.currentPage
@@ -183,7 +183,7 @@ export function useServer() {
     pagination.total = data.total;
     setTimeout(() => {
       loading.value = false;
-    }, 500);
+    }, 100);
   }
 
   const resetForm = formEl => {

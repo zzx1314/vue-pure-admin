@@ -251,10 +251,10 @@ const defaultProps = {
         </el-form-item>
 
         <el-form-item label="证书名称" prop="name">
-          <el-input v-model="addForm.value.name" placeholder="请输入设备版本" />
+          <el-input v-model="addForm.value.name" placeholder="请输入证书名称" />
         </el-form-item>
         <el-form-item label="域名" prop="domain">
-          <el-input v-model="addForm.value.domain" placeholder="请输入CA域名" />
+          <el-input v-model="addForm.value.domain" placeholder="请输入域名" />
         </el-form-item>
 
         <el-form-item
