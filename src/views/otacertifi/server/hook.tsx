@@ -1,11 +1,14 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
-import type { FormInstance, FormRules } from "element-plus";
-import { cerPage } from "@/api/otaCer";
+import { ElLoading, type FormInstance, type FormRules } from "element-plus";
+import { cerPage, cerSave, cerUpdate, getCaList } from "@/api/otaCer";
+import { SUCCESS } from "@/api/base";
+import { message } from "@/utils/message";
 
 export function useServer() {
   // ----变量定义-----
   const queryForm = reactive({
+    parentId: null,
     name: "",
     domain: "",
     type: "",
@@ -13,6 +16,8 @@ export function useServer() {
     beginTime: "",
     endTime: ""
   });
+  const parentId = ref(0);
+  const caInfo = ref([]);
   const dataList = ref([]);
   const loading = ref(true);
   const dialogFormVisible = ref(false);
@@ -33,8 +38,9 @@ export function useServer() {
       name: "",
       domain: "",
       expiryData: "",
-      type: "ca",
-      remark: ""
+      type: "server",
+      remark: "",
+      commonExpireDta: ""
     }
   });
   const rules = reactive<FormRules>({
@@ -169,6 +175,19 @@ export function useServer() {
   // 查询
   async function onSearch() {
     loading.value = true;
+    console.log("查询CA信息");
+    getCaList().then(res => {
+      console.log(res.data);
+      caInfo.value = res.data;
+    });
+    setTimeout(() => {
+      loading.value = false;
+    }, 100);
+  }
+
+  async function getCerInfo(parntId: number) {
+    parentId.value = parntId;
+    loading.value = true;
     console.log("查询服务端证书");
     const page = {
       size: pagination.pageSize,
@@ -178,6 +197,8 @@ export function useServer() {
       ...page,
       ...queryForm
     };
+    query.parentId = parntId;
+    query.type = "server";
     const { data } = await cerPage(query);
     dataList.value = data.records;
     pagination.total = data.total;
@@ -208,7 +229,8 @@ export function useServer() {
       domain: "",
       expiryData: "",
       type: "ca",
-      remark: ""
+      remark: "",
+      commonExpireDta: ""
     };
 
     queryForm.name = "";
@@ -216,11 +238,49 @@ export function useServer() {
     queryForm.type = "";
     queryForm.status = "";
     dialogFormVisible.value = false;
-    onSearch();
+    getCerInfo(parentId.value);
   }
   // 保存
   const submitForm = async (formEl: FormInstance | undefined) => {
-    console.log("submitForm", formEl);
+    if (!formEl) return;
+    await formEl.validate((valid, fields) => {
+      if (valid) {
+        const loading = ElLoading.service({
+          lock: true,
+          text: "制作服务端证书中",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        addForm.value.parentId = parentId.value;
+        console.log(addForm.value);
+        if (addForm.value.id) {
+          // 修改
+          console.log("修改客户端信息");
+          cerUpdate(addForm.value).then(res => {
+            if (res.code === SUCCESS) {
+              message("修改成功！", { type: "success" });
+              cancel();
+            } else {
+              message(res.msg, { type: "error" });
+            }
+            loading.close();
+          });
+        } else {
+          // 新增
+          console.log("新增信息");
+          cerSave(addForm.value).then(res => {
+            if (res.code === SUCCESS) {
+              message("保存成功！", { type: "success" });
+              cancel();
+            } else {
+              message(res.msg, { type: "error" });
+            }
+            loading.close();
+          });
+        }
+      } else {
+        console.log("error submit!", fields);
+      }
+    });
   };
   // 打开弹框
   function openDia(param, formEl?) {
@@ -246,7 +306,9 @@ export function useServer() {
     columns,
     status,
     buttonClass,
+    caInfo,
     onSearch,
+    getCerInfo,
     resetForm,
     handleUpdate,
     handleDelete,
