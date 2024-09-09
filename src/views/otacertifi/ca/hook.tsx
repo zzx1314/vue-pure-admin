@@ -123,7 +123,7 @@ export function useCa() {
     {
       label: "失效期限",
       minWidth: 180,
-      prop: "expiryData"
+      prop: "expiryDataStr"
     },
     {
       label: "备注",
