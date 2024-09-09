@@ -46,7 +46,7 @@ export const getCaList = () => {
   return http.axiosGetRequest<Result>(otaDevUrls.getCaList, null);
 };
 // OTACa获取子证书列表
-export const getSonCer = (param?: object) => {
+export const getSonCer = (param?: number) => {
   return http.axiosGetRequest<Result>(otaDevUrls.getSonCer + param, null);
 };
 

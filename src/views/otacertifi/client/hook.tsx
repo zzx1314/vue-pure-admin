@@ -1,11 +1,12 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormInstance, FormRules } from "element-plus";
-import { cerPage } from "@/api/otaCer";
+import { cerPage, getCaList } from "@/api/otaCer";
 
 export function useClient() {
   // ----变量定义-----
   const queryForm = reactive({
+    parentId: null,
     name: "",
     domain: "",
     type: "",
@@ -13,6 +14,7 @@ export function useClient() {
     beginTime: "",
     endTime: ""
   });
+  const caInfo = ref([]);
   const dataList = ref([]);
   const loading = ref(true);
   const dialogFormVisible = ref(false);
@@ -86,7 +88,7 @@ export function useClient() {
       minWidth: 100
     },
     {
-      label: "CA名称",
+      label: "证书名称",
       prop: "name",
       minWidth: 120
     },
@@ -167,9 +169,21 @@ export function useClient() {
     console.log("handleSelectionChange", val);
   }
   // 查询
-  async function onSearch() {
+  function onSearch() {
     loading.value = true;
     console.log("查询CA信息");
+    getCaList().then(res => {
+      console.log(res.data);
+      caInfo.value = res.data;
+    });
+    setTimeout(() => {
+      loading.value = false;
+    }, 100);
+  }
+
+  async function getCerInfo(parntId: number) {
+    loading.value = true;
+    console.log("查询客户端证书");
     const page = {
       size: pagination.pageSize,
       current: pagination.currentPage
@@ -178,6 +192,8 @@ export function useClient() {
       ...page,
       ...queryForm
     };
+    query.parentId = parntId;
+    query.type = "client";
     const { data } = await cerPage(query);
     dataList.value = data.records;
     pagination.total = data.total;
@@ -246,6 +262,8 @@ export function useClient() {
     columns,
     status,
     buttonClass,
+    caInfo,
+    getCerInfo,
     onSearch,
     resetForm,
     handleUpdate,

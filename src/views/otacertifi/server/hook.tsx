@@ -86,7 +86,7 @@ export function useServer() {
       minWidth: 100
     },
     {
-      label: "CA名称",
+      label: "证书名称",
       prop: "name",
       minWidth: 120
     },

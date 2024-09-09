@@ -32,6 +32,8 @@ const {
   status,
   rules,
   moreCondition,
+  caInfo,
+  getCerInfo,
   cancel,
   restartForm,
   submitForm,
@@ -54,18 +56,8 @@ const handleNodeClick = (data: ClientCa) => {
   console.log(data);
   const currentId = data.id;
   treeRef.value.setCheckedKeys([currentId]);
+  getCerInfo(data.id);
 };
-
-const data: ClientCa[] = [
-  {
-    id: 1,
-    label: "项目1-模块1-CA证书"
-  },
-  {
-    id: 2,
-    label: "项目1-模块2-CA证书"
-  }
-];
 
 const defaultProps = {
   children: "children",
@@ -84,7 +76,7 @@ const defaultProps = {
           <el-tree
             ref="treeRef"
             node-key="id"
-            :data="data"
+            :data="caInfo"
             :props="defaultProps"
             show-checkbox
             @node-click="handleNodeClick"
