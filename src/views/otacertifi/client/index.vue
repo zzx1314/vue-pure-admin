@@ -95,7 +95,7 @@ const defaultProps = {
           <el-form-item label="名称" prop="name">
             <el-input
               v-model="queryForm.name"
-              placeholder="请输入CA名称"
+              placeholder="请输入名称"
               clearable
               class="!w-[150px]"
             />
@@ -103,7 +103,7 @@ const defaultProps = {
           <el-form-item label="域名" prop="name">
             <el-input
               v-model="queryForm.domain"
-              placeholder="请输入CA域名"
+              placeholder="请输入域名"
               clearable
               class="!w-[150px]"
             />
