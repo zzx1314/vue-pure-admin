@@ -200,6 +200,7 @@ const defaultProps = {
             >
               <template #operation="{ row }">
                 <el-button
+                  v-if="row.status === '未生效'"
                   class="reset-margin"
                   link
                   type="primary"
@@ -226,6 +227,7 @@ const defaultProps = {
                   </template>
                 </el-popconfirm>
                 <el-popconfirm
+                  v-if="row.status === '未生效'"
                   title="是否确认删除?"
                   @confirm="handleDelete(row)"
                 >
