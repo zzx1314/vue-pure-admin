@@ -6,6 +6,7 @@ import {
   cerPage,
   cerSave,
   cerUpdate,
+  downCer,
   getCaList
 } from "@/api/otaCer";
 import { SUCCESS } from "@/api/base";
@@ -107,6 +108,21 @@ export function useClient() {
       label: "创建时间",
       minWidth: 180,
       prop: "createTime"
+    },
+    {
+      label: "创建人",
+      minWidth: 180,
+      prop: "createUser"
+    },
+    {
+      label: "下载人",
+      minWidth: 180,
+      prop: "downUser"
+    },
+    {
+      label: "下载时间",
+      minWidth: 180,
+      prop: "downTime"
     },
     {
       label: "状态值",
@@ -308,6 +324,10 @@ export function useClient() {
     resetForm(formEl);
   }
 
+  const handleDown = row => {
+    downCer(row);
+  };
+
   onMounted(() => {
     onSearch();
   });
@@ -332,6 +352,7 @@ export function useClient() {
     resetForm,
     handleUpdate,
     handleDelete,
+    handleDown,
     handleSizeChange,
     handleCurrentChange,
     handleSelectionChange,

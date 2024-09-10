@@ -11,6 +11,7 @@ import { useClient } from "@/views/otacertifi/client/hook";
 import { ref } from "vue";
 import { FormInstance } from "element-plus";
 import { PureTableBar } from "@/components/RePureTableBar";
+import Download from "@iconify-icons/ep/download";
 
 defineOptions({
   name: "Client"
@@ -34,6 +35,7 @@ const {
   moreCondition,
   caInfo,
   deftCheck,
+  handleDown,
   getCerInfo,
   cancel,
   restartForm,
@@ -207,6 +209,22 @@ const defaultProps = {
                 >
                   修改
                 </el-button>
+                <el-popconfirm
+                  title="下载后证书状态将变成已使用，是否确认下载？"
+                  @confirm="handleDown(row)"
+                >
+                  <template #reference>
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(Download)"
+                    >
+                      下载
+                    </el-button>
+                  </template>
+                </el-popconfirm>
                 <el-popconfirm
                   title="是否确认删除?"
                   @confirm="handleDelete(row)"

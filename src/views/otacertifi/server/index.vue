@@ -209,17 +209,22 @@ const defaultProps = {
                 >
                   修改
                 </el-button>
-
-                <el-button
-                  class="reset-margin"
-                  link
-                  type="primary"
-                  :size="size"
-                  :icon="useRenderIcon(Download)"
-                  @click="handleDown(row)"
+                <el-popconfirm
+                  title="下载后证书状态将变成已使用，是否确认下载？"
+                  @confirm="handleDown(row)"
                 >
-                  下载
-                </el-button>
+                  <template #reference>
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(Download)"
+                    >
+                      下载
+                    </el-button>
+                  </template>
+                </el-popconfirm>
                 <el-popconfirm
                   title="是否确认删除?"
                   @confirm="handleDelete(row)"

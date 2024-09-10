@@ -1,7 +1,14 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import { ElLoading, type FormInstance, type FormRules } from "element-plus";
-import { cerPage, cerSave, cerUpdate, downCer, getCaList } from "@/api/otaCer";
+import {
+  cerDelete,
+  cerPage,
+  cerSave,
+  cerUpdate,
+  downCer,
+  getCaList
+} from "@/api/otaCer";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 
@@ -103,6 +110,21 @@ export function useServer() {
       prop: "createTime"
     },
     {
+      label: "创建人",
+      minWidth: 180,
+      prop: "createUser"
+    },
+    {
+      label: "下载人",
+      minWidth: 180,
+      prop: "downUser"
+    },
+    {
+      label: "下载时间",
+      minWidth: 180,
+      prop: "downTime"
+    },
+    {
       label: "状态值",
       prop: "status",
       minWidth: 100,
@@ -162,6 +184,14 @@ export function useServer() {
   // 删除
   function handleDelete(row) {
     console.log(row);
+    cerDelete(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        message("删除成功！", { type: "success" });
+        onSearch();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
   }
 
   function handleSizeChange(val: number) {
