@@ -12,6 +12,7 @@ import { ref } from "vue";
 import { FormInstance } from "element-plus";
 import { PureTableBar } from "@/components/RePureTableBar";
 import Download from "@iconify-icons/ep/download";
+import DeleteBin from "@iconify-icons/ri/delete-bin-2-line";
 
 defineOptions({
   name: "Server"
@@ -200,16 +201,22 @@ const defaultProps = {
               @page-current-change="handleCurrentChange"
             >
               <template #operation="{ row }">
-                <el-button
-                  class="reset-margin"
-                  link
-                  type="primary"
-                  :size="size"
-                  :icon="useRenderIcon(EditPen)"
-                  @click="handleLoseEfficacy(row)"
+                <el-popconfirm
+                  title="是否确认废弃?"
+                  @confirm="handleLoseEfficacy(row)"
                 >
-                  废弃
-                </el-button>
+                  <template #reference>
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(DeleteBin)"
+                    >
+                      废弃
+                    </el-button>
+                  </template>
+                </el-popconfirm>
                 <el-button
                   v-if="row.status === '未生效'"
                   class="reset-margin"
