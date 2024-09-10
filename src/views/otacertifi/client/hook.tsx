@@ -325,7 +325,10 @@ export function useClient() {
   }
 
   const handleDown = row => {
-    downCer(row);
+    downCer(row).then(res => {
+      console.log(res);
+      getCerInfo(parentId.value);
+    });
   };
 
   onMounted(() => {

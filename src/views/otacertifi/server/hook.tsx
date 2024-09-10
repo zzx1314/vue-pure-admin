@@ -172,7 +172,10 @@ export function useServer() {
   // -----方法定义---
   // 下载
   const handleDown = row => {
-    downCer(row);
+    downCer(row).then(res => {
+      console.log(res);
+      getCerInfo(parentId.value);
+    });
   };
   // 修改
   function handleUpdate(row, formEl) {
