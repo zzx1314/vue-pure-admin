@@ -1,7 +1,13 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import { ElLoading, type FormInstance, type FormRules } from "element-plus";
-import { cerPage, cerSave, cerUpdate, cerDelete } from "@/api/otaCer";
+import {
+  cerPage,
+  cerSave,
+  cerUpdate,
+  cerDelete,
+  loseEfficacy
+} from "@/api/otaCer";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 
@@ -168,6 +174,18 @@ export function useCa() {
     });
   }
 
+  const handleLoseEfficacy = row => {
+    console.log(row);
+    loseEfficacy(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        message("失效成功！", { type: "success" });
+        onSearch();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
+  };
+
   function handleSizeChange(val: number) {
     console.log(`${val} items per page`);
   }
@@ -301,6 +319,7 @@ export function useCa() {
     onSearch,
     resetForm,
     handleUpdate,
+    handleLoseEfficacy,
     handleDelete,
     handleSizeChange,
     handleCurrentChange,

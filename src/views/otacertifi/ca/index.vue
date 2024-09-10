@@ -32,6 +32,7 @@ const {
   submitForm,
   openDia,
   onSearch,
+  handleLoseEfficacy,
   handleUpdate,
   handleDelete,
   handleSizeChange,
@@ -160,6 +161,17 @@ defineOptions({
               type="primary"
               :size="size"
               :icon="useRenderIcon(EditPen)"
+              @click="handleLoseEfficacy(row)"
+            >
+              废弃
+            </el-button>
+            <el-button
+              v-if="row.status === '未生效'"
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
+              :icon="useRenderIcon(EditPen)"
               @click="handleUpdate(row, addFormRef)"
             >
               修改
@@ -167,6 +179,7 @@ defineOptions({
             <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>
                 <el-button
+                  v-if="row.status === '未生效'"
                   class="reset-margin"
                   link
                   type="primary"

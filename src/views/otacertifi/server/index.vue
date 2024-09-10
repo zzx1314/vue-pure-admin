@@ -44,6 +44,7 @@ const {
   onSearch,
   handleUpdate,
   handleDelete,
+  handleLoseEfficacy,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange
@@ -199,6 +200,16 @@ const defaultProps = {
               @page-current-change="handleCurrentChange"
             >
               <template #operation="{ row }">
+                <el-button
+                  class="reset-margin"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(EditPen)"
+                  @click="handleLoseEfficacy(row)"
+                >
+                  废弃
+                </el-button>
                 <el-button
                   v-if="row.status === '未生效'"
                   class="reset-margin"

@@ -22,7 +22,8 @@ const otaDevUrls = {
   update: "/api/ota/otaBusCer/update",
   getCaList: "/api/ota/otaBusCer/getCaList",
   getSonCer: "/api/ota/otaBusCer/getSonCer/",
-  downCer: "/api/ota/otaBusCer/downCer"
+  downCer: "/api/ota/otaBusCer/downCer",
+  loseEfficacy: "/api/ota/otaBusCer/loseEfficacy/"
 };
 
 // otaCa分页
@@ -63,4 +64,9 @@ export const downCer = (param?: DownParam) => {
     parentId: param.parentId
   };
   return http.downloadUrlMode(otaDevUrls.downCer, "post", "证书.zip", query);
+};
+
+// 证书失效
+export const loseEfficacy = (param?: object) => {
+  return http.axiosGet<Result>(otaDevUrls.loseEfficacy + param);
 };

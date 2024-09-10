@@ -7,7 +7,8 @@ import {
   cerSave,
   cerUpdate,
   downCer,
-  getCaList
+  getCaList,
+  loseEfficacy
 } from "@/api/otaCer";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -190,6 +191,18 @@ export function useClient() {
     });
   }
 
+  const handleLoseEfficacy = row => {
+    console.log(row);
+    loseEfficacy(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        message("失效成功！", { type: "success" });
+        onSearch();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
+  };
+
   function handleSizeChange(val: number) {
     console.log(`${val} items per page`);
   }
@@ -355,6 +368,7 @@ export function useClient() {
     resetForm,
     handleUpdate,
     handleDelete,
+    handleLoseEfficacy,
     handleDown,
     handleSizeChange,
     handleCurrentChange,
