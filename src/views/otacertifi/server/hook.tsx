@@ -1,7 +1,7 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import { ElLoading, type FormInstance, type FormRules } from "element-plus";
-import { cerPage, cerSave, cerUpdate, getCaList } from "@/api/otaCer";
+import { cerPage, cerSave, cerUpdate, downCer, getCaList } from "@/api/otaCer";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 
@@ -148,6 +148,10 @@ export function useServer() {
   });
 
   // -----方法定义---
+  // 下载
+  const handleDown = row => {
+    downCer(row);
+  };
   // 修改
   function handleUpdate(row, formEl) {
     console.log(row);
@@ -313,6 +317,7 @@ export function useServer() {
     buttonClass,
     caInfo,
     deftCheck,
+    handleDown,
     onSearch,
     getCerInfo,
     resetForm,

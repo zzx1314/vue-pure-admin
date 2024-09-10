@@ -11,6 +11,7 @@ import { useServer } from "@/views/otacertifi/server/hook";
 import { ref } from "vue";
 import { FormInstance } from "element-plus";
 import { PureTableBar } from "@/components/RePureTableBar";
+import Download from "@iconify-icons/ep/download";
 
 defineOptions({
   name: "Server"
@@ -35,6 +36,7 @@ const {
   caInfo,
   deftCheck,
   cancel,
+  handleDown,
   getCerInfo,
   restartForm,
   submitForm,
@@ -206,6 +208,17 @@ const defaultProps = {
                   @click="handleUpdate(row, addFormRef)"
                 >
                   修改
+                </el-button>
+
+                <el-button
+                  class="reset-margin"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(Download)"
+                  @click="handleDown(row)"
+                >
+                  下载
                 </el-button>
                 <el-popconfirm
                   title="是否确认删除?"
