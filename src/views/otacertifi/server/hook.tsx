@@ -261,6 +261,9 @@ export function useServer() {
     };
     query.parentId = parntId;
     query.type = "server";
+    if (query.endTime) {
+      query.endTime = query.endTime + " 23:59:59";
+    }
     const { data } = await cerPage(query);
     dataList.value = data.records;
     pagination.total = data.total;
