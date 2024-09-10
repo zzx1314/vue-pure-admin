@@ -20,10 +20,12 @@ export function useServer() {
     parentId: null,
     name: "",
     domain: "",
-    type: "",
+    type: "server",
     status: "",
     beginTime: "",
-    endTime: ""
+    endTime: "",
+    projName: "",
+    modelName: ""
   });
   const parentId = ref(0);
   const caInfo = ref([]);
@@ -103,6 +105,11 @@ export function useServer() {
     {
       label: "证书名称",
       prop: "name",
+      minWidth: 120
+    },
+    {
+      label: "域名",
+      prop: "domain",
       minWidth: 120
     },
     {
@@ -283,7 +290,7 @@ export function useServer() {
       name: "",
       domain: "",
       expiryData: "",
-      type: "ca",
+      type: "server",
       remark: "",
       commonExpireDta: ""
     };
@@ -292,6 +299,9 @@ export function useServer() {
     queryForm.domain = "";
     queryForm.type = "";
     queryForm.status = "";
+    queryForm.projName = "";
+    queryForm.modelName = "";
+    queryForm.type = "server";
     dialogFormVisible.value = false;
     getCerInfo(parentId.value);
   }

@@ -96,6 +96,22 @@ const defaultProps = {
           :model="queryForm"
           class="bg-bg_color w-[99/100] pl-8 pt-4"
         >
+          <el-form-item label="项目名称" prop="name">
+            <el-input
+              v-model="queryForm.projName"
+              placeholder="请输入项目名称"
+              clearable
+              class="!w-[150px]"
+            />
+          </el-form-item>
+          <el-form-item label="模块名称" prop="name">
+            <el-input
+              v-model="queryForm.modelName"
+              placeholder="请输入模块名称"
+              clearable
+              class="!w-[150px]"
+            />
+          </el-form-item>
           <el-form-item label="名称" prop="name">
             <el-input
               v-model="queryForm.name"

@@ -19,7 +19,9 @@ export function useCa() {
     type: "ca",
     status: "",
     beginTime: "",
-    endTime: ""
+    endTime: "",
+    projName: "",
+    modelName: ""
   });
   const dataList = ref([]);
   const loading = ref(true);
@@ -101,6 +103,11 @@ export function useCa() {
     {
       label: "CA名称",
       prop: "name",
+      minWidth: 120
+    },
+    {
+      label: "域名",
+      prop: "domain",
       minWidth: 120
     },
     {
@@ -248,6 +255,9 @@ export function useCa() {
     queryForm.domain = "";
     queryForm.type = "";
     queryForm.status = "";
+    queryForm.projName = "";
+    queryForm.modelName = "";
+    queryForm.type = "ca";
     dialogFormVisible.value = false;
     onSearch();
   }

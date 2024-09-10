@@ -23,7 +23,9 @@ export function useClient() {
     type: "",
     status: "",
     beginTime: "",
-    endTime: ""
+    endTime: "",
+    projName: "",
+    modelName: ""
   });
   const parentId = ref(0);
   const caInfo = ref([]);
@@ -103,6 +105,11 @@ export function useClient() {
     {
       label: "证书名称",
       prop: "name",
+      minWidth: 120
+    },
+    {
+      label: "域名",
+      prop: "domain",
       minWidth: 120
     },
     {
@@ -285,6 +292,9 @@ export function useClient() {
     queryForm.domain = "";
     queryForm.type = "";
     queryForm.status = "";
+    queryForm.projName = "";
+    queryForm.modelName = "";
+    queryForm.type = "client";
     dialogFormVisible.value = false;
     getCerInfo(parentId.value);
   }
