@@ -148,7 +148,7 @@ const defaultProps = {
                   type="date"
                   placeholder="请输入开始时间"
                   class="!w-[180px]"
-                  value-format="YYYY-MM-DD h:m:s"
+                  value-format="YYYY-MM-DD HH:mm:ss"
                 />
               </el-form-item>
               <el-form-item label="结束时间：" prop="endTime">

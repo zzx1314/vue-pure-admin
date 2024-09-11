@@ -383,7 +383,9 @@ export function useUser() {
       ...page,
       ...queryForm.value
     };
-
+    if (query.endTime) {
+      query.endTime = query.endTime + " 23:59:59";
+    }
     const { data } = await userPage(query);
     dataList.value = data.records;
     pagination.total = data.total;

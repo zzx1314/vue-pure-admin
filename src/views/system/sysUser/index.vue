@@ -142,6 +142,7 @@ async function getAllRole() {
                 type="date"
                 placeholder="请输入开始时间"
                 class="!w-[180px]"
+                value-format="YYYY-MM-DD HH:mm:ss"
               />
             </el-form-item>
             <el-form-item label="结束时间：" prop="endTime">
@@ -150,6 +151,7 @@ async function getAllRole() {
                 placeholder="请输入结束时间"
                 type="date"
                 class="!w-[180px]"
+                value-format="YYYY-MM-DD"
               />
             </el-form-item>
           </div>
