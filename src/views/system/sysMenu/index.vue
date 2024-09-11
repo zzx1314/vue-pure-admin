@@ -8,7 +8,7 @@ import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Delete from "@iconify-icons/ep/delete";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import AddFill from "@iconify-icons/ri/add-circle-line";
-import { listAllRole } from "@/api/system";
+import { hasAuth } from "@/router/utils";
 
 defineOptions({
   name: "sysMenu"
@@ -46,6 +46,7 @@ const {
     >
       <template #buttons>
         <el-button
+          v-if="hasAuth('menu_add')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="openDia('添加菜单')"
@@ -75,6 +76,7 @@ const {
         >
           <template #operation="{ row }">
             <el-button
+              v-if="hasAuth('menu_update')"
               class="reset-margin"
               link
               type="primary"
@@ -85,6 +87,7 @@ const {
               修改
             </el-button>
             <el-popconfirm
+              v-if="hasAuth('menu_del')"
               title="是否确认删除?"
               @confirm="confirmEvent(row)"
               @cancel="cancelEvent"

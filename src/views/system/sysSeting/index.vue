@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useSysSeting } from "./hook";
 import { ref } from "vue";
+import { hasAuth } from "@/router/utils";
 const { addForm, rules, cancel, addFormInfo } = useSysSeting();
 
 const addFormRef = ref();
@@ -112,8 +113,15 @@ defineOptions({
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="addFormInfo">保存</el-button>
-        <el-button @click="cancel">取消</el-button>
+        <el-button
+          v-if="hasAuth('sys_seting_save')"
+          type="primary"
+          @click="addFormInfo"
+          >保存</el-button
+        >
+        <el-button v-if="hasAuth('sys_seting_save')" @click="cancel"
+          >取消</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
