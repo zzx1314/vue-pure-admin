@@ -12,6 +12,7 @@ import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
+import { hasAuth } from "@/router/utils";
 
 defineOptions({
   name: "sysOrg"
@@ -125,6 +126,7 @@ const {
     >
       <template #buttons>
         <el-button
+          v-if="hasAuth('org_add')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="openDia('添加组织')"
@@ -155,6 +157,7 @@ const {
         >
           <template #operation="{ row }">
             <el-button
+              v-if="hasAuth('org_update')"
               class="reset-margin"
               link
               type="primary"
@@ -171,6 +174,7 @@ const {
             >
               <template #reference>
                 <el-button
+                  v-if="hasAuth('org_del')"
                   class="reset-margin"
                   link
                   type="primary"

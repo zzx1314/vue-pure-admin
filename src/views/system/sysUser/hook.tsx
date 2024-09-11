@@ -77,8 +77,14 @@ export function useUser() {
   const rules = reactive<FormRules>({
     realName: [{ required: true, message: "姓名必填", trigger: "blur" }],
     username: [{ required: true, message: "账号必填", trigger: "blur" }],
-    newpassword: [{ validator: validatePass, trigger: "blur" }],
-    newpassword1: [{ validator: validatePass2, trigger: "blur" }],
+    newpassword: [
+      { required: true, message: "密码必填", trigger: "blur" },
+      { validator: validatePass, trigger: "blur" }
+    ],
+    newpassword1: [
+      { required: true, message: "密码必填", trigger: "blur" },
+      { validator: validatePass2, trigger: "blur" }
+    ],
     lockFlag: [{ required: true, message: "类型必填", trigger: "change" }],
     sex: [{ required: true, message: "性别必填", trigger: "change" }],
     role: [{ required: true, message: "角色必填", trigger: "change" }]

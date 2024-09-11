@@ -10,6 +10,7 @@ import EditPen from "@iconify-icons/ep/edit-pen";
 import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
+import { hasAuth } from "@/router/utils";
 
 defineOptions({
   name: "Role"
@@ -82,6 +83,7 @@ const {
     <PureTableBar title="角色列表" :columns="columns" @refresh="onSearch">
       <template #buttons>
         <el-button
+          v-if="hasAuth('role_add')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="openDia('新增角色')"
@@ -113,6 +115,7 @@ const {
         >
           <template #operation="{ row }">
             <el-button
+              v-if="hasAuth('role_update')"
               class="reset-margin"
               link
               type="primary"
@@ -125,6 +128,7 @@ const {
             <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>
                 <el-button
+                  v-if="hasAuth('role_del')"
                   class="reset-margin"
                   link
                   type="primary"

@@ -205,6 +205,7 @@ async function getAllRole() {
           >
             <template #operation="{ row }">
               <el-button
+                v-if="hasAuth('user_update')"
                 class="reset-margin"
                 link
                 type="primary"
@@ -217,6 +218,7 @@ async function getAllRole() {
               <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
                 <template #reference>
                   <el-button
+                    v-if="hasAuth('user_del')"
                     class="reset-margin"
                     link
                     type="primary"
@@ -227,7 +229,7 @@ async function getAllRole() {
                   </el-button>
                 </template>
               </el-popconfirm>
-              <el-dropdown>
+              <el-dropdown v-if="hasAuth('re_set_pass')">
                 <el-button
                   class="ml-3 mt-[2px]"
                   link
@@ -310,10 +312,18 @@ async function getAllRole() {
             <el-input v-model="addForm.orgName" disabled />
           </el-form-item>
 
-          <el-form-item label="密码" prop="newpassword">
+          <el-form-item
+            v-if="title === '添加用户'"
+            label="密码"
+            prop="newpassword"
+          >
             <el-input v-model="addForm.newpassword" type="password" />
           </el-form-item>
-          <el-form-item label="确认密码" prop="newpassword1">
+          <el-form-item
+            v-if="title === '添加用户'"
+            label="确认密码"
+            prop="newpassword1"
+          >
             <el-input v-model="addForm.newpassword1" type="password" />
           </el-form-item>
         </el-form>
