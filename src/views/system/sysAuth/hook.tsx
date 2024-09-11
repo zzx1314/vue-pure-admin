@@ -1,15 +1,8 @@
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 // @ts-ignore
-import { getMenuData, setMenuAuth } from "@/api/system";
+import { getMenuData, listAllRole, setMenuAuth } from "@/api/system";
 
 export function sysAuth() {
-  interface SysRoleType {
-    id: number;
-    code: string;
-    label: string;
-    children?: SysRoleType[];
-  }
-
   const defaultProps = {
     children: "children",
     label: "label"
@@ -23,23 +16,7 @@ export function sysAuth() {
 
   const defaultCheckedKeys = ref([]);
 
-  const roleData: SysRoleType[] = [
-    {
-      id: 1,
-      code: "110",
-      label: "系统管理员"
-    },
-    {
-      id: 2,
-      code: "101",
-      label: "设备管理员"
-    },
-    {
-      id: 3,
-      code: "011",
-      label: "发布人员"
-    }
-  ];
+  const roleData = ref([]);
 
   const value = ref("");
 
@@ -104,6 +81,23 @@ export function sysAuth() {
     activeNames.value = data.map(one => one.id);
     console.log(sysMenuTitleVoData.value);
   }
+
+  async function getAllRole() {
+    const { data } = await listAllRole();
+    const allCheckItem = ref([]);
+    data.map(item => {
+      allCheckItem.value.push({
+        id: item.id,
+        label: item.name,
+        code: item.code
+      });
+    });
+    roleData.value.push(...allCheckItem.value);
+    console.log("roleData", roleData);
+  }
+  onMounted(() => {
+    getAllRole();
+  });
 
   return {
     sysMenuTitleVoData,
