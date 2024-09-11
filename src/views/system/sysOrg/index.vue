@@ -190,13 +190,13 @@ const {
       </template>
     </PureTableBar>
 
-    <el-dialog v-model="dialogFormVisible" :title="title">
+    <el-dialog v-model="dialogFormVisible" :title="title" width="60%">
       <el-form
         ref="addFormRef"
         :model="addForm.value"
         :inline="true"
         :rules="rules"
-        label-width="100px"
+        label-width="150px"
       >
         <el-form-item label="名称" prop="name">
           <el-input v-model="addForm.value.name" placeholder="请输入部门名称" />
@@ -206,6 +206,7 @@ const {
           <el-select
             v-model="addForm.value.type"
             placeholder="请选择类型"
+            class="!w-[200px]"
             @change="changeSelet()"
           >
             <el-option
@@ -228,16 +229,23 @@ const {
             filterable
             check-strictly
             :render-after-expand="false"
+            class="!w-[200px]"
           />
         </el-form-item>
 
         <el-form-item label="排序" prop="sort">
-          <el-input-number v-model="addForm.value.sort" :min="1" :max="10" />
+          <el-input-number
+            v-model="addForm.value.sort"
+            class="!w-[200px]"
+            :min="1"
+            :max="10"
+          />
         </el-form-item>
 
         <el-form-item label="备注" prop="remarks">
           <el-input
             v-model="addForm.value.remarks"
+            class="!w-[200px]"
             type="textarea"
             placeholder="请输入"
           />
