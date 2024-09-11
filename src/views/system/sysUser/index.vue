@@ -87,6 +87,14 @@ async function getAllRole() {
         :model="queryForm"
         class="bg-bg_color w-[99/100] pl-8 pt-4"
       >
+        <el-form-item label="账号" prop="realName">
+          <el-input
+            v-model="queryForm.username"
+            placeholder="请输入用户名"
+            clearable
+            class="!w-[150px]"
+          />
+        </el-form-item>
         <el-form-item label="用户名" prop="realName">
           <el-input
             v-model="queryForm.realName"

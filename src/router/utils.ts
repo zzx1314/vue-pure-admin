@@ -360,7 +360,6 @@ function getHistoryMode(routerHistory): RouterHistory {
 
 /** 获取当前页面按钮级别的权限 */
 function getAuths(): Array<string> {
-  console.log("当前路由", router.currentRoute.value.path);
   const permissionMap = usePermissionStoreHook().getPermissionMap();
   if (permissionMap && permissionMap.get(router.currentRoute.value.path)) {
     return permissionMap.get(router.currentRoute.value.path);
@@ -373,7 +372,6 @@ function hasAuth(value: string | Array<string>): boolean {
   if (!value) return false;
   /** 从当前路由的`meta`字段里获取按钮级别的所有自定义`code`值 */
   const metaAuths = getAuths();
-  console.log("当前页面的权限标识", metaAuths);
   if (!metaAuths) return false;
   const isAuths = isString(value)
     ? metaAuths.includes(value)

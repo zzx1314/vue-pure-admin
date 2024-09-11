@@ -23,6 +23,7 @@ export function useUser() {
   // 查询form
   const queryForm = ref({
     orgIds: null,
+    username: "",
     realName: "",
     lockFlag: "",
     sex: "",
@@ -131,6 +132,11 @@ export function useUser() {
       minWidth: 130
     },*/
     {
+      label: "角色",
+      prop: "roleStr",
+      minWidth: 130
+    },
+    {
       label: "部门",
       prop: "orgName",
       minWidth: 90
@@ -212,6 +218,16 @@ export function useUser() {
       role: "",
       orgId: null,
       orgName: ""
+    };
+    queryForm.value = {
+      orgIds: null,
+      username: "",
+      realName: "",
+      lockFlag: "",
+      sex: "",
+      role: null,
+      beginTime: null,
+      endTime: null
     };
     dialogFormVisible.value = false;
     onSearch();
