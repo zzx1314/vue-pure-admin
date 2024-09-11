@@ -28,6 +28,7 @@ import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import { ElLoading } from "element-plus";
 import ProgressModal from "@/components/ReProgressModal/ProgreeModal.vue";
+import { hasAuth } from "@/router/utils";
 
 defineOptions({
   name: "Resource"
@@ -552,6 +553,7 @@ const closePro = () => {
     <PureTableBar title="资源列表" :columns="columns" @refresh="onSearch">
       <template #buttons>
         <el-button
+          v-if="hasAuth('res_add')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="openDia('添加操作系统', addFormRef)"
@@ -559,6 +561,7 @@ const closePro = () => {
           添加操作系统
         </el-button>
         <el-button
+          v-if="hasAuth('add_mode')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="openDia('添加模块', addFormRef)"
@@ -566,6 +569,7 @@ const closePro = () => {
           添加模块
         </el-button>
         <el-button
+          v-if="hasAuth('push_res')"
           type="primary"
           :icon="useRenderIcon(Position)"
           @click="openPushDia(pushFormRef)"
@@ -599,6 +603,7 @@ const closePro = () => {
         >
           <template #operation="{ row }">
             <el-button
+              v-if="hasAuth('res_update')"
               class="reset-margin"
               link
               type="primary"
@@ -610,7 +615,7 @@ const closePro = () => {
             </el-button>
 
             <el-button
-              v-if="row.type === '模块'"
+              v-if="row.type === '模块' && hasAuth('down_res')"
               class="reset-margin"
               link
               type="primary"
@@ -620,7 +625,11 @@ const closePro = () => {
             >
               下载
             </el-button>
-            <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
+            <el-popconfirm
+              v-if="hasAuth('res_del')"
+              title="是否确认删除?"
+              @confirm="handleDelete(row)"
+            >
               <template #reference>
                 <el-button
                   class="reset-margin"

@@ -8,6 +8,7 @@ import Refresh from "@iconify-icons/ep/refresh";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import Download from "@iconify-icons/ep/download";
+import { hasAuth } from "@/router/utils";
 
 defineOptions({
   name: "Task"
@@ -115,6 +116,7 @@ const {
         >
           <template #operation="{ row }">
             <el-button
+              v-if="hasAuth('task_del')"
               class="reset-margin"
               link
               type="primary"
@@ -127,6 +129,7 @@ const {
             <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>
                 <el-button
+                  v-if="hasAuth('task_desc')"
                   class="reset-margin"
                   link
                   type="primary"

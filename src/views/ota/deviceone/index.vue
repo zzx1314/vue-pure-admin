@@ -11,6 +11,7 @@ import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
+import { hasAuth } from "@/router/utils";
 
 defineOptions({
   name: "Device"
@@ -127,6 +128,7 @@ const {
     <PureTableBar title="设备列表" :columns="columns" @refresh="onSearch">
       <template #buttons>
         <el-button
+          v-if="hasAuth('dev_add')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="openDia('新增设备', addFormRef)"
@@ -158,6 +160,7 @@ const {
         >
           <template #operation="{ row }">
             <el-button
+              v-if="hasAuth('dev_update')"
               class="reset-margin"
               link
               type="primary"
@@ -170,6 +173,7 @@ const {
             <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>
                 <el-button
+                  v-if="hasAuth('dev_del')"
                   class="reset-margin"
                   link
                   type="primary"
