@@ -167,7 +167,7 @@ function handleAsyncRoutes(routeList) {
           // 切记将路由push到routes后还需要使用addRoute，这样路由才能正常跳转
           router.options.routes[0].children.push(v);
           // 最终路由进行升序
-          ascending(router.options.routes[0].children);
+          // ascending(router.options.routes[0].children);
           if (!router.hasRoute(v?.name)) router.addRoute(v);
           const flattenRouters: any = router
             .getRoutes()
