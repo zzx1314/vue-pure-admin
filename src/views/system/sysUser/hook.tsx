@@ -125,11 +125,11 @@ export function useUser() {
       prop: "realName",
       minWidth: 130
     },
-    {
+    /*{
       label: "性别",
       prop: "sex",
       minWidth: 130
-    },
+    },*/
     {
       label: "部门",
       prop: "orgName",

@@ -111,7 +111,7 @@ async function getAllRole() {
           </el-select>
         </el-form-item>
 
-        <el-form-item label="性别" prop="sex">
+        <!--        <el-form-item label="性别" prop="sex">
           <el-select
             v-model="queryForm.sex"
             placeholder="请选择性别"
@@ -124,7 +124,7 @@ async function getAllRole() {
               :value="item.value"
             />
           </el-select>
-        </el-form-item>
+        </el-form-item>-->
 
         <el-collapse-transition>
           <div v-show="moreCondition">
@@ -273,7 +273,7 @@ async function getAllRole() {
           <el-form-item label="姓名" prop="realName">
             <el-input v-model="addForm.realName" placeholder="请输入姓名" />
           </el-form-item>
-          <el-form-item label="性别" prop="sex">
+          <!--          <el-form-item label="性别" prop="sex">
             <el-select
               v-model="addForm.sex"
               placeholder="请选择性别"
@@ -282,7 +282,7 @@ async function getAllRole() {
               <el-option label="男" value="1" />
               <el-option label="女" value="0" />
             </el-select>
-          </el-form-item>
+          </el-form-item>-->
 
           <el-form-item label="状态" prop="lockFlag">
             <el-select
