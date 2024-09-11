@@ -8,6 +8,7 @@ import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Delete from "@iconify-icons/ep/delete";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import AddFill from "@iconify-icons/ri/add-circle-line";
+import { listAllRole } from "@/api/system";
 
 defineOptions({
   name: "sysMenu"
@@ -23,6 +24,7 @@ const {
   dataList,
   rules,
   title,
+  roleArry,
   onSearch,
   cancel,
   submitForm,
@@ -204,9 +206,12 @@ const {
             clearable
             style="width: 200px"
           >
-            <el-option label="系统管理员" value="110" />
-            <el-option label="设备管理员" value="101" />
-            <el-option label="发布管理员" value="011" />
+            <el-option
+              v-for="item in roleArry"
+              :key="item.value"
+              :label="item.text"
+              :value="item.value"
+            />
           </el-select>
         </el-form-item>
       </el-form>

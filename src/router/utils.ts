@@ -305,7 +305,6 @@ function addAsyncRoutes(
   arrRoutes: Array<RouteRecordRaw>,
   authMap: Map<String, any>
 ) {
-  console.log("处理后端返回路由", arrRoutes);
   if (!arrRoutes || !arrRoutes.length) return;
   const modulesRoutesKeys = Object.keys(modulesRoutes);
   arrRoutes.forEach((v: RouteRecordRaw) => {
@@ -313,7 +312,6 @@ function addAsyncRoutes(
     v.meta.backstage = true;
     if (v.meta?.auths) {
       authMap.set(v.path, v.meta.auths);
-      console.log("设置权限列表", authMap);
     }
     // 父级的redirect属性取值：如果子级存在且父级的redirect属性不存在，默认取第一个子级的path；如果子级存在且父级的redirect属性存在，取存在的redirect属性，会覆盖默认值
     if (v?.children && v.children.length && !v.redirect)

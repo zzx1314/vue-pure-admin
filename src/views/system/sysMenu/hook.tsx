@@ -5,13 +5,16 @@ import {
   menuPage,
   saveSysMenu,
   updateSysMenuById,
-  deleteSysMenu
+  deleteSysMenu,
+  listAllRole
 } from "@/api/system";
 import type { FormInstance, FormRules } from "element-plus";
 import { SUCCESS } from "@/api/base";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
 export function useMenu() {
+  // 角色结果
+  const roleArry = ref([]);
   const addForm = reactive({
     value: {
       id: null,
@@ -244,6 +247,14 @@ export function useMenu() {
     onSearch();
   }
 
+  async function getAllRole() {
+    const { data } = await listAllRole();
+    const allCheckItem = ref([]);
+    data.map(item => {
+      allCheckItem.value.push({ text: item.name, value: item.code });
+    });
+    roleArry.value.push(...allCheckItem.value);
+  }
   // 取消
   function cancel(formEl) {
     addForm.value = {
@@ -286,6 +297,8 @@ export function useMenu() {
       if (valid) {
         console.log(addForm.value);
         if (addForm.value.id) {
+          const roleCode = addForm.value.roleCodeList;
+          addForm.value.roleCode = roleCode.join(",");
           updateSysMenuById(addForm.value).then(res => {
             if (res.code === SUCCESS) {
               message("修改成功！", { type: "success" });
@@ -310,6 +323,7 @@ export function useMenu() {
 
   onMounted(() => {
     onSearch();
+    getAllRole();
   });
 
   return {
@@ -323,6 +337,7 @@ export function useMenu() {
     dataList,
     rules,
     title,
+    roleArry,
     onSearch,
     resetForm,
     cancel,
