@@ -24,9 +24,19 @@ export const usePermissionStore = defineStore({
     // 缓存页面keepAlive
     cachePageList: [],
     // 检测token是否过期
-    checkTokenTimeId: null
+    checkTokenTimeId: null,
+    // 权限map
+    permissionMap: null
   }),
   actions: {
+    // 设置权限map
+    setPermissionMap(permissionMap: any) {
+      this.permissionMap = permissionMap;
+    },
+    /** 获取权限map */
+    getPermissionMap() {
+      return this.permissionMap;
+    },
     /** 组装整体路由生成的菜单 */
     handleWholeMenus(routes: any[]) {
       this.wholeMenus = filterNoPermissionTree(

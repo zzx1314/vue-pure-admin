@@ -154,7 +154,8 @@ function handleAsyncRoutes(routeList) {
   if (routeList.length === 0) {
     usePermissionStoreHook().handleWholeMenus(routeList);
   } else {
-    formatFlatteningRoutes(addAsyncRoutes(routeList)).map(
+    const authMap: Map<String, any> = new Map();
+    formatFlatteningRoutes(addAsyncRoutes(routeList, authMap)).map(
       (v: RouteRecordRaw) => {
         // 防止重复添加路由
         if (
@@ -176,6 +177,7 @@ function handleAsyncRoutes(routeList) {
         }
       }
     );
+    usePermissionStoreHook().setPermissionMap(authMap);
     usePermissionStoreHook().handleWholeMenus(routeList);
   }
   if (!useMultiTagsStoreHook().getMultiTagsCache) {
@@ -299,12 +301,20 @@ function handleAliveRoute({ name }: ToRouteType, mode?: string) {
 }
 
 /** 过滤后端传来的动态路由 重新生成规范路由 */
-function addAsyncRoutes(arrRoutes: Array<RouteRecordRaw>) {
+function addAsyncRoutes(
+  arrRoutes: Array<RouteRecordRaw>,
+  authMap: Map<String, any>
+) {
+  console.log("处理后端返回路由", arrRoutes);
   if (!arrRoutes || !arrRoutes.length) return;
   const modulesRoutesKeys = Object.keys(modulesRoutes);
   arrRoutes.forEach((v: RouteRecordRaw) => {
     // 将backstage属性加入meta，标识此路由为后端返回路由
     v.meta.backstage = true;
+    if (v.meta?.auths) {
+      authMap.set(v.path, v.meta.auths);
+      console.log("设置权限列表", authMap);
+    }
     // 父级的redirect属性取值：如果子级存在且父级的redirect属性不存在，默认取第一个子级的path；如果子级存在且父级的redirect属性存在，取存在的redirect属性，会覆盖默认值
     if (v?.children && v.children.length && !v.redirect)
       v.redirect = v.children[0].path;
@@ -321,7 +331,7 @@ function addAsyncRoutes(arrRoutes: Array<RouteRecordRaw>) {
       v.component = modulesRoutes[modulesRoutesKeys[index]];
     }
     if (v?.children && v.children.length) {
-      addAsyncRoutes(v.children);
+      addAsyncRoutes(v.children, authMap);
     }
   });
   return arrRoutes;
@@ -352,7 +362,12 @@ function getHistoryMode(routerHistory): RouterHistory {
 
 /** 获取当前页面按钮级别的权限 */
 function getAuths(): Array<string> {
-  return router.currentRoute.value.meta.auths as Array<string>;
+  console.log("当前路由", router.currentRoute.value.path);
+  const permissionMap = usePermissionStoreHook().getPermissionMap();
+  if (permissionMap && permissionMap.get(router.currentRoute.value.path)) {
+    return permissionMap.get(router.currentRoute.value.path);
+  }
+  return [];
 }
 
 /** 是否有按钮级别的权限 */
@@ -360,6 +375,7 @@ function hasAuth(value: string | Array<string>): boolean {
   if (!value) return false;
   /** 从当前路由的`meta`字段里获取按钮级别的所有自定义`code`值 */
   const metaAuths = getAuths();
+  console.log("当前页面的权限标识", metaAuths);
   if (!metaAuths) return false;
   const isAuths = isString(value)
     ? metaAuths.includes(value)

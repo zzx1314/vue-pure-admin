@@ -16,6 +16,7 @@ import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
+import { hasAuth } from "@/router/utils";
 
 const {
   moreCondition,
@@ -172,6 +173,7 @@ async function getAllRole() {
       <PureTableBar title="用户管理" :columns="columns" @refresh="onSearch">
         <template #buttons>
           <el-button
+            v-if="hasAuth('user_add')"
             type="primary"
             :icon="useRenderIcon(AddFill)"
             @click="openDia('添加用户', addFormRef)"
