@@ -57,10 +57,10 @@ const {
           class="!w-[180px]"
         />
       </el-form-item>
-      <el-form-item label="角色标识：" prop="code">
+      <el-form-item label="角色编码：" prop="code">
         <el-input
           v-model="form.code"
-          placeholder="请输入角色标识"
+          placeholder="请输入角色编码"
           clearable
           class="!w-[180px]"
         />

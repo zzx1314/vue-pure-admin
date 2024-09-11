@@ -61,24 +61,20 @@ const {
         />
       </el-form-item>
 
+      <el-form-item label="部门类型：" prop="name">
+        <el-select
+          v-model="searchForm.type"
+          placeholder="请选择类型"
+          class="!w-[180px]"
+        >
+          <el-option label="顶部门" value="top" />
+          <el-option label="单位" value="company" />
+          <el-option label="部门" value="common" />
+        </el-select>
+      </el-form-item>
+
       <el-collapse-transition>
         <div v-show="moreCondition">
-          <el-form-item label="部门类型：" prop="name">
-            <el-input
-              v-model="searchForm.name"
-              placeholder="请输入类型"
-              clearable
-              class="!w-[200px]"
-            />
-          </el-form-item>
-          <el-form-item label="排序：" prop="name">
-            <el-input
-              v-model="searchForm.name"
-              placeholder="请输入部门排序"
-              clearable
-              class="!w-[200px]"
-            />
-          </el-form-item>
           <el-form-item label="开始时间：" prop="name">
             <el-input
               v-model="searchForm.name"

@@ -19,7 +19,10 @@ export function useDept() {
   });
 
   const searchForm = reactive({
-    name: ""
+    name: "",
+    type: "",
+    beginTime: "",
+    endTime: ""
   });
 
   const dialogFormVisible = ref(false);

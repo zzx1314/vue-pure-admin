@@ -118,7 +118,15 @@ export function useRole() {
   // 查询
   async function onSearch() {
     loading.value = true;
-    const { data } = await getRoleList();
+    const page = {
+      size: pagination.pageSize,
+      current: pagination.currentPage
+    };
+    const query = {
+      ...page,
+      ...form
+    };
+    const { data } = await getRoleList(query);
     dataList.value = data.records;
     pagination.total = data.total;
     setTimeout(() => {
