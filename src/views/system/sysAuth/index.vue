@@ -75,24 +75,24 @@ const handleNodeClick = (data: SysRoleType) => {
                 />
               </el-card>
 
-              <el-card class="box-card">
-                <template #header>
-                  <span>数据权限</span>
-                </template>
-                <el-select
-                  v-model="value"
-                  class="m-2"
-                  placeholder="请选择"
-                  clearable
-                >
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  />
-                </el-select>
-              </el-card>
+              <!--              <el-card class="box-card">
+                  <template #header>
+                    <span>数据权限</span>
+                  </template>
+                  <el-select
+                    v-model="value"
+                    class="m-2"
+                    placeholder="请选择"
+                    clearable
+                  >
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    />
+                  </el-select>
+                </el-card>-->
             </div>
           </template>
           <!-- #paneR 表示指定该组件为右侧面板 -->
