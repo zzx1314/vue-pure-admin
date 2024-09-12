@@ -61,7 +61,7 @@ const {
         />
       </el-form-item>
 
-      <el-form-item label="部门类型：" prop="name">
+      <el-form-item label="部门类型：" prop="type">
         <el-select
           v-model="searchForm.type"
           placeholder="请选择类型"
@@ -75,20 +75,24 @@ const {
 
       <el-collapse-transition>
         <div v-show="moreCondition">
-          <el-form-item label="开始时间：" prop="name">
-            <el-input
-              v-model="searchForm.name"
+          <el-form-item label="开始时间：" prop="beginTime">
+            <el-date-picker
+              v-model="searchForm.beginTime"
+              type="date"
               placeholder="请输入开始时间"
               clearable
               class="!w-[200px]"
+              value-format="YYYY-MM-DD HH:mm:ss"
             />
           </el-form-item>
-          <el-form-item label="结束时间：" prop="name">
-            <el-input
-              v-model="searchForm.name"
+          <el-form-item label="结束时间：" prop="endTime">
+            <el-date-picker
+              v-model="searchForm.endTime"
+              type="date"
               placeholder="请输入结束时间"
               clearable
               class="!w-[200px]"
+              value-format="YYYY-MM-DD"
             />
           </el-form-item>
         </div>

@@ -178,6 +178,9 @@ export function useDept() {
 
   async function onSearch() {
     loading.value = true;
+    if (searchForm.endTime) {
+      searchForm.endTime = searchForm.endTime + " 23:59:59";
+    }
     const { data } = await getDeptList(searchForm);
     dataList.value = handleTree(data);
     setTimeout(() => {
