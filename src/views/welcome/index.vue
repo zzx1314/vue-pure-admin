@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Bar from "./components/Bar.vue";
 import Pie from "./components/Pie.vue";
-import Line from "./components/Line.vue";
+import DevNum from "@/views/welcome/components/DevNum.vue";
 import TypeIt from "@/components/ReTypeit";
 import { useWindowSize } from "@vueuse/core";
 import { ref, getCurrentInstance } from "vue";
@@ -158,7 +158,7 @@ setTimeout(() => {
           </template>
           <el-skeleton animated :rows="7" :loading="loading">
             <template #default>
-              <Line />
+              <DevNum />
             </template>
           </el-skeleton>
         </el-card>

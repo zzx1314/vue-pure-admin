@@ -31,16 +31,17 @@ setOptions(
     },
     series: [
       {
-        name: "Github信息",
+        name: "资管信息",
         type: "pie",
         top: "20%",
         radius: "80%",
         center: ["40%", "50%"],
-        color: ["#e6a23c", "#f56c6c", "#53a7ff"],
+        color: ["#e6a23c", "#f56c6c", "#53a7ff", "#5370ff"],
         data: [
-          { value: 400, name: "watchers" },
-          { value: 1600, name: "forks" },
-          { value: 7200, name: "star" }
+          { value: 400, name: "驱动" },
+          { value: 1600, name: "固件" },
+          { value: 7200, name: "设备数" },
+          { value: 200, name: "镜像" }
         ]
         // emphasis: {
         //   itemStyle: {
