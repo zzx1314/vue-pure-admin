@@ -215,7 +215,7 @@ async function getAllRole() {
           >
             <template #operation="{ row }">
               <el-button
-                v-if="hasAuth('user_update')"
+                v-if="hasAuth('user_update') && row.isEdit"
                 class="reset-margin"
                 link
                 type="primary"
@@ -225,10 +225,13 @@ async function getAllRole() {
               >
                 修改
               </el-button>
-              <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
+              <el-popconfirm
+                v-if="hasAuth('user_del') && row.isEdit"
+                title="是否确认删除?"
+                @confirm="handleDelete(row)"
+              >
                 <template #reference>
                   <el-button
-                    v-if="hasAuth('user_del')"
                     class="reset-margin"
                     link
                     type="primary"

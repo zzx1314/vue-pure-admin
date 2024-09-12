@@ -115,7 +115,7 @@ const {
         >
           <template #operation="{ row }">
             <el-button
-              v-if="hasAuth('role_update')"
+              v-if="hasAuth('role_update') && row.isEdit"
               class="reset-margin"
               link
               type="primary"
@@ -125,10 +125,13 @@ const {
             >
               修改
             </el-button>
-            <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
+            <el-popconfirm
+              v-if="hasAuth('role_del') && row.isEdit"
+              title="是否确认删除?"
+              @confirm="handleDelete(row)"
+            >
               <template #reference>
                 <el-button
-                  v-if="hasAuth('role_del')"
                   class="reset-margin"
                   link
                   type="primary"
