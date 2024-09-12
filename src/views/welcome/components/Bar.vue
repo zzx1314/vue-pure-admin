@@ -20,6 +20,21 @@ const { setOptions, resize } = useECharts(barChartRef as Ref<HTMLDivElement>, {
   theme
 });
 
+const props = defineProps({
+  time: {
+    type: Array<string>,
+    default: () => ["2021", "2022"]
+  },
+  overNumber: {
+    type: Array<number>,
+    default: () => [200, 320]
+  },
+  unOverNumber: {
+    type: Array<number>,
+    default: () => [100, 200]
+  }
+});
+
 setOptions(
   {
     tooltip: {
@@ -35,7 +50,7 @@ setOptions(
     legend: {
       //@ts-expect-error
       right: true,
-      data: ["watchers", "fork", "star"]
+      data: ["已完成", "未完成"]
     },
     xAxis: [
       {
@@ -48,7 +63,7 @@ setOptions(
           // width: "70",
           // overflow: "truncate"
         },
-        data: ["2021", "2022", "2023"],
+        data: props.time,
         triggerEvent: true
       }
     ],
@@ -60,14 +75,14 @@ setOptions(
     ],
     series: [
       {
-        name: "watchers",
+        name: "已完成",
         type: "bar",
         barWidth: "15%",
         itemStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
               offset: 0,
-              color: "#e6a23c"
+              color: "#3ce675"
             },
             {
               offset: 1,
@@ -75,10 +90,10 @@ setOptions(
             }
           ])
         },
-        data: [200, 320, 800]
+        data: props.overNumber
       },
       {
-        name: "fork",
+        name: "未完成",
         type: "bar",
         barWidth: "15%",
         itemStyle: {
@@ -93,25 +108,7 @@ setOptions(
             }
           ])
         },
-        data: [1600, 2460, 4500]
-      },
-      {
-        name: "star",
-        type: "bar",
-        barWidth: "15%",
-        itemStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: "#409EFF"
-            },
-            {
-              offset: 1,
-              color: "#53a7ff"
-            }
-          ])
-        },
-        data: [1450, 3620, 7500]
+        data: props.unOverNumber
       }
     ],
     addTooltip: true
