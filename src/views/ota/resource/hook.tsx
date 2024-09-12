@@ -214,9 +214,22 @@ export function useResource() {
       minWidth: 100
     },
     {
-      label: "任务状态",
+      label: "设备状态",
       prop: "status",
-      minWidth: 100
+      minWidth: 100,
+      cellRenderer: ({ row }) => (
+        <el-tag
+          type={
+            row.status === "在线"
+              ? "success"
+              : row.status === "离线"
+                ? "warning"
+                : "danger"
+          }
+        >
+          {row.status}
+        </el-tag>
+      )
     },
     {
       label: "类型",
