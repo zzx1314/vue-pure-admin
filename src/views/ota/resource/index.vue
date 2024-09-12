@@ -818,21 +818,30 @@ const closePro = () => {
       <div v-show="downPush">
         <div class="flex gap-2">
           <p style="font-weight: bold">所选资源:</p>
-          <el-tag
-            v-for="(item, index) in resDataList"
-            :key="index"
-            type="success"
-          >
-            {{
-              item.type === "操作系统"
-                ? item.softwareName + "_" + item.softwareVersion
-                : item.pkgName + "_" + item.version
-            }}</el-tag
-          >
+          <div>
+            <el-tag
+              v-for="(item, index) in resDataList"
+              :key="index"
+              type="success"
+              style="margin-right: 5px"
+            >
+              {{
+                item.type === "操作系统"
+                  ? item.softwareName + "_" + item.softwareVersion
+                  : item.pkgName + "_" + item.version
+              }}</el-tag
+            >
+          </div>
           <p style="font-weight: bold">所选设备:</p>
-          <el-tag v-for="(item, index) in devSecDataList" :key="index">
-            {{ item.devId }}</el-tag
-          >
+          <div>
+            <el-tag
+              v-for="(item, index) in devSecDataList"
+              :key="index"
+              style="margin-right: 5px"
+            >
+              {{ item.devId }}</el-tag
+            >
+          </div>
         </div>
         <PureTableBar title="下发设备列表" @refresh="onSearch">
           <template v-slot="{ size, checkList }">
