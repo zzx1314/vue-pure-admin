@@ -75,8 +75,8 @@ export function useResource() {
       { required: true, message: "操作系统版本必填", trigger: "blur" }
     ],
     devType: [{ required: true, message: "设备类型必填", trigger: "change" }],
-    pkgName: [{ required: true, message: "组件包名称必填", trigger: "blur" }],
-    version: [{ required: true, message: "组件包版本必填", trigger: "blur" }],
+    pkgName: [{ required: true, message: "模块包名称必填", trigger: "blur" }],
+    version: [{ required: true, message: "模块版本必填", trigger: "blur" }],
     parentId: [
       { required: true, message: "所属操作系统必填", trigger: "change" }
     ]
