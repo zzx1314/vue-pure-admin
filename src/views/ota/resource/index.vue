@@ -647,7 +647,7 @@ const closePro = () => {
       </template>
     </PureTableBar>
 
-    <el-dialog v-model="dialogFormVisible" :title="title" width="60%">
+    <el-dialog v-model="dialogFormVisible" :title="title" width="55%">
       <el-form
         ref="addFormRef"
         :model="addForm.value"
@@ -726,7 +726,7 @@ const closePro = () => {
           <el-select
             v-model="addForm.value.parentId"
             placeholder="请选择所属操作系统"
-            style="width: 200px"
+            style="width: 190px"
           >
             <el-option
               v-for="item in resOsList"
@@ -754,6 +754,7 @@ const closePro = () => {
             :limit="1"
             :on-exceed="handleExceed"
             :on-change="beforeUpload"
+            style="width: 190px"
           >
             <template #trigger>
               <el-button
