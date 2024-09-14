@@ -183,6 +183,7 @@ const onUpload = async option => {
  * @param item
  */
 const uploadFile = async (index, item) => {
+  addForm.value.fileName = item.name;
   const paramData = { busStr: JSON.stringify(addForm.value) };
   console.log("文件md5计算", item.md5);
   const result = await checkFileByMd5(item.md5, paramData);

@@ -53,7 +53,8 @@ export function useResource() {
       version: "",
       parentId: null,
       level: null,
-      remark: ""
+      remark: "",
+      fileName: ""
     }
   });
 
@@ -371,7 +372,8 @@ export function useResource() {
       version: "",
       parentId: null,
       level: null,
-      remark: ""
+      remark: "",
+      fileName: ""
     };
     dialogFormVisible.value = false;
     fileList.value = [];

@@ -53,5 +53,5 @@ export const resList = (param?: object) => {
 
 // 资源统计
 export const resStatistics = (param?: object) => {
-  return http.axiosGetRequest<Result>(otaBusResourceUrls.statistics, param);
+  return http.axiosGetRequest<any>(otaBusResourceUrls.statistics, param);
 };

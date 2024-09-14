@@ -43,18 +43,25 @@ setTimeout(() => {
 const getDevStatistics = () => {
   devStatistics().then(res => {
     console.log(res);
+    groupNames.value = res.data.groupNames;
+    onlineNums.value = res.data.onlineNums;
+    offlineNums.value = res.data.offlineNums;
   });
 };
 
 const getResStatistics = () => {
   resStatistics().then(res => {
     console.log(res);
+    resInfo.value = res.data;
   });
 };
 
 const getTaskStatistics = () => {
   taskStatistics().then(res => {
     console.log(res);
+    time.value = res.data.time;
+    overNumber.value = res.data.overNums;
+    unOverNumber.value = res.data.offlineNums;
   });
 };
 

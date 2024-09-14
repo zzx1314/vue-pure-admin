@@ -41,5 +41,5 @@ export const devDelete = (param?: object) => {
 };
 // 设备统计
 export const devStatistics = (param?: object) => {
-  return http.axiosGetRequest<Result>(otaDevUrls.statistics, param);
+  return http.axiosGetRequest<any>(otaDevUrls.statistics, param);
 };
