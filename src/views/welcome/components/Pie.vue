@@ -43,12 +43,12 @@ setOptions(
     },
     series: [
       {
-        name: "资管信息",
+        name: "资源信息",
         type: "pie",
         top: "20%",
         radius: "80%",
         center: ["40%", "50%"],
-        color: ["#e6a23c", "#f56c6c", "#53a7ff", "#5370ff"],
+        color: ["#e6a23c", "#f56c6c", "#53a7ff", "#9253ff", "#9253FFFF"],
         data: props.resInfo
         // emphasis: {
         //   itemStyle: {
