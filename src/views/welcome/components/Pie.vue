@@ -48,7 +48,14 @@ setOptions(
         top: "20%",
         radius: "80%",
         center: ["40%", "50%"],
-        color: ["#e6a23c", "#f56c6c", "#53a7ff", "#9253ff", "#9253FFFF"],
+        color: [
+          "#e6a23c",
+          "#f56c6c",
+          "#53a7ff",
+          "#ba53ff",
+          "#9253FFFF",
+          "#BA53FFFF"
+        ],
         data: props.resInfo
         // emphasis: {
         //   itemStyle: {
