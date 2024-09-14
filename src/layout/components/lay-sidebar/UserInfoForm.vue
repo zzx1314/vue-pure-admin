@@ -140,25 +140,25 @@ const validatePass4 = (rule: any, value: any, callback: any) => {
   if (passComplexityStr === "1") {
     // 密码是数字
     if (value.match(/^[0-9]+$/)) {
-      callback(new Error("密码是数字"));
-    } else {
       callback();
+    } else {
+      callback(new Error("密码必须是数字"));
     }
   }
   if (passComplexityStr === "2") {
     // 密码是数字，字母组合
     if (value.match(/^[0-9a-zA-Z]+$/)) {
-      callback(new Error("密码是数字，字母组合"));
-    } else {
       callback();
+    } else {
+      callback(new Error("密码必须是数字，字母组合"));
     }
   }
   if (passComplexityStr === "3") {
     // 密码是数字，字母，特殊字符组合
     if (value.match(/^[0-9a-zA-Z\W]+$/)) {
-      callback(new Error("密码是数字，字母，特殊字符组合"));
-    } else {
       callback();
+    } else {
+      callback(new Error("密码必须是数字，字母，特殊字符组合"));
     }
   }
 };

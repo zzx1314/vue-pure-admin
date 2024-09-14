@@ -9,7 +9,7 @@ import {
 import { ElMessageBox } from "element-plus";
 import type { PaginationProps, AdaptiveConfig } from "@pureadmin/table";
 import { reactive, ref, computed } from "vue";
-import type { FormInstance, FormRules } from "element-plus";
+import type { FormInstance } from "element-plus";
 import { SUCCESS } from "@/api/base";
 
 export function useUser() {
@@ -57,39 +57,7 @@ export function useUser() {
   const title = ref("");
   // 角色结果
   const roleArry = ref([]);
-  // 添加校验规则
-  const validatePass = (rule: any, value: any, callback: any) => {
-    if (value === "") {
-      callback(new Error("请输入密码"));
-    } else {
-      callback();
-    }
-  };
-  const validatePass2 = (rule: any, value: any, callback: any) => {
-    if (value === "") {
-      callback(new Error("请输入密码"));
-    } else if (value !== addForm.value.newpassword) {
-      callback(new Error("两次密码不一样"));
-    } else {
-      callback();
-    }
-  };
-
-  const rules = reactive<FormRules>({
-    realName: [{ required: true, message: "姓名必填", trigger: "blur" }],
-    username: [{ required: true, message: "账号必填", trigger: "blur" }],
-    newpassword: [
-      { required: true, message: "密码必填", trigger: "blur" },
-      { validator: validatePass, trigger: "blur" }
-    ],
-    newpassword1: [
-      { required: true, message: "密码必填", trigger: "blur" },
-      { validator: validatePass2, trigger: "blur" }
-    ],
-    lockFlag: [{ required: true, message: "类型必填", trigger: "change" }],
-    sex: [{ required: true, message: "性别必填", trigger: "change" }],
-    role: [{ required: true, message: "角色必填", trigger: "change" }]
-  });
+  const orgNameVal = ref("");
   /** 撑满内容区自适应高度相关配置 */
   const adaptiveConfig: AdaptiveConfig = {
     /** 表格距离页面底部的偏移量，默认值为 `96` */
@@ -217,7 +185,7 @@ export function useUser() {
       sex: "",
       role: "",
       orgId: null,
-      orgName: ""
+      orgName: orgNameVal.value
     };
     queryForm.value = {
       orgIds: null,
@@ -415,6 +383,7 @@ export function useUser() {
 
   function setOrgName(orgName) {
     console.log("setOrgName", orgName);
+    orgNameVal.value = orgName;
     addForm.value.orgName = orgName;
   }
 
@@ -490,7 +459,6 @@ export function useUser() {
     dialogFormVisible,
     addForm,
     title,
-    rules,
     roleArry,
     allCheckItem,
     defauleCheckItem,

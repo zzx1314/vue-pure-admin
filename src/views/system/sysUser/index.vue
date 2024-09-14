@@ -5,7 +5,7 @@ import { useUser } from "./hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
-import { listAllRole } from "@/api/system";
+import { getSafePolicy, listAllRole } from "@/api/system";
 
 import Password from "@iconify-icons/ri/lock-password-line";
 import More from "@iconify-icons/ep/more-filled";
@@ -17,6 +17,7 @@ import AddFill from "@iconify-icons/ri/add-circle-line";
 import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
 import { hasAuth } from "@/router/utils";
+import { SUCCESS } from "@/api/base";
 
 const {
   moreCondition,
@@ -30,7 +31,6 @@ const {
   sexArray,
   dialogFormVisible,
   title,
-  rules,
   addForm,
   adaptiveConfig,
   cancel,
@@ -53,8 +53,105 @@ defineOptions({
   name: "sysUser"
 });
 
+const addFormRul = ref({
+  type: "sys_security_policy",
+  sysLoginMaxLockTime: "5分钟",
+  sysLoginMaxTryCount: "5次",
+  sysPassLength: 11,
+  sysPassShortLength: 8,
+  sysPassChange: "5天",
+  sysOvertime: "30分钟",
+  passCom: "密码是数字，字母组合"
+});
+
+const getSysSeting = () => {
+  getSafePolicy().then(res => {
+    if (res.code === SUCCESS) {
+      addFormRul.value = res.data;
+    }
+  });
+};
+
+// 添加校验规则
+const validatePass2 = (rule: any, value: any, callback: any) => {
+  if (value === "") {
+    callback(new Error("请输入密码"));
+  } else if (value !== addForm.value.newpassword) {
+    callback(new Error("两次密码不一样"));
+  } else {
+    callback();
+  }
+};
+// 对密码长度进行校验
+const validatePass3 = (rule: any, value: any, callback: any) => {
+  // sessionStorage 中获取密码长度
+  const passMaxLengthStr = addFormRul.value.sysPassLength;
+  const passMinLengthStr = addFormRul.value.sysPassShortLength;
+
+  // 转换为整数
+  const passMaxLength = parseInt(passMaxLengthStr, 10);
+  const passMinLength = parseInt(passMinLengthStr, 10);
+
+  if (value.length < passMinLength) {
+    callback(new Error(`密码长度不能小于${passMinLength}位`));
+  } else if (value.length > passMaxLength) {
+    callback(new Error(`密码长度不能大于${passMaxLength}位`));
+  } else {
+    callback();
+  }
+};
+// 对密码的复杂度进行校验
+const validatePass4 = (rule: any, value: any, callback: any) => {
+  // 从sessionStorage 中获取密码复杂度
+  const passComplexityStr = addFormRul.value.passCom;
+  if (passComplexityStr === "1") {
+    // 密码是数字
+    if (value.match(/^[0-9]+$/)) {
+      callback();
+    } else {
+      callback(new Error("密码必须是数字"));
+    }
+  }
+  if (passComplexityStr === "2") {
+    // 密码是数字，字母组合
+    if (value.match(/^[0-9a-zA-Z]+$/)) {
+      callback();
+    } else {
+      callback(new Error("密码必须是数字，字母组合"));
+    }
+  }
+  if (passComplexityStr === "3") {
+    // 密码是数字，字母，特殊字符组合
+    if (value.match(/^[0-9a-zA-Z\W]+$/)) {
+      callback();
+    } else {
+      callback(new Error("密码必须是数字，字母，特殊字符组合"));
+    }
+  }
+};
+
+const rules = {
+  realName: [{ required: true, message: "姓名必填", trigger: "blur" }],
+  username: [{ required: true, message: "账号必填", trigger: "blur" }],
+  lockFlag: [{ required: true, message: "类型必填", trigger: "change" }],
+  sex: [{ required: true, message: "性别必填", trigger: "change" }],
+  role: [{ required: true, message: "角色必填", trigger: "change" }],
+  newpassword: [
+    { validator: validatePass3, trigger: "blur" },
+    { validator: validatePass4, trigger: "blur" },
+    { required: true, message: "密码必填", trigger: "blur" }
+  ],
+  newpassword1: [
+    { validator: validatePass2, trigger: "blur" },
+    { validator: validatePass3, trigger: "blur" },
+    { validator: validatePass4, trigger: "blur" },
+    { required: true, message: "密码必填", trigger: "blur" }
+  ]
+};
+
 onMounted(() => {
   getAllRole();
+  getSysSeting();
 });
 
 const addFormRef = ref();
