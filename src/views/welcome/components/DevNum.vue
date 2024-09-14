@@ -21,15 +21,15 @@ const { setOptions, resize } = useECharts(barChartRef as Ref<HTMLDivElement>, {
 });
 
 const props = defineProps({
-  time: {
+  groupNames: {
     type: Array<string>,
     default: () => ["测试组1", "测试组2"]
   },
-  overNumber: {
+  onlineNums: {
     type: Array<number>,
     default: () => [10, 15]
   },
-  unOverNumber: {
+  offlineNums: {
     type: Array<number>,
     default: () => [2, 3]
   }
@@ -63,7 +63,7 @@ setOptions(
           // width: "70",
           // overflow: "truncate"
         },
-        data: props.time,
+        data: props.groupNames,
         triggerEvent: true
       }
     ],
@@ -90,7 +90,7 @@ setOptions(
             }
           ])
         },
-        data: props.overNumber
+        data: props.onlineNums
       },
       {
         name: "离线设备",
@@ -108,7 +108,7 @@ setOptions(
             }
           ])
         },
-        data: props.unOverNumber
+        data: props.offlineNums
       }
     ],
     addTooltip: true
