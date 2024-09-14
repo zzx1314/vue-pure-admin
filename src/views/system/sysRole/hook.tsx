@@ -176,7 +176,7 @@ export function useRole() {
               onSearch();
               cancel(formEl);
             } else {
-              message("添加失败！", { type: "error" });
+              message(res.msg, { type: "error" });
             }
           });
         }
