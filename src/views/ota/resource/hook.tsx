@@ -54,7 +54,7 @@ export function useResource() {
       parentId: null,
       level: null,
       remark: "",
-      fileName: ""
+      originFileName: ""
     }
   });
 
@@ -373,7 +373,7 @@ export function useResource() {
       parentId: null,
       level: null,
       remark: "",
-      fileName: ""
+      originFileName: ""
     };
     dialogFormVisible.value = false;
     fileList.value = [];
