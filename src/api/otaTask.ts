@@ -22,7 +22,8 @@ const otaBusTaskUrls = {
   update: "/api/ota/otaBusTask/update",
   push: "/api/ota/otaBusTask/push",
   getById: "/api/ota/otaBusTask/",
-  downLog: "/api/ota/otaBusTask/downLog"
+  downLog: "/api/ota/otaBusTask/downLog",
+  statistics: "/api/ota/otaBusTask/statistics"
 };
 
 // 任务分页
@@ -46,6 +47,9 @@ export const taskGetById = (param?: object) => {
   return http.axiosGet<any>(otaBusTaskUrls.getById + param);
 };
 
+export const taskStatistics = (param?: object) => {
+  return http.axiosGet<any>(otaBusTaskUrls.statistics, param);
+};
 export const downLog = (param?: any) => {
   const query = {
     taskId: param.taskId,

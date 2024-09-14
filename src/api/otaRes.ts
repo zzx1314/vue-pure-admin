@@ -21,7 +21,8 @@ const otaBusResourceUrls = {
   delete: `/api/ota/otaBusResource/`,
   update: "/api/ota/otaBusResource/update",
   push: "/api/ota/otaBusResource/push",
-  list: "/api/ota/otaBusResource/list"
+  list: "/api/ota/otaBusResource/list",
+  statistics: "/api/ota/otaBusResource/statistics"
 };
 
 // 资源分页
@@ -48,4 +49,9 @@ export const resPush = (param?: object) => {
 // 查询资源集合
 export const resList = (param?: object) => {
   return http.axiosGetRequest<Result>(otaBusResourceUrls.list, param);
+};
+
+// 资源统计
+export const resStatistics = (param?: object) => {
+  return http.axiosGetRequest<Result>(otaBusResourceUrls.statistics, param);
 };

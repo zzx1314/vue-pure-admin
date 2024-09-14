@@ -4,8 +4,11 @@ import Pie from "./components/Pie.vue";
 import DevNum from "@/views/welcome/components/DevNum.vue";
 import TypeIt from "@/components/ReTypeit";
 import { useWindowSize } from "@vueuse/core";
-import { ref, getCurrentInstance } from "vue";
+import { ref, getCurrentInstance, onMounted } from "vue";
 import Github from "./components/Github.vue";
+import { devStatistics } from "@/api/otaDev";
+import { resStatistics } from "@/api/otaRes";
+import { taskStatistics } from "@/api/otaTask";
 
 defineOptions({
   name: "Welcome"
@@ -14,6 +17,17 @@ defineOptions({
 const list = ref();
 const loading = ref<boolean>(true);
 const { version } = __APP_INFO__.pkg;
+
+// 设备统计
+const groupNames = ref([]);
+const onlineNums = ref([]);
+const offlineNums = ref([]);
+// 资源统计
+const resInfo = ref([]);
+// 任务统计
+const time = ref([]);
+const overNumber = ref([]);
+const unOverNumber = ref([]);
 
 const { VersionList } =
   getCurrentInstance().appContext.config.globalProperties.$config;
@@ -25,6 +39,30 @@ const { height } = useWindowSize();
 setTimeout(() => {
   loading.value = !loading.value;
 }, 800);
+
+const getDevStatistics = () => {
+  devStatistics().then(res => {
+    console.log(res);
+  });
+};
+
+const getResStatistics = () => {
+  resStatistics().then(res => {
+    console.log(res);
+  });
+};
+
+const getTaskStatistics = () => {
+  taskStatistics().then(res => {
+    console.log(res);
+  });
+};
+
+onMounted(() => {
+  getDevStatistics();
+  getResStatistics();
+  getTaskStatistics();
+});
 </script>
 
 <template>
