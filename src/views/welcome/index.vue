@@ -203,7 +203,11 @@ onMounted(() => {
           </template>
           <el-skeleton animated :rows="7" :loading="loading">
             <template #default>
-              <DevNum />
+              <DevNum
+                :group-names="groupNames"
+                :online-nums="onlineNums"
+                :offline-nums="offlineNums"
+              />
             </template>
           </el-skeleton>
         </el-card>
@@ -237,7 +241,7 @@ onMounted(() => {
           </template>
           <el-skeleton animated :rows="7" :loading="loading">
             <template #default>
-              <Pie />
+              <Pie :resInfo="resInfo" />
             </template>
           </el-skeleton>
         </el-card>
@@ -271,7 +275,11 @@ onMounted(() => {
           </template>
           <el-skeleton animated :rows="7" :loading="loading">
             <template #default>
-              <Bar />
+              <Bar
+                :time="time"
+                :over-number="overNumber"
+                :un-over-number="unOverNumber"
+              />
             </template>
           </el-skeleton>
         </el-card>
