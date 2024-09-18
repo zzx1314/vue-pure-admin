@@ -9,6 +9,8 @@ import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import Download from "@iconify-icons/ep/download";
 import { hasAuth } from "@/router/utils";
+import Down from "@iconify-icons/ep/arrow-down";
+import Up from "@iconify-icons/ep/arrow-up";
 
 defineOptions({
   name: "Task"
@@ -28,6 +30,7 @@ const {
   title,
   devClumns,
   resDataList,
+  moreCondition,
   restartForm,
   onSearch,
   handleDesc,
@@ -76,6 +79,30 @@ const {
           <el-option label="未完成" value="未完成" />
         </el-select>
       </el-form-item>
+
+      <el-collapse-transition>
+        <div v-show="moreCondition">
+          <el-form-item label="开始时间：" prop="beginTime">
+            <el-date-picker
+              v-model="queryForm.beginTime"
+              type="date"
+              placeholder="请输入开始时间"
+              class="!w-[180px]"
+              value-format="YYYY-MM-DD HH:mm:ss"
+            />
+          </el-form-item>
+          <el-form-item label="结束时间：" prop="endTime">
+            <el-date-picker
+              v-model="queryForm.endTime"
+              placeholder="请输入结束时间"
+              type="date"
+              class="!w-[180px]"
+              value-format="YYYY-MM-DD"
+            />
+          </el-form-item>
+        </div>
+      </el-collapse-transition>
+
       <el-form-item>
         <el-button
           type="primary"
@@ -88,6 +115,11 @@ const {
         <el-button :icon="useRenderIcon(Refresh)" @click="restartForm(formRef)">
           重置
         </el-button>
+        <el-button
+          type="text"
+          :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
+          @click="moreCondition = !moreCondition"
+        />
       </el-form-item>
     </el-form>
 

@@ -16,8 +16,11 @@ export function useTask() {
   const queryForm = reactive({
     taskName: "",
     taskType: "",
-    status: ""
+    status: "",
+    beginTime: "",
+    endTime: ""
   });
+  const moreCondition = ref(false);
   const dataList = ref([]);
   const devDataList = ref([]);
   const resDataList = ref([]);
@@ -267,6 +270,8 @@ export function useTask() {
     queryForm.taskName = "";
     queryForm.taskType = "";
     queryForm.status = "";
+    queryForm.beginTime = "";
+    queryForm.endTime = "";
     dialogFormVisible.value = false;
     onSearch();
   }
@@ -321,6 +326,7 @@ export function useTask() {
     buttonClass,
     devClumns,
     resDataList,
+    moreCondition,
     onSearch,
     resetForm,
     handleDesc,

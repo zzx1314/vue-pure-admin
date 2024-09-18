@@ -84,7 +84,7 @@ const {
               v-model="queryForm.devGroup"
               placeholder="请输入设备组别"
               clearable
-              class="!w-[200px]"
+              class="!w-[180px]"
             />
           </el-form-item>
 
@@ -92,7 +92,7 @@ const {
             <el-select
               v-model="queryForm.status"
               placeholder="请选择设备状态"
-              class="!w-[200px]"
+              class="!w-[180px]"
             >
               <el-option
                 v-for="item in status"
