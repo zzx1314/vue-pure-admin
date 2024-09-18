@@ -204,12 +204,14 @@ export function useTask() {
 
   function handleDevSizeChange(val: number) {
     console.log(`current page: ${val}`);
-    pagination.currentPage = val;
+    pagination.pageSize = val;
     onSearch();
   }
 
   function handleCurrentChange(val: number) {
     console.log(`current page: ${val}`);
+    pagination.currentPage = val;
+    onSearch();
   }
 
   function handleDevCurrentChange(val: number) {
@@ -240,6 +242,9 @@ export function useTask() {
       ...page,
       ...queryForm
     };
+    if (query.endTime) {
+      query.endTime = query.endTime + " 23:59:59";
+    }
     const { data } = await taskPage(query);
     dataList.value = data.records;
     pagination.total = data.total;
