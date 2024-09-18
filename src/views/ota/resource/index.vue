@@ -61,6 +61,7 @@ const {
   resOsList,
   fileList,
   typeOption,
+  resTypeOption,
   resDataList,
   devSecDataList,
   downPush,
@@ -488,6 +489,21 @@ const closePro = () => {
         >
           <el-option
             v-for="item in typeOption"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="资源类型：" prop="devType">
+        <el-select
+          v-model="queryForm.resType"
+          placeholder="选择资源类型"
+          style="width: 200px"
+        >
+          <el-option
+            v-for="item in resTypeOption"
             :key="item.value"
             :label="item.label"
             :value="item.value"

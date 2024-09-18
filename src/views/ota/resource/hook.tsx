@@ -19,7 +19,8 @@ export function useResource() {
     devType: "",
     type: "",
     pkgName: "",
-    version: ""
+    version: "",
+    resType: ""
   });
   const dataList = ref([]);
   const devDataList = ref([]);
@@ -112,6 +113,28 @@ export function useResource() {
       label: "模块"
     }
   ];
+  const resTypeOption = [
+    {
+      value: "驱动",
+      label: "驱动"
+    },
+    {
+      value: "固件",
+      label: "固件"
+    },
+    {
+      value: "设备数",
+      label: "设备数"
+    },
+    {
+      value: "镜像",
+      label: "镜像"
+    },
+    {
+      value: "其他",
+      label: "其他"
+    }
+  ];
   const resOsList = ref([]);
   const downPush = ref(false);
   const active = ref(1);
@@ -149,6 +172,11 @@ export function useResource() {
     {
       label: "设备类型",
       prop: "devType",
+      minWidth: 100
+    },
+    {
+      label: "资源类型",
+      prop: "resType",
       minWidth: 100
     },
     {
@@ -361,6 +389,7 @@ export function useResource() {
     queryForm.type = "";
     queryForm.pkgName = "";
     queryForm.version = "";
+    queryForm.resType = "";
 
     addForm.value = {
       id: null,
@@ -499,6 +528,7 @@ export function useResource() {
     updateType,
     moreCondition,
     devOption,
+    resTypeOption,
     resOsList,
     fileList,
     typeOption,
