@@ -74,7 +74,7 @@ class PureHttp {
       async (config: PureHttpRequestConfig): Promise<any> => {
         // 开启进度条动画
         if (
-          !config.url.includes("/checkToken/isExpire") ||
+          !config.url.includes("/checkToken/isExpire") &&
           !config.url.includes("/statistics")
         ) {
           NProgress.start();
