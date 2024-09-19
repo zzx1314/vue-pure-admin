@@ -113,7 +113,6 @@
     "@commitlint/config-conventional": "^19.2.2",
     "@commitlint/types": "^19.0.3",
     "@eslint/js": "^9.6.0",
-    "@faker-js/faker": "^8.4.1",
     "@iconify-icons/ep": "^1.2.12",
     "@iconify-icons/mdi": "^1.2.48",
     "@iconify-icons/ri": "^1.2.10",
