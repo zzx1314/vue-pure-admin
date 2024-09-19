@@ -44,7 +44,7 @@ setOptions(
     legend: {
       //@ts-expect-error
       right: true,
-      data: ["设备数"]
+      data: ["设备树"]
     },
     calculable: true,
     xAxis: [
@@ -83,7 +83,7 @@ setOptions(
     ],
     series: [
       {
-        name: "设备数",
+        name: "设备树",
         type: "line",
         symbolSize: 10,
         symbol: "circle",

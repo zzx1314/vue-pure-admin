@@ -25,7 +25,7 @@ const props = defineProps({
     default: () => [
       { value: 400, name: "驱动" },
       { value: 1600, name: "固件" },
-      { value: 7200, name: "设备数" },
+      { value: 7200, name: "设备树" },
       { value: 200, name: "镜像" }
     ]
   }

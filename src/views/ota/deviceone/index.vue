@@ -70,7 +70,7 @@ const {
       </el-form-item>
       <el-form-item label="设备类型" prop="name">
         <el-input
-          v-model="queryForm.devIp"
+          v-model="queryForm.type"
           placeholder="请输入设备类型"
           clearable
           class="!w-[180px]"
@@ -127,14 +127,14 @@ const {
 
     <PureTableBar title="设备列表" :columns="columns" @refresh="onSearch">
       <template #buttons>
-        <el-button
+        <!--        <el-button
           v-if="hasAuth('dev_add')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="openDia('新增设备', addFormRef)"
         >
           添加
-        </el-button>
+        </el-button>-->
       </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
@@ -198,20 +198,33 @@ const {
         label-width="100px"
       >
         <el-form-item label="设备ID" prop="devId">
-          <el-input v-model="addForm.value.devId" placeholder="请输入设备ID" />
+          <el-input
+            v-model="addForm.value.devId"
+            :disabled="true"
+            placeholder="请输入设备ID"
+          />
         </el-form-item>
 
         <el-form-item label="设备IP" prop="devIp">
-          <el-input v-model="addForm.value.devIp" placeholder="请输入设备IP" />
+          <el-input
+            v-model="addForm.value.devIp"
+            :disabled="true"
+            placeholder="请输入设备IP"
+          />
         </el-form-item>
 
         <el-form-item label="设备类型" prop="type">
-          <el-input v-model="addForm.value.type" placeholder="请输入设备类型" />
+          <el-input
+            v-model="addForm.value.type"
+            :disabled="true"
+            placeholder="请输入设备类型"
+          />
         </el-form-item>
 
         <el-form-item label="设备版本" prop="versionInfo">
           <el-input
             v-model="addForm.value.versionInfo"
+            :disabled="true"
             placeholder="请输入设备版本"
           />
         </el-form-item>

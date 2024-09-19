@@ -198,6 +198,8 @@ export function useDept() {
             if (res.code === SUCCESS) {
               message("修改成功！", { type: "success" });
               cancel(formEl);
+            } else {
+              message(res.msg, { type: "error" });
             }
           });
         } else {
@@ -205,6 +207,8 @@ export function useDept() {
             if (res.code == SUCCESS) {
               message("添加成功！", { type: "success" });
               cancel(formEl);
+            } else {
+              message(res.msg, { type: "error" });
             }
           });
         }

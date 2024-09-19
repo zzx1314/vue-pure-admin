@@ -123,8 +123,8 @@ export function useResource() {
       label: "固件"
     },
     {
-      value: "设备数",
-      label: "设备数"
+      value: "设备树",
+      label: "设备树"
     },
     {
       value: "镜像",
