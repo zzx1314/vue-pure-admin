@@ -212,12 +212,14 @@ export function useClient() {
 
   function handleSizeChange(val: number) {
     console.log(`${val} items per page`);
+    pagination.pageSize = val;
+    getCerInfo(parentId.value);
   }
 
   function handleCurrentChange(val: number) {
     console.log(`current page: ${val}`);
     pagination.currentPage = val;
-    onSearch();
+    getCerInfo(parentId.value);
   }
 
   function handleSelectionChange(val) {

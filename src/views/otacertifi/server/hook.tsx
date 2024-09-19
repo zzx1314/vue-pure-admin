@@ -219,6 +219,8 @@ export function useServer() {
 
   function handleSizeChange(val: number) {
     console.log(`${val} items per page`);
+    pagination.pageSize = val;
+    getCerInfo(parentId.value);
   }
 
   function handleCurrentChange(val: number) {

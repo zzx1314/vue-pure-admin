@@ -200,6 +200,8 @@ export function useTask() {
 
   function handleSizeChange(val: number) {
     console.log(`${val} items per page`);
+    pagination.pageSize = val;
+    onSearch();
   }
 
   function handleDevSizeChange(val: number) {
@@ -216,6 +218,8 @@ export function useTask() {
 
   function handleDevCurrentChange(val: number) {
     console.log(`current page: ${val}`);
+    pagination.currentPage = val;
+    onSearch();
   }
 
   function handleSelectionChange(val) {
