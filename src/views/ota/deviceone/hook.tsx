@@ -83,7 +83,7 @@ export function useDevice() {
       minWidth: 100
     },
     {
-      label: "状态值",
+      label: "设备状态",
       prop: "status",
       minWidth: 100,
       cellRenderer: ({ row }) => (
