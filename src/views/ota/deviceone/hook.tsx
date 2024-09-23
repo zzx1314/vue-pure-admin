@@ -122,8 +122,10 @@ export function useDevice() {
     },
     {
       label: "版本信息",
-      minWidth: 180,
-      prop: "versionInfo"
+      minWidth: 200,
+      prop: "versionInfo",
+      slot: "content",
+      align: "left"
     },
     {
       label: "备注",
