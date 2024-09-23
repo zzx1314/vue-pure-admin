@@ -75,12 +75,12 @@ export function useDevice() {
     {
       label: "设备ID",
       prop: "devId",
-      minWidth: 100
+      minWidth: 180
     },
     {
       label: "设备IP",
       prop: "devIp",
-      minWidth: 100
+      minWidth: 150
     },
     {
       label: "设备状态",
