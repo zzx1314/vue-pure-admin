@@ -11,6 +11,7 @@ import type { PaginationProps, AdaptiveConfig } from "@pureadmin/table";
 import { reactive, ref, computed } from "vue";
 import type { FormInstance } from "element-plus";
 import { SUCCESS } from "@/api/base";
+import { hasAuth } from "@/router/utils";
 
 export function useUser() {
   // 更多查询条件
@@ -216,6 +217,9 @@ export function useUser() {
    * @param param0
    */
   function onChange({ row, index }) {
+    if (hasAuth("user_stop_start")) {
+      return message("您没有权限操作", { type: "error" });
+    }
     ElMessageBox.confirm(
       `确认要<strong>${
         row.lockFlag === 0 ? "停用" : "启用"
