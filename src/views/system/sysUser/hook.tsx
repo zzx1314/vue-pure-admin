@@ -285,7 +285,7 @@ export function useUser() {
     console.log(row);
     userResetPwd(row).then(res => {
       if (res.code === SUCCESS) {
-        message("密码已重置", {
+        message("密码已重置成初始密码：Aa123456", {
           type: "success"
         });
       }
