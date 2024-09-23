@@ -159,7 +159,7 @@ const {
           @page-current-change="handleCurrentChange"
         >
           <template #content="{ row }">
-            <span v-html="row.versionInfo" />
+            <span v-html="row.versionInfoHtml" />
           </template>
           <template #operation="{ row }">
             <el-button

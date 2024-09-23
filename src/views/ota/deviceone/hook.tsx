@@ -123,7 +123,7 @@ export function useDevice() {
     {
       label: "版本信息",
       minWidth: 200,
-      prop: "versionInfo",
+      prop: "versionInfoHtml",
       slot: "content",
       align: "left"
     },
