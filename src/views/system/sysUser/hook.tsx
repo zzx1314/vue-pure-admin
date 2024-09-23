@@ -217,8 +217,10 @@ export function useUser() {
    * @param param0
    */
   function onChange({ row, index }) {
-    if (hasAuth("user_stop_start")) {
-      return message("您没有权限操作", { type: "error" });
+    if (!hasAuth("user_stop_start")) {
+      message("您没有权限操作,本次修改不生效", { type: "error" });
+      onSearch();
+      return;
     }
     ElMessageBox.confirm(
       `确认要<strong>${

@@ -1,6 +1,8 @@
 import { onMounted, ref } from "vue";
 // @ts-ignore
 import { getMenuData, listAllRole, setMenuAuth } from "@/api/system";
+import { SUCCESS } from "@/api/base";
+import { message } from "@/utils/message";
 
 export function sysAuth() {
   const defaultProps = {
@@ -71,6 +73,9 @@ export function sysAuth() {
     };
     setMenuAuth(params).then(res => {
       console.log(res);
+      if (res.code === SUCCESS) {
+        message("权限将在下次登录生效！", { type: "success" });
+      }
     });
     console.log("useAuth", allUse);
   };
