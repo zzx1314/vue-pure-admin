@@ -428,8 +428,18 @@ const submitPushForm = refo => {
   });
 };
 const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
-  console.log("上传文件前。。", uploadFile, uploadFiles);
-  uploadFileTemp.value = uploadFile;
+  console.log("上传文件前。。", uploadFile.name);
+  if (
+    uploadFile.name.includes(".run") ||
+    uploadFile.name.includes(".img") ||
+    uploadFile.name.includes("Image") ||
+    uploadFile.name.includes("image")
+  ) {
+    uploadFileTemp.value = uploadFile;
+  } else {
+    uploadRef.value!.clearFiles();
+    message("请选择正确的安装包格式：.run，.img,Image", { type: "error" });
+  }
 };
 
 // 下一步
