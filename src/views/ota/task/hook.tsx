@@ -232,7 +232,11 @@ export function useTask() {
 
   function handleDown(row) {
     console.log("下载", row);
-    downLog(row);
+    if (row.logFileName) {
+      downLog(row);
+    } else {
+      message("暂无日志文件！", { type: "error" });
+    }
   }
   // 查询
   async function onSearch() {
