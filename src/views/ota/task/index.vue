@@ -217,7 +217,7 @@ const {
             >
               <template #operation="{ row }">
                 <el-button
-                  v-if="row.status === '生效失败'"
+                  v-if="row.status === '失败'"
                   class="reset-margin"
                   link
                   type="primary"
