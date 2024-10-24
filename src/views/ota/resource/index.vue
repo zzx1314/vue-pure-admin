@@ -811,7 +811,7 @@ const closePro = () => {
       <div class="centered">
         <el-steps class="mb-4" :space="200" :active="active" simple>
           <el-step title="任务配置" :icon="useRenderIcon(EditPen)" />
-          <el-step title="资源选择" :icon="useRenderIcon(UploadFilled)" />
+          <el-step title="选择设备" :icon="useRenderIcon(UploadFilled)" />
         </el-steps>
       </div>
       <el-form
