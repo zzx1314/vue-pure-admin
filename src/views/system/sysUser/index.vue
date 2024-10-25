@@ -28,7 +28,7 @@ const {
   pagination,
   buttonClass,
   roleArry,
-  sexArray,
+  orgDataList,
   dialogFormVisible,
   title,
   addForm,
@@ -37,6 +37,7 @@ const {
   setOrgId,
   setOrgIds,
   setOrgName,
+  setTreeData,
   openDia,
   onSearch,
   handleUpdate,
@@ -176,6 +177,7 @@ async function getAllRole() {
       @setOrgId="setOrgId"
       @setOrgIds="setOrgIds"
       @setOrgName="setOrgName"
+      @setTreeData="setTreeData"
     />
     <div class="float-right w-[81%]">
       <el-form
@@ -419,7 +421,14 @@ async function getAllRole() {
             </el-select>
           </el-form-item>
           <el-form-item label="部门" prop="orgId">
-            <el-input v-model="addForm.orgName" disabled />
+            <el-tree-select
+              v-model="addForm.orgId"
+              :data="orgDataList"
+              filterable
+              check-strictly
+              :render-after-expand="false"
+              class="!w-[200px]"
+            />
           </el-form-item>
 
           <el-form-item

@@ -127,6 +127,10 @@ export function useResource() {
       label: "设备树"
     },
     {
+      value: "文件系统",
+      label: "文件系统"
+    },
+    {
       value: "镜像",
       label: "镜像"
     },

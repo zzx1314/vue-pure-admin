@@ -26,6 +26,7 @@ const props = defineProps({
       { value: 400, name: "驱动" },
       { value: 1600, name: "固件" },
       { value: 7200, name: "设备树" },
+      { value: 7200, name: "文件系统" },
       { value: 200, name: "镜像" }
     ]
   }
@@ -54,7 +55,8 @@ setOptions(
           "#53a7ff",
           "#ba53ff",
           "#9253FFFF",
-          "#BA53FFFF"
+          "#BA53FFFF",
+          "#53dfff"
         ],
         data: props.resInfo
         // emphasis: {

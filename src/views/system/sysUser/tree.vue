@@ -54,7 +54,13 @@ const filterNode = (value: string, data: Tree) => {
   return data.name.includes(value);
 };
 
-const emit = defineEmits(["updatePage", "setOrgId", "setOrgIds", "setOrgName"]);
+const emit = defineEmits([
+  "updatePage",
+  "setOrgId",
+  "setOrgIds",
+  "setOrgName",
+  "setTreeData"
+]);
 
 /** 点击节点 */
 function nodeClick(value) {
@@ -121,6 +127,7 @@ onMounted(() => {
       emit("setOrgIds", resultId);
       emit("setOrgId", treeData.value[0].id);
       emit("setOrgName", treeData.value[0].name);
+      emit("setTreeData", treeData.value);
     }
   });
 });

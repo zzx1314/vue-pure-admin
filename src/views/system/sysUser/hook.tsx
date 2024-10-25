@@ -48,6 +48,8 @@ export function useUser() {
   });
   // 查询结果集
   const dataList = ref([]);
+  // 组织机构下拉框数据
+  const orgDataList = ref([]);
   // 加载标识
   const loading = ref(true);
   // 状态开关
@@ -392,6 +394,9 @@ export function useUser() {
     orgNameVal.value = orgName;
     addForm.value.orgName = orgName;
   }
+  function setTreeData(treeData) {
+    orgDataList.value = treeData;
+  }
 
   /**
    * 添加表单数据
@@ -469,9 +474,11 @@ export function useUser() {
     allCheckItem,
     defauleCheckItem,
     adaptiveConfig,
+    orgDataList,
     setOrgId,
     setOrgIds,
     setOrgName,
+    setTreeData,
     cancelEvent,
     resetPwd,
     cancel,
