@@ -101,10 +101,10 @@ defineOptions({
           <el-option label="密码是数字，字母，特殊字符组合" value="3" />
         </el-select>
       </el-form-item>
-      <el-form-item label="密码超时时间" prop="sysOvertime">
+      <el-form-item label="登录超时时间" prop="sysOvertime">
         <el-select
           v-model="addForm.sysOvertime"
-          placeholder="请选择密码超时时间"
+          placeholder="请选择登录超时时间"
           style="width: 300px"
         >
           <el-option label="15分钟" value="900" />
