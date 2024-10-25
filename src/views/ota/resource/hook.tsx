@@ -416,6 +416,7 @@ export function useResource() {
     };
     dialogFormVisible.value = false;
     fileList.value = [];
+    addType.value = "";
     onSearch();
   }
   function cancelPush(tableRef) {
