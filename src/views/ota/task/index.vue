@@ -27,10 +27,17 @@ const {
   devDataList,
   pagination,
   dialogFormVisible,
+  dialogStatusVisible,
   title,
   devClumns,
   resDataList,
   moreCondition,
+  activStatus,
+  step1,
+  step2,
+  step3,
+  step4,
+  step5,
   restartForm,
   onSearch,
   handleDesc,
@@ -41,7 +48,8 @@ const {
   handleDevCurrentChange,
   handleSelectionChange,
   handleDevSelectionChange,
-  handleDown
+  handleDown,
+  handleShowStatus
 } = useTask();
 </script>
 <template>
@@ -228,9 +236,127 @@ const {
                   下载日志
                 </el-button>
               </template>
+              <template #status="{ row }">
+                <el-button
+                  v-if="row.status === '成功'"
+                  type="success"
+                  text
+                  @click="handleShowStatus(row)"
+                  >{{ row.status }}
+                </el-button>
+                <el-button
+                  v-else-if="row.status === '失败'"
+                  type="danger"
+                  text
+                  @click="handleShowStatus(row)"
+                >
+                  {{ row.status }}</el-button
+                >
+                <el-button
+                  v-else
+                  type="primary"
+                  text
+                  @click="handleShowStatus(row)"
+                >
+                  {{ row.status }}
+                </el-button>
+              </template>
             </pure-table>
           </template>
         </PureTableBar>
+      </div>
+    </el-dialog>
+
+    <el-dialog v-model="dialogStatusVisible" title="任务状态" width="50%">
+      <div class="statusMain">
+        <div class="a1">
+          <h4
+            :style="{
+              color: activStatus === '安装包制作' ? '#E6A23C' : '#258a15'
+            }"
+          >
+            {{ step1 }}
+          </h4>
+          <div class="a3" />
+          <div class="a4" />
+        </div>
+        <div class="a1">
+          <h4
+            :style="{
+              color:
+                activStatus === '待下发'
+                  ? '#E6A23C'
+                  : activStatus === '安装包制作'
+                    ? '#909399'
+                    : '#258a15'
+            }"
+          >
+            {{ step2 }}
+          </h4>
+          <div class="a3" />
+          <div class="a4" />
+        </div>
+        <div class="a1">
+          <h4
+            :style="{
+              color:
+                activStatus === '接受任务'
+                  ? '#E6A23C'
+                  : activStatus === '安装包制作' || activStatus === '待下发'
+                    ? '#909399'
+                    : '#258a15'
+            }"
+          >
+            {{ step3 }}
+          </h4>
+          <div class="a3" />
+          <div class="a4" />
+        </div>
+        <div class="a1">
+          <h4
+            :style="{
+              color:
+                activStatus === '下载成功'
+                  ? '#258a15'
+                  : activStatus === '下载失败'
+                    ? '#F56C6C'
+                    : activStatus === '安装包制作' ||
+                        activStatus === '待下发' ||
+                        activStatus === '接受任务'
+                      ? '#909399'
+                      : '#258a15'
+            }"
+          >
+            {{ step4 }}
+          </h4>
+          <div class="a3" />
+          <div class="a4" />
+        </div>
+        <div class="a1">
+          <h4
+            :style="{
+              color:
+                activStatus === '升级成功'
+                  ? '#258a15'
+                  : activStatus === '升级失败'
+                    ? '#F56C6C'
+                    : activStatus === '安装包制作' ||
+                        activStatus === '待下发' ||
+                        activStatus === '接受任务' ||
+                        activStatus === '下载成功'
+                      ? '#909399'
+                      : '#258a15'
+            }"
+          >
+            {{ step5 }}
+          </h4>
+          <div class="a3" />
+          <div class="a4" />
+        </div>
+        <div />
+        <div />
+        <div />
+        <div />
       </div>
     </el-dialog>
   </div>
@@ -239,5 +365,48 @@ const {
 <style scoped lang="scss">
 :deep(.el-dropdown-menu__item i) {
   margin: 0;
+}
+
+.statusMain {
+  display: flex;
+  gap: 3px;
+  align-items: center; /* 垂直居中对齐 */
+  justify-content: space-between; /* 子元素之间均匀分布 */
+  width: 100%;
+  height: 100px;
+}
+
+/* 长方形 */
+.a1 {
+  position: relative;
+  display: flex;
+  width: 85px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  background-color: rgb(91 155 236 / 60%);
+}
+
+/* 右边上三角 */
+.a3 {
+  position: absolute;
+  top: 0;
+  right: -20px;
+  width: 0;
+  height: 0;
+  margin-left: 10px;
+  border-top: 18px solid rgb(91 155 236 / 60%);
+  border-right: 20px solid transparent;
+}
+
+/* 右边下三角 */
+.a4 {
+  position: absolute;
+  top: 20px;
+  right: -20px;
+  width: 0;
+  height: 0;
+  border-right: 20px solid transparent;
+  border-bottom: 16px solid rgb(91 155 236 / 60%);
 }
 </style>

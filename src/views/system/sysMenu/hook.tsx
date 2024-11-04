@@ -306,6 +306,9 @@ export function useMenu() {
             }
           });
         } else {
+          if (addForm.value.type == 1) {
+            addForm.value.parentId = -1;
+          }
           const roleCode = addForm.value.roleCodeList;
           addForm.value.roleCode = roleCode.join(",");
           saveSysMenu(addForm.value).then(res => {

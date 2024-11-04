@@ -26,7 +26,15 @@ export function useTask() {
   const resDataList = ref([]);
   const loading = ref(true);
   const dialogFormVisible = ref(false);
+  const dialogStatusVisible = ref(false);
+  const activStatus = ref();
   const title = ref("");
+
+  const step1 = ref("安装包制作");
+  const step2 = ref("待下发");
+  const step3 = ref("接受任务");
+  const step4 = ref("下载成功");
+  const step5 = ref("升级成功");
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,
@@ -70,11 +78,7 @@ export function useTask() {
       label: "任务状态",
       prop: "status",
       minWidth: 100,
-      cellRenderer: ({ row }) => (
-        <el-tag type={row.status === "生效成功" ? "success" : "primary"}>
-          {row.status}
-        </el-tag>
-      )
+      slot: "status"
     },
     {
       label: "类型",
@@ -238,6 +242,17 @@ export function useTask() {
       message("暂无日志文件！", { type: "error" });
     }
   }
+  function handleShowStatus(row) {
+    console.log("查看状态", row);
+    dialogStatusVisible.value = true;
+    activStatus.value = row.status;
+    if (row.status === "下载失败") {
+      step4.value = "下载失败";
+    }
+    if (row.status === "升级失败") {
+      step5.value = "升级失败";
+    }
+  }
   // 查询
   async function onSearch() {
     loading.value = true;
@@ -331,6 +346,7 @@ export function useTask() {
     devDataList,
     loading,
     dialogFormVisible,
+    dialogStatusVisible,
     title,
     pagination,
     addForm,
@@ -340,6 +356,12 @@ export function useTask() {
     devClumns,
     resDataList,
     moreCondition,
+    activStatus,
+    step1,
+    step2,
+    step3,
+    step4,
+    step5,
     onSearch,
     resetForm,
     handleDesc,
@@ -351,6 +373,7 @@ export function useTask() {
     handleSelectionChange,
     handleDevSelectionChange,
     handleDown,
+    handleShowStatus,
     cancel,
     restartForm,
     submitForm,
