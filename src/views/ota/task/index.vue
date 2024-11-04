@@ -225,7 +225,7 @@ const {
             >
               <template #operation="{ row }">
                 <el-button
-                  v-if="row.status === '失败'"
+                  v-if="row.status === '升级失败'"
                   class="reset-margin"
                   link
                   type="primary"
@@ -238,14 +238,14 @@ const {
               </template>
               <template #status="{ row }">
                 <el-button
-                  v-if="row.status === '成功'"
+                  v-if="row.status === '升级成功'"
                   type="success"
                   text
                   @click="handleShowStatus(row)"
                   >{{ row.status }}
                 </el-button>
                 <el-button
-                  v-else-if="row.status === '失败'"
+                  v-else-if="row.status === '升级失败'"
                   type="danger"
                   text
                   @click="handleShowStatus(row)"

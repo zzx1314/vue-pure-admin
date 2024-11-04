@@ -248,9 +248,13 @@ export function useTask() {
     activStatus.value = row.status;
     if (row.status === "下载失败") {
       step4.value = "下载失败";
+    } else {
+      step4.value = "下载成功";
     }
     if (row.status === "升级失败") {
       step5.value = "升级失败";
+    } else {
+      step5.value = "升级成功";
     }
   }
   // 查询
