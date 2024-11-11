@@ -314,6 +314,7 @@ export function useCollectorBusDev() {
     moreCondition,
     columnsSensor,
     dataListMode,
+    editMap,
     onSearch,
     resetForm,
     handleDelete,
