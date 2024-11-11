@@ -1,6 +1,6 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
-import type { FormInstance, FormRules } from "element-plus";
+import type { FormRules } from "element-plus";
 import {
   collectorBusDevSave,
   collectorBusDevPage,
@@ -9,6 +9,8 @@ import {
 } from "@/api/collectorBusDev";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
+import type { FieldValues } from "plus-pro-components";
+import { delObjectProperty } from "@pureadmin/utils";
 
 export function useCollectorBusDev() {
   // ----变量定义-----
@@ -21,7 +23,11 @@ export function useCollectorBusDev() {
   const dataList = ref([]);
   const loading = ref(true);
   const dialogFormVisible = ref(false);
+  const dialogModeFormVisible = ref(false);
   const title = ref("");
+  const dataListMode = ref([]);
+  const editMap = ref({});
+  const editRow = ref();
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -29,15 +35,21 @@ export function useCollectorBusDev() {
     currentPage: 1,
     background: true
   });
-  const addForm = reactive({
-    value: {
-      id: null
-    }
+  const addForm = ref<FieldValues>({
+    id: null,
+    collectorId: "",
+    collectorIp: "",
+    remark: ""
   });
   const rules = reactive<FormRules>({
-    name: [{ required: true, message: "角色名称必填", trigger: "blur" }]
+    collectorId: [{ required: true, message: "采集器ID必填", trigger: "blur" }],
+    collectorIp: [{ required: true, message: "采集器IP必填", trigger: "blur" }]
   });
   const columns: TableColumnList = [
+    {
+      type: "expand",
+      slot: "expand"
+    },
     {
       type: "selection",
       width: 55,
@@ -47,6 +59,55 @@ export function useCollectorBusDev() {
       label: "序号",
       type: "index",
       width: 70
+    },
+    {
+      label: "采集器ID",
+      minWidth: 150,
+      prop: "collectorId"
+    },
+    {
+      label: "采集器IP",
+      minWidth: 150,
+      prop: "collectorIp"
+    },
+    {
+      label: "备注",
+      minWidth: 200,
+      prop: "remark"
+    },
+    {
+      label: "操作",
+      fixed: "right",
+      width: 180,
+      slot: "operation"
+    }
+  ];
+
+  const columnsSensor: TableColumnList = [
+    {
+      type: "selection",
+      width: 55,
+      align: "left"
+    },
+    {
+      label: "序号",
+      type: "index",
+      width: 70
+    },
+    {
+      label: "传感器名称",
+      minWidth: 150,
+      prop: "sensorName"
+    },
+    {
+      label: "传感器配置",
+      minWidth: 200,
+      prop: "config"
+    },
+    {
+      label: "备注",
+      minWidth: 200,
+      prop: "remark"
     },
     {
       label: "操作",
@@ -130,52 +191,108 @@ export function useCollectorBusDev() {
   // 取消
   function cancel() {
     addForm.value = {
-      id: null
+      id: null,
+      collectorId: "",
+      collectorIp: "",
+      remark: ""
     };
     queryForm.beginTime = "";
     queryForm.endTime = "";
     dialogFormVisible.value = false;
     onSearch();
   }
-  // 保存
-  const submitForm = async (formEl: FormInstance | undefined) => {
-    if (!formEl) return;
-    await formEl.validate((valid, fields) => {
-      if (valid) {
-        console.log(addForm.value);
-        if (addForm.value.id) {
-          // 修改
-          console.log("修改");
-          collectorBusDevUpdate(addForm.value).then(res => {
-            if (res.code === SUCCESS) {
-              message("修改成功！", { type: "success" });
-              cancel();
-            } else {
-              message("修改失败！", { type: "error" });
-            }
-          });
+
+  const handleSubmit = (values: FieldValues) => {
+    console.log(values, "Submit");
+    if (addForm.value.id) {
+      // 修改
+      console.log("修改");
+      collectorBusDevUpdate(addForm.value).then(res => {
+        if (res.code === SUCCESS) {
+          message("修改成功！", { type: "success" });
+          cancel();
         } else {
-          // 新增
-          console.log("新增");
-          collectorBusDevSave(addForm.value).then(res => {
-            if (res.code === SUCCESS) {
-              message("保存成功！", { type: "success" });
-              cancel();
-            } else {
-              message(res.msg, { type: "error" });
-            }
-          });
+          message("修改失败！", { type: "error" });
         }
-      } else {
-        console.log("error submit!", fields);
-      }
-    });
+      });
+    } else {
+      // 新增
+      console.log("新增");
+      collectorBusDevSave(addForm.value).then(res => {
+        if (res.code === SUCCESS) {
+          message("保存成功！", { type: "success" });
+          cancel();
+        } else {
+          message(res.msg, { type: "error" });
+        }
+      });
+    }
+  };
+  const handleSubmitError = (err: any) => {
+    console.log(err, "err");
+  };
+  const handleReset = () => {
+    console.log("handleReset");
   };
   // 打开弹框
   function openDia(param, formEl) {
     dialogFormVisible.value = true;
     title.value = param;
     resetForm(formEl);
+  }
+
+  function onAdd() {
+    dataListMode.value.push({
+      id: dataListMode.value.length + 1,
+      name: ""
+    });
+    onEdit(
+      dataListMode.value[dataListMode.value.length - 1],
+      dataListMode.value.length - 1
+    );
+  }
+  function onEdit(row, index) {
+    editMap.value[index] = Object.assign({ ...row, editable: true });
+  }
+  function onSave(index) {
+    editMap.value[index].editable = false;
+    if (!dataListMode.value[index].name) {
+      message("名称必填！", { type: "error" });
+      return;
+    }
+    editRow.value.modeInfo = dataListMode.value
+      .map(item => item.name)
+      .join(",");
+    /*prodUpdate(editRow.value).then(res => {
+      if (res.code === SUCCESS) {
+        message("新增成功！", { type: "success" });
+        cancel();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });*/
+  }
+  function onCancel(index) {
+    editMap.value[index].editable = false;
+    dataListMode.value[index] = delObjectProperty(
+      editMap.value[index],
+      "editable"
+    );
+  }
+  function onDel(row) {
+    const index = dataListMode.value.indexOf(row);
+    if (index !== -1) dataListMode.value.splice(index, 1);
+    editRow.value.modeInfo = dataListMode.value
+      .map(item => item.name)
+      .join(",");
+    /*prodUpdate(editRow.value).then(res => {
+      if (res.code === SUCCESS) {
+        message("删除成功！", { type: "success" });
+        cancel();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });*/
   }
 
   onMounted(() => {
@@ -187,6 +304,7 @@ export function useCollectorBusDev() {
     dataList,
     loading,
     dialogFormVisible,
+    dialogModeFormVisible,
     title,
     pagination,
     addForm,
@@ -194,6 +312,8 @@ export function useCollectorBusDev() {
     columns,
     buttonClass,
     moreCondition,
+    columnsSensor,
+    dataListMode,
     onSearch,
     resetForm,
     handleDelete,
@@ -202,7 +322,14 @@ export function useCollectorBusDev() {
     handleSelectionChange,
     cancel,
     restartForm,
-    submitForm,
-    openDia
+    handleSubmit,
+    handleSubmitError,
+    handleReset,
+    openDia,
+    onAdd,
+    onEdit,
+    onSave,
+    onCancel,
+    onDel
   };
 }

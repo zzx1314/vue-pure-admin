@@ -9,6 +9,9 @@ import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
+import { useCollectorBusDevForm } from "@/views/collector/device/form";
+import { PlusDialogForm } from "plus-pro-components";
+import AddFill from "@iconify-icons/ri/add-circle-line";
 
 defineOptions({
   name: "CollectorBusDev"
@@ -16,28 +19,37 @@ defineOptions({
 
 const formRef = ref();
 const addFormRef = ref<FormInstance>();
+const { columnsForm } = useCollectorBusDevForm();
 
 const {
   queryForm,
   dataList,
   loading,
   dialogFormVisible,
-  title,
+  dialogModeFormVisible,
   pagination,
   addForm,
   rules,
   columns,
-  buttonClass,
   moreCondition,
+  columnsSensor,
+  dataListMode,
+  editMap,
   onSearch,
-  resetForm,
   handleDelete,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
   restartForm,
-  submitForm,
-  openDia
+  handleSubmit,
+  handleSubmitError,
+  handleReset,
+  openDia,
+  onAdd,
+  onEdit,
+  onSave,
+  onCancel,
+  onDel
 } = useCollectorBusDev();
 </script>
 <template>
@@ -123,6 +135,25 @@ const {
           @page-size-change="handleSizeChange"
           @page-current-change="handleCurrentChange"
         >
+          <template #expand="{ row }">
+            <div class="m-4">
+              <h3>传感器</h3>
+              <pure-table :data="row.sensorsInfo" :columns="columnsSensor">
+                <template #operation="{ row }">
+                  <el-button
+                    class="reset-margin"
+                    link
+                    type="primary"
+                    :size="size"
+                    :icon="useRenderIcon(Search)"
+                    @click="openDia(row, addFormRef)"
+                  >
+                    配置
+                  </el-button>
+                </template>
+              </pure-table>
+            </div>
+          </template>
           <template #operation="{ row }">
             <el-button
               class="reset-margin"
@@ -152,7 +183,76 @@ const {
       </template>
     </PureTableBar>
 
-    <el-dialog v-model="dialogFormVisible" :title="title" width="700" />
+    <PlusDialogForm
+      v-model:visible="dialogFormVisible"
+      v-model="addForm"
+      :dialog="{ title: '修改采集器' }"
+      :form="{
+        columnsForm,
+        rules,
+        labelWidth: 'unset'
+      }"
+      @submit="handleSubmit"
+      @submit-error="handleSubmitError"
+      @reset="handleReset"
+    />
+
+    <el-dialog v-model="dialogModeFormVisible" title="添加模块">
+      <pure-table
+        row-key="id"
+        align-whole="center"
+        :header-cell-style="{
+          background: 'var(--el-fill-color-light)',
+          color: 'var(--el-text-color-primary)'
+        }"
+        :data="dataListMode"
+        :columns="columnsSensor"
+      >
+        <template #append>
+          <el-button
+            plain
+            class="w-full my-2"
+            :icon="useRenderIcon(AddFill)"
+            @click="onAdd"
+          >
+            添加一行数据
+          </el-button>
+        </template>
+        <template #operation="{ row, index }">
+          <el-button
+            v-if="!editMap[index]?.editable"
+            class="reset-margin"
+            link
+            type="primary"
+            @click="onEdit(row, index)"
+          >
+            修改
+          </el-button>
+          <el-button
+            v-if="!editMap[index]?.editable"
+            class="reset-margin"
+            link
+            type="primary"
+            @click="onDel(row)"
+          >
+            删除
+          </el-button>
+          <div v-if="editMap[index]?.editable">
+            <el-button
+              class="reset-margin"
+              link
+              type="primary"
+              @click="onSave(index)"
+            >
+              保存
+            </el-button>
+            <el-button class="reset-margin" link @click="onCancel(index)">
+              取消
+            </el-button>
+          </div>
+        </template>
+      </pure-table>
+    </el-dialog>
   </div>
 </template>
 
