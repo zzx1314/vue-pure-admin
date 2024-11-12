@@ -1,4 +1,4 @@
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules } from "element-plus";
 import {
@@ -101,18 +101,74 @@ export function useCollectorBusDev() {
     },
     {
       label: "传感器配置",
-      minWidth: 200,
+      minWidth: 100,
       prop: "config"
     },
     {
       label: "备注",
-      minWidth: 200,
+      minWidth: 100,
       prop: "remark"
     },
     {
       label: "操作",
       fixed: "right",
       width: 180,
+      slot: "operation"
+    }
+  ];
+
+  const columnsSensorConf: TableColumnList = [
+    {
+      label: "序号",
+      type: "index",
+      width: 70
+    },
+    {
+      label: "配置名称",
+      minWidth: 100,
+      prop: "confName",
+      cellRenderer: ({ row, index }) => (
+        <>
+          {editMap.value[index]?.editable ? (
+            <el-input v-model={row.confName} />
+          ) : (
+            <p>{row.confName}</p>
+          )}
+        </>
+      )
+    },
+    {
+      label: "配置值",
+      minWidth: 100,
+      prop: "confValue",
+      cellRenderer: ({ row, index }) => (
+        <>
+          {editMap.value[index]?.editable ? (
+            <el-input v-model={row.confValue} />
+          ) : (
+            <p>{row.confValue}</p>
+          )}
+        </>
+      )
+    },
+    {
+      label: "备注",
+      minWidth: 100,
+      prop: "remark",
+      cellRenderer: ({ row, index }) => (
+        <>
+          {editMap.value[index]?.editable ? (
+            <el-input v-model={row.remark} />
+          ) : (
+            <p>{row.remark}</p>
+          )}
+        </>
+      )
+    },
+    {
+      label: "操作",
+      fixed: "right",
+      width: 120,
       slot: "operation"
     }
   ];
@@ -127,6 +183,13 @@ export function useCollectorBusDev() {
   });
 
   // -----方法定义---
+  // 修改
+  function handleUpdate(row, formEl) {
+    console.log(row);
+    const roleInfo = JSON.stringify(row);
+    addForm.value = JSON.parse(roleInfo);
+    openDia("修改", formEl);
+  }
   // 删除
   function handleDelete(row) {
     console.log(row);
@@ -179,14 +242,19 @@ export function useCollectorBusDev() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
+    nextTick(() => {
+      formEl.formInstance.resetFields();
+      console.log("resetForm");
+    });
   };
 
   const restartForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
-    cancel();
-    onSearch();
+    nextTick(() => {
+      formEl.formInstance.resetFields();
+      cancel();
+      onSearch();
+    });
   };
   // 取消
   function cancel() {
@@ -203,6 +271,7 @@ export function useCollectorBusDev() {
   }
 
   const handleSubmit = (values: FieldValues) => {
+    debugger;
     console.log(values, "Submit");
     if (addForm.value.id) {
       // 修改
@@ -233,18 +302,35 @@ export function useCollectorBusDev() {
   };
   const handleReset = () => {
     console.log("handleReset");
+    addForm.value = {
+      id: null,
+      collectorId: "",
+      collectorIp: "",
+      remark: ""
+    };
   };
   // 打开弹框
   function openDia(param, formEl) {
+    console.log("formEl", formEl);
     dialogFormVisible.value = true;
     title.value = param;
     resetForm(formEl);
+  }
+  function openSetDia(param) {
+    console.log(param);
+    dialogModeFormVisible.value = true;
+    if (param.config) {
+      dataListMode.value = JSON.parse(param.config);
+      console.log(dataListMode.value);
+    }
   }
 
   function onAdd() {
     dataListMode.value.push({
       id: dataListMode.value.length + 1,
-      name: ""
+      confName: "",
+      confValue: "",
+      remark: ""
     });
     onEdit(
       dataListMode.value[dataListMode.value.length - 1],
@@ -253,11 +339,15 @@ export function useCollectorBusDev() {
   }
   function onEdit(row, index) {
     editMap.value[index] = Object.assign({ ...row, editable: true });
+    console.log(editMap.value[index]);
   }
   function onSave(index) {
     editMap.value[index].editable = false;
-    if (!dataListMode.value[index].name) {
-      message("名称必填！", { type: "error" });
+    if (
+      !dataListMode.value[index].confName &&
+      !dataListMode.value[index].confValue
+    ) {
+      message("配置名称和配置值必填！", { type: "error" });
       return;
     }
     editRow.value.modeInfo = dataListMode.value
@@ -315,18 +405,21 @@ export function useCollectorBusDev() {
     columnsSensor,
     dataListMode,
     editMap,
+    columnsSensorConf,
     onSearch,
     resetForm,
     handleDelete,
     handleSizeChange,
     handleCurrentChange,
     handleSelectionChange,
+    handleUpdate,
     cancel,
     restartForm,
     handleSubmit,
     handleSubmitError,
     handleReset,
     openDia,
+    openSetDia,
     onAdd,
     onEdit,
     onSave,

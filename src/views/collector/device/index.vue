@@ -12,6 +12,9 @@ import Up from "@iconify-icons/ep/arrow-up";
 import { useCollectorBusDevForm } from "@/views/collector/device/form";
 import { PlusDialogForm } from "plus-pro-components";
 import AddFill from "@iconify-icons/ri/add-circle-line";
+import PureTable from "@pureadmin/table";
+import EditPen from "@iconify-icons/ep/edit-pen";
+import Setting from "@iconify-icons/ep/setting";
 
 defineOptions({
   name: "CollectorBusDev"
@@ -35,16 +38,18 @@ const {
   columnsSensor,
   dataListMode,
   editMap,
+  columnsSensorConf,
   onSearch,
   handleDelete,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
+  handleUpdate,
   restartForm,
   handleSubmit,
   handleSubmitError,
   handleReset,
-  openDia,
+  openSetDia,
   onAdd,
   onEdit,
   onSave,
@@ -105,7 +110,8 @@ const {
           重置
         </el-button>
         <el-button
-          type="text"
+          link
+          type="primary"
           :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
           @click="moreCondition = !moreCondition"
         />
@@ -136,17 +142,21 @@ const {
           @page-current-change="handleCurrentChange"
         >
           <template #expand="{ row }">
-            <div class="m-4">
+            <div class="px-11">
               <h3>传感器</h3>
-              <pure-table :data="row.sensorsInfo" :columns="columnsSensor">
+              <pure-table
+                :data="row.sensorsInfo"
+                :columns="columnsSensor"
+                :border="true"
+              >
                 <template #operation="{ row }">
                   <el-button
                     class="reset-margin"
                     link
                     type="primary"
                     :size="size"
-                    :icon="useRenderIcon(Search)"
-                    @click="openDia(row, addFormRef)"
+                    :icon="useRenderIcon(Setting)"
+                    @click="openSetDia(row)"
                   >
                     配置
                   </el-button>
@@ -160,8 +170,8 @@ const {
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(Search)"
-              @click="openDia(row, addFormRef)"
+              :icon="useRenderIcon(EditPen)"
+              @click="handleUpdate(row, addFormRef)"
             >
               修改
             </el-button>
@@ -184,20 +194,21 @@ const {
     </PureTableBar>
 
     <PlusDialogForm
+      ref="addFormRef"
       v-model:visible="dialogFormVisible"
       v-model="addForm"
       :dialog="{ title: '修改采集器' }"
       :form="{
-        columnsForm,
+        columns: columnsForm,
         rules,
-        labelWidth: 'unset'
+        labelWidth: '100px'
       }"
-      @submit="handleSubmit"
-      @submit-error="handleSubmitError"
-      @reset="handleReset"
+      @cancel="handleReset"
+      @confirm-error="handleSubmitError"
+      @confirm="handleSubmit"
     />
 
-    <el-dialog v-model="dialogModeFormVisible" title="添加模块">
+    <el-dialog v-model="dialogModeFormVisible" title="设置配置">
       <pure-table
         row-key="id"
         align-whole="center"
@@ -205,8 +216,9 @@ const {
           background: 'var(--el-fill-color-light)',
           color: 'var(--el-text-color-primary)'
         }"
+        :border="true"
         :data="dataListMode"
-        :columns="columnsSensor"
+        :columns="columnsSensorConf"
       >
         <template #append>
           <el-button
