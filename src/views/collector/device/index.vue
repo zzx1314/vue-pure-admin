@@ -149,6 +149,9 @@ const {
                 :columns="columnsSensor"
                 :border="true"
               >
+                <template #content="{ row }">
+                  <span v-html="row.configInfoHtml" />
+                </template>
                 <template #operation="{ row }">
                   <el-button
                     class="reset-margin"

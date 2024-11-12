@@ -19,7 +19,9 @@ const collectorBusDevUrls = {
   page: `/api/collector/collectorBusDev/page`,
   save: "/api/collector/collectorBusDev/save",
   delete: `/api/collector/collectorBusDev/`,
-  update: "/api/collector/collectorBusDev/update"
+  update: "/api/collector/collectorBusDev/update",
+  senUpdate: "/api/collector/collectorBusSensor/update",
+  senDelete: "/api/collector/collectorBusSensor/"
 };
 
 // 采集器设备信息分页
@@ -37,4 +39,12 @@ export const collectorBusDevUpdate = (param?: object) => {
 // 采集器设备信息删除
 export const collectorBusDevDelete = (param?: object) => {
   return http.axiosDelete<Result>(collectorBusDevUrls.delete + param);
+};
+// 采集器设备传感器信息修改
+export const collectorBusSensorUpdate = (param?: object) => {
+  return http.axiosPut<Result>(collectorBusDevUrls.senUpdate, param);
+};
+// 采集器设备传感器信息删除
+export const collectorBusSensorDelete = (param?: object) => {
+  return http.axiosDelete<Result>(collectorBusDevUrls.senDelete + param);
 };

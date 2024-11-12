@@ -5,7 +5,9 @@ import {
   collectorBusDevSave,
   collectorBusDevPage,
   collectorBusDevUpdate,
-  collectorBusDevDelete
+  collectorBusDevDelete,
+  collectorBusSensorUpdate,
+  collectorBusSensorDelete
 } from "@/api/collectorBusDev";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -100,9 +102,16 @@ export function useCollectorBusDev() {
       prop: "sensorName"
     },
     {
+      label: "传感器ID",
+      minWidth: 150,
+      prop: "sensorId"
+    },
+    {
       label: "传感器配置",
       minWidth: 100,
-      prop: "config"
+      prop: "configInfoHtml",
+      slot: "content",
+      align: "left"
     },
     {
       label: "备注",
@@ -319,6 +328,7 @@ export function useCollectorBusDev() {
   function openSetDia(param) {
     console.log(param);
     dialogModeFormVisible.value = true;
+    editRow.value = param;
     if (param.config) {
       dataListMode.value = JSON.parse(param.config);
       console.log(dataListMode.value);
@@ -350,17 +360,15 @@ export function useCollectorBusDev() {
       message("配置名称和配置值必填！", { type: "error" });
       return;
     }
-    editRow.value.modeInfo = dataListMode.value
-      .map(item => item.name)
-      .join(",");
-    /*prodUpdate(editRow.value).then(res => {
+    editRow.value.config = JSON.stringify(dataListMode.value);
+    collectorBusSensorUpdate(editRow.value).then(res => {
       if (res.code === SUCCESS) {
         message("新增成功！", { type: "success" });
         cancel();
       } else {
         message(res.msg, { type: "error" });
       }
-    });*/
+    });
   }
   function onCancel(index) {
     editMap.value[index].editable = false;
@@ -372,17 +380,15 @@ export function useCollectorBusDev() {
   function onDel(row) {
     const index = dataListMode.value.indexOf(row);
     if (index !== -1) dataListMode.value.splice(index, 1);
-    editRow.value.modeInfo = dataListMode.value
-      .map(item => item.name)
-      .join(",");
-    /*prodUpdate(editRow.value).then(res => {
+    editRow.value.config = JSON.stringify(dataListMode.value);
+    collectorBusSensorDelete(editRow.value).then(res => {
       if (res.code === SUCCESS) {
         message("删除成功！", { type: "success" });
         cancel();
       } else {
         message(res.msg, { type: "error" });
       }
-    });*/
+    });
   }
 
   onMounted(() => {
