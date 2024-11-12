@@ -16,8 +16,9 @@ import { delObjectProperty } from "@pureadmin/utils";
 
 export function useCollectorBusDev() {
   // ----变量定义-----
-  const queryForm = reactive({
-    name: "",
+  const queryForm = ref({
+    collectorId: "",
+    collectorIp: "",
     beginTime: "",
     endTime: ""
   });
@@ -71,6 +72,11 @@ export function useCollectorBusDev() {
       label: "采集器IP",
       minWidth: 150,
       prop: "collectorIp"
+    },
+    {
+      label: "创建时间",
+      minWidth: 150,
+      prop: "createTime"
     },
     {
       label: "备注",
@@ -229,14 +235,14 @@ export function useCollectorBusDev() {
   // 查询
   async function onSearch() {
     loading.value = true;
-    console.log("查询信息");
+    console.log("查询信息", queryForm);
     const page = {
       size: pagination.pageSize,
       current: pagination.currentPage
     };
     const query = {
       ...page,
-      ...queryForm
+      ...queryForm.value
     };
     if (query.endTime) {
       query.endTime = query.endTime + " 23:59:59";
@@ -273,8 +279,10 @@ export function useCollectorBusDev() {
       collectorIp: "",
       remark: ""
     };
-    queryForm.beginTime = "";
-    queryForm.endTime = "";
+    queryForm.value.collectorId = "";
+    queryForm.value.collectorIp = "";
+    queryForm.value.beginTime = "";
+    queryForm.value.endTime = "";
     dialogFormVisible.value = false;
     onSearch();
   }
@@ -308,15 +316,6 @@ export function useCollectorBusDev() {
   };
   const handleSubmitError = (err: any) => {
     console.log(err, "err");
-  };
-  const handleReset = () => {
-    console.log("handleReset");
-    addForm.value = {
-      id: null,
-      collectorId: "",
-      collectorIp: "",
-      remark: ""
-    };
   };
   // 打开弹框
   function openDia(param, formEl) {
@@ -423,7 +422,6 @@ export function useCollectorBusDev() {
     restartForm,
     handleSubmit,
     handleSubmitError,
-    handleReset,
     openDia,
     openSetDia,
     onAdd,

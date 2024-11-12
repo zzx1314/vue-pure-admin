@@ -16,7 +16,12 @@ export function useCollectorBusDevForm() {
     },
     {
       label: "采集器IP",
-      prop: "collectorIp"
+      prop: "collectorIp",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
     },
     {
       label: "备注",
@@ -25,7 +30,61 @@ export function useCollectorBusDevForm() {
       valueType: "textarea"
     }
   ];
+
+  const columnsQueryForm: PlusColumn[] = [
+    {
+      label: "采集器ID",
+      prop: "collectorId",
+      valueType: "copy",
+      colProps: {
+        span: 5
+      }
+    },
+    {
+      label: "采集器IP",
+      prop: "collectorIp",
+      colProps: {
+        span: 5
+      }
+    },
+    {
+      label: "开始时间",
+      prop: "beginTime",
+      valueType: "date-picker",
+      type: "date",
+      formItemProps: {
+        style: {
+          width: "250px"
+        }
+      },
+      fieldProps: {
+        type: "date",
+        valueFormat: "YYYY-MM-DD HH:mm:ss"
+      },
+      colProps: {
+        span: 5
+      }
+    },
+    {
+      label: "结束时间",
+      prop: "endTime",
+      valueType: "date-picker",
+      formItemProps: {
+        style: {
+          width: "250px"
+        }
+      },
+      fieldProps: {
+        type: "date",
+        valueFormat: "YYYY-MM-DD"
+      },
+      colProps: {
+        span: 5
+      }
+    }
+  ];
   return {
-    columnsForm
+    columnsForm,
+    columnsQueryForm
   };
 }

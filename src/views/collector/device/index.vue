@@ -3,14 +3,10 @@ import { ref } from "vue";
 import { FormInstance } from "element-plus";
 import { useCollectorBusDev } from "@/views/collector/device/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import Search from "@iconify-icons/ep/search";
-import Refresh from "@iconify-icons/ep/refresh";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
-import Down from "@iconify-icons/ep/arrow-down";
-import Up from "@iconify-icons/ep/arrow-up";
 import { useCollectorBusDevForm } from "@/views/collector/device/form";
-import { PlusDialogForm } from "plus-pro-components";
+import { PlusDialogForm, PlusSearch } from "plus-pro-components";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import PureTable from "@pureadmin/table";
 import EditPen from "@iconify-icons/ep/edit-pen";
@@ -20,9 +16,8 @@ defineOptions({
   name: "CollectorBusDev"
 });
 
-const formRef = ref();
 const addFormRef = ref<FormInstance>();
-const { columnsForm } = useCollectorBusDevForm();
+const { columnsForm, columnsQueryForm } = useCollectorBusDevForm();
 
 const {
   queryForm,
@@ -34,7 +29,6 @@ const {
   addForm,
   rules,
   columns,
-  moreCondition,
   columnsSensor,
   dataListMode,
   editMap,
@@ -45,10 +39,9 @@ const {
   handleCurrentChange,
   handleSelectionChange,
   handleUpdate,
-  restartForm,
   handleSubmit,
   handleSubmitError,
-  handleReset,
+  cancel,
   openSetDia,
   onAdd,
   onEdit,
@@ -59,65 +52,17 @@ const {
 </script>
 <template>
   <div class="main">
-    <el-form
-      ref="formRef"
-      :inline="true"
-      :model="queryForm"
-      class="bg-bg_color w-[99/100] pl-8 pt-4"
-    >
-      <el-form-item label="采集器名称" prop="name">
-        <el-input
-          v-model="queryForm.name"
-          placeholder="请输入名称"
-          clearable
-          class="!w-[180px]"
-        />
-      </el-form-item>
-
-      <el-collapse-transition>
-        <div v-show="moreCondition">
-          <el-form-item label="开始时间：" prop="beginTime">
-            <el-date-picker
-              v-model="queryForm.beginTime"
-              type="date"
-              placeholder="请输入开始时间"
-              class="!w-[180px]"
-              value-format="YYYY-MM-DD HH:mm:ss"
-            />
-          </el-form-item>
-          <el-form-item label="结束时间：" prop="endTime">
-            <el-date-picker
-              v-model="queryForm.endTime"
-              placeholder="请输入结束时间"
-              type="date"
-              class="!w-[180px]"
-              value-format="YYYY-MM-DD"
-            />
-          </el-form-item>
-        </div>
-      </el-collapse-transition>
-
-      <el-form-item>
-        <el-button
-          type="primary"
-          :icon="useRenderIcon(Search)"
-          :loading="loading"
-          @click="onSearch"
-        >
-          搜索
-        </el-button>
-        <el-button :icon="useRenderIcon(Refresh)" @click="restartForm(formRef)">
-          重置
-        </el-button>
-        <el-button
-          link
-          type="primary"
-          :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
-          @click="moreCondition = !moreCondition"
-        />
-      </el-form-item>
-    </el-form>
-
+    <el-card>
+      <PlusSearch
+        v-model="queryForm"
+        :columns="columnsQueryForm"
+        :show-number="2"
+        label-width="80"
+        label-position="right"
+        @search="onSearch"
+        @reset="cancel"
+      />
+    </el-card>
     <PureTableBar title="采集器列表" :columns="columns" @refresh="onSearch">
       <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
@@ -206,7 +151,7 @@ const {
         rules,
         labelWidth: '100px'
       }"
-      @cancel="handleReset"
+      @cancel="cancel"
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
     />
@@ -272,7 +217,11 @@ const {
 </template>
 
 <style scoped lang="scss">
-:deep(.el-dropdown-menu__item i) {
-  margin: 0;
+:deep(.el-card__body) {
+  padding-bottom: 0;
+}
+
+:deep(.el-link) {
+  padding-left: 10px;
 }
 </style>
