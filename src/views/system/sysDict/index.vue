@@ -39,6 +39,8 @@ const {
   handleUpdate,
   handleSubmit,
   handleSubmitError,
+  openDia,
+  openSetDia,
   cancel,
   onAdd,
   onEdit,
@@ -61,6 +63,15 @@ const {
       />
     </el-card>
     <PureTableBar title="字典列表" :columns="columns" @refresh="onSearch">
+      <template #buttons>
+        <el-button
+          type="primary"
+          :icon="useRenderIcon(AddFill)"
+          @click="openDia('添加字典', addFormRef)"
+        >
+          新增
+        </el-button>
+      </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
           border
@@ -84,6 +95,16 @@ const {
           @page-current-change="handleCurrentChange"
         >
           <template #operation="{ row }">
+            <el-button
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
+              :icon="useRenderIcon(EditPen)"
+              @click="openSetDia(row)"
+            >
+              字典项
+            </el-button>
             <el-button
               class="reset-margin"
               link
@@ -126,8 +147,7 @@ const {
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
     />
-
-    <el-dialog v-model="dialogItemFormVisible" title="设置字典项">
+    <el-dialog v-model="dialogItemFormVisible" title="设置字典项" width="60%">
       <pure-table
         row-key="id"
         align-whole="center"

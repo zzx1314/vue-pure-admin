@@ -79,13 +79,13 @@ const fileMinoUp = {
 const dictUrls = {
   pageItem: `/api/upms/sysDictItem/page`,
   pageDict: `/api/upms/sysDict/page`,
-  getItemById: `/api/upms/sysDictItem/`,
+  getItemById: `/api/upms/sysDictItem/getDictItemByDictId/`,
   saveItem: `/api/upms/sysDictItem/save`,
   save: `/api/upms/sysDict/save`,
   updateItem: `/api/upms/sysDictItem/update`,
   update: `/api/upms/sysDict/update`,
-  deleteIte: `/api/upms/sysDictItem/deleteItem`,
-  delete: `/api/upms/sysDict/delete`,
+  deleteIte: `/api/upms/sysDictItem/deleteItem/`,
+  delete: `/api/upms/sysDict/deleteDict/`,
   getSafePolicy: `/api/upms/sysDictItem/getSafePolicy`,
   updateSafePolicy: `/api/upms/sysDictItem/updateSafePolicy`
 };
@@ -116,10 +116,10 @@ export const updateDict = (data?: object) => {
   return http.axiosPut<Result>(dictUrls.update, data);
 };
 
-export const deleteDictItem = (id: string) => {
+export const deleteDictItem = (id: object) => {
   return http.axiosDelete<Result>(dictUrls.deleteIte + id);
 };
-export const deleteDict = (id: string) => {
+export const deleteDict = (id: object) => {
   return http.axiosDelete<Result>(dictUrls.delete + id);
 };
 

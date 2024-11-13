@@ -4,9 +4,19 @@ import type { PlusColumn } from "plus-pro-components";
 export function useDictForm() {
   const columnsForm: PlusColumn[] = [
     {
-      label: "字典类型",
+      label: "类型",
       prop: "dictType",
-      valueType: "copy",
+      valueType: "select",
+      options: [
+        {
+          label: "用户类",
+          value: "用户类"
+        },
+        {
+          label: "系统类",
+          value: "系统类"
+        }
+      ],
       formItemProps: {
         style: {
           width: "50%"
@@ -14,19 +24,8 @@ export function useDictForm() {
       }
     },
     {
-      label: "类型",
+      label: "字典类型",
       prop: "type",
-      valueType: "select",
-      options: [
-        {
-          label: "用户类",
-          value: "user"
-        },
-        {
-          label: "系统类",
-          value: "system"
-        }
-      ],
       formItemProps: {
         style: {
           width: "50%"

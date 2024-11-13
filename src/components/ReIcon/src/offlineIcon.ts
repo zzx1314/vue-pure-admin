@@ -49,6 +49,7 @@ import FileLockLine from "@iconify-icons/ri/file-lock-line";
 import ShieldFlashLine from "@iconify-icons/ri/shield-flash-line";
 import SlideshowLine from "@iconify-icons/ri/slideshow-line";
 import bookletLine from "@iconify-icons/ri/booklet-line";
+import bookMarkedLine from "@iconify-icons/ri/book-mark-line";
 
 addIcon("ri:bookmark-2-line", Tag);
 addIcon("ri:file-ppt-2-line", Ppt);
@@ -79,6 +80,7 @@ addIcon("ri:file-lock-line", FileLockLine);
 addIcon("ri:shield-flash-line", ShieldFlashLine);
 addIcon("ri:slideshow-line", SlideshowLine);
 addIcon("ri:booklet-line", bookletLine);
+addIcon("ri:book-marked-line", bookMarkedLine);
 
 import Device from "@iconify-icons/tdesign/system-device";
 import DeviceOne from "@iconify-icons/tdesign/device";

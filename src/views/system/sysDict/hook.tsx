@@ -2,7 +2,7 @@ import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules } from "element-plus";
 import {
-  getItemPage,
+  getItemById,
   getDictPage,
   saveItem,
   saveDict,
@@ -18,7 +18,7 @@ import { delObjectProperty } from "@pureadmin/utils";
 export function useDictBus() {
   // ----变量定义-----
   const queryForm = ref({
-    dictType: "",
+    type: "",
     description: "",
     beginTime: "",
     endTime: ""
@@ -64,34 +64,34 @@ export function useDictBus() {
       width: 70
     },
     {
-      label: "字典类型",
-      minWidth: 150,
+      label: "类型",
+      minWidth: 100,
       prop: "dictType"
     },
     {
-      label: "类型",
-      minWidth: 150,
+      label: "字典类型",
+      minWidth: 100,
       prop: "type"
     },
     {
       label: "字典描述",
-      minWidth: 150,
+      minWidth: 100,
       prop: "description"
     },
     {
       label: "创建时间",
-      minWidth: 150,
+      minWidth: 100,
       prop: "createTime"
     },
     {
       label: "备注",
-      minWidth: 200,
+      minWidth: 100,
       prop: "remark"
     },
     {
       label: "操作",
       fixed: "right",
-      width: 180,
+      width: 250,
       slot: "operation"
     }
   ];
@@ -249,17 +249,8 @@ export function useDictBus() {
   const resetForm = formEl => {
     if (!formEl) return;
     nextTick(() => {
-      formEl.formInstance.resetFields();
+      formEl.formInstance.clearValidate();
       console.log("resetForm");
-    });
-  };
-  // 重置
-  const restartForm = formEl => {
-    if (!formEl) return;
-    nextTick(() => {
-      formEl.formInstance.resetFields();
-      cancel();
-      onSearch();
     });
   };
   // 取消
@@ -270,7 +261,7 @@ export function useDictBus() {
       collectorIp: "",
       remark: ""
     };
-    queryForm.value.dictType = "";
+    queryForm.value.type = "";
     queryForm.value.description = "";
     queryForm.value.beginTime = "";
     queryForm.value.endTime = "";
@@ -320,8 +311,8 @@ export function useDictBus() {
     console.log(param);
     dialogItemFormVisible.value = true;
     editRow.value = param;
-    const { data } = await getItemPage(param.id);
-    dataListMode.value = data.records;
+    const { data } = await getItemById(param.id);
+    dataListMode.value = data;
   }
   // 新增一行
   function onAdd() {
@@ -406,7 +397,6 @@ export function useDictBus() {
     handleSelectionChange,
     handleUpdate,
     cancel,
-    restartForm,
     handleSubmit,
     handleSubmitError,
     openDia,
