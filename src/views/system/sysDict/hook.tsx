@@ -317,7 +317,9 @@ export function useDictBus() {
   // 新增一行
   function onAdd() {
     dataListMode.value.push({
-      id: dataListMode.value.length + 1,
+      id: null,
+      dictId: editRow.value.id,
+      sort: dataListMode.value.length + 1,
       type: "",
       label: "",
       value: "",
@@ -341,7 +343,7 @@ export function useDictBus() {
       message("类型和标签不能为空！", { type: "error" });
       return;
     }
-    saveItem(editMap.value[index]).then(res => {
+    saveItem(dataListMode.value[index]).then(res => {
       if (res.code === SUCCESS) {
         message("新增成功！", { type: "success" });
         cancel();
