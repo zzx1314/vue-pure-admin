@@ -50,10 +50,6 @@ export function useDictBus() {
   });
   const columns: TableColumnList = [
     {
-      type: "expand",
-      slot: "expand"
-    },
-    {
       type: "selection",
       width: 55,
       align: "left"
