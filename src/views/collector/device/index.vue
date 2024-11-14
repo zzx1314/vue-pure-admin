@@ -224,4 +224,10 @@ const {
 :deep(.el-link) {
   padding-left: 10px;
 }
+
+:deep(.el-table__expand-icon > .el-icon) {
+  font-size: 20px;
+  font-weight: bold;
+  color: #549e2f;
+}
 </style>

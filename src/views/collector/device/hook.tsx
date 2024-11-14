@@ -13,6 +13,7 @@ import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import type { FieldValues } from "plus-pro-components";
 import { delObjectProperty } from "@pureadmin/utils";
+import { getDictItemByType } from "@/api/system";
 
 export function useCollectorBusDev() {
   // ----变量定义-----
@@ -31,6 +32,7 @@ export function useCollectorBusDev() {
   const dataListMode = ref([]);
   const editMap = ref({});
   const editRow = ref();
+  const confNameOptions = ref([]);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -145,9 +147,29 @@ export function useCollectorBusDev() {
       cellRenderer: ({ row, index }) => (
         <>
           {editMap.value[index]?.editable ? (
-            <el-input v-model={row.confName} />
+            <el-select
+              v-model={row.confName}
+              clearable
+              placeholder="选择配置名称"
+            >
+              {confNameOptions.value.map(item => {
+                return (
+                  <el-option
+                    key={item.value}
+                    label={item.label}
+                    value={item.value}
+                  />
+                );
+              })}
+            </el-select>
           ) : (
-            <p>{row.confName}</p>
+            <el-tag type="primary">
+              {
+                confNameOptions.value.filter(
+                  opt => opt.value == row.confName
+                )[0]?.label
+              }
+            </el-tag>
           )}
         </>
       )
@@ -332,6 +354,15 @@ export function useCollectorBusDev() {
       dataListMode.value = JSON.parse(param.config);
       console.log(dataListMode.value);
     }
+    getDictItemByType("collector_conf").then(res => {
+      console.log(res.data);
+      for (let i = 0; i < res.data.length; i++) {
+        confNameOptions.value.push({
+          value: res.data[i].type,
+          label: res.data[i].label
+        });
+      }
+    });
   }
 
   function onAdd() {

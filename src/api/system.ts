@@ -87,11 +87,12 @@ const dictUrls = {
   deleteIte: `/api/upms/sysDictItem/deleteItem/`,
   delete: `/api/upms/sysDict/deleteDict/`,
   getSafePolicy: `/api/upms/sysDictItem/getSafePolicy`,
-  updateSafePolicy: `/api/upms/sysDictItem/updateSafePolicy`
+  updateSafePolicy: `/api/upms/sysDictItem/updateSafePolicy`,
+  getDictItemByType: `/api/upms/sysDictItem/getDIByDT/`
 };
 
-export const getItemPage = (query?: object) => {
-  return http.axiosGetRequest<ResultPage>(dictUrls.pageItem, query);
+export const getDictItemByType = (query?: string) => {
+  return http.axiosGetRequest<Result>(dictUrls.getDictItemByType + query, null);
 };
 export const getDictPage = (query?: object) => {
   return http.axiosGetRequest<ResultPage>(dictUrls.pageDict, query);
