@@ -76,6 +76,24 @@ export function useCollectorBusDev() {
       prop: "collectorIp"
     },
     {
+      label: "状态",
+      minWidth: 150,
+      prop: "status",
+      cellRenderer: ({ row }) => (
+        <el-tag
+          type={
+            row.status === "在线"
+              ? "success"
+              : row.status === "离线"
+                ? "warning"
+                : "danger"
+          }
+        >
+          {row.status}
+        </el-tag>
+      )
+    },
+    {
       label: "创建时间",
       minWidth: 150,
       prop: "createTime"
@@ -113,6 +131,24 @@ export function useCollectorBusDev() {
       label: "传感器ID",
       minWidth: 150,
       prop: "sensorId"
+    },
+    {
+      label: "状态",
+      minWidth: 150,
+      prop: "status",
+      cellRenderer: ({ row }) => (
+        <el-tag
+          type={
+            row.status === "生效成功"
+              ? "success"
+              : row.status === "待下发"
+                ? "warning"
+                : "danger"
+          }
+        >
+          {row.status}
+        </el-tag>
+      )
     },
     {
       label: "传感器配置",

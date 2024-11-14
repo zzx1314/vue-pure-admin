@@ -11,6 +11,7 @@ import AddFill from "@iconify-icons/ri/add-circle-line";
 import PureTable from "@pureadmin/table";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Setting from "@iconify-icons/ep/setting";
+import downloadcloud2line from "@iconify-icons/ri/download-cloud-line";
 
 defineOptions({
   name: "CollectorBusDev"
@@ -107,6 +108,16 @@ const {
                     @click="openSetDia(row)"
                   >
                     配置
+                  </el-button>
+                  <el-button
+                    class="reset-margin"
+                    link
+                    type="primary"
+                    :size="size"
+                    :icon="useRenderIcon(downloadcloud2line)"
+                    @click="openSetDia(row)"
+                  >
+                    下发
                   </el-button>
                 </template>
               </pure-table>
