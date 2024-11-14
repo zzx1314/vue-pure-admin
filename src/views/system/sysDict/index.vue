@@ -8,6 +8,7 @@ import { PlusDialogForm, PlusSearch } from "plus-pro-components";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import PureTable from "@pureadmin/table";
 import EditPen from "@iconify-icons/ep/edit-pen";
+import alignItemBottomLine from "@iconify-icons/ri/archive-drawer-line";
 import { useDictBus } from "@/views/system/sysDict/hook";
 import { useDictForm } from "@/views/system/sysDict/form";
 
@@ -100,7 +101,7 @@ const {
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(EditPen)"
+              :icon="useRenderIcon(alignItemBottomLine)"
               @click="openSetDia(row)"
             >
               字典项
