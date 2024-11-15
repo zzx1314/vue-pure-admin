@@ -14,7 +14,6 @@ import { message } from "@/utils/message";
 import type { FieldValues } from "plus-pro-components";
 import { delObjectProperty } from "@pureadmin/utils";
 import { getDictItemByType } from "@/api/system";
-
 export function useCollectorBusDev() {
   // ----变量定义-----
   const queryForm = ref({

@@ -17,7 +17,7 @@ export default {
     {
       path: "/welcome",
       name: "Welcome",
-      component: () => import("@/views/collector/device/index.vue"),
+      component: () => import("@/views/collector/monitor/powerScreen.vue"),
       meta: {
         title: $t("menus.pureHome"),
         showLink: VITE_HIDE_HOME === "true" ? false : true
