@@ -32,7 +32,7 @@ export default [
   {
     path: "/empty",
     name: "Empty",
-    component: () => import("@/views/empty/index.vue"),
+    component: () => import("@/views/collector/monitor/powerScreen.vue"),
     meta: {
       title: $t("menus.pureEmpty"),
       showLink: false,

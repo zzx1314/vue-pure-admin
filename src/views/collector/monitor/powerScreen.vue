@@ -32,6 +32,7 @@ import RightBottomSvg from "@/components/ReEcharts/RightBottomSvg.vue";
 import RightTop from "@/components/ReEcharts/RightTop.vue";
 import BottomPanel from "@/components/ReEcharts/bottom-panel.vue";
 import CenterSvg from "@/components/ReEcharts/center-svg.vue";
+import useScalePage from "@/components/ReEcharts/hooks/useScalePage";
 import {
   chargingPileData,
   processMonitoringData,
@@ -41,6 +42,8 @@ import {
   chargingTop4Data
 } from "./config/home-data";
 import { ref } from "vue";
+
+useScalePage();
 
 // 充电桩饱和比例
 let chargingPile = ref(chargingPileData);
