@@ -1,6 +1,10 @@
 <template>
-  <!-- echarts 的容器 -->
-  <div ref="pieRef" :style="`width:${width};height:${height};`" />
+  <div class="corner">
+    <span class="bottom-left" />
+    <span class="bottom-right" />
+    <div class="title">【饼图】</div>
+    <div ref="pieRef" class="w-full h-full" />
+  </div>
 </template>
 
 <script setup>
@@ -50,44 +54,26 @@ watch(
 );
 
 const getOption = pieDatas => {
-  //   let pieDatas = [
-  //   {
-  //     value: 100,
-  //     name: "广州占比",
-  //     percentage: "5%",
-  //     color: "#34D160",
-  //   },
-  //   {
-  //     value: 200,
-  //     name: "深圳占比",
-  //     percentage: "4%",
-  //     color: "#027FF2",
-  //   },
-  //   {
-  //     value: 300,
-  //     name: "东莞占比",
-  //     percentage: "8%",
-  //     color: "#8A00E1",
-  //   },
-  //   {
-  //     value: 400,
-  //     name: "佛山占比",
-  //     percentage: "10%",
-  //     color: "#F19610",
-  //   },
-  //   {
-  //     value: 500,
-  //     name: "中山占比",
-  //     percentage: "20%",
-  //     color: "#6054FF",
-  //   },
-  //   {
-  //     value: 600,
-  //     name: "珠海占比",
-  //     percentage: "40%",
-  //     color: "#00C6FF",
-  //   },
-  // ];
+  pieDatas = [
+    {
+      value: 100,
+      name: "11占比",
+      percentage: "20%",
+      color: "#34D160"
+    },
+    {
+      value: 400,
+      name: "22占比",
+      percentage: "40%",
+      color: "#F19610"
+    },
+    {
+      value: 500,
+      name: "33占比",
+      percentage: "40%",
+      color: "#6054FF"
+    }
+  ];
 
   let colors = pieDatas.map(item => {
     return item.color;
@@ -107,7 +93,7 @@ const getOption = pieDatas => {
   let option = {
     color: colors,
     title: {
-      text: `{nameSty| 充电桩总数}\n{number|${total}}`,
+      text: `{nameSty| 总数}\n{number|${total}}`,
       top: "50%",
       left: "30%",
       textStyle: {
@@ -128,7 +114,7 @@ const getOption = pieDatas => {
     legend: {
       orient: "vertical",
       right: "10%",
-      top: "18%",
+      top: "5%",
       itemGap: 20,
       itemWidth: 16,
       itemHeigth: 16,

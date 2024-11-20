@@ -1,6 +1,10 @@
 <template>
-  <!-- echarts 的容器 -->
-  <div ref="lineRef" :style="`width:${width};height:${height};`" />
+  <div class="corner">
+    <span class="bottom-left" />
+    <span class="bottom-right" />
+    <div class="title">【温度湿度变化趋势图】</div>
+    <div ref="lineRef" class="w-full h-full" />
+  </div>
 </template>
 
 <script setup>
@@ -8,19 +12,9 @@ import useEchart from "./hooks/useEchart";
 import { ref, onMounted, watch } from "vue";
 
 const props = defineProps({
-  width: {
-    type: String,
-    default: "100%"
-  },
-  height: {
-    type: String,
-    default: "100%"
-  },
-  processData: {
+  data: {
     type: Array,
-    default() {
-      return [];
-    }
+    required: true
   }
 });
 const lineRef = ref();
@@ -28,13 +22,13 @@ let myChart = null;
 
 onMounted(() => {
   myChart = useEchart(lineRef.value);
-  let options = getOption(props.processData);
+  let options = getOption(props.data);
   myChart.setOption(options);
   myChart.resizeEchart();
 });
 
 watch(
-  () => props.processData,
+  () => props.data,
   newVal => {
     if (myChart) {
       let options = getOption(newVal);
@@ -42,7 +36,7 @@ watch(
       myChart.resizeEchart();
     } else {
       myChart = useEchart(lineRef.value);
-      let options = getOption(props.processData);
+      let options = getOption(props.data);
       myChart.setOption(options);
       myChart.resizeEchart();
     }
@@ -50,16 +44,6 @@ watch(
 );
 
 const getOption = echartDatas => {
-  // let echartDatas = [
-  // {
-  //     "name": "正常",
-  //     "data": [25, 15, 2, 18, 30, 40, 30, 32, 35, 27, 23, 16]
-  // },
-  // {
-  //     "name": "异常",
-  //     "data": [15, 18, 12, 28, 20, 13, 20, 12, 25, 10, 9, 5]
-  // }
-  // ]
   let option = {
     grid: {
       left: "5%",

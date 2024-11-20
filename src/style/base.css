@@ -3,3 +3,77 @@ body {
   box-sizing: border-box;
   transform-origin: left top;
 }
+
+/* 背景渐变+字体镂空 */
+.text-gradient {
+  background-image: linear-gradient(to bottom, #e5e4ea, #5ea8f2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes siz {
+  0% {
+    color: #5614b0;
+  }
+  25% {
+    color: #7b4a99;
+  }
+  50% {
+    color: #969e6e;
+  }
+  75% {
+    color: #c8ba68;
+  }
+  100% {
+    color: #dbd65c;
+  }
+}
+.title {
+  /*animation: siz 2s linear infinite;*/
+  background-image: linear-gradient(to right, #2c3e50, #3498db);
+  color: #01d3fb;
+}
+
+.corner {
+  position: relative;
+  border: 1px solid rgba(22, 50, 94, 0.7);
+}
+
+.top-left {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  padding: 8px;
+  border-style: solid;
+  border-color: #009ffb;
+  border-width: 1px 0 0 1px;
+}
+
+.top-right {
+  position: absolute;
+  right: -1px;
+  top: -1px;
+  padding: 8px;
+  border-style: solid;
+  border-color: #009ffb;
+  border-width: 1px 1px 0 0;
+}
+
+.bottom-left {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  padding: 8px;
+  border-style: solid;
+  border-color: #009ffb;
+  border-width: 0 1px 1px 0;
+}
+.bottom-right {
+  position: absolute;
+  left: -1px;
+  bottom: -1px;
+  padding: 8px;
+  border-style: solid;
+  border-color: #009ffb;
+  border-width: 0 0 1px 1px;
+}
