@@ -42,7 +42,7 @@ export default [
   {
     path: "/monitor",
     name: "monitor",
-    component: () => import("@/views/collector/monitor/powerScreen.vue"),
+    component: () => import("@/views/collector/monitor/index.vue"),
     meta: {
       title: "采集器监控",
       showLink: false,

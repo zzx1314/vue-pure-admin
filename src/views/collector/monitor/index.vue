@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col h-screen bg-[url('assets/images/bg.png')] bg-cover bg-center text-white"
+    class="flex flex-col h-screen bg-[url('@/assets/images/bg.png')] bg-cover bg-center text-white"
   >
     <div class="flex flex-row basis-5">
       <div
