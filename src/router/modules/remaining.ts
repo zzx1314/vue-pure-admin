@@ -32,11 +32,21 @@ export default [
   {
     path: "/empty",
     name: "Empty",
-    component: () => import("@/views/collector/monitor/powerScreen.vue"),
+    component: () => import("@/views/empty/index.vue"),
     meta: {
       title: $t("menus.pureEmpty"),
       showLink: false,
       rank: 103
+    }
+  },
+  {
+    path: "/monitor",
+    name: "monitor",
+    component: () => import("@/views/collector/monitor/powerScreen.vue"),
+    meta: {
+      title: "采集器监控",
+      showLink: false,
+      rank: 104
     }
   }
 ] satisfies Array<RouteConfigsTable>;
