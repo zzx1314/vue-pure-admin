@@ -14,7 +14,8 @@ import LogoutCircleRLine from "@iconify-icons/ri/logout-circle-r-line";
 import Setting from "@iconify-icons/ri/settings-3-line";
 import Check from "@iconify-icons/ep/check";
 import UserInfoForm from "@/layout/components/lay-sidebar/UserInfoForm.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import { getUserInfo } from "@/api/system";
 
 const {
   layout,
@@ -32,14 +33,34 @@ const {
 } = useNav();
 
 const showDia = ref(false);
+const title = ref("");
 
 const showUserSet = () => {
   showDia.value = true;
+  title.value = t("buttons.pureAccountSettings");
 };
 
 const closeDia = () => {
   showDia.value = false;
+  title.value = "";
 };
+
+const getData = () => {
+  getUserInfo().then(res => {
+    console.log("getUserInfo", res);
+    if (res.data && res.data.isFirstLogin) {
+      title.value = "第一次登录请修改密码";
+      showDia.value = true;
+    }
+    if (res.data && res.data.isTipPassUpdate) {
+      title.value = "密码已过期，请修改密码";
+      showDia.value = true;
+    }
+  });
+};
+onMounted(() => {
+  getData();
+});
 
 const { t, locale, translationCh, translationEn } = useTranslationLang();
 </script>
@@ -100,6 +121,7 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
 
     <UserInfoForm
       :dialog-form-visible="showDia"
+      :title="title"
       @update:dialogFormVisible="closeDia"
     />
   </div>

@@ -12,6 +12,10 @@ const props = defineProps({
   dialogFormVisible: {
     type: Boolean,
     default: false
+  },
+  title: {
+    type: String,
+    default: ""
   }
 });
 const emit = defineEmits(["update:dialogFormVisible"]);
@@ -186,7 +190,7 @@ const rules = {
   <div>
     <el-dialog
       :model-value="dialogFormVisible"
-      title="密码修改"
+      :title="title"
       width="40%"
       @close="cancel(addFormRef)"
     >
