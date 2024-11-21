@@ -40,10 +40,7 @@
           :data="data.totalData"
         />
         <!-- 地图可视化 -->
-        <MapChart
-          class="bg-opacity-50 bg-slate-800 p-3 mt-3 flex-1"
-          :data="data.mapData"
-        />
+        <DevFlow class="bg-opacity-50 bg-slate-800 p-3 mt-3 flex-1" />
       </div>
       <!-- right -->
       <div class="flex-1 p-3 flex flex-col">
@@ -71,7 +68,7 @@
 import HorizontalBar from "@/components/ReEcharts/HorizontalBar.vue";
 import RadarBar from "@/components/ReEcharts/RadarBar.vue";
 import TotalData from "@/components/ReEcharts/TotalData.vue";
-import MapChart from "@/components/ReEcharts/MapChart.vue";
+import DevFlow from "@/components/ReVueFlow/DevFlow.vue";
 import VerticalBar from "@/components/ReEcharts/VerticalBar.vue";
 import RingBar from "@/components/ReEcharts/RingBar.vue";
 import LineCharts from "@/components/ReEcharts/lineCharts.vue";
@@ -82,6 +79,7 @@ import { throttleTimeAndTimer } from "./utils/utils";
 
 // 本地mock数据
 import mockData from "./utils/mockData";
+import MapChart from "@/components/ReEcharts/MapChart.vue";
 
 let _mockData = reactive(mockData);
 

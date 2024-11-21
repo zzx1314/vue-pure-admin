@@ -102,19 +102,29 @@ nextTick(() => {
 </script>
 
 <template>
-  <div class="vue-flow-container">
-    <VueFlow v-model:nodes="nodes" v-model:edges="edges">
-      <template #node-collector="props">
-        <Collector :data="props.data" />
-      </template>
-      <template #node-server="props">
-        <Server :data="props.data" />
-      </template>
-    </VueFlow>
+  <div class="corner main">
+    <span class="bottom-left" />
+    <span class="bottom-right" />
+    <div class="text-2xl title">【采集器网络拓扑图】</div>
+    <div class="vue-flow-container">
+      <VueFlow v-model:nodes="nodes" v-model:edges="edges">
+        <template #node-collector="props">
+          <Collector :data="props.data" />
+        </template>
+        <template #node-server="props">
+          <Server :data="props.data" />
+        </template>
+      </VueFlow>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
 .vue-flow-container {
   display: flex;
   height: 100vh; /* 使容器充满整个视口高度 */
