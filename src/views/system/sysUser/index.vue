@@ -273,8 +273,9 @@ async function getAllRole() {
           </el-button>
 
           <el-button
-            type="text"
+            type="primary"
             :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
+            link
             @click="moreCondition = !moreCondition"
           />
         </el-form-item>

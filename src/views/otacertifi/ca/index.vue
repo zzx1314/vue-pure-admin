@@ -134,8 +134,9 @@ defineOptions({
           重置
         </el-button>
         <el-button
-          type="text"
+          type="primary"
           :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
+          link
           @click="moreCondition = !moreCondition"
         />
       </el-form-item>
