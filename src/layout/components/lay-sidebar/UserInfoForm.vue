@@ -192,6 +192,7 @@ const rules = {
       :model-value="dialogFormVisible"
       :title="title"
       width="40%"
+      :append-to-body="true"
       @close="cancel(addFormRef)"
     >
       <el-form
