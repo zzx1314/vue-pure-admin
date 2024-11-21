@@ -372,7 +372,7 @@ async function getAllRole() {
         </template>
       </PureTableBar>
 
-      <el-dialog v-model="dialogFormVisible" :title="title" width="60%">
+      <el-dialog v-model="dialogFormVisible" :title="title" width="800px">
         <el-form
           ref="addFormRef"
           :model="addForm"
@@ -425,7 +425,6 @@ async function getAllRole() {
             <el-tree-select
               v-model="addForm.orgId"
               :data="orgDataList"
-              filterable
               check-strictly
               :render-after-expand="false"
               class="!w-[200px]"

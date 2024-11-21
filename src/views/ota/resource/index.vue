@@ -680,7 +680,7 @@ const closePro = () => {
       </template>
     </PureTableBar>
 
-    <el-dialog v-model="dialogFormVisible" :title="title" width="55%">
+    <el-dialog v-model="dialogFormVisible" :title="title" width="800px">
       <el-form
         ref="addFormRef"
         :model="addForm.value"
@@ -810,7 +810,7 @@ const closePro = () => {
       </template>
     </el-dialog>
 
-    <el-dialog v-model="dialogPushVisible" title="推送资源" width="60%">
+    <el-dialog v-model="dialogPushVisible" title="推送资源" width="800px">
       <div class="centered">
         <el-steps class="mb-4" :space="200" :active="active" simple>
           <el-step title="任务配置" :icon="useRenderIcon(EditPen)" />

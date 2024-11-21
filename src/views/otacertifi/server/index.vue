@@ -287,7 +287,7 @@ const defaultProps = {
       </el-main>
     </el-container>
 
-    <el-dialog v-model="dialogFormVisible" :title="title">
+    <el-dialog v-model="dialogFormVisible" :title="title" width="800px">
       <el-form
         ref="addFormRef"
         :model="addForm.value"

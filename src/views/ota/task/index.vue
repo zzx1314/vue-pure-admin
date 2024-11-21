@@ -186,7 +186,7 @@ const {
       </template>
     </PureTableBar>
 
-    <el-dialog v-model="dialogFormVisible" :title="title" width="70%">
+    <el-dialog v-model="dialogFormVisible" :title="title" width="800px">
       <div>
         <div class="flex gap-2">
           <p style="font-weight: bold">资源信息:</p>
