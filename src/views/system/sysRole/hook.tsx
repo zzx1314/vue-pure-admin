@@ -1,6 +1,6 @@
 import { deleteRole, getRoleList, saveRole, updateRole } from "@/api/system";
 import type { PaginationProps } from "@pureadmin/table";
-import { reactive, ref, computed, onMounted } from "vue";
+import { reactive, ref, computed, onMounted, nextTick } from "vue";
 import type { FormRules, FormInstance } from "element-plus";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -136,8 +136,10 @@ export function useRole() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
-    onSearch();
+    nextTick(() => {
+      formEl.resetFields();
+      onSearch();
+    });
   };
   // 取消
   function cancel(formEl) {

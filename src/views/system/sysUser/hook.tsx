@@ -8,7 +8,7 @@ import {
 } from "@/api/system";
 import { ElMessageBox } from "element-plus";
 import type { PaginationProps, AdaptiveConfig } from "@pureadmin/table";
-import { reactive, ref, computed } from "vue";
+import { reactive, ref, computed, nextTick } from "vue";
 import type { FormInstance } from "element-plus";
 import { SUCCESS } from "@/api/base";
 import { hasAuth } from "@/router/utils";
@@ -448,12 +448,16 @@ export function useUser() {
    */
   function resetForm(formEl) {
     if (!formEl) return;
-    formEl.resetFields();
+    nextTick(() => {
+      formEl.resetFields();
+    });
   }
 
   const restartForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
+    nextTick(() => {
+      formEl.resetFields();
+    });
     cancel();
     onSearch();
   };

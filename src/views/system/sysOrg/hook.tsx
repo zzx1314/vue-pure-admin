@@ -1,6 +1,6 @@
 import { message } from "@/utils/message";
 import { handleTree } from "@/utils/tree";
-import { reactive, ref, onMounted } from "vue";
+import { reactive, ref, onMounted, nextTick } from "vue";
 import { getDeptList, saveSysOrg, updateById, removeById } from "@/api/system";
 import type { FormInstance, FormRules } from "element-plus";
 import { SUCCESS } from "@/api/base";
@@ -153,7 +153,9 @@ export function useDept() {
 
   function resetForm(formEl) {
     if (!formEl) return;
-    formEl.resetFields();
+    nextTick(() => {
+      formEl.resetFields();
+    });
     onSearch();
   }
 

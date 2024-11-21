@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { nextTick, onMounted, ref } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { updatePassword } from "@/api/user";
 import { SUCCESS } from "@/api/base";
@@ -49,7 +49,9 @@ onMounted(() => {
 
 function resetForm(formEl) {
   if (!formEl) return;
-  formEl.resetFields();
+  nextTick(() => {
+    formEl.resetFields();
+  });
 }
 
 function closeDialog() {

@@ -1,4 +1,4 @@
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import { ElLoading, type FormInstance, type FormRules } from "element-plus";
 import {
@@ -269,11 +269,15 @@ export function useClient() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
+    nextTick(() => {
+      formEl.resetFields();
+    });
   };
   const restartForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
+    nextTick(() => {
+      formEl.resetFields();
+    });
     cancel();
     onSearch();
   };

@@ -1,4 +1,4 @@
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormInstance, FormRules } from "element-plus";
 import { devDelete, devPage, devSave, devUpdate } from "@/api/otaDev";
@@ -207,11 +207,15 @@ export function useDevice() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
+    nextTick(() => {
+      formEl.resetFields();
+    });
   };
   const restartForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
+    nextTick(() => {
+      formEl.resetFields();
+    });
     cancel();
     onSearch();
   };

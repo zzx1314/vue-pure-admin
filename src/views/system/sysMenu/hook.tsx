@@ -1,6 +1,6 @@
 import { message } from "@/utils/message";
 import { handleTree } from "@/utils/tree";
-import { reactive, ref, onMounted, h } from "vue";
+import { reactive, ref, onMounted, h, nextTick } from "vue";
 import {
   menuPage,
   saveSysMenu,
@@ -243,7 +243,9 @@ export function useMenu() {
 
   function resetForm(formEl) {
     if (!formEl) return;
-    formEl.resetFields();
+    nextTick(() => {
+      formEl.resetFields();
+    });
     onSearch();
   }
 
