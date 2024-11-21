@@ -1,4 +1,4 @@
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules, UploadUserFile } from "element-plus";
 import { resDelete, resList, resPage } from "@/api/otaRes";
@@ -383,13 +383,17 @@ export function useResource() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
+    nextTick(() => {
+      formEl.resetFields();
+    });
   };
   const restartForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
-    cancel();
-    onSearch();
+    nextTick(() => {
+      formEl.resetFields();
+      cancel();
+      onSearch();
+    });
   };
   // 取消
   function cancel() {
@@ -417,6 +421,7 @@ export function useResource() {
     dialogFormVisible.value = false;
     fileList.value = [];
     addType.value = "";
+    updateType.value = "";
     onSearch();
   }
   function cancelPush(tableRef) {

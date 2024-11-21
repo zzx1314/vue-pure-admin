@@ -491,7 +491,7 @@ const closePro = () => {
       <el-form-item label="操作系统版本：" prop="softwareVersion">
         <el-input
           v-model="queryForm.softwareVersion"
-          placeholder="请输入系统版本名称"
+          placeholder="请输入操作系统版本"
           clearable
           class="!w-[150px]"
         />
@@ -499,7 +499,7 @@ const closePro = () => {
       <el-form-item label="类型：" prop="devType">
         <el-select
           v-model="queryForm.type"
-          placeholder="选择设备类型"
+          placeholder="选择类型"
           style="width: 150px"
         >
           <el-option
