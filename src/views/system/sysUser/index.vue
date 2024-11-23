@@ -189,7 +189,7 @@ async function getAllRole() {
         <el-form-item label="账号" prop="realName">
           <el-input
             v-model="queryForm.username"
-            placeholder="请输入用户名"
+            placeholder="请输入账号"
             clearable
             class="!w-[150px]"
           />
