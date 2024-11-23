@@ -135,10 +135,18 @@ class PureHttp {
         // 关闭进度条动画
         NProgress.done();
         useUserStoreHook().logOut();
-        if (error.response.data && error.response.data.error_description) {
+        if (error.response.status === 500) {
+          message("服务器错误", { type: "error" });
+        } else if (error.response.status === 401) {
+          message("系统用户名或密码错误", { type: "error" });
+        } else if (
+          error.response.status === 400 &&
+          error.response.data &&
+          error.response.data.error_description
+        ) {
           message(error.response.data.error_description, { type: "error" });
         } else {
-          message("登录超时，重新登录", { type: "error" });
+          message("系统错误", { type: "error" });
         }
         // 所有的响应异常 区分来源为取消请求/非取消请求
         return Promise.reject($error);
