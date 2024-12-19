@@ -32,7 +32,7 @@ const {
   submitForm,
   openDia,
   onSearch,
-  resetForm,
+  restartForm,
   handleUpdate,
   handleDelete,
   handleSizeChange,
@@ -74,7 +74,7 @@ const {
         >
           搜索
         </el-button>
-        <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
+        <el-button :icon="useRenderIcon(Refresh)" @click="restartForm(formRef)">
           重置
         </el-button>
       </el-form-item>
@@ -86,7 +86,7 @@ const {
           v-if="hasAuth('role_add')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
-          @click="openDia('新增角色')"
+          @click="openDia('新增角色', addFormRef)"
         >
           新增
         </el-button>
@@ -147,7 +147,12 @@ const {
       </template>
     </PureTableBar>
 
-    <el-dialog v-model="dialogFormVisible" :title="title" width="800px">
+    <el-dialog
+      v-model="dialogFormVisible"
+      :title="title"
+      width="800px"
+      @close="cancel"
+    >
       <el-form
         ref="addFormRef"
         :model="addForm.value"
@@ -172,7 +177,7 @@ const {
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="cancel(addFormRef)">取消</el-button>
+          <el-button @click="cancel">取消</el-button>
           <el-button type="primary" @click="submitForm(addFormRef)"
             >确认</el-button
           >

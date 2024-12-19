@@ -32,7 +32,7 @@ const {
   title,
   moreCondition,
   onSearch,
-  resetForm,
+  restartForm,
   cancel,
   submitForm,
   openDia,
@@ -107,7 +107,7 @@ const {
         >
           搜索
         </el-button>
-        <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
+        <el-button :icon="useRenderIcon(Refresh)" @click="restartForm(formRef)">
           重置
         </el-button>
         <el-button
@@ -191,7 +191,12 @@ const {
       </template>
     </PureTableBar>
 
-    <el-dialog v-model="dialogFormVisible" :title="title" width="800px">
+    <el-dialog
+      v-model="dialogFormVisible"
+      :title="title"
+      width="800px"
+      @close="cancel"
+    >
       <el-form
         ref="addFormRef"
         :model="addForm.value"

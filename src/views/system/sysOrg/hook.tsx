@@ -153,13 +153,17 @@ export function useDept() {
 
   function resetForm(formEl) {
     if (!formEl) return;
+    formEl.resetFields();
+  }
+  const restartForm = formEl => {
+    if (!formEl) return;
     nextTick(() => {
       formEl.resetFields();
+      cancel();
     });
-    onSearch();
-  }
+  };
 
-  function cancel(formEl) {
+  function cancel() {
     addForm.value = {
       id: null,
       name: "",
@@ -169,13 +173,14 @@ export function useDept() {
       remarks: "",
       sort: 0
     };
-    resetForm(formEl);
     dialogFormVisible.value = false;
+    onSearch();
   }
 
-  function openDia(param) {
+  function openDia(param, formEl?) {
     title.value = param;
     dialogFormVisible.value = true;
+    resetForm(formEl);
   }
 
   async function onSearch() {
@@ -199,7 +204,7 @@ export function useDept() {
           updateById(addForm.value).then(res => {
             if (res.code === SUCCESS) {
               message("修改成功！", { type: "success" });
-              cancel(formEl);
+              cancel();
             } else {
               message(res.msg, { type: "error" });
             }
@@ -208,7 +213,7 @@ export function useDept() {
           saveSysOrg(addForm.value).then(res => {
             if (res.code == SUCCESS) {
               message("添加成功！", { type: "success" });
-              cancel(formEl);
+              cancel();
             } else {
               message(res.msg, { type: "error" });
             }
@@ -238,7 +243,7 @@ export function useDept() {
     moreCondition,
     changeSelet,
     onSearch,
-    resetForm,
+    restartForm,
     cancel,
     submitForm,
     openDia,

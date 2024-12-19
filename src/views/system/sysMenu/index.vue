@@ -49,7 +49,7 @@ const {
           v-if="hasAuth('menu_add')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
-          @click="openDia('添加菜单')"
+          @click="openDia('添加菜单', addFormRef)"
         >
           新增菜单
         </el-button>
@@ -82,7 +82,7 @@ const {
               type="primary"
               :size="size"
               :icon="useRenderIcon(EditPen)"
-              @click="handleUpdate(row)"
+              @click="handleUpdate(row, addFormRef)"
             >
               修改
             </el-button>
@@ -109,7 +109,12 @@ const {
       </template>
     </PureTableBar>
 
-    <el-dialog v-model="dialogFormVisible" :title="title">
+    <el-dialog
+      v-model="dialogFormVisible"
+      :title="title"
+      :width="800"
+      @close="cancel"
+    >
       <el-form
         ref="addFormRef"
         :model="addForm.value"
@@ -220,7 +225,7 @@ const {
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="cancel(addFormRef)">取消</el-button>
+          <el-button @click="cancel()">取消</el-button>
           <el-button type="primary" @click="submitForm(addFormRef)"
             >确认</el-button
           >

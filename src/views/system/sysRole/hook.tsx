@@ -133,16 +133,19 @@ export function useRole() {
       loading.value = false;
     }, 500);
   }
-
   const resetForm = formEl => {
+    if (!formEl) return;
+    formEl.clearValidate();
+  };
+  const restartForm = formEl => {
     if (!formEl) return;
     nextTick(() => {
       formEl.resetFields();
-      onSearch();
+      cancel();
     });
   };
   // 取消
-  function cancel(formEl) {
+  function cancel() {
     addForm.value = {
       id: null,
       name: "",
@@ -150,8 +153,8 @@ export function useRole() {
       status: "",
       description: ""
     };
-    resetForm(formEl);
     dialogFormVisible.value = false;
+    onSearch();
   }
   // 保存
   const submitForm = async (formEl: FormInstance | undefined) => {
@@ -164,8 +167,7 @@ export function useRole() {
           updateRole(addForm.value).then(res => {
             if (res.code === SUCCESS) {
               message("修改成功！", { type: "success" });
-              onSearch();
-              cancel(formEl);
+              cancel();
             } else {
               message(res.msg, { type: "error" });
             }
@@ -175,8 +177,7 @@ export function useRole() {
           saveRole(addForm.value).then(res => {
             if (res.code === SUCCESS) {
               message("添加成功！", { type: "success" });
-              onSearch();
-              cancel(formEl);
+              cancel();
             } else {
               message(res.msg, { type: "error" });
             }
@@ -188,9 +189,10 @@ export function useRole() {
     });
   };
   // 打开弹框
-  function openDia(param) {
+  function openDia(param, formEl?) {
     dialogFormVisible.value = true;
     title.value = param;
+    resetForm(formEl);
   }
 
   onMounted(() => {
@@ -210,6 +212,7 @@ export function useRole() {
     rules,
     onSearch,
     resetForm,
+    restartForm,
     handleUpdate,
     handleDelete,
     handleSizeChange,

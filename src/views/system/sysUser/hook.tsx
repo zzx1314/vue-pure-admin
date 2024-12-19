@@ -165,7 +165,6 @@ export function useUser() {
   });
 
   // -----方法定义---
-
   /**
    * 取消事件
    */
@@ -201,12 +200,11 @@ export function useUser() {
       endTime: null
     };
     dialogFormVisible.value = false;
-    onSearch();
+    onSearch(addForm.value.orgId);
   }
 
   /**
    * 开启弹框
-   * @param param
    */
   function openDia(param, formEl) {
     console.log(roleArry.value);
@@ -216,12 +214,11 @@ export function useUser() {
   }
   /**
    * 停用启用
-   * @param param0
    */
   function onChange({ row, index }) {
     if (!hasAuth("user_stop_start")) {
       message("您没有权限操作,本次修改不生效", { type: "error" });
-      onSearch();
+      onSearch(addForm.value.orgId);
       return;
     }
     ElMessageBox.confirm(
@@ -274,7 +271,6 @@ export function useUser() {
 
   /**
    * 处理修改
-   * @param row
    */
   function handleUpdate(row, ref) {
     const userInfo = JSON.stringify(row);
@@ -287,7 +283,6 @@ export function useUser() {
 
   /**
    * 重置密码
-   * @param row
    */
   function resetPwd(row) {
     console.log(row);
@@ -302,14 +297,13 @@ export function useUser() {
 
   /**
    * 删除
-   * @param row
    */
   function handleDelete(row) {
     console.log(row);
     removeUserById(row.id).then(res => {
       if (res.code === SUCCESS) {
         message("删除成功！", { type: "success" });
-        onSearch();
+        onSearch(addForm.value.orgId);
       } else {
         message(res.msg, { type: "error" });
       }
@@ -318,7 +312,6 @@ export function useUser() {
 
   /**
    * 分页数据变化
-   * @param val
    */
   function handleSizeChange(val: number) {
     console.log(`${val} items per page`);
@@ -328,7 +321,6 @@ export function useUser() {
 
   /**
    * 分页数据变化
-   * @param val
    */
   function handleCurrentChange(val: number) {
     console.log(`current page: ${val}`);
@@ -338,7 +330,6 @@ export function useUser() {
 
   /**
    * 分页数据变化
-   * @param val
    */
   function handleSelectionChange(val) {
     console.log("handleSelectionChange", val);
@@ -346,7 +337,6 @@ export function useUser() {
 
   /**
    * 查询
-   * @param param
    */
   async function onSearch(param?: any) {
     console.log("onSearch", param);
@@ -372,7 +362,6 @@ export function useUser() {
 
   /**
    * 设置orgId
-   * @param id
    */
   function setOrgId(id) {
     console.log("setOrgId", id);
@@ -381,12 +370,11 @@ export function useUser() {
 
   /**
    * 设置orgIds
-   * @param ids
    */
   function setOrgIds(ids) {
     console.log("setOrgIds", ids);
     queryForm.value.orgIds = ids;
-    onSearch();
+    onSearch(addForm.value.orgId);
   }
 
   function setOrgName(orgName) {
@@ -397,7 +385,6 @@ export function useUser() {
   function setTreeData(treeData) {
     orgDataList.value = treeData;
   }
-
   /**
    * 添加表单数据
    */
@@ -422,7 +409,6 @@ export function useUser() {
       updateUser(addForm.value).then(res => {
         if (res.code === SUCCESS) {
           message("修改成功！", { type: "success" });
-          onSearch(addForm.value.orgId);
           cancel();
         }
       });
@@ -434,7 +420,6 @@ export function useUser() {
         saveUser(addForm.value).then(res => {
           if (res.code === SUCCESS) {
             message("添加成功！", { type: "success" });
-            onSearch(addForm.value.orgId);
             cancel();
           }
         });
@@ -448,18 +433,14 @@ export function useUser() {
    */
   function resetForm(formEl) {
     if (!formEl) return;
-    nextTick(() => {
-      formEl.resetFields();
-    });
+    formEl.clearValidate();
   }
-
   const restartForm = formEl => {
     if (!formEl) return;
     nextTick(() => {
       formEl.resetFields();
     });
     cancel();
-    onSearch();
   };
 
   return {

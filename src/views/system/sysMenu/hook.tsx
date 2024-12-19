@@ -213,10 +213,10 @@ export function useMenu() {
   });
 
   // 修改
-  function handleUpdate(row) {
+  function handleUpdate(row, formEl) {
     console.log("row", row);
     const menuInfo = JSON.stringify(row);
-    openDia("修改菜单");
+    openDia("修改菜单", formEl);
     addForm.value = JSON.parse(menuInfo);
     addForm.value.roleCodeList = addForm.value.roleCode.split(",");
   }
@@ -243,11 +243,15 @@ export function useMenu() {
 
   function resetForm(formEl) {
     if (!formEl) return;
+    formEl.resetFields();
+  }
+  const restartForm = formEl => {
+    if (!formEl) return;
     nextTick(() => {
       formEl.resetFields();
+      cancel();
     });
-    onSearch();
-  }
+  };
 
   async function getAllRole() {
     const { data } = await listAllRole();
@@ -258,7 +262,7 @@ export function useMenu() {
     roleArry.value.push(...allCheckItem.value);
   }
   // 取消
-  function cancel(formEl) {
+  function cancel() {
     addForm.value = {
       id: null,
       name: "",
@@ -274,13 +278,14 @@ export function useMenu() {
       roleCode: "",
       roleCodeList: []
     };
-    resetForm(formEl);
     dialogFormVisible.value = false;
+    onSearch();
   }
 
-  function openDia(param) {
+  function openDia(param, formEl) {
     title.value = param;
     dialogFormVisible.value = true;
+    resetForm(formEl);
   }
 
   async function onSearch() {
@@ -304,7 +309,7 @@ export function useMenu() {
           updateSysMenuById(addForm.value).then(res => {
             if (res.code === SUCCESS) {
               message("修改成功！", { type: "success" });
-              cancel(formEl);
+              cancel();
             }
           });
         } else {
@@ -316,7 +321,7 @@ export function useMenu() {
           saveSysMenu(addForm.value).then(res => {
             if (res.code == SUCCESS) {
               message("添加成功！", { type: "success" });
-              cancel(formEl);
+              cancel();
             }
           });
         }
@@ -344,7 +349,7 @@ export function useMenu() {
     title,
     roleArry,
     onSearch,
-    resetForm,
+    restartForm,
     cancel,
     submitForm,
     openDia,
