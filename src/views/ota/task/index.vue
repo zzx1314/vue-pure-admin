@@ -40,6 +40,7 @@ const {
   step5,
   restartForm,
   onSearch,
+  cancel,
   handleDesc,
   handleDelete,
   handleSizeChange,
@@ -186,7 +187,12 @@ const {
       </template>
     </PureTableBar>
 
-    <el-dialog v-model="dialogFormVisible" :title="title" width="800px">
+    <el-dialog
+      v-model="dialogFormVisible"
+      :title="title"
+      width="800px"
+      @close="cancel"
+    >
       <div>
         <div class="flex gap-2">
           <p style="font-weight: bold">资源信息:</p>

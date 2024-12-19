@@ -383,16 +383,13 @@ export function useResource() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    nextTick(() => {
-      formEl.resetFields();
-    });
+    formEl.clearValidate();
   };
   const restartForm = formEl => {
     if (!formEl) return;
     nextTick(() => {
       formEl.resetFields();
       cancel();
-      onSearch();
     });
   };
   // 取消

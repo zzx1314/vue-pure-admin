@@ -282,9 +282,7 @@ export function useTask() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    nextTick(() => {
-      formEl.resetFields();
-    });
+    formEl.clearValidate();
   };
 
   const restartForm = formEl => {
@@ -292,7 +290,6 @@ export function useTask() {
     nextTick(() => {
       formEl.resetFields();
       cancel();
-      onSearch();
     });
   };
   // 取消

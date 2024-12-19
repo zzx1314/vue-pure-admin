@@ -810,7 +810,12 @@ const closePro = () => {
       </template>
     </el-dialog>
 
-    <el-dialog v-model="dialogPushVisible" title="推送资源" width="800px">
+    <el-dialog
+      v-model="dialogPushVisible"
+      title="推送资源"
+      width="800px"
+      @close="cancel"
+    >
       <div class="centered">
         <el-steps class="mb-4" :space="200" :active="active" simple>
           <el-step title="任务配置" :icon="useRenderIcon(EditPen)" />

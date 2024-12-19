@@ -207,9 +207,7 @@ export function useDevice() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    nextTick(() => {
-      formEl.resetFields();
-    });
+    formEl.clearValidate();
   };
   const restartForm = formEl => {
     if (!formEl) return;
@@ -217,7 +215,6 @@ export function useDevice() {
       formEl.resetFields();
     });
     cancel();
-    onSearch();
   };
   // 取消
   function cancel() {
