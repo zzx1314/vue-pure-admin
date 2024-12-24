@@ -7,6 +7,7 @@ import Search from "@iconify-icons/ep/search";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
+import PureTable from "@pureadmin/table";
 
 defineOptions({
   name: "OBusDevice"
@@ -49,7 +50,7 @@ const {
         @reset="cancel"
       />
     </el-card>
-    <PureTableBar title="业务列表" :columns="columns" @refresh="onSearch">
+    <PureTableBar title="设备列表" :columns="columns" @refresh="onSearch">
       <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
           border
@@ -72,6 +73,28 @@ const {
           @page-size-change="handleSizeChange"
           @page-current-change="handleCurrentChange"
         >
+          <template #expand="{ row }">
+            <div class="m-4 flex justify-between">
+              <div class="flex-1 p-4 border">
+                <h3>硬件信息</h3>
+                <div v-for="hia in row.hardwareInfoJArray" :key="hia.name">
+                  <div>{{ hia.name }}: {{ hia.value }}</div>
+                </div>
+              </div>
+              <div class="flex-1 p-4 border">
+                <h3>软件信息</h3>
+                <div v-for="sia in row.softwareInfoJArray" :key="sia.name">
+                  <div>{{ sia.name }}: {{ sia.version }}</div>
+                </div>
+              </div>
+              <div class="flex-1 p-4 border">
+                <h3>系统状态</h3>
+                <div v-for="ssa in row.systemStatusJArray" :key="ssa.name">
+                  <div>{{ ssa.name }}: {{ ssa.value }}</div>
+                </div>
+              </div>
+            </div>
+          </template>
           <template #operation="{ row }">
             <el-button
               class="reset-margin"
