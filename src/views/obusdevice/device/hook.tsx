@@ -86,6 +86,16 @@ export function useOBusDevice() {
       minWidth: 100
     },
     {
+      label: "创建时间",
+      prop: "createTime",
+      minWidth: 150
+    },
+    {
+      label: "通信时间",
+      prop: "commTime",
+      minWidth: 150
+    },
+    {
       label: "系统架构",
       prop: "arch",
       minWidth: 100
