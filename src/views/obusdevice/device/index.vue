@@ -8,6 +8,7 @@ import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
+import { PlusDialogForm, PlusSearch } from "plus-pro-components";
 
 defineOptions({
   name: "OBusDevice"
