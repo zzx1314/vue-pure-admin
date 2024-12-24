@@ -35,9 +35,7 @@ export function useOBusLogs() {
       id: null
     }
   });
-  const rules = reactive<FormRules>({
-    name: [{ required: true, message: "称必填", trigger: "blur" }]
-  });
+  const rules = reactive<FormRules>({});
   const columns: TableColumnList = [
     {
       type: "selection",

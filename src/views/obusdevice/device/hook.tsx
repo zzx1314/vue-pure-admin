@@ -14,7 +14,14 @@ import type { FieldValues } from "plus-pro-components";
 export function useOBusDevice() {
   // ----变量定义-----
   const queryForm = reactive({
-    name: "",
+    deviceId: "",
+    deviceIp: "",
+    os: "",
+    osVersion: "",
+    arch: "",
+    hardwareInfo: "",
+    softwareInfo: "",
+    systemStatus: "",
     beginTime: "",
     endTime: ""
   });
@@ -32,7 +39,13 @@ export function useOBusDevice() {
   });
   const addForm = reactive({
     value: {
-      id: null
+      id: null,
+      deviceId: "",
+      deviceIp: "",
+      os: "",
+      osVersion: "",
+      arch: "",
+      remark: ""
     }
   });
   const rules = reactive<FormRules>({});
@@ -195,9 +208,22 @@ export function useOBusDevice() {
   // 取消
   function cancel() {
     addForm.value = {
-      id: null
+      id: null,
+      deviceId: "",
+      deviceIp: "",
+      os: "",
+      osVersion: "",
+      arch: "",
+      remark: ""
     };
-    queryForm.name = "";
+    queryForm.deviceId = "";
+    queryForm.deviceIp = "";
+    queryForm.os = "";
+    queryForm.osVersion = "";
+    queryForm.arch = "";
+    queryForm.hardwareInfo = "";
+    queryForm.softwareInfo = "";
+    queryForm.systemStatus = "";
     queryForm.beginTime = "";
     queryForm.endTime = "";
     dialogFormVisible.value = false;
