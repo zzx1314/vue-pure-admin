@@ -817,7 +817,7 @@ const closePro = () => {
     <el-dialog
       v-model="dialogPushVisible"
       title="推送资源"
-      width="800px"
+      width="80%"
       @close="cancel"
     >
       <div class="centered">
@@ -831,12 +831,13 @@ const closePro = () => {
         ref="pushFormRef"
         :model="pushForm.value"
         :rules="pushRules"
-        label-width="150px"
+        label-width="35%"
       >
         <el-form-item label="任务名称" prop="taskName">
           <el-input
             v-model="pushForm.value.taskName"
             placeholder="请输入任务名称"
+            style="width: 300px"
           />
         </el-form-item>
 
@@ -844,6 +845,7 @@ const closePro = () => {
           <el-input
             v-model="pushForm.value.taskType"
             placeholder="请输入任务类型"
+            style="width: 300px"
           />
         </el-form-item>
 
@@ -855,7 +857,14 @@ const closePro = () => {
         </el-form-item>
 
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="pushForm.value.remark" placeholder="请输入备注" />
+          <el-input
+            v-model="pushForm.value.remark"
+            placeholder="请输入备注"
+            style="width: 300px"
+            maxlength="30"
+            show-word-limit
+            type="textarea"
+          />
         </el-form-item>
       </el-form>
       <div v-show="downPush">
@@ -887,25 +896,19 @@ const closePro = () => {
           </div>
         </div>
         <div>
-          <el-form
-            ref="devFrom"
-            :inline="true"
-            :model="queryFormDev"
-            class="bg-bg_color w-[99/100] pl-8 pt-4"
-          >
-            <el-form-item prop="softwareName">
-              <template v-slot:label>
-                组别
-                <IconifyIconOffline
-                  v-tippy="{
-                    content: '不勾选任何设备点击确定将按照整个组推送软件包',
-                    placement: 'bottom'
-                  }"
-                  :icon="question"
-                  class="ml-1"
-                />
-              </template>
-
+          <span class="flex mb-2 mt-2">
+            <h4>查询条件</h4>
+            <IconifyIconOffline
+              v-tippy="{
+                content: '不勾选下面的设备，将以查询条件进行推送',
+                placement: 'bottom'
+              }"
+              :icon="question"
+              class="ml-1"
+            />
+          </span>
+          <el-form ref="devFrom" :inline="true" :model="queryFormDev">
+            <el-form-item label="设备组别">
               <el-select
                 v-model="queryFormDev.devGroupList"
                 multiple
@@ -923,10 +926,37 @@ const closePro = () => {
                 />
               </el-select>
             </el-form-item>
+            <el-form-item label="设备IP">
+              <el-input
+                v-model="queryFormDev.devIp"
+                clearable
+                class="!w-[150px]"
+                placeholder="请输入设备IP"
+                @blur="onSearchDev"
+              />
+            </el-form-item>
+            <el-form-item label="设备ID">
+              <el-input
+                v-model="queryFormDev.devId"
+                clearable
+                class="!w-[150px]"
+                placeholder="请输入设备ID"
+                @blur="onSearchDev"
+              />
+            </el-form-item>
+            <el-form-item label="设备类型">
+              <el-input
+                v-model="queryFormDev.type"
+                clearable
+                class="!w-[150px]"
+                placeholder="请输入设备类型"
+                @blur="onSearchDev"
+              />
+            </el-form-item>
           </el-form>
         </div>
 
-        <PureTableBar title="下发设备列表" @refresh="onSearch">
+        <PureTableBar title="下发设备列表" @refresh="onSearchDev">
           <template v-slot="{ size, checkList }">
             <pure-table
               ref="tableRefDev"

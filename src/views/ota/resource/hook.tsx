@@ -25,9 +25,9 @@ export function useResource() {
   const queryFormDev = reactive({
     devIp: "",
     devId: "",
-    devType: "",
+    type: "",
     devGroup: "",
-    devGroupList: ""
+    devGroupList: []
   });
   const dataList = ref([]);
   const devDataList = ref([]);
@@ -416,6 +416,12 @@ export function useResource() {
     queryForm.version = "";
     queryForm.resType = "";
 
+    queryFormDev.devIp = "";
+    queryFormDev.devId = "";
+    queryFormDev.type = "";
+    queryFormDev.devGroup = "";
+    queryFormDev.devGroupList = [];
+
     addForm.value = {
       id: null,
       softwareName: "",
@@ -433,6 +439,7 @@ export function useResource() {
     fileList.value = [];
     addType.value = "";
     updateType.value = "";
+    devSecDataList.value = [];
     onSearch();
   }
   function cancelPush(tableRef) {
