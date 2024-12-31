@@ -74,7 +74,8 @@ export function useResource() {
       remark: "",
       clientRestart: "",
       devInfos: [],
-      resInfos: []
+      resInfos: [],
+      queryDev: {}
     }
   });
   const rules = reactive<FormRules>({
@@ -451,7 +452,8 @@ export function useResource() {
       remark: "",
       clientRestart: "",
       devInfos: [],
-      resInfos: []
+      resInfos: [],
+      queryDev: {}
     };
     const { clearSelection } = tableRef.getTableRef();
     clearSelection();

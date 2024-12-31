@@ -414,13 +414,22 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 const submitPushForm = refo => {
   console.log("推送任务");
-  if (devSecDataList.value.length === 0) {
-    message("请选择设备", { type: "error" });
+  if (
+    queryFormDev.devId === "" &&
+    queryFormDev.devIp === "" &&
+    queryFormDev.type === "" &&
+    queryFormDev.devGroup === "" &&
+    queryFormDev.devGroupList.length === 0 &&
+    devSecDataList.value.length === 0
+  ) {
+    message("请选择设备,或者下发条件", { type: "error" });
     return;
   }
   const param = { ...pushForm };
   param.value.devInfos = devSecDataList.value;
   param.value.resInfos = resDataList.value;
+  param.value.queryDev = queryFormDev;
+
   console.log(param);
   resPush(param.value).then(res => {
     if (res.code === SUCCESS) {
