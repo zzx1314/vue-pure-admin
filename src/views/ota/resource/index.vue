@@ -29,6 +29,7 @@ import { message } from "@/utils/message";
 import { ElLoading } from "element-plus";
 import ProgressModal from "@/components/ReProgressModal/ProgreeModal.vue";
 import { hasAuth } from "@/router/utils";
+import question from "@iconify-icons/ep/question-filled";
 
 defineOptions({
   name: "Resource"
@@ -40,6 +41,8 @@ const pushFormRef = ref<FormInstance>();
 
 const {
   queryForm,
+  queryFormDev,
+  devGroupSelectList,
   loading,
   columns,
   dataList,
@@ -73,6 +76,7 @@ const {
   openDia,
   openPushDia,
   onSearch,
+  onSearchDev,
   handleUpdate,
   handleDelete,
   handleSizeChange,
@@ -882,6 +886,46 @@ const closePro = () => {
             >
           </div>
         </div>
+        <div>
+          <el-form
+            ref="devFrom"
+            :inline="true"
+            :model="queryFormDev"
+            class="bg-bg_color w-[99/100] pl-8 pt-4"
+          >
+            <el-form-item prop="softwareName">
+              <template v-slot:label>
+                组别
+                <IconifyIconOffline
+                  v-tippy="{
+                    content: '不勾选任何设备点击确定将按照整个组推送软件包',
+                    placement: 'bottom'
+                  }"
+                  :icon="question"
+                  class="ml-1"
+                />
+              </template>
+
+              <el-select
+                v-model="queryFormDev.devGroupList"
+                multiple
+                collapse-tags
+                clearable
+                placeholder="请选择组别"
+                class="!w-[150px]"
+                @change="onSearchDev"
+              >
+                <el-option
+                  v-for="item in devGroupSelectList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+          </el-form>
+        </div>
+
         <PureTableBar title="下发设备列表" @refresh="onSearch">
           <template v-slot="{ size, checkList }">
             <pure-table

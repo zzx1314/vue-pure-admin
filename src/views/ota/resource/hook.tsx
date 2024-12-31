@@ -7,7 +7,7 @@ import { message } from "@/utils/message";
 import { CHUNK_SIZE } from "@/constants";
 import { chunkDownloadFile } from "@/api/system";
 import { downloadFileByBlob } from "@/lib/fileUtil";
-import { devPage } from "@/api/otaDev";
+import { devPage, getDevGroupSelect } from "@/api/otaDev";
 import { ElLoading } from "element-plus";
 import { convertFileSizeUnit } from "@/lib/fileUtil";
 
@@ -22,8 +22,16 @@ export function useResource() {
     version: "",
     resType: ""
   });
+  const queryFormDev = reactive({
+    devIp: "",
+    devId: "",
+    devType: "",
+    devGroup: "",
+    devGroupList: ""
+  });
   const dataList = ref([]);
   const devDataList = ref([]);
+  const devGroupSelectList = ref([]);
   const loading = ref(true);
   const dialogFormVisible = ref(false);
   const dialogPushVisible = ref(false);
@@ -320,7 +328,7 @@ export function useResource() {
   function handleDevSizeChange(val: number) {
     console.log(`${val} items per page`);
     pagination.pageSize = val;
-    onSearch();
+    onSearchDev();
   }
 
   function handleCurrentChange(val: number) {
@@ -332,7 +340,7 @@ export function useResource() {
   function handleDevCurrentChange(val: number) {
     console.log(`current page: ${val}`);
     pagination.currentPage = val;
-    onSearch();
+    onSearchDev();
   }
 
   function handleSelectionChange(val: any[]) {
@@ -369,6 +377,12 @@ export function useResource() {
     setTimeout(() => {
       loading.value = false;
     }, 500);
+  }
+  // 查询组别下拉选项
+  async function findGroup() {
+    console.log("查询组别");
+    const { data } = await getDevGroupSelect();
+    devGroupSelectList.value = data;
   }
 
   async function findList() {
@@ -451,17 +465,30 @@ export function useResource() {
     console.log(addType.value);
   }
 
-  async function openPushDia(formEl?) {
+  function openPushDia(formEl?) {
     resetForm(formEl);
     if (resDataList.value.length === 0) {
       message("请先选择资源！", { type: "warning" });
       return;
     }
     // 查询设备信息
-    const { data } = await devPage();
+    onSearchDev();
+    dialogPushVisible.value = true;
+  }
+  // 查询设备信息
+  async function onSearchDev() {
+    const page = {
+      size: pagination.pageSize,
+      current: pagination.currentPage
+    };
+    const query = {
+      ...page,
+      ...queryFormDev
+    };
+    // 查询设备信息
+    const { data } = await devPage(query);
     devDataList.value = data.records;
     paginationDev.total = data.total;
-    dialogPushVisible.value = true;
   }
 
   function openUpdateDia(param) {
@@ -519,12 +546,15 @@ export function useResource() {
 
   onMounted(() => {
     onSearch();
+    findGroup();
   });
 
   return {
     queryForm,
+    queryFormDev,
     dataList,
     devDataList,
+    devGroupSelectList,
     loading,
     dialogFormVisible,
     dialogPushVisible,
@@ -553,6 +583,7 @@ export function useResource() {
     progressVisible,
     progress,
     onSearch,
+    onSearchDev,
     resetForm,
     handleUpdate,
     handleDelete,

@@ -20,12 +20,17 @@ const otaDevUrls = {
   save: "/api/ota/otaBusDev/save",
   delete: `/api/ota/otaBusDev/`,
   update: "/api/ota/otaBusDev/update",
-  statistics: "/api/ota/otaBusDev/statistics"
+  statistics: "/api/ota/otaBusDev/statistics",
+  getDevGroupSelect: "/api/ota/otaBusDev/getDevGroupSelect"
 };
 
 // 设备分页
 export const devPage = (query?: object) => {
   return http.axiosGetRequest<ResultPage>(otaDevUrls.page, query);
+};
+// 设备组别下拉
+export const getDevGroupSelect = (query?: object) => {
+  return http.axiosGetRequest<Result>(otaDevUrls.getDevGroupSelect, query);
 };
 // 设备保存，设备注册
 export const devSave = (param?: object) => {
