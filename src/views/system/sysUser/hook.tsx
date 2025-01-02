@@ -421,6 +421,8 @@ export function useUser() {
           if (res.code === SUCCESS) {
             message("添加成功！", { type: "success" });
             cancel();
+          } else {
+            message(res.msg, { type: "error" });
           }
         });
       } else {
