@@ -4,7 +4,8 @@ import {
   saveUser,
   removeUserById,
   updateUser,
-  userResetPwd
+  userResetPwd,
+  userEnable
 } from "@/api/system";
 import { ElMessageBox } from "element-plus";
 import type { PaginationProps, AdaptiveConfig } from "@pureadmin/table";
@@ -176,19 +177,19 @@ export function useUser() {
    * 取消
    */
   function cancel() {
-    addForm.value = {
-      id: null,
-      username: "",
-      realName: "",
-      password: "",
-      newpassword: "",
-      newpassword1: "",
-      lockFlag: null,
-      sex: "",
-      role: "",
-      orgId: null,
-      orgName: orgNameVal.value
-    };
+    console.log("cancel!", addForm.value);
+    onSearch(addForm.value.orgId);
+    addForm.value.id = null;
+    addForm.value.username = "";
+    addForm.value.realName = "";
+    addForm.value.password = "";
+    addForm.value.newpassword = "";
+    addForm.value.newpassword1 = "";
+    addForm.value.lockFlag = null;
+    addForm.value.sex = "";
+    addForm.value.role = "";
+    addForm.value.orgName = orgNameVal.value;
+
     queryForm.value = {
       orgIds: null,
       username: "",
@@ -200,7 +201,6 @@ export function useUser() {
       endTime: null
     };
     dialogFormVisible.value = false;
-    onSearch(addForm.value.orgId);
   }
 
   /**
@@ -249,7 +249,7 @@ export function useUser() {
           lockFlag: row.lockFlag
         };
 
-        updateUser(updateParam).then(res => {
+        userEnable(updateParam).then(res => {
           if (res.code === SUCCESS) {
             switchLoadMap.value[index] = Object.assign(
               {},
@@ -277,6 +277,7 @@ export function useUser() {
     console.log(row);
     openDia("修改用户", ref);
     addForm.value = JSON.parse(userInfo);
+    console.log(addForm.value);
     // 目前是单角色，以后修改成多角色
     addForm.value.role = row.roleList[0].id;
   }
@@ -347,7 +348,8 @@ export function useUser() {
     };
     const query = {
       ...page,
-      ...queryForm.value
+      ...queryForm.value,
+      orgId: param
     };
     if (query.endTime) {
       query.endTime = query.endTime + " 23:59:59";

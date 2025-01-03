@@ -35,7 +35,8 @@ const userUrls = {
   deleteUserById: "/api/upms/sysUser/",
   update: "/api/upms/sysUser",
   resetPwd: "/api/upms/sysUser/resetPwd",
-  userInfo: `/api/upms/sysUser/info`
+  userInfo: `/api/upms/sysUser/info`,
+  enable: `/api/upms/sysUser/enable`
 };
 
 const roleUrls = {
@@ -185,6 +186,13 @@ export const userPage = (query?: object) => {
  */
 export const userResetPwd = (param?: object) => {
   return http.axiosPut<Result>(userUrls.resetPwd, param);
+};
+/**
+ * 禁用和启用
+ * @param param
+ */
+export const userEnable = (param?: object) => {
+  return http.axiosPut<Result>(userUrls.enable, param);
 };
 
 /**

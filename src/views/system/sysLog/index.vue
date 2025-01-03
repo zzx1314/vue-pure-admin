@@ -1,11 +1,99 @@
 <script setup lang="ts">
-defineOptions({
-  name: "sysLog"
-});
-</script>
+import { ref } from "vue";
+import { FormInstance } from "element-plus";
+import { usePSysLogrecord } from "./hook";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import Search from "@iconify-icons/ep/search";
+import Delete from "@iconify-icons/ep/delete";
+import { PureTableBar } from "@/components/RePureTableBar";
+import { useLogForm } from "./form";
+import PureTable from "@pureadmin/table";
+import { PlusDialogForm, PlusSearch } from "plus-pro-components";
 
+defineOptions({
+  name: "PSysLogrecord"
+});
+
+const addFormRef = ref<FormInstance>();
+const { columnsForm, columnsQueryForm } = useLogForm();
+
+const {
+  queryForm,
+  dataList,
+  loading,
+  dialogFormVisible,
+  title,
+  pagination,
+  addForm,
+  rules,
+  columns,
+  onSearch,
+  handleSizeChange,
+  handleCurrentChange,
+  handleSelectionChange,
+  handleSubmitError,
+  handleSubmit,
+  cancel
+} = usePSysLogrecord();
+</script>
 <template>
   <div class="main">
-    <h1>日志管理</h1>
+    <el-card>
+      <PlusSearch
+        v-model="queryForm"
+        :columns="columnsQueryForm"
+        :show-number="4"
+        label-width="80"
+        label-position="right"
+        @search="onSearch"
+        @reset="cancel"
+      />
+    </el-card>
+    <PureTableBar title="日志列表" :columns="columns" @refresh="onSearch">
+      <template v-slot="{ size, checkList, dynamicColumns }">
+        <pure-table
+          border
+          adaptive
+          align-whole="center"
+          showOverflowTooltip
+          table-layout="auto"
+          :loading="loading"
+          :size="size"
+          :data="dataList"
+          :columns="dynamicColumns"
+          :checkList="checkList"
+          :pagination="pagination"
+          :paginationSmall="size === 'small'"
+          :header-cell-style="{
+            background: 'var(--el-table-row-hover-bg-color)',
+            color: 'var(--el-text-color-primary)'
+          }"
+          @selection-change="handleSelectionChange"
+          @page-size-change="handleSizeChange"
+          @page-current-change="handleCurrentChange"
+        />
+      </template>
+    </PureTableBar>
+
+    <PlusDialogForm
+      ref="addFormRef"
+      v-model:visible="dialogFormVisible"
+      v-model="addForm"
+      :dialog="{ title: title }"
+      :form="{
+        columns: columnsForm,
+        rules,
+        labelWidth: '100px'
+      }"
+      @cancel="cancel"
+      @confirm-error="handleSubmitError"
+      @confirm="handleSubmit"
+    />
   </div>
 </template>
+
+<style scoped lang="scss">
+:deep(.el-dropdown-menu__item i) {
+  margin: 0;
+}
+</style>
