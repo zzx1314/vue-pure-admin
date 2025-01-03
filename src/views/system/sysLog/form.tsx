@@ -31,7 +31,7 @@ export function useLogForm() {
       },
       formItemProps: {
         style: {
-          width: "250px"
+          width: "230px"
         }
       }
     },
@@ -44,7 +44,7 @@ export function useLogForm() {
       },
       formItemProps: {
         style: {
-          width: "250px"
+          width: "230px"
         }
       }
     },
@@ -57,7 +57,7 @@ export function useLogForm() {
       },
       formItemProps: {
         style: {
-          width: "250px"
+          width: "230px"
         }
       }
     },
@@ -70,7 +70,7 @@ export function useLogForm() {
       },
       formItemProps: {
         style: {
-          width: "250px"
+          width: "230px"
         }
       }
     },
@@ -81,7 +81,7 @@ export function useLogForm() {
       type: "date",
       formItemProps: {
         style: {
-          width: "250px"
+          width: "230px"
         }
       },
       fieldProps: {
@@ -98,7 +98,7 @@ export function useLogForm() {
       valueType: "date-picker",
       formItemProps: {
         style: {
-          width: "250px"
+          width: "230px"
         }
       },
       fieldProps: {
