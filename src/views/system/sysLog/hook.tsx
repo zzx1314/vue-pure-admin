@@ -13,8 +13,11 @@ import type { FieldValues } from "plus-pro-components";
 
 export function usePSysLogrecord() {
   // ----变量定义-----
-  const queryForm = reactive({
-    name: "",
+  const queryForm = ref({
+    type: "",
+    subType: "",
+    operator: "",
+    action: "",
     beginTime: "",
     endTime: ""
   });
@@ -155,7 +158,7 @@ export function usePSysLogrecord() {
     };
     const query = {
       ...page,
-      ...queryForm
+      ...queryForm.value
     };
     if (query.endTime) {
       query.endTime = query.endTime + " 23:59:59";
@@ -183,9 +186,12 @@ export function usePSysLogrecord() {
     addForm.value = {
       id: null
     };
-    queryForm.name = "";
-    queryForm.beginTime = "";
-    queryForm.endTime = "";
+    queryForm.value.type = "";
+    queryForm.value.subType = "";
+    queryForm.value.operator = "";
+    queryForm.value.action = "";
+    queryForm.value.beginTime = "";
+    queryForm.value.endTime = "";
     dialogFormVisible.value = false;
     onSearch();
   }

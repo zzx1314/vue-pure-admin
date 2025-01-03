@@ -24,7 +24,7 @@ export function useLogForm() {
   const columnsQueryForm: PlusColumn[] = [
     {
       label: "模块",
-      prop: "name",
+      prop: "type",
       valueType: "copy",
       colProps: {
         span: 5
@@ -37,7 +37,7 @@ export function useLogForm() {
     },
     {
       label: "操作",
-      prop: "name",
+      prop: "subType",
       valueType: "copy",
       colProps: {
         span: 5
@@ -50,7 +50,7 @@ export function useLogForm() {
     },
     {
       label: "操作人",
-      prop: "name",
+      prop: "operator",
       valueType: "copy",
       colProps: {
         span: 5
@@ -63,7 +63,7 @@ export function useLogForm() {
     },
     {
       label: "操作内容",
-      prop: "name",
+      prop: "action",
       valueType: "copy",
       colProps: {
         span: 5
