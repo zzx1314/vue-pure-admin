@@ -30,6 +30,7 @@ import { ElLoading } from "element-plus";
 import ProgressModal from "@/components/ReProgressModal/ProgreeModal.vue";
 import { hasAuth } from "@/router/utils";
 import question from "@iconify-icons/ep/question-filled";
+import { ElMessageBox } from "element-plus";
 
 defineOptions({
   name: "Resource"
@@ -425,20 +426,62 @@ const submitPushForm = refo => {
     message("请选择设备,或者下发条件", { type: "error" });
     return;
   }
-  const param = { ...pushForm };
-  param.value.devInfos = devSecDataList.value;
-  param.value.resInfos = resDataList.value;
-  param.value.queryDev = queryFormDev;
 
-  console.log(param);
-  resPush(param.value).then(res => {
-    if (res.code === SUCCESS) {
-      message("推送成功！", { type: "success" });
-      cancelPush(refo);
+  let selectResList = [];
+  for (let i = 0; i < resDataList.value.length; i++) {
+    if (resDataList.value[i].type === "操作系统") {
+      selectResList.push(
+        "操作系统（" +
+          resDataList.value[i].softwareName +
+          "_" +
+          resDataList.value[i].softwareVersion +
+          "）"
+      );
     } else {
-      message(res.msg, { type: "error" });
+      selectResList.push(
+        "模块（" +
+          resDataList.value[i].pkgName +
+          "_" +
+          resDataList.value[i].version +
+          "）"
+      );
     }
-  });
+  }
+  let devSecDataArray = [];
+  for (let i = 0; i < devSecDataList.value.length; i++) {
+    devSecDataArray.push(devSecDataList.value[i].devId);
+  }
+  ElMessageBox.confirm(
+    `确认推送<strong>${selectResList.join(",")}</strong>资源到<strong>${devSecDataArray.join(",")}</strong>设备上
+`,
+    "推送提示",
+    {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning",
+      dangerouslyUseHTMLString: true,
+      draggable: true
+    }
+  )
+    .then(() => {
+      const param = { ...pushForm };
+      param.value.devInfos = devSecDataList.value;
+      param.value.resInfos = resDataList.value;
+      param.value.queryDev = queryFormDev;
+
+      console.log(param);
+      resPush(param.value).then(res => {
+        if (res.code === SUCCESS) {
+          message("推送成功！", { type: "success" });
+          cancelPush(refo);
+        } else {
+          message(res.msg, { type: "error" });
+        }
+      });
+    })
+    .catch(() => {
+      console.log("取消");
+    });
 };
 const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
   console.log("上传文件前。。", uploadFile.name);
@@ -888,8 +931,12 @@ const closePro = () => {
             >
               {{
                 item.type === "操作系统"
-                  ? item.softwareName + "_" + item.softwareVersion
-                  : item.pkgName + "_" + item.version
+                  ? "操作系统（" +
+                    item.softwareName +
+                    "_" +
+                    item.softwareVersion +
+                    "）"
+                  : "模块包（" + item.pkgName + "_" + item.version + "）"
               }}</el-tag
             >
           </div>
@@ -909,7 +956,8 @@ const closePro = () => {
             <h4>查询条件</h4>
             <IconifyIconOffline
               v-tippy="{
-                content: '不勾选下面的设备，将以查询条件进行推送',
+                content:
+                  '不勾选下面的设备，将以查询条件进行推送，如果勾选设备将已选择的设备进行推送',
                 placement: 'bottom'
               }"
               :icon="question"
