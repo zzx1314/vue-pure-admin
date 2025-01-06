@@ -70,6 +70,7 @@ type ResultTable = {
 
 const urls = {
   token: `/api/auth/oauth/token`,
+  logout: `/api/auth/oauth/logout`,
   refreshToken: `/api/auth/oauth/refreshToken`,
   getInfo: `/api/upms/sysUser/info`,
   checkToken: `/api/upms/checkToken/isExpire`,
@@ -89,6 +90,10 @@ export const getLogin = (data?: object): Promise<UserResult> => {
     Authorization: "Basic dGhfY2xpZW50OnRo"
   };
   return http.axiosPostFromLogin(urls.token, data, headers);
+};
+
+export const userLogout = (): Promise<UserResult> => {
+  return http.axiosPostRequest(urls.logout);
 };
 
 /** 刷新`token` */
