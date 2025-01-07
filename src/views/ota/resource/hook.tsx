@@ -307,6 +307,12 @@ export function useResource() {
     pagination.pageSize = val;
     onSearch();
   }
+  function handleSizeChangeMode(val: number) {
+    console.log(`${val} items per page`);
+    pagination.pageSize = val;
+    onSearchMode(expandRowKeys.value[0]);
+  }
+
   function handleDevSizeChange(val: number) {
     console.log(`${val} items per page`);
     pagination.pageSize = val;
@@ -319,37 +325,47 @@ export function useResource() {
     onSearch();
   }
 
-  async function handleExpandChange(row, rowArray) {
+  function handleCurrentChangeMode(val: number) {
+    console.log(`current page: ${val}`);
+    pagination.currentPage = val;
+    onSearchMode(expandRowKeys.value[0]);
+  }
+
+  function handleExpandChange(row, rowArray) {
     console.log("点击关闭或者展开", row.id, rowArray);
     if (rowArray.includes(row)) {
       expandRowKeys.value = [];
       expandRowKeys.value.push(row.id);
       console.log("展开行");
-      modelLoading.value = true;
-      console.log("查询模块信息");
-      const page = {
-        size: pagination.pageSize,
-        current: pagination.currentPage
-      };
-      const query = {
-        ...page,
-        ...queryForm,
-        parentId: row.id,
-        type: "模块"
-      };
-      const { data } = await resPageV1(query);
-      dataListMode.value = data.records;
-      pagination.total = data.total;
-      // 对dataList中的fileSize 进行格式化
-      dataListMode.value.forEach(item => {
-        if (item.fileSize) {
-          item.fileSizeShow = convertFileSizeUnit(item.fileSize);
-        }
-      });
-      setTimeout(() => {
-        modelLoading.value = false;
-      }, 500);
+      onSearchMode(row.id);
     }
+  }
+
+  async function onSearchMode(parentId: number) {
+    modelLoading.value = true;
+    console.log("查询模块信息");
+    const page = {
+      size: pagination.pageSize,
+      current: pagination.currentPage
+    };
+    const query = {
+      ...page,
+      ...queryForm,
+      parentId: parentId,
+      type: "模块"
+    };
+    const { data } = await resPageV1(query);
+    dataListMode.value = data.records;
+    pagination.total = data.total;
+    // 对dataList中的fileSize 进行格式化
+    dataListMode.value.forEach(item => {
+      if (item.fileSize) {
+        item.fileSizeShow = convertFileSizeUnit(item.fileSize);
+      }
+    });
+    setTimeout(() => {
+      modelLoading.value = false;
+    }, 500);
   }
 
   function handleDevCurrentChange(val: number) {
@@ -646,6 +662,8 @@ export function useResource() {
     handleUpdate,
     handleDelete,
     handleSizeChange,
+    handleSizeChangeMode,
+    handleCurrentChangeMode,
     handleDevSizeChange,
     handleCurrentChange,
     handleExpandChange,

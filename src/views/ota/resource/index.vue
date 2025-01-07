@@ -86,8 +86,10 @@ const {
   handleUpdate,
   handleDelete,
   handleSizeChange,
+  handleSizeChangeMode,
   handleDevSizeChange,
   handleCurrentChange,
+  handleCurrentChangeMode,
   handleExpandChange,
   handleDevCurrentChange,
   handleSelectionChange,
@@ -775,8 +777,8 @@ const closePro = () => {
                 color: 'var(--el-text-color-primary)'
               }"
               @selection-change="handleSelectionChange"
-              @page-size-change="handleSizeChange"
-              @page-current-change="handleCurrentChange"
+              @page-size-change="handleSizeChangeMode"
+              @page-current-change="handleCurrentChangeMode"
             >
               <template #operation="{ row }">
                 <el-button
