@@ -39,6 +39,7 @@ defineOptions({
 });
 
 const formRef = ref();
+const formRefMode = ref();
 const addFormRef = ref<FormInstance>();
 const pushFormRef = ref<FormInstance>();
 
@@ -82,6 +83,7 @@ const {
   openDia,
   openPushDia,
   onSearch,
+  onSearchMode,
   onSearchDev,
   handleUpdate,
   handleDelete,
@@ -95,6 +97,7 @@ const {
   handleSelectionChange,
   handleDevSelectionChange,
   restartForm,
+  restartFormMode,
   handleDown
 } = useResource();
 
@@ -424,7 +427,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   });
 };
 
-const submitPushForm = refo => {
+const submitPushForm = (refo, refMod) => {
   console.log("推送任务");
   if (
     queryFormDev.devId === "" &&
@@ -484,7 +487,7 @@ const submitPushForm = refo => {
       resPush(param.value).then(res => {
         if (res.code === SUCCESS) {
           message("推送成功！", { type: "success" });
-          cancelPush(refo);
+          cancelPush(refo, refMod);
         } else {
           message(res.msg, { type: "error" });
         }
@@ -708,7 +711,7 @@ const closePro = () => {
               <h4>{{ row.softwareName }}软件包</h4>
             </div>
             <el-form
-              ref="formRef"
+              ref="formRefMode"
               :inline="true"
               :model="queryForm"
               class="bg-bg_color w-[99/100] pl-8 pt-4"
@@ -748,13 +751,13 @@ const closePro = () => {
                   type="primary"
                   :icon="useRenderIcon(Search)"
                   :loading="loading"
-                  @click="onSearch"
+                  @click="onSearchMode(expandRowKeys[0])"
                 >
                   搜索
                 </el-button>
                 <el-button
                   :icon="useRenderIcon(Refresh)"
-                  @click="restartForm(formRef)"
+                  @click="restartFormMode(formRefMode)"
                 >
                   重置
                 </el-button>
@@ -1189,7 +1192,7 @@ const closePro = () => {
           <el-button
             v-if="active == 2"
             type="primary"
-            @click="submitPushForm(tableRef)"
+            @click="submitPushForm(tableRef, tableRefMod)"
             >确认</el-button
           >
         </span>

@@ -438,6 +438,20 @@ export function useResource() {
       cancel();
     });
   };
+  const restartFormMode = formEl => {
+    if (!formEl) return;
+    nextTick(() => {
+      formEl.resetFields();
+      cancelMode();
+    });
+  };
+  // 取消模块
+  function cancelMode() {
+    queryForm.pkgName = "";
+    queryForm.version = "";
+    queryForm.resType = "";
+    onSearchMode(expandRowKeys.value[0]);
+  }
   // 取消
   function cancel() {
     queryForm.softwareName = "";
@@ -658,6 +672,7 @@ export function useResource() {
     expandRowKeys,
     onSearch,
     onSearchDev,
+    onSearchMode,
     resetForm,
     handleUpdate,
     handleDelete,
@@ -675,6 +690,7 @@ export function useResource() {
     openDia,
     openPushDia,
     restartForm,
+    restartFormMode,
     handleDown
   };
 }
