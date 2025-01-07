@@ -101,6 +101,7 @@ const { modeColumns } = useResModeTable();
 const uploadRef = ref<UploadInstance>(null);
 const uploadFileTemp = ref<UploadFile>(null);
 const tableRef = ref();
+const tableRefMod = ref();
 const tableRefDev = ref();
 
 const limit = pLimit(3);
@@ -758,6 +759,7 @@ const closePro = () => {
               </el-form-item>
             </el-form>
             <pure-table
+              ref="tableRefMod"
               align-whole="center"
               showOverflowTooltip
               table-layout="auto"
@@ -1172,7 +1174,7 @@ const closePro = () => {
 
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="cancelPush(tableRef)">取消</el-button>
+          <el-button @click="cancelPush(tableRef, tableRefMod)">取消</el-button>
           <el-button
             v-if="active == 1"
             type="primary"

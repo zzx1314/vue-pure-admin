@@ -1,6 +1,10 @@
 import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
-import type { FormRules, UploadUserFile } from "element-plus";
+import {
+  ElMessageBox,
+  type FormRules,
+  type UploadUserFile
+} from "element-plus";
 import { resDelete, resList, resPageV1 } from "@/api/otaRes";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -454,7 +458,7 @@ export function useResource() {
     devSecDataList.value = [];
     onSearch();
   }
-  function cancelPush(tableRef) {
+  function cancelPush(tableRef, tableRefMod) {
     dialogPushVisible.value = false;
     resDataList.value = [];
     pushForm.value = {
@@ -468,6 +472,7 @@ export function useResource() {
     };
     const { clearSelection } = tableRef.getTableRef();
     clearSelection();
+    tableRefMod.getTableRef().clearSelection();
     active.value = 1;
     downPush.value = false;
   }
@@ -491,9 +496,39 @@ export function useResource() {
       message("请先选择资源！", { type: "warning" });
       return;
     }
-    // 查询设备信息
-    onSearchDev();
-    dialogPushVisible.value = true;
+    // 如果选择的操作系统大于两个，将不允许升级
+    const osCount = resDataList.value.filter(item => {
+      return item.type === "操作系统";
+    }).length;
+    if (osCount > 1) {
+      message("不能选择多个操作系统升级", { type: "warning" });
+      return;
+    }
+    // 如果选择的资源只有操作系统，需要提示，是否将整个操作系统的包升级
+    if (
+      resDataList.value.length === 1 &&
+      resDataList.value[0].type === "操作系统"
+    ) {
+      ElMessageBox.confirm(
+        `确认要升级<strong style='color:var(--el-color-primary)'>${
+          resDataList.value[0].softwareName
+        }</strong>吗?如果确认将会将操作系统下的所有软件包推送到设备上`,
+        "系统提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+          dangerouslyUseHTMLString: true
+        }
+      ).then(() => {
+        // 查询设备信息
+        onSearchDev();
+        dialogPushVisible.value = true;
+      });
+    } else {
+      onSearchDev();
+      dialogPushVisible.value = true;
+    }
   }
   // 查询设备信息
   async function onSearchDev() {
