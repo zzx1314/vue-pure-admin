@@ -17,6 +17,7 @@ type ResultPage = {
 
 const otaBusResourceUrls = {
   page: `/api/ota/otaBusResource/page`,
+  pageV1: `/api/ota/otaBusResource/pageV1`,
   save: "/api/ota/otaBusResource/save",
   delete: `/api/ota/otaBusResource/`,
   update: "/api/ota/otaBusResource/update",
@@ -29,6 +30,12 @@ const otaBusResourceUrls = {
 export const resPage = (query?: object) => {
   return http.axiosGetRequest<ResultPage>(otaBusResourceUrls.page, query);
 };
+
+// 资源分页V1
+export const resPageV1 = (query?: object) => {
+  return http.axiosGetRequest<ResultPage>(otaBusResourceUrls.pageV1, query);
+};
+
 // 资源保存
 export const resSave = (param?: object) => {
   return http.axiosPost<Result>(otaBusResourceUrls.save, param);

@@ -31,6 +31,8 @@ import ProgressModal from "@/components/ReProgressModal/ProgreeModal.vue";
 import { hasAuth } from "@/router/utils";
 import question from "@iconify-icons/ep/question-filled";
 import { ElMessageBox } from "element-plus";
+import PureTable from "@pureadmin/table";
+import { useResModeTable } from "@/views/ota/resource/hookMode";
 
 defineOptions({
   name: "Resource"
@@ -45,8 +47,10 @@ const {
   queryFormDev,
   devGroupSelectList,
   loading,
+  modelLoading,
   columns,
   dataList,
+  dataListMode,
   devDataList,
   devClumns,
   pagination,
@@ -72,6 +76,7 @@ const {
   active,
   progressVisible,
   progress,
+  expandRowKeys,
   cancel,
   cancelPush,
   openDia,
@@ -83,12 +88,15 @@ const {
   handleSizeChange,
   handleDevSizeChange,
   handleCurrentChange,
+  handleExpandChange,
   handleDevCurrentChange,
   handleSelectionChange,
   handleDevSelectionChange,
   restartForm,
   handleDown
 } = useResource();
+
+const { modeColumns } = useResModeTable();
 
 const uploadRef = ref<UploadInstance>(null);
 const uploadFileTemp = ref<UploadFile>(null);
@@ -674,7 +682,6 @@ const closePro = () => {
           align-whole="center"
           showOverflowTooltip
           table-layout="auto"
-          default-expand-all
           :loading="loading"
           :size="size"
           :data="dataList"
@@ -686,10 +693,133 @@ const closePro = () => {
             background: 'var(--el-table-row-hover-bg-color)',
             color: 'var(--el-text-color-primary)'
           }"
+          row-key="id"
+          :expand-row-keys="expandRowKeys"
           @selection-change="handleSelectionChange"
           @page-size-change="handleSizeChange"
           @page-current-change="handleCurrentChange"
+          @expand-change="handleExpandChange"
         >
+          <template #expand="{ row }">
+            <div class="m-4">
+              <h4>{{ row.softwareName }}软件包</h4>
+            </div>
+            <el-form
+              ref="formRef"
+              :inline="true"
+              :model="queryForm"
+              class="bg-bg_color w-[99/100] pl-8 pt-4"
+            >
+              <el-form-item label="资源类型：" prop="devType">
+                <el-select
+                  v-model="queryForm.resType"
+                  placeholder="选择资源类型"
+                  style="width: 150px"
+                >
+                  <el-option
+                    v-for="item in resTypeOption"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
+              </el-form-item>
+              <el-form-item label="组件包名称：" prop="pkgName">
+                <el-input
+                  v-model="queryForm.pkgName"
+                  placeholder="请输入组件包名称"
+                  clearable
+                  class="!w-[150px]"
+                />
+              </el-form-item>
+              <el-form-item label="组件包版本：" prop="version">
+                <el-input
+                  v-model="queryForm.version"
+                  placeholder="请输入组件包版本"
+                  clearable
+                  class="!w-[150px]"
+                />
+              </el-form-item>
+              <el-form-item>
+                <el-button
+                  type="primary"
+                  :icon="useRenderIcon(Search)"
+                  :loading="loading"
+                  @click="onSearch"
+                >
+                  搜索
+                </el-button>
+                <el-button
+                  :icon="useRenderIcon(Refresh)"
+                  @click="restartForm(formRef)"
+                >
+                  重置
+                </el-button>
+              </el-form-item>
+            </el-form>
+            <pure-table
+              align-whole="center"
+              showOverflowTooltip
+              table-layout="auto"
+              :columns="modeColumns"
+              :loading="modelLoading"
+              :size="size"
+              :data="dataListMode"
+              :checkList="checkList"
+              :pagination="pagination"
+              :paginationSmall="true"
+              :header-cell-style="{
+                background: 'var(--el-table-row-hover-bg-color)',
+                color: 'var(--el-text-color-primary)'
+              }"
+              @selection-change="handleSelectionChange"
+              @page-size-change="handleSizeChange"
+              @page-current-change="handleCurrentChange"
+            >
+              <template #operation="{ row }">
+                <el-button
+                  v-if="hasAuth('res_update')"
+                  class="reset-margin"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(EditPen)"
+                  @click="handleUpdate(row)"
+                >
+                  修改
+                </el-button>
+
+                <el-button
+                  v-if="row.type === '模块' && hasAuth('down_res')"
+                  class="reset-margin"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(Download)"
+                  @click="handleDown(row)"
+                >
+                  下载
+                </el-button>
+                <el-popconfirm
+                  v-if="hasAuth('res_del')"
+                  title="是否确认删除?"
+                  @confirm="handleDelete(row)"
+                >
+                  <template #reference>
+                    <el-button
+                      class="reset-margin"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(Delete)"
+                    >
+                      删除
+                    </el-button>
+                  </template>
+                </el-popconfirm>
+              </template>
+            </pure-table>
+          </template>
           <template #operation="{ row }">
             <el-button
               v-if="hasAuth('res_update')"

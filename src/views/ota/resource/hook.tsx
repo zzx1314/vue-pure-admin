@@ -1,7 +1,7 @@
 import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules, UploadUserFile } from "element-plus";
-import { resDelete, resList, resPage } from "@/api/otaRes";
+import { resDelete, resList, resPageV1 } from "@/api/otaRes";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import { CHUNK_SIZE } from "@/constants";
@@ -30,14 +30,17 @@ export function useResource() {
     devGroupList: []
   });
   const dataList = ref([]);
+  const dataListMode = ref([]);
   const devDataList = ref([]);
   const devGroupSelectList = ref([]);
   const loading = ref(true);
+  const modelLoading = ref(true);
   const dialogFormVisible = ref(false);
   const dialogPushVisible = ref(false);
   const resDataList = ref([]);
   const devSecDataList = ref([]);
   const title = ref("");
+  const expandRowKeys = ref<number[]>([]);
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,
@@ -153,6 +156,10 @@ export function useResource() {
   const active = ref(1);
   const columns: TableColumnList = [
     {
+      type: "expand",
+      slot: "expand"
+    },
+    {
       type: "selection",
       width: 55,
       align: "left"
@@ -191,36 +198,6 @@ export function useResource() {
       label: "资源类型",
       prop: "resType",
       minWidth: 100
-    },
-    {
-      label: "组件包名称",
-      prop: "pkgName",
-      minWidth: 120
-    },
-    {
-      label: "组件包版本",
-      prop: "version",
-      minWidth: 120
-    },
-    {
-      label: "文件大小",
-      prop: "fileSizeShow",
-      minWidth: 120
-    },
-    {
-      label: "文件名称",
-      prop: "originFileName",
-      minWidth: 120
-    },
-    {
-      label: "操作人",
-      prop: "operator",
-      minWidth: 120
-    },
-    {
-      label: "上传时间",
-      minWidth: 180,
-      prop: "createTime"
     },
     {
       label: "备注",
@@ -338,6 +315,39 @@ export function useResource() {
     onSearch();
   }
 
+  async function handleExpandChange(row, rowArray) {
+    console.log("点击关闭或者展开", row.id, rowArray);
+    if (rowArray.includes(row)) {
+      expandRowKeys.value = [];
+      expandRowKeys.value.push(row.id);
+      console.log("展开行");
+      modelLoading.value = true;
+      console.log("查询模块信息");
+      const page = {
+        size: pagination.pageSize,
+        current: pagination.currentPage
+      };
+      const query = {
+        ...page,
+        ...queryForm,
+        parentId: row.id,
+        type: "模块"
+      };
+      const { data } = await resPageV1(query);
+      dataListMode.value = data.records;
+      pagination.total = data.total;
+      // 对dataList中的fileSize 进行格式化
+      dataListMode.value.forEach(item => {
+        if (item.fileSize) {
+          item.fileSizeShow = convertFileSizeUnit(item.fileSize);
+        }
+      });
+      setTimeout(() => {
+        modelLoading.value = false;
+      }, 500);
+    }
+  }
+
   function handleDevCurrentChange(val: number) {
     console.log(`current page: ${val}`);
     pagination.currentPage = val;
@@ -364,9 +374,10 @@ export function useResource() {
     };
     const query = {
       ...page,
-      ...queryForm
+      ...queryForm,
+      type: "操作系统"
     };
-    const { data } = await resPage(query);
+    const { data } = await resPageV1(query);
     dataList.value = data.records;
     pagination.total = data.total;
     // 对dataList中的fileSize 进行格式化
@@ -562,9 +573,11 @@ export function useResource() {
     queryForm,
     queryFormDev,
     dataList,
+    dataListMode,
     devDataList,
     devGroupSelectList,
     loading,
+    modelLoading,
     dialogFormVisible,
     dialogPushVisible,
     title,
@@ -591,6 +604,7 @@ export function useResource() {
     active,
     progressVisible,
     progress,
+    expandRowKeys,
     onSearch,
     onSearchDev,
     resetForm,
@@ -599,6 +613,7 @@ export function useResource() {
     handleSizeChange,
     handleDevSizeChange,
     handleCurrentChange,
+    handleExpandChange,
     handleDevCurrentChange,
     handleSelectionChange,
     handleDevSelectionChange,
