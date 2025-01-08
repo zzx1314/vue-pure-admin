@@ -570,7 +570,7 @@ const closePro = () => {
         <el-select
           v-model="queryForm.devType"
           placeholder="选择设备类型"
-          style="width: 200px"
+          class="!w-[150px]"
         >
           <el-option
             v-for="item in devOption"
