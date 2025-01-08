@@ -105,7 +105,7 @@ export function useResource() {
     taskType: [{ required: true, message: "任务类型必填", trigger: "blur" }],
     clientRestart: [{ required: true, message: "配置必填", trigger: "change" }]
   });
-  const fileList = ref<UploadUserFile[]>();
+  const fileList = ref<UploadUserFile[]>([]);
   const addType = ref("");
   const updateType = ref("");
   const moreCondition = ref(false);
@@ -281,6 +281,11 @@ export function useResource() {
     if (type === "操作系统") {
       openUpdateDia("修改操作系统");
     } else {
+      fileList.value.push({
+        url: row.originFileName,
+        name: row.originFileName,
+        status: "success"
+      });
       openUpdateDia("修改模块");
     }
   }
