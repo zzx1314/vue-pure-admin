@@ -69,7 +69,6 @@ const {
   devOption,
   resOsList,
   fileList,
-  typeOption,
   resTypeOption,
   resDataList,
   devSecDataList,
@@ -566,70 +565,20 @@ const closePro = () => {
           class="!w-[150px]"
         />
       </el-form-item>
-      <el-form-item label="类型：" prop="devType">
+      <el-form-item label="设备类型：" prop="devType">
         <el-select
-          v-model="queryForm.type"
-          placeholder="选择类型"
-          style="width: 150px"
+          v-model="queryForm.devType"
+          placeholder="选择设备类型"
+          style="width: 200px"
         >
           <el-option
-            v-for="item in typeOption"
+            v-for="item in devOption"
             :key="item.value"
             :label="item.label"
             :value="item.value"
           />
         </el-select>
       </el-form-item>
-
-      <el-form-item label="资源类型：" prop="devType">
-        <el-select
-          v-model="queryForm.resType"
-          placeholder="选择资源类型"
-          style="width: 150px"
-        >
-          <el-option
-            v-for="item in resTypeOption"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
-
-      <el-collapse-transition>
-        <div v-show="moreCondition">
-          <el-form-item label="设备类型：" prop="devType">
-            <el-select
-              v-model="queryForm.devType"
-              placeholder="选择设备类型"
-              style="width: 200px"
-            >
-              <el-option
-                v-for="item in devOption"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="组件包名称：" prop="pkgName">
-            <el-input
-              v-model="queryForm.pkgName"
-              placeholder="请输入组件包名称"
-              clearable
-              class="!w-[200px]"
-            />
-          </el-form-item>
-          <el-form-item label="组件包版本：" prop="version">
-            <el-input
-              v-model="queryForm.version"
-              placeholder="请输入组件包版本"
-              clearable
-              class="!w-[200px]"
-            />
-          </el-form-item>
-        </div>
-      </el-collapse-transition>
 
       <el-form-item>
         <el-button

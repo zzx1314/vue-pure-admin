@@ -199,11 +199,6 @@ export function useResource() {
       minWidth: 100
     },
     {
-      label: "资源类型",
-      prop: "resType",
-      minWidth: 100
-    },
-    {
       label: "备注",
       prop: "remark",
       minWidth: 150
