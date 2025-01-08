@@ -455,7 +455,24 @@ export function useResource() {
     queryForm.version = "";
     queryForm.resType = "";
     onSearchMode(expandRowKeys.value[0]);
+    addForm.value = {
+      id: null,
+      softwareName: "",
+      softwareVersion: "",
+      devType: "",
+      type: "",
+      pkgName: "",
+      version: "",
+      parentId: null,
+      level: null,
+      remark: "",
+      originFileName: ""
+    };
     dialogFormVisible.value = false;
+    fileList.value = [];
+    addType.value = "";
+    updateType.value = "";
+    devSecDataList.value = [];
   }
   // 取消
   function cancel() {

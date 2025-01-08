@@ -23,7 +23,8 @@ const otaBusResourceUrls = {
   update: "/api/ota/otaBusResource/update",
   push: "/api/ota/otaBusResource/push",
   list: "/api/ota/otaBusResource/list",
-  statistics: "/api/ota/otaBusResource/statistics"
+  statistics: "/api/ota/otaBusResource/statistics",
+  addModeBefore: "/api/ota/otaBusResource/addModeBefore"
 };
 
 // 资源分页
@@ -39,6 +40,11 @@ export const resPageV1 = (query?: object) => {
 // 资源保存
 export const resSave = (param?: object) => {
   return http.axiosPost<Result>(otaBusResourceUrls.save, param);
+};
+
+// 资源保存
+export const addModeBefore = (param?: object) => {
+  return http.axiosPost<Result>(otaBusResourceUrls.addModeBefore, param);
 };
 // 资源修改
 export const resUpdate = (param?: object) => {

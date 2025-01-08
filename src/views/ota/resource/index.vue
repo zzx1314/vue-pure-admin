@@ -23,7 +23,7 @@ import cutFile from "@/lib/cutFile";
 import { MerkleTree } from "@/lib/MerkleTree";
 import { checkFileByMd5, initMultPartFile, mergeFileByMd5 } from "@/api/system";
 import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
-import { resPush, resSave, resUpdate } from "@/api/otaRes";
+import { addModeBefore, resPush, resSave, resUpdate } from "@/api/otaRes";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import { ElLoading } from "element-plus";
@@ -350,7 +350,17 @@ const uploadChunkUrl = (
 // 模块添加
 const submitUpload = () => {
   if (uploadFileTemp.value !== null) {
-    uploadRef.value.submit();
+    let param = {
+      parentId: addForm.value.parentId,
+      originFileName: uploadFileTemp.value.name
+    };
+    addModeBefore(param).then(res => {
+      if (res.code === SUCCESS) {
+        uploadRef.value.submit();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
   } else {
     message("请先上传文件", { type: "error" });
   }
@@ -429,7 +439,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 const submitPushForm = (refo, refMod) => {
   console.log("推送任务");
-  debugger;
   if (
     queryFormDev.devId === "" &&
     queryFormDev.devIp === "" &&
