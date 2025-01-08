@@ -79,6 +79,7 @@ const {
   expandRowKeys,
   cancel,
   cancelPush,
+  cancelMode,
   openDia,
   openPushDia,
   onSearch,
@@ -216,14 +217,14 @@ const uploadFile = async (index, item) => {
     state.dataSource[index].status = "success";
     state.dataSource = [];
     message("上传成功", { type: "success" });
-    cancel();
+    cancelMode();
     return;
   } else if (code === HttpCodeUploadEnum.FAIL) {
     //  上传失败
     state.dataSource[index].status = "error";
     state.dataSource = [];
     message("上传失败", { type: "error" });
-    cancel();
+    cancelMode();
     return;
   }
 

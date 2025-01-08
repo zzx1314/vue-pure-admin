@@ -290,7 +290,7 @@ export function useResource() {
     resDelete(row.id).then(res => {
       if (res.code === SUCCESS) {
         message("删除成功！", { type: "success" });
-        onSearch();
+        onSearchMode(expandRowKeys.value[0]);
       } else {
         message(res.msg, { type: "error" });
       }
@@ -446,6 +446,7 @@ export function useResource() {
     queryForm.version = "";
     queryForm.resType = "";
     onSearchMode(expandRowKeys.value[0]);
+    dialogFormVisible.value = false;
   }
   // 取消
   function cancel() {
@@ -682,6 +683,7 @@ export function useResource() {
     handleDevSelectionChange,
     cancel,
     cancelPush,
+    cancelMode,
     openDia,
     openPushDia,
     restartForm,
