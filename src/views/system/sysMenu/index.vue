@@ -129,6 +129,7 @@ const {
         <el-form-item label="类型" prop="type">
           <el-select
             v-model="addForm.value.type"
+            disabled
             placeholder="请选择类型"
             style="width: 200px"
           >
@@ -148,6 +149,7 @@ const {
         >
           <el-input
             v-model="addForm.value.component"
+            disabled
             placeholder="请输入路由"
           />
         </el-form-item>
@@ -157,7 +159,11 @@ const {
           label="路径"
           prop="pathUrl"
         >
-          <el-input v-model="addForm.value.pathUrl" placeholder="请输入路径" />
+          <el-input
+            v-model="addForm.value.pathUrl"
+            disabled
+            placeholder="请输入路径"
+          />
         </el-form-item>
 
         <el-form-item
@@ -167,6 +173,7 @@ const {
         >
           <el-tree-select
             v-model="addForm.value.parentId"
+            disabled
             :data="dataList"
             filterable
             check-strictly
@@ -189,6 +196,7 @@ const {
         <el-form-item label="排序" prop="sort">
           <el-input-number
             v-model="addForm.value.sort"
+            disabled
             :min="1"
             :max="10"
             style="width: 200px"
@@ -200,7 +208,11 @@ const {
           label="子节点"
           prop="leaf"
         >
-          <el-radio-group v-model="addForm.value.leaf" style="width: 200px">
+          <el-radio-group
+            v-model="addForm.value.leaf"
+            disabled
+            style="width: 200px"
+          >
             <el-radio :label="1">是</el-radio>
             <el-radio :label="0">不是</el-radio>
           </el-radio-group>

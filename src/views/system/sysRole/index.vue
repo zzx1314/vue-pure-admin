@@ -171,7 +171,8 @@ const {
         <el-form-item label="描述" prop="description">
           <el-input
             v-model="addForm.value.description"
-            placeholder="请输入角色编码"
+            type="textarea"
+            placeholder="请输入角色描述"
           />
         </el-form-item>
         <el-form-item label="备注" prop="remarks">
