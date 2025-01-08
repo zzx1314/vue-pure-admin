@@ -117,6 +117,10 @@ export function useResource() {
     {
       value: "sd3403",
       label: "sd3403"
+    },
+    {
+      value: "3576",
+      label: "3576"
     }
   ];
   const typeOption = [
