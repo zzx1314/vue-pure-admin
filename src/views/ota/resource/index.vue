@@ -429,6 +429,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 const submitPushForm = (refo, refMod) => {
   console.log("推送任务");
+  debugger;
   if (
     queryFormDev.devId === "" &&
     queryFormDev.devIp === "" &&
@@ -438,6 +439,10 @@ const submitPushForm = (refo, refMod) => {
     devSecDataList.value.length === 0
   ) {
     message("请选择设备,或者下发条件", { type: "error" });
+    return;
+  }
+  if (paginationDev.total == 0) {
+    message("查询的设备为0，不能进行推送", { type: "error" });
     return;
   }
 
@@ -465,18 +470,30 @@ const submitPushForm = (refo, refMod) => {
   for (let i = 0; i < devSecDataList.value.length; i++) {
     devSecDataArray.push(devSecDataList.value[i].devId);
   }
-  ElMessageBox.confirm(
-    `确认推送<strong>${selectResList.join(",")}</strong>资源到<strong>${devSecDataArray.join(",")}</strong>设备上
-`,
-    "推送提示",
-    {
-      confirmButtonText: "确定",
-      cancelButtonText: "取消",
-      type: "warning",
-      dangerouslyUseHTMLString: true,
-      draggable: true
-    }
-  )
+  let devOption = "";
+  if (queryFormDev.devGroupList.length > 0) {
+    devOption += "设备组别: " + queryFormDev.devGroupList.join(", ") + " ";
+  }
+  if (queryFormDev.devIp !== "") {
+    devOption += "设备IP: " + queryFormDev.devIp + " ";
+  }
+  if (queryFormDev.devId !== "") {
+    devOption += " 设备ID: " + queryFormDev.devId + " ";
+  }
+  if (queryFormDev.type !== "") {
+    devOption += " 设备类型: " + queryFormDev.type + " ";
+  }
+  let messageEL =
+    devSecDataArray.length == 0
+      ? `确认推送<strong>${selectResList.join(",")}</strong>资源到<strong>${devOption}</strong>设备上，一共${paginationDev.total}台设备`
+      : `确认推送<strong>${selectResList.join(",")}</strong>资源到<strong>${devSecDataArray.join(",")}</strong>设备上`;
+  ElMessageBox.confirm(messageEL, "推送提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+    dangerouslyUseHTMLString: true,
+    draggable: true
+  })
     .then(() => {
       const param = { ...pushForm };
       param.value.devInfos = devSecDataList.value;
