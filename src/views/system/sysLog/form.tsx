@@ -23,6 +23,19 @@ export function useLogForm() {
 
   const columnsQueryForm: PlusColumn[] = [
     {
+      label: "IP",
+      prop: "ip",
+      valueType: "copy",
+      colProps: {
+        span: 5
+      },
+      formItemProps: {
+        style: {
+          width: "230px"
+        }
+      }
+    },
+    {
       label: "模块",
       prop: "type",
       valueType: "copy",

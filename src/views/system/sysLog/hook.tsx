@@ -14,6 +14,7 @@ import type { FieldValues } from "plus-pro-components";
 export function usePSysLogrecord() {
   // ----变量定义-----
   const queryForm = ref({
+    ip: "",
     type: "",
     subType: "",
     operator: "",
@@ -51,6 +52,11 @@ export function usePSysLogrecord() {
       label: "序号",
       type: "index",
       width: 70
+    },
+    {
+      label: "IP",
+      prop: "ip",
+      minWidth: 100
     },
     {
       label: "模块",
@@ -186,6 +192,7 @@ export function usePSysLogrecord() {
     addForm.value = {
       id: null
     };
+    queryForm.value.ip = "";
     queryForm.value.type = "";
     queryForm.value.subType = "";
     queryForm.value.operator = "";
