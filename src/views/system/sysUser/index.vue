@@ -261,7 +261,7 @@ async function getAllRole() {
             type="primary"
             :icon="useRenderIcon(Search)"
             :loading="loading"
-            @click="onSearch"
+            @click="onSearch(addForm.orgId)"
           >
             搜索
           </el-button>

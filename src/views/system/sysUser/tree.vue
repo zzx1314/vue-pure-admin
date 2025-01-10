@@ -146,8 +146,6 @@ function getOrgIdsOne(orgId: number, treeData: any, result: Array<number>) {
     result.push(oneItem.id);
     if (oneItem.children && oneItem.children.length !== 0) {
       getOrgIdsOne(orgId, oneItem.children, result);
-    } else {
-      return;
     }
   }
 }

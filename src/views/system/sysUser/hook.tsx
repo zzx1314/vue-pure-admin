@@ -348,8 +348,7 @@ export function useUser() {
     };
     const query = {
       ...page,
-      ...queryForm.value,
-      orgId: param
+      ...queryForm.value
     };
     if (query.endTime) {
       query.endTime = query.endTime + " 23:59:59";
@@ -445,6 +444,7 @@ export function useUser() {
       formEl.resetFields();
     });
     cancel();
+    onSearch(addForm.value.orgId);
   };
 
   return {
