@@ -110,7 +110,7 @@ export function useCollectorBusDevForm() {
       type: "date",
       formItemProps: {
         style: {
-          width: "250px"
+          width: "270px"
         }
       },
       fieldProps: {
@@ -127,7 +127,7 @@ export function useCollectorBusDevForm() {
       valueType: "date-picker",
       formItemProps: {
         style: {
-          width: "250px"
+          width: "270px"
         }
       },
       fieldProps: {
