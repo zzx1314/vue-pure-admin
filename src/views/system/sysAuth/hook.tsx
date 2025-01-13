@@ -80,11 +80,16 @@ export function sysAuth() {
     console.log("useAuth", allUse);
   };
 
-  async function getAuthAll(code) {
-    const { data } = await getMenuData(code);
-    sysMenuTitleVoData.value = data;
-    activeNames.value = data.map(one => one.id);
-    console.log(sysMenuTitleVoData.value);
+  function getAuthAll(code) {
+    getMenuData(code).then(res => {
+      if (res.code === SUCCESS) {
+        sysMenuTitleVoData.value = res.data;
+        activeNames.value = res.data.map(one => one.id);
+        console.log(sysMenuTitleVoData.value);
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
   }
 
   async function getAllRole() {
