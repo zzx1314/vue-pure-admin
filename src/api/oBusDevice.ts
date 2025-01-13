@@ -16,10 +16,10 @@ type ResultPage = {
 };
 
 const oBusDeviceUrls = {
-  page: `/api/o/oBusDevice/page`,
-  save: "/api/o/oBusDevice/save",
-  delete: `/api/o/oBusDevice/`,
-  update: "/api/o/oBusDevice/update"
+  page: `/api/operation/oBusDevice/page`,
+  save: "/api/operation/oBusDevice/save",
+  delete: `/api/operation/oBusDevice/`,
+  update: "/api/operation/oBusDevice/update"
 };
 
 // 设备信息分页
