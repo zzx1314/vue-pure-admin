@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { FormInstance } from "element-plus";
 import { useOBusDevice } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import EditPen from "@iconify-icons/ep/edit-pen";
 import Search from "@iconify-icons/ep/search";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
@@ -76,21 +77,33 @@ const {
         >
           <template #expand="{ row }">
             <div class="m-4 flex justify-between">
-              <div class="flex-1 p-4 border">
-                <h3>硬件信息</h3>
-                <div v-for="hia in row.hardwareInfoJArray" :key="hia.name">
+              <div class="flex-1 px-4">
+                <h3 class="mb-1">硬件信息</h3>
+                <div
+                  v-for="hia in row.hardwareInfoJArray"
+                  :key="hia.name"
+                  class="mb-1"
+                >
                   <div>{{ hia.name }}: {{ hia.value }}</div>
                 </div>
               </div>
-              <div class="flex-1 p-4 border">
-                <h3>软件信息</h3>
-                <div v-for="sia in row.softwareInfoJArray" :key="sia.name">
+              <div class="flex-1 px-4">
+                <h3 class="mb-1">软件信息</h3>
+                <div
+                  v-for="sia in row.softwareInfoJArray"
+                  :key="sia.name"
+                  class="mb-1"
+                >
                   <div>{{ sia.name }}: {{ sia.version }}</div>
                 </div>
               </div>
-              <div class="flex-1 p-4 border">
-                <h3>系统状态</h3>
-                <div v-for="ssa in row.systemStatusJArray" :key="ssa.name">
+              <div class="flex-1 px-4">
+                <h3 class="mb-1">系统状态</h3>
+                <div
+                  v-for="ssa in row.systemStatusJArray"
+                  :key="ssa.name"
+                  class="mb-1"
+                >
                   <div>{{ ssa.name }}: {{ ssa.value }}</div>
                 </div>
               </div>
@@ -102,7 +115,7 @@ const {
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(Search)"
+              :icon="useRenderIcon(EditPen)"
               @click="openDia(row, addFormRef)"
             >
               修改
@@ -145,5 +158,9 @@ const {
 <style scoped lang="scss">
 :deep(.el-dropdown-menu__item i) {
   margin: 0;
+}
+
+:deep(.el-link) {
+  padding-left: 10px;
 }
 </style>

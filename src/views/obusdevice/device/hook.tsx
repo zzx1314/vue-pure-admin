@@ -51,6 +51,10 @@ export function useOBusDevice() {
   const rules = reactive<FormRules>({});
   const columns: TableColumnList = [
     {
+      type: "expand",
+      slot: "expand"
+    },
+    {
       type: "selection",
       width: 55,
       align: "left"
@@ -63,12 +67,12 @@ export function useOBusDevice() {
     {
       label: "设备ID",
       prop: "deviceId",
-      minWidth: 180
+      minWidth: 100
     },
     {
       label: "设备IP",
       prop: "deviceIp",
-      minWidth: 150
+      minWidth: 100
     },
     {
       label: "操作系统",
@@ -103,7 +107,7 @@ export function useOBusDevice() {
     {
       label: "备注",
       prop: "remark",
-      minWidth: 200
+      minWidth: 100
     },
     {
       label: "操作",

@@ -88,6 +88,12 @@ export function useCollectorBusDevForm() {
       prop: "osVersion",
       colProps: {
         span: 5
+      },
+      formItemProps: {
+        labelWidth: "101px",
+        style: {
+          width: "250px"
+        }
       }
     },
     {
