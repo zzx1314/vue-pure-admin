@@ -132,7 +132,7 @@ const {
           :icon="useRenderIcon(AddFill)"
           @click="openDia('添加组织')"
         >
-          新增部门
+          新增
         </el-button>
       </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
