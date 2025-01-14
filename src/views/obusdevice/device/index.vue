@@ -10,6 +10,8 @@ import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
+import More from "@iconify-icons/ep/more-filled";
+import Password from "@iconify-icons/ri/lock-password-line";
 
 defineOptions({
   name: "OBusDevice"
@@ -36,7 +38,8 @@ const {
   handleSubmitError,
   handleSubmit,
   cancel,
-  openDia
+  openDia,
+  shallLogin
 } = useOBusDevice();
 </script>
 <template>
@@ -133,6 +136,30 @@ const {
                 </el-button>
               </template>
             </el-popconfirm>
+            <el-dropdown>
+              <el-button
+                class="ml-3 mt-[2px]"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(More)"
+              />
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>
+                    <el-button
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(Password)"
+                      @click="shallLogin(row)"
+                    >
+                      远程登录
+                    </el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </template>
         </pure-table>
       </template>

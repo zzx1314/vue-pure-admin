@@ -13,7 +13,7 @@ import type { FieldValues } from "plus-pro-components";
 
 export function useOBusLogs() {
   // ----变量定义-----
-  const queryForm = reactive({
+  const queryForm = ref({
     name: "",
     beginTime: "",
     endTime: ""
@@ -96,6 +96,10 @@ export function useOBusLogs() {
     console.log(err, "err");
   };
 
+  const shallLogin = () => {
+    console.log("shallLogin");
+  };
+
   // 保存
   const handleSubmit = (values: FieldValues) => {
     console.log(values, "Submit");
@@ -134,7 +138,7 @@ export function useOBusLogs() {
     };
     const query = {
       ...page,
-      ...queryForm
+      ...queryForm.value
     };
     if (query.endTime) {
       query.endTime = query.endTime + " 23:59:59";
@@ -162,9 +166,9 @@ export function useOBusLogs() {
     addForm.value = {
       id: null
     };
-    queryForm.name = "";
-    queryForm.beginTime = "";
-    queryForm.endTime = "";
+    queryForm.value.name = "";
+    queryForm.value.beginTime = "";
+    queryForm.value.endTime = "";
     dialogFormVisible.value = false;
     onSearch();
   }
@@ -199,6 +203,7 @@ export function useOBusLogs() {
     handleSelectionChange,
     handleSubmit,
     handleSubmitError,
+    shallLogin,
     cancel,
     restartForm,
     openDia
