@@ -13,7 +13,7 @@ import type { FieldValues } from "plus-pro-components";
 
 export function useOBusDevice() {
   // ----变量定义-----
-  const queryForm = reactive({
+  const queryForm = ref({
     deviceId: "",
     deviceIp: "",
     os: "",
@@ -23,7 +23,8 @@ export function useOBusDevice() {
     softwareInfo: "",
     systemStatus: "",
     beginTime: "",
-    endTime: ""
+    endTime: "",
+    status: ""
   });
   const moreCondition = ref(false);
   const dataList = ref([]);
@@ -101,6 +102,24 @@ export function useOBusDevice() {
       label: "系统架构",
       prop: "arch",
       minWidth: 100
+    },
+    {
+      label: "状态",
+      prop: "status",
+      minWidth: 100,
+      cellRenderer: ({ row }) => (
+        <el-tag
+          type={
+            row.status === "在线"
+              ? "success"
+              : row.status === "离线"
+                ? "warning"
+                : "danger"
+          }
+        >
+          {row.status}
+        </el-tag>
+      )
     },
     {
       label: "备注",
@@ -194,7 +213,7 @@ export function useOBusDevice() {
     };
     const query = {
       ...page,
-      ...queryForm
+      ...queryForm.value
     };
     if (query.endTime) {
       query.endTime = query.endTime + " 23:59:59";
@@ -230,16 +249,17 @@ export function useOBusDevice() {
       arch: "",
       remark: ""
     };
-    queryForm.deviceId = "";
-    queryForm.deviceIp = "";
-    queryForm.os = "";
-    queryForm.osVersion = "";
-    queryForm.arch = "";
-    queryForm.hardwareInfo = "";
-    queryForm.softwareInfo = "";
-    queryForm.systemStatus = "";
-    queryForm.beginTime = "";
-    queryForm.endTime = "";
+    queryForm.value.deviceId = "";
+    queryForm.value.deviceIp = "";
+    queryForm.value.os = "";
+    queryForm.value.osVersion = "";
+    queryForm.value.arch = "";
+    queryForm.value.hardwareInfo = "";
+    queryForm.value.softwareInfo = "";
+    queryForm.value.systemStatus = "";
+    queryForm.value.beginTime = "";
+    queryForm.value.endTime = "";
+    queryForm.value.status = "";
     dialogFormVisible.value = false;
     onSearch();
   }

@@ -119,6 +119,33 @@ export function useCollectorBusDevForm() {
       }
     },
     {
+      label: "状态",
+      prop: "status",
+      valueType: "select",
+      formItemProps: {
+        style: {
+          width: "270px"
+        }
+      },
+      options: [
+        {
+          label: "已注册",
+          value: "已注册"
+        },
+        {
+          label: "在线",
+          value: "在线"
+        },
+        {
+          label: "离线",
+          value: "离线"
+        }
+      ],
+      colProps: {
+        span: 5
+      }
+    },
+    {
       label: "开始时间",
       prop: "beginTime",
       valueType: "date-picker",

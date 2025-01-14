@@ -45,7 +45,7 @@ const {
       <PlusSearch
         v-model="queryForm"
         :columns="columnsQueryForm"
-        :show-number="2"
+        :show-number="4"
         label-width="80"
         label-position="right"
         @search="onSearch"
@@ -77,7 +77,7 @@ const {
         >
           <template #expand="{ row }">
             <div class="flex justify-between">
-              <div class="flex-1 px-4">
+              <div class="flex-1 px-4 flex flex-col items-center">
                 <h3 class="mb-1">硬件信息</h3>
                 <div
                   v-for="hia in row.hardwareInfoJArray"
@@ -87,7 +87,7 @@ const {
                   <div>{{ hia.name }}: {{ hia.value }}</div>
                 </div>
               </div>
-              <div class="flex-1 px-4">
+              <div class="flex-1 px-4 flex flex-col items-center">
                 <h3 class="mb-1">软件信息</h3>
                 <div
                   v-for="sia in row.softwareInfoJArray"
@@ -97,7 +97,7 @@ const {
                   <div>{{ sia.name }}: {{ sia.version }}</div>
                 </div>
               </div>
-              <div class="flex-1 px-4">
+              <div class="flex-1 px-4 flex flex-col items-center">
                 <h3 class="mb-1">系统状态</h3>
                 <div
                   v-for="ssa in row.systemStatusJArray"
