@@ -76,7 +76,7 @@ const {
           @page-current-change="handleCurrentChange"
         >
           <template #expand="{ row }">
-            <div class="m-4 flex justify-between">
+            <div class="flex justify-between">
               <div class="flex-1 px-4">
                 <h3 class="mb-1">硬件信息</h3>
                 <div
