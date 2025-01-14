@@ -1,4 +1,4 @@
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules } from "element-plus";
 import {
@@ -37,16 +37,14 @@ export function useOBusDevice() {
     currentPage: 1,
     background: true
   });
-  const addForm = reactive({
-    value: {
-      id: null,
-      deviceId: "",
-      deviceIp: "",
-      os: "",
-      osVersion: "",
-      arch: "",
-      remark: ""
-    }
+  const addForm = ref({
+    id: null,
+    deviceId: "",
+    deviceIp: "",
+    os: "",
+    osVersion: "",
+    arch: "",
+    remark: ""
   });
   const rules = reactive<FormRules>({});
   const columns: TableColumnList = [
@@ -211,13 +209,15 @@ export function useOBusDevice() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
+    formEl.clearValidate();
   };
 
   const restartForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
-    cancel();
+    nextTick(() => {
+      formEl.resetFields();
+      cancel();
+    });
   };
   // 取消
   function cancel() {
@@ -246,7 +246,8 @@ export function useOBusDevice() {
   // 打开弹框
   function openDia(param, formEl) {
     dialogFormVisible.value = true;
-    title.value = param;
+    title.value = "修改设备信息";
+    addForm.value = param;
     resetForm(formEl);
   }
 

@@ -6,58 +6,73 @@ export function useCollectorBusDevForm() {
     {
       label: "设备ID",
       prop: "deviceId",
+      fieldProps: {
+        disabled: true
+      },
       formItemProps: {
         style: {
-          width: "50%"
-        },
-        disabled: true
+          width: "60%"
+        }
       }
     },
     {
       label: "设备IP",
       prop: "deviceIp",
+      fieldProps: {
+        disabled: true
+      },
       formItemProps: {
         style: {
-          width: "50%"
-        },
-        disabled: true
+          width: "60%"
+        }
       }
     },
     {
       label: "操作系统",
+      fieldProps: {
+        disabled: true
+      },
       prop: "os",
       formItemProps: {
         style: {
-          width: "50%"
-        },
-        disabled: true
+          width: "60%"
+        }
       }
     },
     {
       label: "操作系统版本",
       prop: "osVersion",
+      fieldProps: {
+        disabled: true
+      },
       formItemProps: {
         style: {
-          width: "50%"
-        },
-        disabled: true
+          width: "60%"
+        }
       }
     },
     {
       label: "系统架构",
       prop: "arch",
+      fieldProps: {
+        disabled: true
+      },
       formItemProps: {
         style: {
-          width: "50%"
-        },
-        disabled: true
+          width: "60%"
+        }
       }
     },
     {
       label: "备注",
       prop: "remark",
       width: "10px",
-      valueType: "textarea"
+      valueType: "textarea",
+      formItemProps: {
+        style: {
+          width: "60%"
+        }
+      }
     }
   ];
 
