@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { FormInstance } from "element-plus";
+import { nextTick, ref } from "vue";
+import { type ElDialog, FormInstance } from "element-plus";
 import { useOBusDevice } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import EditPen from "@iconify-icons/ep/edit-pen";
-import Search from "@iconify-icons/ep/search";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
@@ -12,6 +11,7 @@ import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
 import More from "@iconify-icons/ep/more-filled";
 import Password from "@iconify-icons/ri/lock-password-line";
+import "@xterm/xterm/css/xterm.css";
 
 defineOptions({
   name: "OBusDevice"
@@ -24,12 +24,13 @@ const {
   queryForm,
   dataList,
   loading,
-  dialogFormVisible,
   title,
   pagination,
   addForm,
   rules,
   columns,
+  dialogFormVisible,
+  dialogShellVisible,
   onSearch,
   handleDelete,
   handleSizeChange,
@@ -37,9 +38,10 @@ const {
   handleSelectionChange,
   handleSubmitError,
   handleSubmit,
+  handleShallLogin,
+  handleDialogOpened,
   cancel,
-  openDia,
-  shallLogin
+  openDia
 } = useOBusDevice();
 </script>
 <template>
@@ -152,7 +154,7 @@ const {
                       type="primary"
                       :size="size"
                       :icon="useRenderIcon(Password)"
-                      @click="shallLogin(row)"
+                      @click="handleShallLogin(row)"
                     >
                       远程登录
                     </el-button>
@@ -179,6 +181,13 @@ const {
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
     />
+    <el-dialog
+      v-model="dialogShellVisible"
+      fullscreen
+      @open="handleDialogOpened"
+    >
+      <div id="terminal" class="indexContainer" />
+    </el-dialog>
   </div>
 </template>
 

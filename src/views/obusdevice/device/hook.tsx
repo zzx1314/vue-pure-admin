@@ -10,6 +10,7 @@ import {
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import type { FieldValues } from "plus-pro-components";
+import { Terminal } from "@xterm/xterm";
 
 export function useOBusDevice() {
   // ----变量定义-----
@@ -30,6 +31,7 @@ export function useOBusDevice() {
   const dataList = ref([]);
   const loading = ref(true);
   const dialogFormVisible = ref(false);
+  const dialogShellVisible = ref(false);
   const title = ref("");
 
   const pagination = reactive<PaginationProps>({
@@ -202,6 +204,39 @@ export function useOBusDevice() {
       });
     }
   };
+  function handleDialogOpened() {
+    nextTick(() => {
+      const dialog = document.querySelector(".el-dialog") as HTMLElement | null;
+      let rows = dialog.offsetHeight / 16 - 10;
+      let cols = dialog.offsetWidth / 9 - 10;
+      let term = new Terminal({
+        rows: parseInt(rows), //行数
+        cols: parseInt(cols),
+        convertEol: true,
+        disableStdin: false, //是否应禁用输入。
+        cursorStyle: "block", //光标样式
+        cursorBlink: true, //光标闪烁
+        tabStopWidth: 8, //制表宽度
+        theme: {
+          foreground: "White", //字体,LightGreen,Orange,SlateBlue,Magenta Purple Red Violet White Yellow
+          background: "#2B2B2B", //背景色
+          cursor: "Orange" //设置光标
+        }
+      });
+      term.open(document.getElementById("terminal"));
+      term.write("\r\n");
+      term.write("欢迎使用华郅终端\r\n$ ");
+      term.focus();
+      term.onData(data => {
+        // 处理终端输入的数据
+        console.log(data);
+      });
+    });
+  }
+  const handleShallLogin = row => {
+    console.log("shallLogin", row);
+    dialogShellVisible.value = true;
+  };
 
   // 查询
   async function onSearch() {
@@ -279,7 +314,6 @@ export function useOBusDevice() {
     queryForm,
     dataList,
     loading,
-    dialogFormVisible,
     title,
     pagination,
     addForm,
@@ -287,6 +321,8 @@ export function useOBusDevice() {
     columns,
     buttonClass,
     moreCondition,
+    dialogFormVisible,
+    dialogShellVisible,
     onSearch,
     resetForm,
     handleDelete,
@@ -295,6 +331,8 @@ export function useOBusDevice() {
     handleSelectionChange,
     handleSubmit,
     handleSubmitError,
+    handleDialogOpened,
+    handleShallLogin,
     cancel,
     restartForm,
     openDia

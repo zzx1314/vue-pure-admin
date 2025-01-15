@@ -96,10 +96,6 @@ export function useOBusLogs() {
     console.log(err, "err");
   };
 
-  const shallLogin = () => {
-    console.log("shallLogin");
-  };
-
   // 保存
   const handleSubmit = (values: FieldValues) => {
     console.log(values, "Submit");
@@ -203,7 +199,6 @@ export function useOBusLogs() {
     handleSelectionChange,
     handleSubmit,
     handleSubmitError,
-    shallLogin,
     cancel,
     restartForm,
     openDia

@@ -59,6 +59,7 @@
     "@vue-flow/core": "^1.38.2",
     "@vueuse/core": "^10.11.0",
     "@vueuse/motion": "^2.2.3",
+    "@xterm/xterm": "^5.5.0",
     "@zxcvbn-ts/core": "^3.0.4",
     "animate.css": "^4.1.1",
     "axios": "^1.7.2",
