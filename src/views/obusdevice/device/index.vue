@@ -183,6 +183,7 @@ const {
     />
     <el-dialog
       v-model="dialogShellVisible"
+      class="shellDialog"
       fullscreen
       @open="handleDialogOpened"
     >

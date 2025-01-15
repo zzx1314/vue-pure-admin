@@ -215,7 +215,9 @@ export function useOBusDevice() {
   };
   function handleDialogOpened() {
     nextTick(() => {
-      const dialog = document.querySelector(".el-dialog") as HTMLElement | null;
+      const dialog = document.querySelector(
+        ".shellDialog"
+      ) as HTMLElement | null;
       let rows = dialog.offsetHeight / 16 - 10;
       let cols = dialog.offsetWidth / 9 - 10;
       let term = new Terminal({
