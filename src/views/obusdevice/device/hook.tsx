@@ -11,6 +11,7 @@ import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import type { FieldValues } from "plus-pro-components";
 import { Terminal } from "@xterm/xterm";
+import WebSocketClient from "@/components/ReWebSocket";
 
 export function useOBusDevice() {
   // ----变量定义-----
@@ -26,6 +27,14 @@ export function useOBusDevice() {
     beginTime: "",
     endTime: "",
     status: ""
+  });
+
+  const paramsShell = ref({
+    operate: "",
+    host: "",
+    port: "22",
+    username: "",
+    password: ""
   });
   const moreCondition = ref(false);
   const dataList = ref([]);
@@ -223,13 +232,35 @@ export function useOBusDevice() {
           cursor: "Orange" //设置光标
         }
       });
-      term.open(document.getElementById("terminal"));
       term.write("\r\n");
       term.write("欢迎使用华郅终端\r\n$ ");
       term.focus();
-      term.onData(data => {
-        // 处理终端输入的数据
-        console.log(data);
+      term.open(document.getElementById("terminal"));
+
+      let client = new WebSocketClient();
+      term.write("\r\nConnecting...");
+      //执行连接操作
+      client.connect({
+        onError: function (error) {
+          //连接失败回调
+          term.write("Error: " + error + "\r\n");
+        },
+        onConnect: function () {
+          //连接主机
+          client.send(paramsShell);
+        },
+        onClose: function () {
+          //连接关闭回调
+          term.write("\rconnection closed");
+        },
+        onData: function (data) {
+          //收到数据时回调
+          term.write(data);
+        }
+      });
+      term.onData(e => {
+        //键盘输入时的回调函数
+        client.sendClientData(e);
       });
     });
   }
