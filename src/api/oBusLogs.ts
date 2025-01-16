@@ -45,11 +45,11 @@ export const oBusLogsDelete = (param?: object) => {
   return http.axiosDelete<Result>(oBusLogsUrls.delete + param);
 };
 
-export const downLog = (param?: any) => {
+export const downLog = (param?: any, fileName?: any) => {
   return http.downloadUrlMode(
     oBusLogsUrls.downLog + param,
     "post",
-    param.logFileName,
+    fileName,
     null
   );
 };

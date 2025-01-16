@@ -151,7 +151,7 @@ export function useOBusLogs() {
   }
 
   function handleDownloadLog(row) {
-    downLog(row.id);
+    downLog(row.id, row.originalFilename);
   }
 
   // 查询

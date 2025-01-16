@@ -148,7 +148,11 @@ const {
           @reset="cancel"
         />
       </el-card>
-      <PureTableBar title="日志列表" :columns="columns" @refresh="onSearch">
+      <PureTableBar
+        title="日志列表"
+        :columns="columns"
+        @refresh="onSearchHistory"
+      >
         <template v-slot="{ size, checkList, dynamicColumns }">
           <pure-table
             border
