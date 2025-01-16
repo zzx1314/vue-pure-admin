@@ -2,14 +2,13 @@ import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules } from "element-plus";
 import {
-  oBusLogsSave,
   oBusLogsPage,
-  oBusLogsUpdate,
-  oBusLogsDelete
+  oBusLogsDelete,
+  historyLogPage,
+  downLog
 } from "@/api/oBusLogs";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
-import type { FieldValues } from "plus-pro-components";
 
 export function useOBusLogs() {
   // ----变量定义-----
@@ -20,8 +19,9 @@ export function useOBusLogs() {
   });
   const moreCondition = ref(false);
   const dataList = ref([]);
+  const dataListHistory = ref([]);
   const loading = ref(true);
-  const dialogFormVisible = ref(false);
+  const dialogHistoryLogVisible = ref(false);
   const title = ref("");
 
   const pagination = reactive<PaginationProps>({
@@ -82,47 +82,37 @@ export function useOBusLogs() {
     pagination.pageSize = val;
     onSearch();
   }
+  function handleSizeChangeHistory(val: number) {
+    pagination.pageSize = val;
+    onSearchHistory();
+  }
 
   function handleCurrentChange(val: number) {
     pagination.currentPage = val;
     onSearch();
   }
 
+  function handleCurrentChangeHistory(val: number) {
+    pagination.currentPage = val;
+    onSearchHistory();
+  }
+
   function handleSelectionChange(val) {
     console.log("handleSelectionChange", val);
   }
 
-  const handleSubmitError = (err: any) => {
-    console.log(err, "err");
-  };
+  function handleSelectionChangeHistory(val) {
+    console.log("handleSelectionChangeHistory", val);
+  }
 
-  // 保存
-  const handleSubmit = (values: FieldValues) => {
-    console.log(values, "Submit");
-    if (addForm.value.id) {
-      // 修改
-      console.log("修改");
-      oBusLogsUpdate(addForm.value).then(res => {
-        if (res.code === SUCCESS) {
-          message("修改成功！", { type: "success" });
-          cancel();
-        } else {
-          message("修改失败！", { type: "error" });
-        }
-      });
-    } else {
-      // 新增
-      console.log("新增");
-      oBusLogsSave(addForm.value).then(res => {
-        if (res.code === SUCCESS) {
-          message("保存成功！", { type: "success" });
-          cancel();
-        } else {
-          message(res.msg, { type: "error" });
-        }
-      });
-    }
-  };
+  function handleDialogClosed() {
+    console.log("handleDialogClosed");
+    cancel();
+  }
+
+  function handleDownloadLog(row) {
+    downLog(row.id);
+  }
 
   // 查询
   async function onSearch() {
@@ -140,6 +130,28 @@ export function useOBusLogs() {
       query.endTime = query.endTime + " 23:59:59";
     }
     const { data } = await oBusLogsPage(query);
+    dataList.value = data.records;
+    pagination.total = data.total;
+    setTimeout(() => {
+      loading.value = false;
+    }, 500);
+  }
+
+  async function onSearchHistory() {
+    loading.value = true;
+    console.log("查询信息");
+    const page = {
+      size: pagination.pageSize,
+      current: pagination.currentPage
+    };
+    const query = {
+      ...page,
+      ...queryForm.value
+    };
+    if (query.endTime) {
+      query.endTime = query.endTime + " 23:59:59";
+    }
+    const { data } = await historyLogPage(query);
     dataList.value = data.records;
     pagination.total = data.total;
     setTimeout(() => {
@@ -165,14 +177,14 @@ export function useOBusLogs() {
     queryForm.value.name = "";
     queryForm.value.beginTime = "";
     queryForm.value.endTime = "";
-    dialogFormVisible.value = false;
+    dialogHistoryLogVisible.value = false;
     onSearch();
   }
   // 打开弹框
-  function openDia(param, formEl) {
-    dialogFormVisible.value = true;
-    title.value = param;
-    resetForm(formEl);
+  function openDia(param) {
+    console.log(param);
+    dialogHistoryLogVisible.value = true;
+    onSearchHistory();
   }
 
   onMounted(() => {
@@ -182,8 +194,8 @@ export function useOBusLogs() {
   return {
     queryForm,
     dataList,
+    dataListHistory,
     loading,
-    dialogFormVisible,
     title,
     pagination,
     addForm,
@@ -191,14 +203,19 @@ export function useOBusLogs() {
     columns,
     buttonClass,
     moreCondition,
+    dialogHistoryLogVisible,
     onSearch,
+    onSearchHistory,
     resetForm,
     handleDelete,
     handleSizeChange,
+    handleSizeChangeHistory,
     handleCurrentChange,
+    handleCurrentChangeHistory,
     handleSelectionChange,
-    handleSubmit,
-    handleSubmitError,
+    handleSelectionChangeHistory,
+    handleDialogClosed,
+    handleDownloadLog,
     cancel,
     restartForm,
     openDia

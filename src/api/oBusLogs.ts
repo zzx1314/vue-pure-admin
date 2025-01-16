@@ -17,14 +17,20 @@ type ResultPage = {
 
 const oBusLogsUrls = {
   page: `/api/o/oBusLogs/page`,
+  historyLogPage: `/api/o/oBusLogs/page`,
   save: "/api/o/oBusLogs/save",
   delete: `/api/o/oBusLogs/`,
-  update: "/api/o/oBusLogs/update"
+  update: "/api/o/oBusLogs/update",
+  downLog: "/api/ota/oBusLogs/downLog/"
 };
 
 // 设备日志分页
 export const oBusLogsPage = (query?: object) => {
   return http.axiosGetRequest<ResultPage>(oBusLogsUrls.page, query);
+};
+// 历史日志分页
+export const historyLogPage = (query?: object) => {
+  return http.axiosGetRequest<ResultPage>(oBusLogsUrls.historyLogPage, query);
 };
 // 设备日志保存
 export const oBusLogsSave = (param?: object) => {
@@ -37,4 +43,13 @@ export const oBusLogsUpdate = (param?: object) => {
 // 设备日志删除
 export const oBusLogsDelete = (param?: object) => {
   return http.axiosDelete<Result>(oBusLogsUrls.delete + param);
+};
+
+export const downLog = (param?: any) => {
+  return http.downloadUrlMode(
+    oBusLogsUrls.downLog + param,
+    "post",
+    param.logFileName,
+    null
+  );
 };
