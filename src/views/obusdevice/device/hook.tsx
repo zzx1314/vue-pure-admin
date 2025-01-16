@@ -277,11 +277,16 @@ export function useOBusDevice() {
   const handleShallLogin = row => {
     console.log("shallLogin", row);
     dialogShellLoginVisible.value = true;
+    loginShellForm.value.host = row.deviceIp;
   };
 
   function handleDialogClosed() {
     dialogShellVisible.value = false;
     webSocketShell.value.disconnect();
+    terminal.value.dispose();
+    terminal.value = null;
+    webSocketShell.value = null;
+    cancel();
   }
 
   const handleShellSubmit = (values: FieldValues) => {

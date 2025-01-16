@@ -191,7 +191,7 @@ const {
       ref="loginShellFormRef"
       v-model:visible="dialogShellLoginVisible"
       v-model="loginShellForm"
-      :dialog="{ title: '远程登录', width: '' }"
+      :dialog="{ title: '远程登录', width: '500px' }"
       :form="{
         columns: columnsFormShellLogin,
         rules,
@@ -204,6 +204,7 @@ const {
 
     <el-dialog
       v-model="dialogShellVisible"
+      title="远程登录"
       class="shellDialog"
       fullscreen
       @open="handleDialogOpened"

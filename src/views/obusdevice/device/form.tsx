@@ -79,38 +79,22 @@ export function useCollectorBusDevForm() {
   const columnsFormShellLogin: PlusColumn[] = [
     {
       label: "主机IP",
-      prop: "host",
-      formItemProps: {
-        style: {
-          width: "60%"
-        }
-      }
+      prop: "host"
     },
     {
       label: "端口",
-      prop: "port",
-      formItemProps: {
-        style: {
-          width: "60%"
-        }
-      }
+      prop: "port"
     },
     {
       label: "用户名",
-      prop: "username",
-      formItemProps: {
-        style: {
-          width: "60%"
-        }
-      }
+      prop: "username"
     },
     {
       label: "密码",
       prop: "password",
-      formItemProps: {
-        style: {
-          width: "60%"
-        }
+      valueType: "input",
+      fieldProps: {
+        type: "password"
       }
     }
   ];
