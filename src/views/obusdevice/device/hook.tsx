@@ -12,6 +12,7 @@ import { message } from "@/utils/message";
 import type { FieldValues } from "plus-pro-components";
 import { Terminal } from "@xterm/xterm";
 import WebSocketClient from "@/components/ReWebSocket";
+import aesUtils from "@/utils/aes";
 
 export function useOBusDevice() {
   // ----变量定义-----
@@ -28,20 +29,13 @@ export function useOBusDevice() {
     endTime: "",
     status: ""
   });
-
-  const paramsShell = ref({
-    operate: "",
-    host: "",
-    port: "22",
-    username: "",
-    password: ""
-  });
   const moreCondition = ref(false);
   const dataList = ref([]);
   const loading = ref(true);
+  const title = ref("");
   const dialogFormVisible = ref(false);
   const dialogShellVisible = ref(false);
-  const title = ref("");
+  const dialogShellLoginVisible = ref(false);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -58,7 +52,19 @@ export function useOBusDevice() {
     arch: "",
     remark: ""
   });
-  const rules = reactive<FormRules>({});
+  const loginShellForm = ref({
+    operate: "",
+    host: "",
+    port: "22",
+    username: "",
+    password: ""
+  });
+  const rules = reactive<FormRules>({
+    host: [{ required: true, message: "主机必填", trigger: "blur" }],
+    port: [{ required: true, message: "端口必填", trigger: "blur" }],
+    username: [{ required: true, message: "用户名必填", trigger: "blur" }],
+    password: [{ required: true, message: "密码必填", trigger: "blur" }]
+  });
   const columns: TableColumnList = [
     {
       type: "expand",
@@ -249,7 +255,7 @@ export function useOBusDevice() {
         },
         onConnect: function () {
           //连接主机
-          client.send(paramsShell);
+          client.send(loginShellForm.value);
         },
         onClose: function () {
           //连接关闭回调
@@ -268,6 +274,20 @@ export function useOBusDevice() {
   }
   const handleShallLogin = row => {
     console.log("shallLogin", row);
+    dialogShellLoginVisible.value = true;
+  };
+
+  function handleDialogClosed() {
+    dialogShellVisible.value = false;
+  }
+
+  const handleShellSubmit = (values: FieldValues) => {
+    console.log(values, "Submit");
+    loginShellForm.value.operate = "connect";
+    loginShellForm.value.password = aesUtils.encodeShell(
+      loginShellForm.value.password
+    );
+    dialogShellLoginVisible.value = false;
     dialogShellVisible.value = true;
   };
 
@@ -317,6 +337,13 @@ export function useOBusDevice() {
       arch: "",
       remark: ""
     };
+    loginShellForm.value = {
+      operate: "",
+      host: "",
+      port: "22",
+      username: "",
+      password: ""
+    };
     queryForm.value.deviceId = "";
     queryForm.value.deviceIp = "";
     queryForm.value.os = "";
@@ -350,12 +377,14 @@ export function useOBusDevice() {
     title,
     pagination,
     addForm,
+    loginShellForm,
     rules,
     columns,
     buttonClass,
     moreCondition,
     dialogFormVisible,
     dialogShellVisible,
+    dialogShellLoginVisible,
     onSearch,
     resetForm,
     handleDelete,
@@ -363,9 +392,11 @@ export function useOBusDevice() {
     handleCurrentChange,
     handleSelectionChange,
     handleSubmit,
+    handleShellSubmit,
     handleSubmitError,
     handleDialogOpened,
     handleShallLogin,
+    handleDialogClosed,
     cancel,
     restartForm,
     openDia

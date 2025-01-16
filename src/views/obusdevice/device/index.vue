@@ -18,7 +18,8 @@ defineOptions({
 });
 
 const addFormRef = ref<FormInstance>();
-const { columnsForm, columnsQueryForm } = useCollectorBusDevForm();
+const { columnsForm, columnsQueryForm, columnsFormShellLogin } =
+  useCollectorBusDevForm();
 
 const {
   queryForm,
@@ -27,10 +28,12 @@ const {
   title,
   pagination,
   addForm,
+  loginShellForm,
   rules,
   columns,
   dialogFormVisible,
   dialogShellVisible,
+  dialogShellLoginVisible,
   onSearch,
   handleDelete,
   handleSizeChange,
@@ -38,8 +41,10 @@ const {
   handleSelectionChange,
   handleSubmitError,
   handleSubmit,
+  handleShellSubmit,
   handleShallLogin,
   handleDialogOpened,
+  handleDialogClosed,
   cancel,
   openDia
 } = useOBusDevice();
@@ -181,11 +186,28 @@ const {
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
     />
+
+    <PlusDialogForm
+      ref="loginShellFormRef"
+      v-model:visible="dialogShellLoginVisible"
+      v-model="loginShellForm"
+      :dialog="{ title: '远程登录', width: '' }"
+      :form="{
+        columns: columnsFormShellLogin,
+        rules,
+        labelWidth: '80px'
+      }"
+      @cancel="cancel"
+      @confirm-error="handleSubmitError"
+      @confirm="handleShellSubmit"
+    />
+
     <el-dialog
       v-model="dialogShellVisible"
       class="shellDialog"
       fullscreen
       @open="handleDialogOpened"
+      @close="handleDialogClosed"
     >
       <div id="terminal" class="indexContainer" />
     </el-dialog>

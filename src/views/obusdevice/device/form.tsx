@@ -76,26 +76,80 @@ export function useCollectorBusDevForm() {
     }
   ];
 
+  const columnsFormShellLogin: PlusColumn[] = [
+    {
+      label: "主机IP",
+      prop: "host",
+      formItemProps: {
+        style: {
+          width: "60%"
+        }
+      }
+    },
+    {
+      label: "端口",
+      prop: "port",
+      formItemProps: {
+        style: {
+          width: "60%"
+        }
+      }
+    },
+    {
+      label: "用户名",
+      prop: "username",
+      formItemProps: {
+        style: {
+          width: "60%"
+        }
+      }
+    },
+    {
+      label: "密码",
+      prop: "password",
+      formItemProps: {
+        style: {
+          width: "60%"
+        }
+      }
+    }
+  ];
+
   const columnsQueryForm: PlusColumn[] = [
     {
       label: "设备ID",
       prop: "deviceId",
       colProps: {
-        span: 5
+        span: 4
+      },
+      formItemProps: {
+        style: {
+          width: "100%"
+        }
       }
     },
     {
       label: "设备IP",
       prop: "deviceIp",
       colProps: {
-        span: 5
+        span: 4
+      },
+      formItemProps: {
+        style: {
+          width: "100%"
+        }
       }
     },
     {
       label: "操作系统",
       prop: "os",
       colProps: {
-        span: 5
+        span: 4
+      },
+      formItemProps: {
+        style: {
+          width: "100%"
+        }
       }
     },
     {
@@ -107,7 +161,7 @@ export function useCollectorBusDevForm() {
       formItemProps: {
         labelWidth: "101px",
         style: {
-          width: "250px"
+          width: "100%"
         }
       }
     },
@@ -115,7 +169,12 @@ export function useCollectorBusDevForm() {
       label: "系统架构",
       prop: "arch",
       colProps: {
-        span: 5
+        span: 4
+      },
+      formItemProps: {
+        style: {
+          width: "100%"
+        }
       }
     },
     {
@@ -124,7 +183,7 @@ export function useCollectorBusDevForm() {
       valueType: "select",
       formItemProps: {
         style: {
-          width: "270px"
+          width: "100%"
         }
       },
       options: [
@@ -142,7 +201,7 @@ export function useCollectorBusDevForm() {
         }
       ],
       colProps: {
-        span: 5
+        span: 4
       }
     },
     {
@@ -152,7 +211,7 @@ export function useCollectorBusDevForm() {
       type: "date",
       formItemProps: {
         style: {
-          width: "270px"
+          width: "100%"
         }
       },
       fieldProps: {
@@ -160,7 +219,7 @@ export function useCollectorBusDevForm() {
         valueFormat: "YYYY-MM-DD HH:mm:ss"
       },
       colProps: {
-        span: 5
+        span: 4
       }
     },
     {
@@ -169,7 +228,7 @@ export function useCollectorBusDevForm() {
       valueType: "date-picker",
       formItemProps: {
         style: {
-          width: "270px"
+          width: "100%"
         }
       },
       fieldProps: {
@@ -177,12 +236,13 @@ export function useCollectorBusDevForm() {
         valueFormat: "YYYY-MM-DD"
       },
       colProps: {
-        span: 5
+        span: 4
       }
     }
   ];
   return {
     columnsForm,
-    columnsQueryForm
+    columnsQueryForm,
+    columnsFormShellLogin
   };
 }

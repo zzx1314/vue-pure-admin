@@ -12,6 +12,14 @@ function encrypt(word: string, keyStr: string) {
   return encrypted.toString();
 }
 
+function encryptShell(content: string) {
+  let aseKey = "ws9ybUMn4F81t5oPKqJrqLKxERaYAS12";
+  return CryptoJS.AES.encrypt(content, CryptoJS.enc.Utf8.parse(aseKey), {
+    mode: CryptoJS.mode.ECB,
+    padding: CryptoJS.pad.Pkcs7
+  }).toString();
+}
+
 function decrypt(word: string, keyStr: string) {
   keyStr = keyStr ? keyStr : "Welcome Superred";
   const key = CryptoJS.enc.Latin1.parse(keyStr);
@@ -25,5 +33,6 @@ function decrypt(word: string, keyStr: string) {
 
 export default {
   encode: encrypt,
+  encodeShell: encryptShell,
   decode: decrypt
 };

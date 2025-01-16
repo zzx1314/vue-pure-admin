@@ -68,6 +68,15 @@ class WebSocketClient {
       );
     }
   }
+  /**
+   * 关闭WebSocket连接
+   */
+  disconnect(): void {
+    if (this._connection) {
+      this._connection.close();
+      this._connection = null;
+    }
+  }
 }
 
 export default WebSocketClient;
