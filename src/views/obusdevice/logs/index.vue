@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { FormInstance } from "element-plus";
 import { useOBusLogs } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Search from "@iconify-icons/ep/search";
@@ -10,7 +8,8 @@ import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
 import { PlusSearch } from "plus-pro-components";
 import More from "@iconify-icons/ep/more-filled";
-import Password from "@iconify-icons/ri/lock-password-line";
+import History from "@iconify-icons/ri/chat-history-line";
+import Download from "@iconify-icons/ri/download-line";
 
 defineOptions({
   name: "OBusLogs"
@@ -83,7 +82,7 @@ const {
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(Search)"
+              :icon="useRenderIcon(History)"
               @click="openDia(row)"
             >
               历史日志
@@ -116,7 +115,7 @@ const {
                       link
                       type="primary"
                       :size="size"
-                      :icon="useRenderIcon(Password)"
+                      :icon="useRenderIcon(Download)"
                       @click="handleDownloadLog(row)"
                     >
                       下载
