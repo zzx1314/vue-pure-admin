@@ -36,6 +36,8 @@ export function useOBusDevice() {
   const dialogFormVisible = ref(false);
   const dialogShellVisible = ref(false);
   const dialogShellLoginVisible = ref(false);
+  const terminal = ref(null);
+  const webSocketShell = ref(null);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -226,7 +228,7 @@ export function useOBusDevice() {
       ) as HTMLElement | null;
       let rows = dialog.offsetHeight / 16 - 10;
       let cols = dialog.offsetWidth / 9 - 10;
-      let term = new Terminal({
+      terminal.value = new Terminal({
         rows: parseInt(rows), //行数
         cols: parseInt(cols),
         convertEol: true,
@@ -240,35 +242,35 @@ export function useOBusDevice() {
           cursor: "Orange" //设置光标
         }
       });
-      term.write("\r\n");
-      term.write("欢迎使用华郅终端\r\n$ ");
-      term.focus();
-      term.open(document.getElementById("terminal"));
+      terminal.value.write("\r\n");
+      terminal.value.write("欢迎使用华郅终端\r\n$ ");
+      terminal.value.focus();
+      terminal.value.open(document.getElementById("terminal"));
 
-      let client = new WebSocketClient();
-      term.write("\r\nConnecting...");
+      webSocketShell.value = new WebSocketClient();
+      terminal.value.write("\r\nConnecting...");
       //执行连接操作
-      client.connect({
+      webSocketShell.value.connect({
         onError: function (error) {
           //连接失败回调
-          term.write("Error: " + error + "\r\n");
+          terminal.value.write("Error: " + error + "\r\n");
         },
         onConnect: function () {
           //连接主机
-          client.send(loginShellForm.value);
+          webSocketShell.value.send(loginShellForm.value);
         },
         onClose: function () {
           //连接关闭回调
-          term.write("\rconnection closed");
+          terminal.value.write("\rconnection closed");
         },
         onData: function (data) {
           //收到数据时回调
-          term.write(data);
+          terminal.value.write(data);
         }
       });
-      term.onData(e => {
+      terminal.value.onData(e => {
         //键盘输入时的回调函数
-        client.sendClientData(e);
+        webSocketShell.value.sendClientData(e);
       });
     });
   }
@@ -279,6 +281,7 @@ export function useOBusDevice() {
 
   function handleDialogClosed() {
     dialogShellVisible.value = false;
+    webSocketShell.value.disconnect();
   }
 
   const handleShellSubmit = (values: FieldValues) => {
