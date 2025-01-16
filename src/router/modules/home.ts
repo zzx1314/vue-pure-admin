@@ -17,7 +17,7 @@ export default {
     {
       path: "/welcome",
       name: "Welcome",
-      component: () => import("@/views/obusdevice/device/index.vue"),
+      component: () => import("@/views/obusdevice/logs/index.vue"),
       meta: {
         title: $t("menus.pureHome"),
         showLink: VITE_HIDE_HOME === "true" ? false : true

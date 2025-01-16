@@ -16,12 +16,12 @@ type ResultPage = {
 };
 
 const oBusLogsUrls = {
-  page: `/api/o/oBusLogs/page`,
-  historyLogPage: `/api/o/oBusLogs/page`,
-  save: "/api/o/oBusLogs/save",
-  delete: `/api/o/oBusLogs/`,
-  update: "/api/o/oBusLogs/update",
-  downLog: "/api/ota/oBusLogs/downLog/"
+  page: `/api/operation/oBusLogs/page`,
+  historyLogPage: `/api/operation/oBusLogs/historyLogPage`,
+  save: "/api/operation/oBusLogs/save",
+  delete: `/api/operation/oBusLogs/`,
+  update: "/api/operation/oBusLogs/update",
+  downLog: "/api/operation/oBusLogs/downLog/"
 };
 
 // 设备日志分页

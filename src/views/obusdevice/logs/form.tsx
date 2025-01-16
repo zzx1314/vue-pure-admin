@@ -46,6 +46,7 @@ export function useCollectorBusDevForm() {
         span: 4
       },
       formItemProps: {
+        labelWidth: "101px",
         style: {
           width: "100%"
         }

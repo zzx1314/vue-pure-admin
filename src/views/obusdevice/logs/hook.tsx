@@ -13,7 +13,11 @@ import { message } from "@/utils/message";
 export function useOBusLogs() {
   // ----变量定义-----
   const queryForm = ref({
-    name: "",
+    deviceId: "",
+    deviceIp: "",
+    os: "",
+    osVersion: "",
+    arch: "",
     beginTime: "",
     endTime: ""
   });
@@ -23,6 +27,7 @@ export function useOBusLogs() {
   const loading = ref(true);
   const dialogHistoryLogVisible = ref(false);
   const title = ref("");
+  const currentDeviceId = ref("");
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -48,9 +53,44 @@ export function useOBusLogs() {
       width: 70
     },
     {
+      label: "设备ID",
+      prop: "deviceId",
+      minWidth: 100
+    },
+    {
+      label: "设备IP",
+      prop: "deviceIp",
+      minWidth: 100
+    },
+    {
+      label: "操作系统",
+      prop: "os",
+      minWidth: 100
+    },
+    {
+      label: "操作系统版本",
+      prop: "osVersion",
+      minWidth: 100
+    },
+    {
+      label: "系统架构",
+      prop: "arch",
+      minWidth: 100
+    },
+    {
+      label: "日志名称",
+      prop: "originalFilename",
+      minWidth: 100
+    },
+    {
+      label: "创建时间",
+      prop: "createTime",
+      minWidth: 150
+    },
+    {
       label: "操作",
       fixed: "right",
-      width: 180,
+      width: 200,
       slot: "operation"
     }
   ];
@@ -148,11 +188,12 @@ export function useOBusLogs() {
       ...page,
       ...queryForm.value
     };
+    query.deviceId = currentDeviceId.value;
     if (query.endTime) {
       query.endTime = query.endTime + " 23:59:59";
     }
     const { data } = await historyLogPage(query);
-    dataList.value = data.records;
+    dataListHistory.value = data.records;
     pagination.total = data.total;
     setTimeout(() => {
       loading.value = false;
@@ -174,15 +215,23 @@ export function useOBusLogs() {
     addForm.value = {
       id: null
     };
-    queryForm.value.name = "";
-    queryForm.value.beginTime = "";
-    queryForm.value.endTime = "";
+    queryForm.value = {
+      deviceId: "",
+      deviceIp: "",
+      os: "",
+      osVersion: "",
+      arch: "",
+      beginTime: "",
+      endTime: ""
+    };
+    currentDeviceId.value = "";
     dialogHistoryLogVisible.value = false;
     onSearch();
   }
   // 打开弹框
   function openDia(param) {
     console.log(param);
+    currentDeviceId.value = param.deviceId;
     dialogHistoryLogVisible.value = true;
     onSearchHistory();
   }

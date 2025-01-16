@@ -47,7 +47,7 @@ const {
       <PlusSearch
         v-model="queryForm"
         :columns="columnsQueryForm"
-        :show-number="2"
+        :show-number="4"
         label-width="80"
         label-position="right"
         @search="onSearch"
@@ -206,5 +206,9 @@ const {
 <style scoped lang="scss">
 :deep(.el-dropdown-menu__item i) {
   margin: 0;
+}
+
+:deep(.el-link) {
+  padding-left: 10px;
 }
 </style>
