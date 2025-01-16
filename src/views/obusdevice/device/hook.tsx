@@ -243,7 +243,7 @@ export function useOBusDevice() {
         }
       });
       terminal.value.write("\r\n");
-      terminal.value.write("欢迎使用华郅终端\r\n$ ");
+      terminal.value.write("\x1B[1;3;34m 欢迎使用华郅终端\x1B[0m");
       terminal.value.focus();
       terminal.value.open(document.getElementById("terminal"));
 
