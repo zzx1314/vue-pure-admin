@@ -180,7 +180,7 @@ const {
       :form="{
         columns: columnsForm,
         rules,
-        labelWidth: '150px'
+        labelWidth: '110px'
       }"
       @cancel="cancel"
       @confirm-error="handleSubmitError"

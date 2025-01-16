@@ -8,11 +8,6 @@ export function useCollectorBusDevForm() {
       prop: "deviceId",
       fieldProps: {
         disabled: true
-      },
-      formItemProps: {
-        style: {
-          width: "60%"
-        }
       }
     },
     {
@@ -20,11 +15,6 @@ export function useCollectorBusDevForm() {
       prop: "deviceIp",
       fieldProps: {
         disabled: true
-      },
-      formItemProps: {
-        style: {
-          width: "60%"
-        }
       }
     },
     {
@@ -32,23 +22,13 @@ export function useCollectorBusDevForm() {
       fieldProps: {
         disabled: true
       },
-      prop: "os",
-      formItemProps: {
-        style: {
-          width: "60%"
-        }
-      }
+      prop: "os"
     },
     {
       label: "操作系统版本",
       prop: "osVersion",
       fieldProps: {
         disabled: true
-      },
-      formItemProps: {
-        style: {
-          width: "60%"
-        }
       }
     },
     {
@@ -56,30 +36,23 @@ export function useCollectorBusDevForm() {
       prop: "arch",
       fieldProps: {
         disabled: true
-      },
-      formItemProps: {
-        style: {
-          width: "60%"
-        }
       }
     },
     {
       label: "备注",
       prop: "remark",
       width: "10px",
-      valueType: "textarea",
-      formItemProps: {
-        style: {
-          width: "60%"
-        }
-      }
+      valueType: "textarea"
     }
   ];
 
   const columnsFormShellLogin: PlusColumn[] = [
     {
       label: "主机IP",
-      prop: "host"
+      prop: "host",
+      fieldProps: {
+        disabled: true
+      }
     },
     {
       label: "端口",
