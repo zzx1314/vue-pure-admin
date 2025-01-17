@@ -15,7 +15,7 @@ defineOptions({
   name: "OBusLogs"
 });
 
-const { columnsQueryForm } = useCollectorBusDevForm();
+const { columnsQueryForm, columnsQueryHistoryForm } = useCollectorBusDevForm();
 
 const {
   queryForm,
@@ -37,6 +37,7 @@ const {
   handleDialogClosed,
   handleDownloadLog,
   cancel,
+  cancelHistory,
   openDia
 } = useOBusLogs();
 </script>
@@ -139,12 +140,12 @@ const {
       <el-card>
         <PlusSearch
           v-model="queryForm"
-          :columns="columnsQueryForm"
+          :columns="columnsQueryHistoryForm"
           :show-number="2"
           label-width="80"
           label-position="right"
           @search="onSearchHistory"
-          @reset="cancel"
+          @reset="cancelHistory"
         />
       </el-card>
       <PureTableBar

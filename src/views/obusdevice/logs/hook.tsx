@@ -228,6 +228,19 @@ export function useOBusLogs() {
     dialogHistoryLogVisible.value = false;
     onSearch();
   }
+
+  function cancelHistory() {
+    queryForm.value = {
+      deviceId: "",
+      deviceIp: "",
+      os: "",
+      osVersion: "",
+      arch: "",
+      beginTime: "",
+      endTime: ""
+    };
+    onSearchHistory();
+  }
   // 打开弹框
   function openDia(param) {
     console.log(param);
@@ -266,6 +279,7 @@ export function useOBusLogs() {
     handleDialogClosed,
     handleDownloadLog,
     cancel,
+    cancelHistory,
     restartForm,
     openDia
   };

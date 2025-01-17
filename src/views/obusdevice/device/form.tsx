@@ -116,10 +116,7 @@ export function useCollectorBusDevForm() {
         span: 5
       },
       formItemProps: {
-        labelWidth: "101px",
-        style: {
-          width: "100%"
-        }
+        labelWidth: "101px"
       }
     },
     {
@@ -162,11 +159,12 @@ export function useCollectorBusDevForm() {
       }
     },
     {
-      label: "开始时间",
+      label: "创建开始时间",
       prop: "beginTime",
       valueType: "date-picker",
       type: "date",
       formItemProps: {
+        labelWidth: "101px",
         style: {
           width: "100%"
         }
@@ -180,10 +178,11 @@ export function useCollectorBusDevForm() {
       }
     },
     {
-      label: "结束时间",
+      label: "创建结束时间",
       prop: "endTime",
       valueType: "date-picker",
       formItemProps: {
+        labelWidth: "101px",
         style: {
           width: "100%"
         }

@@ -100,7 +100,46 @@ export function useCollectorBusDevForm() {
       }
     }
   ];
+
+  const columnsQueryHistoryForm: PlusColumn[] = [
+    {
+      label: "开始时间",
+      prop: "beginTime",
+      valueType: "date-picker",
+      type: "date",
+      formItemProps: {
+        style: {
+          width: "100%"
+        }
+      },
+      fieldProps: {
+        type: "date",
+        valueFormat: "YYYY-MM-DD HH:mm:ss"
+      },
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "结束时间",
+      prop: "endTime",
+      valueType: "date-picker",
+      formItemProps: {
+        style: {
+          width: "100%"
+        }
+      },
+      fieldProps: {
+        type: "date",
+        valueFormat: "YYYY-MM-DD"
+      },
+      colProps: {
+        span: 4
+      }
+    }
+  ];
   return {
-    columnsQueryForm
+    columnsQueryForm,
+    columnsQueryHistoryForm
   };
 }
