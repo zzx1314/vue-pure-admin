@@ -117,6 +117,7 @@ export function useNav() {
   }
 
   function toAccountSettings() {
+    debugger;
     router.push({ name: "AccountSettings" });
   }
 
