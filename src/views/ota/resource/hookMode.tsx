@@ -2,18 +2,18 @@ export function useResModeTable() {
   const modeColumns: TableColumnList = [
     {
       type: "selection",
-      width: 55,
+      width: 50,
       align: "left"
     },
     {
       label: "序号",
       type: "index",
-      width: 70
+      width: 50
     },
     {
       label: "类型",
       prop: "type",
-      width: 100,
+      width: 50,
       cellRenderer: ({ row }) => (
         <el-tag type={row.type === "操作系统" ? "success" : "info"}>
           {row.type}
@@ -23,7 +23,7 @@ export function useResModeTable() {
     {
       label: "资源类型",
       prop: "resType",
-      minWidth: 100
+      minWidth: 50
     },
     {
       label: "组件包名称",
@@ -33,22 +33,22 @@ export function useResModeTable() {
     {
       label: "组件包版本",
       prop: "version",
+      minWidth: 50
+    },
+    {
+      label: "文件名称",
+      prop: "originFileName",
       minWidth: 100
     },
     {
       label: "文件大小",
       prop: "fileSizeShow",
-      minWidth: 120
-    },
-    {
-      label: "文件名称",
-      prop: "originFileName",
-      minWidth: 120
+      minWidth: 100
     },
     {
       label: "操作人",
       prop: "operator",
-      minWidth: 120
+      minWidth: 70
     },
     {
       label: "上传时间",
@@ -58,7 +58,7 @@ export function useResModeTable() {
     {
       label: "备注",
       prop: "remark",
-      minWidth: 150
+      minWidth: 100
     },
     {
       label: "操作",
