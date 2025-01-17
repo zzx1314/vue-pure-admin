@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import axios from "axios";
-import { reactive, ref } from "vue";
+import { reactive, ref, Ref } from "vue";
 import { FormInstance, genFileId, UploadFile, UploadFiles } from "element-plus";
 import { useResource } from "@/views/ota/resource/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -33,6 +33,7 @@ import question from "@iconify-icons/ep/question-filled";
 import { ElMessageBox } from "element-plus";
 import PureTable from "@pureadmin/table";
 import { useResModeTable } from "@/views/ota/resource/hookMode";
+import ReDialogProcess from "@/components/ReDialogProcess/index.vue";
 
 defineOptions({
   name: "Resource"
@@ -78,6 +79,8 @@ const {
   progressVisible,
   progress,
   expandRowKeys,
+  percentage,
+  showDiaLoading,
   cancel,
   cancelPush,
   cancelMode,
@@ -99,7 +102,8 @@ const {
   handleDevSelectionChange,
   restartForm,
   restartFormMode,
-  handleDown
+  handleDown,
+  closeDiaLoad
 } = useResource();
 
 const { modeColumns } = useResModeTable();
@@ -1190,6 +1194,12 @@ const closePro = () => {
       :is-visible="progressVisible"
       :progress="progress"
       @update:is-visible="closePro"
+    />
+
+    <ReDialogProcess
+      :percentage="percentage"
+      :dialog-form-visible="showDiaLoading"
+      @update:dialogFormVisible="closeDiaLoad"
     />
   </div>
 </template>

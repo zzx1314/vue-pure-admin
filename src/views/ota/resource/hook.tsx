@@ -1,4 +1,4 @@
-import { computed, nextTick, onMounted, reactive, ref } from "vue";
+import { computed, nextTick, onMounted, reactive, type Ref, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import {
   ElMessageBox,
@@ -12,7 +12,6 @@ import { CHUNK_SIZE } from "@/constants";
 import { chunkDownloadFile } from "@/api/system";
 import { downloadFileByBlob } from "@/lib/fileUtil";
 import { devPage, getDevGroupSelect } from "@/api/otaDev";
-import { ElLoading } from "element-plus";
 import { convertFileSizeUnit } from "@/lib/fileUtil";
 
 export function useResource() {
@@ -45,6 +44,10 @@ export function useResource() {
   const devSecDataList = ref([]);
   const title = ref("");
   const expandRowKeys = ref<number[]>([]);
+
+  const showDiaLoading = ref(false);
+  const percentage: Ref<number> = ref(0);
+
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,
@@ -625,11 +628,7 @@ export function useResource() {
     blobRef: new Map<number, BlobPart[]>()
   });
   async function handleDown(record) {
-    const loading = ElLoading.service({
-      lock: true,
-      text: "下载中",
-      background: "rgba(0, 0, 0, 0.7)"
-    });
+    showDiaLoading.value = true;
     console.log("下载", record.originFileName);
     const totalChunks = Math.ceil(record.fileSize / CHUNK_SIZE);
     for (let i = 1; i <= totalChunks; i++) {
@@ -649,17 +648,22 @@ export function useResource() {
           ...currentDataBlob,
           res as unknown as BlobPart
         ]);
+        percentage.value = Math.round((i / totalChunks) * 100);
       } catch (error) {
         return;
       }
     }
+    showDiaLoading.value = false;
     const blob = new Blob(state.blobRef.get(record.fileId), {
       type: "application/octet-stream"
     });
     downloadFileByBlob(blob, record.originFileName);
-    loading.close();
     message("下载成功！", { type: "success" });
   }
+
+  const closeDiaLoad = () => {
+    showDiaLoading.value = false;
+  };
 
   onMounted(() => {
     onSearch();
@@ -703,6 +707,8 @@ export function useResource() {
     progressVisible,
     progress,
     expandRowKeys,
+    percentage,
+    showDiaLoading,
     onSearch,
     onSearchDev,
     onSearchMode,
@@ -725,6 +731,7 @@ export function useResource() {
     openPushDia,
     restartForm,
     restartFormMode,
-    handleDown
+    handleDown,
+    closeDiaLoad
   };
 }
