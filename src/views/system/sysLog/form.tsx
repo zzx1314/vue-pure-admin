@@ -27,11 +27,11 @@ export function useLogForm() {
       prop: "ip",
       valueType: "copy",
       colProps: {
-        span: 5
+        span: 4
       },
       formItemProps: {
         style: {
-          width: "230px"
+          width: "100%"
         }
       }
     },
@@ -40,11 +40,11 @@ export function useLogForm() {
       prop: "type",
       valueType: "copy",
       colProps: {
-        span: 5
+        span: 4
       },
       formItemProps: {
         style: {
-          width: "230px"
+          width: "100%"
         }
       }
     },
@@ -53,11 +53,11 @@ export function useLogForm() {
       prop: "subType",
       valueType: "copy",
       colProps: {
-        span: 5
+        span: 4
       },
       formItemProps: {
         style: {
-          width: "230px"
+          width: "100%"
         }
       }
     },
@@ -66,11 +66,12 @@ export function useLogForm() {
       prop: "operator",
       valueType: "copy",
       colProps: {
-        span: 5
+        span: 4
       },
       formItemProps: {
+        labelWidth: "60px",
         style: {
-          width: "230px"
+          width: "100%"
         }
       }
     },
@@ -79,11 +80,12 @@ export function useLogForm() {
       prop: "action",
       valueType: "copy",
       colProps: {
-        span: 5
+        span: 4
       },
       formItemProps: {
+        labelWidth: "80px",
         style: {
-          width: "230px"
+          width: "100%"
         }
       }
     },
@@ -93,8 +95,9 @@ export function useLogForm() {
       valueType: "date-picker",
       type: "date",
       formItemProps: {
+        labelWidth: "80px",
         style: {
-          width: "230px"
+          width: "100%"
         }
       },
       fieldProps: {
@@ -102,7 +105,7 @@ export function useLogForm() {
         valueFormat: "YYYY-MM-DD HH:mm:ss"
       },
       colProps: {
-        span: 5
+        span: 4
       }
     },
     {
@@ -110,8 +113,9 @@ export function useLogForm() {
       prop: "endTime",
       valueType: "date-picker",
       formItemProps: {
+        labelWidth: "80px",
         style: {
-          width: "230px"
+          width: "100%"
         }
       },
       fieldProps: {
@@ -119,7 +123,7 @@ export function useLogForm() {
         valueFormat: "YYYY-MM-DD"
       },
       colProps: {
-        span: 5
+        span: 4
       }
     }
   ];
