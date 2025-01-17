@@ -83,6 +83,12 @@ export function useOBusLogs() {
       minWidth: 100
     },
     {
+      label: "日志数量",
+      prop: "logNum",
+      minWidth: 100,
+      cellRenderer: ({ row }) => <el-tag type={"success"}>{row.logNum}</el-tag>
+    },
+    {
       label: "创建时间",
       prop: "createTime",
       minWidth: 150
