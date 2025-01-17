@@ -856,7 +856,12 @@ const closePro = () => {
       </template>
     </PureTableBar>
 
-    <el-dialog v-model="dialogFormVisible" :title="title" width="800px">
+    <el-dialog
+      v-model="dialogFormVisible"
+      :title="title"
+      width="800px"
+      @close="cancel"
+    >
       <el-form
         ref="addFormRef"
         :model="addForm.value"
