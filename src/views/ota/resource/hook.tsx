@@ -658,6 +658,7 @@ export function useResource() {
     });
     downloadFileByBlob(blob, record.originFileName);
     loading.close();
+    message("下载成功！", { type: "success" });
   }
 
   onMounted(() => {

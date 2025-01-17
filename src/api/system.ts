@@ -73,7 +73,7 @@ const fileMinoUp = {
   checkFileByMd5: `/api/upms/files/multipart/check/`,
   initMultiPartUpload: "/api/upms/files/multipart/init",
   mergeMultipartUpload: "/api/upms/files/multipart/merge/",
-  downloadMultipartFile: "/api/upms/files/download/",
+  downloadMultipartFile: "/api/upms/files/downloadByFileId/",
   getFileList: "/api/upms/files/list"
 };
 
