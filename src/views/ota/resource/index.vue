@@ -56,6 +56,7 @@ const {
   devClumns,
   pagination,
   paginationDev,
+  paginationSon,
   dialogFormVisible,
   dialogPushVisible,
   title,
@@ -749,8 +750,7 @@ const closePro = () => {
               :size="size"
               :data="dataListMode"
               :checkList="checkList"
-              :pagination="pagination"
-              :paginationSmall="true"
+              :pagination="paginationSon"
               :header-cell-style="{
                 background: 'var(--el-table-row-hover-bg-color)',
                 color: 'var(--el-text-color-primary)'

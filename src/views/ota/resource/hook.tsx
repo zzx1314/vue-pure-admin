@@ -52,6 +52,15 @@ export function useResource() {
     background: true
   });
 
+  const paginationSon = reactive<PaginationProps>({
+    total: 0,
+    pageSize: 10,
+    currentPage: 1,
+    background: true,
+    small: true,
+    align: "center"
+  });
+
   const paginationDev = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,
@@ -313,7 +322,7 @@ export function useResource() {
   }
   function handleSizeChangeMode(val: number) {
     console.log(`${val} items per page`);
-    pagination.pageSize = val;
+    paginationSon.pageSize = val;
     onSearchMode(expandRowKeys.value[0]);
   }
 
@@ -331,7 +340,7 @@ export function useResource() {
 
   function handleCurrentChangeMode(val: number) {
     console.log(`current page: ${val}`);
-    pagination.currentPage = val;
+    paginationSon.currentPage = val;
     onSearchMode(expandRowKeys.value[0]);
   }
 
@@ -349,8 +358,8 @@ export function useResource() {
     modelLoading.value = true;
     console.log("查询模块信息");
     const page = {
-      size: pagination.pageSize,
-      current: pagination.currentPage
+      size: paginationSon.pageSize,
+      current: paginationSon.currentPage
     };
     const query = {
       ...page,
@@ -360,7 +369,7 @@ export function useResource() {
     };
     const { data } = await resPageV1(query);
     dataListMode.value = data.records;
-    pagination.total = data.total;
+    paginationSon.total = data.total;
     // 对dataList中的fileSize 进行格式化
     dataListMode.value.forEach(item => {
       if (item.fileSize) {
@@ -670,6 +679,7 @@ export function useResource() {
     title,
     pagination,
     paginationDev,
+    paginationSon,
     addForm,
     pushForm,
     rules,
