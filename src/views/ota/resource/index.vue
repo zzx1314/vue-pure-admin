@@ -684,7 +684,7 @@ const closePro = () => {
           @expand-change="handleExpandChange"
         >
           <template #expand="{ row }">
-            <div class="m-4">
+            <div class="m-1">
               <h4>{{ row.softwareName }}软件包</h4>
             </div>
             <el-form
@@ -698,6 +698,7 @@ const closePro = () => {
                   v-model="queryForm.resType"
                   placeholder="选择资源类型"
                   style="width: 150px"
+                  size="small"
                 >
                   <el-option
                     v-for="item in resTypeOption"
@@ -710,6 +711,7 @@ const closePro = () => {
               <el-form-item label="组件包名称：" prop="pkgName">
                 <el-input
                   v-model="queryForm.pkgName"
+                  size="small"
                   placeholder="请输入组件包名称"
                   clearable
                   class="!w-[150px]"
@@ -718,6 +720,7 @@ const closePro = () => {
               <el-form-item label="组件包版本：" prop="version">
                 <el-input
                   v-model="queryForm.version"
+                  size="small"
                   placeholder="请输入组件包版本"
                   clearable
                   class="!w-[150px]"
@@ -725,14 +728,16 @@ const closePro = () => {
               </el-form-item>
               <el-form-item>
                 <el-button
-                  type="primary"
+                  type="success"
                   :icon="useRenderIcon(Search)"
                   :loading="loading"
+                  size="small"
                   @click="onSearchMode(expandRowKeys[0])"
                 >
                   搜索
                 </el-button>
                 <el-button
+                  size="small"
                   :icon="useRenderIcon(Refresh)"
                   @click="restartFormMode(formRefMode)"
                 >
@@ -740,68 +745,70 @@ const closePro = () => {
                 </el-button>
               </el-form-item>
             </el-form>
-            <pure-table
-              ref="tableRefMod"
-              align-whole="center"
-              showOverflowTooltip
-              table-layout="auto"
-              :columns="modeColumns"
-              :loading="modelLoading"
-              :size="size"
-              :data="dataListMode"
-              :checkList="checkList"
-              :pagination="paginationSon"
-              :header-cell-style="{
-                background: 'var(--el-table-row-hover-bg-color)',
-                color: 'var(--el-text-color-primary)'
-              }"
-              @selection-change="handleSelectionChange"
-              @page-size-change="handleSizeChangeMode"
-              @page-current-change="handleCurrentChangeMode"
-            >
-              <template #operation="{ row }">
-                <el-button
-                  v-if="hasAuth('res_update')"
-                  class="reset-margin"
-                  link
-                  type="primary"
-                  :size="size"
-                  :icon="useRenderIcon(EditPen)"
-                  @click="handleUpdate(row)"
-                >
-                  修改
-                </el-button>
+            <div class="px-10">
+              <pure-table
+                ref="tableRefMod"
+                align-whole="center"
+                showOverflowTooltip
+                table-layout="auto"
+                :columns="modeColumns"
+                :loading="modelLoading"
+                size="small"
+                :data="dataListMode"
+                :checkList="checkList"
+                :pagination="paginationSon"
+                :header-cell-style="{
+                  background: 'var(--el-table-row-hover-bg-color)',
+                  color: 'var(--el-text-color-primary)'
+                }"
+                @selection-change="handleSelectionChange"
+                @page-size-change="handleSizeChangeMode"
+                @page-current-change="handleCurrentChangeMode"
+              >
+                <template #operation="{ row }">
+                  <el-button
+                    v-if="hasAuth('res_update')"
+                    class="reset-margin"
+                    link
+                    type="primary"
+                    :size="size"
+                    :icon="useRenderIcon(EditPen)"
+                    @click="handleUpdate(row)"
+                  >
+                    修改
+                  </el-button>
 
-                <el-button
-                  v-if="row.type === '模块' && hasAuth('down_res')"
-                  class="reset-margin"
-                  link
-                  type="primary"
-                  :size="size"
-                  :icon="useRenderIcon(Download)"
-                  @click="handleDown(row)"
-                >
-                  下载
-                </el-button>
-                <el-popconfirm
-                  v-if="hasAuth('res_del')"
-                  title="是否确认删除?"
-                  @confirm="handleDelete(row)"
-                >
-                  <template #reference>
-                    <el-button
-                      class="reset-margin"
-                      link
-                      type="primary"
-                      :size="size"
-                      :icon="useRenderIcon(Delete)"
-                    >
-                      删除
-                    </el-button>
-                  </template>
-                </el-popconfirm>
-              </template>
-            </pure-table>
+                  <el-button
+                    v-if="row.type === '模块' && hasAuth('down_res')"
+                    class="reset-margin"
+                    link
+                    type="primary"
+                    :size="size"
+                    :icon="useRenderIcon(Download)"
+                    @click="handleDown(row)"
+                  >
+                    下载
+                  </el-button>
+                  <el-popconfirm
+                    v-if="hasAuth('res_del')"
+                    title="是否确认删除?"
+                    @confirm="handleDelete(row)"
+                  >
+                    <template #reference>
+                      <el-button
+                        class="reset-margin"
+                        link
+                        type="primary"
+                        :size="size"
+                        :icon="useRenderIcon(Delete)"
+                      >
+                        删除
+                      </el-button>
+                    </template>
+                  </el-popconfirm>
+                </template>
+              </pure-table>
+            </div>
           </template>
           <template #operation="{ row }">
             <el-button
