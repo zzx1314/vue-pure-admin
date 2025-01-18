@@ -149,6 +149,7 @@ export function useDept() {
   };
 
   function findOrgChildren(treeData: any, result: any) {
+    if (!treeData) return;
     for (let i = 0; i < treeData.length; i++) {
       if (treeData[i].children && treeData[i].children.length > 0) {
         findOrgChildren(treeData[i].children, result);
