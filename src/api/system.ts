@@ -26,7 +26,8 @@ const orgurls = {
   allList: `/api/upms/sysOrg/allList`,
   saveSysOrg: `/api/upms/sysOrg`,
   updateById: `/api/upms/sysOrg`,
-  removeById: `/api/upms/sysOrg/`
+  removeById: `/api/upms/sysOrg/`,
+  removeByIds: `/api/upms/sysOrg/removeByIds`
 };
 
 const userUrls = {
@@ -172,6 +173,13 @@ export const updateById = (param?: object) => {
  */
 export const removeById = (param: internal) => {
   return http.axiosDelete<Result>(orgurls.removeById + param);
+};
+
+/**
+ * 删除部门
+ */
+export const removeByIds = (param?: object) => {
+  return http.axiosPostRequest<Result>(orgurls.removeByIds, param);
 };
 
 /**
