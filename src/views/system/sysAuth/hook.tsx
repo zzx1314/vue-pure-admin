@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue";
 import { getMenuData, listAllRole, setMenuAuth } from "@/api/system";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
+import { ElMessageBox } from "element-plus";
 
 export function sysAuth() {
   const defaultProps = {
@@ -36,24 +37,34 @@ export function sysAuth() {
   /** 点击全部 */
   const handleCheckAllChange = (id: number, val: boolean) => {
     console.log(val);
-    const allUse = [];
-    for (const val of sysMenuTitleVoData.value) {
-      // 判断groupId
-      if (val.id == id) {
-        val.useAuthList = val.isCheckAll
-          ? val.authList.map(item => item.id)
-          : [];
+    ElMessageBox.confirm(`确认要修改权限吗？`, "系统提示", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning",
+      dangerouslyUseHTMLString: true,
+      draggable: true
+    }).then(() => {
+      const allUse = [];
+      for (const val of sysMenuTitleVoData.value) {
+        // 判断groupId
+        if (val.id == id) {
+          val.useAuthList = val.isCheckAll
+            ? val.authList.map(item => item.id)
+            : [];
+        }
+        allUse.push(...val.useAuthList);
       }
-      allUse.push(...val.useAuthList);
-    }
-    const params = {
-      roleCode: currentRoleCode.value,
-      authList: allUse
-    };
-    setMenuAuth(params).then(res => {
-      console.log(res);
+      const params = {
+        roleCode: currentRoleCode.value,
+        authList: allUse
+      };
+      setMenuAuth(params).then(res => {
+        if (res.code === SUCCESS) {
+          message("权限将在下次登录生效！", { type: "success" });
+        }
+      });
+      console.log("useAuth", allUse);
     });
-    console.log("useAuth", allUse);
   };
 
   /** 选中 */
