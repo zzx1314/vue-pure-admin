@@ -153,7 +153,7 @@ const validatePass4 = (rule: any, value: any, callback: any) => {
   }
   if (passComplexityStr === "2") {
     // 密码是数字，字母组合
-    if (value.match(/^[0-9a-zA-Z]+$/)) {
+    if (value.match(/^(?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z]+$/)) {
       callback();
     } else {
       callback(new Error("密码必须是数字，字母组合"));
@@ -161,7 +161,7 @@ const validatePass4 = (rule: any, value: any, callback: any) => {
   }
   if (passComplexityStr === "3") {
     // 密码是数字，字母，特殊字符组合
-    if (value.match(/^[0-9a-zA-Z\W]+$/)) {
+    if (value.match(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\W_]).+$/)) {
       callback();
     } else {
       callback(new Error("密码必须是数字，字母，特殊字符组合"));
@@ -191,7 +191,7 @@ const rules = {
     <el-dialog
       :model-value="dialogFormVisible"
       :title="title"
-      width="40%"
+      width="500px"
       :append-to-body="true"
       @close="cancel(addFormRef)"
     >

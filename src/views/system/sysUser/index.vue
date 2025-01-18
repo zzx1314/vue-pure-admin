@@ -69,6 +69,7 @@ const getSysSeting = () => {
   getSafePolicy().then(res => {
     if (res.code === SUCCESS) {
       addFormRul.value = res.data;
+      console.log("获取安全策略", addFormRul.value);
     }
   });
 };
@@ -115,7 +116,7 @@ const validatePass4 = (rule: any, value: any, callback: any) => {
   }
   if (passComplexityStr === "2") {
     // 密码是数字，字母组合
-    if (value.match(/^[0-9a-zA-Z]+$/)) {
+    if (value.match(/^(?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z]+$/)) {
       callback();
     } else {
       callback(new Error("密码必须是数字，字母组合"));
@@ -123,7 +124,7 @@ const validatePass4 = (rule: any, value: any, callback: any) => {
   }
   if (passComplexityStr === "3") {
     // 密码是数字，字母，特殊字符组合
-    if (value.match(/^[0-9a-zA-Z\W]+$/)) {
+    if (value.match(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\W_]).+$/)) {
       callback();
     } else {
       callback(new Error("密码必须是数字，字母，特殊字符组合"));
@@ -451,6 +452,7 @@ async function getAllRole() {
             <el-input
               v-model="addForm.newpassword"
               style="width: 200px"
+              placeholder="请输入密码"
               type="password"
             />
           </el-form-item>
@@ -463,6 +465,7 @@ async function getAllRole() {
               v-model="addForm.newpassword1"
               style="width: 200px"
               type="password"
+              placeholder="请输入密码"
             />
           </el-form-item>
         </el-form>
