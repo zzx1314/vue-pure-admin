@@ -74,7 +74,8 @@ const urls = {
   refreshToken: `/api/auth/oauth/refreshToken`,
   getInfo: `/api/upms/sysUser/info`,
   checkToken: `/api/upms/checkToken/isExpire`,
-  updatePassword: `/api/upms/sysUser/edit`
+  updatePassword: `/api/upms/sysUser/edit`,
+  getUserByRoleIdNoPage: `/api/upms/sysUser/getUserByRoleIdNoPage`
 };
 
 /**
@@ -118,4 +119,9 @@ export const getMineLogs = (data?: object) => {
 /** 账户设置-修改密码 */
 export const updatePassword = (data?: object) => {
   return http.axiosPut<Result>(urls.updatePassword, data);
+};
+
+/** 获取用户列表 */
+export const getUserByRoleIdNoPage = (query?: object) => {
+  return http.axiosGetRequest<Result>(urls.getUserByRoleIdNoPage, query);
 };
