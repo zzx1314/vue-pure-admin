@@ -77,13 +77,16 @@ export function useProd() {
   const columns: TableColumnList = [
     {
       type: "selection",
+      label: "勾选列",
       width: 55,
-      align: "left"
+      align: "left",
+      fixed: "left"
     },
     {
       label: "序号",
       type: "index",
-      width: 70
+      width: 70,
+      fixed: "left"
     },
     {
       label: "特性名称",
