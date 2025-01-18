@@ -375,21 +375,28 @@ async function getAllRole() {
       <el-dialog
         v-model="dialogFormVisible"
         :title="title"
-        width="800px"
+        width="500px"
         @close="cancel"
       >
         <el-form
           ref="addFormRef"
           :model="addForm"
-          :inline="true"
           :rules="rules"
           label-width="150px"
         >
           <el-form-item label="账号" prop="username">
-            <el-input v-model="addForm.username" placeholder="请输入账号" />
+            <el-input
+              v-model="addForm.username"
+              style="width: 200px"
+              placeholder="请输入账号"
+            />
           </el-form-item>
           <el-form-item label="姓名" prop="realName">
-            <el-input v-model="addForm.realName" placeholder="请输入姓名" />
+            <el-input
+              v-model="addForm.realName"
+              style="width: 200px"
+              placeholder="请输入姓名"
+            />
           </el-form-item>
           <!--          <el-form-item label="性别" prop="sex">
             <el-select
@@ -441,14 +448,22 @@ async function getAllRole() {
             label="密码"
             prop="newpassword"
           >
-            <el-input v-model="addForm.newpassword" type="password" />
+            <el-input
+              v-model="addForm.newpassword"
+              style="width: 200px"
+              type="password"
+            />
           </el-form-item>
           <el-form-item
             v-if="title === '添加用户'"
             label="确认密码"
             prop="newpassword1"
           >
-            <el-input v-model="addForm.newpassword1" type="password" />
+            <el-input
+              v-model="addForm.newpassword1"
+              style="width: 200px"
+              type="password"
+            />
           </el-form-item>
         </el-form>
 
