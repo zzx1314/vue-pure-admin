@@ -177,17 +177,22 @@ export function useResource() {
   const columns: TableColumnList = [
     {
       type: "expand",
-      slot: "expand"
+      slot: "expand",
+      width: 50,
+      fixed: "left"
     },
     {
       type: "selection",
-      width: 55,
-      align: "left"
+      width: 50,
+      align: "left",
+      fixed: "left",
+      label: "勾选列"
     },
     {
       label: "序号",
       type: "index",
-      width: 70
+      width: 70,
+      fixed: "left"
     },
     {
       label: "类型",

@@ -50,12 +50,16 @@ export function useDept() {
     {
       type: "selection",
       width: 55,
-      align: "left"
+      align: "left",
+      fixed: "left",
+      label: "勾选列",
+      reserveSelection: true
     },
     {
       label: "序号",
       type: "index",
-      minWidth: 70
+      minWidth: 70,
+      fixed: "left"
     },
     {
       label: "部门名称",

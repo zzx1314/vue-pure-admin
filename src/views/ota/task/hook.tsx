@@ -57,12 +57,15 @@ export function useTask() {
     {
       type: "selection",
       width: 55,
-      align: "left"
+      align: "left",
+      fixed: "left",
+      label: "勾选列"
     },
     {
       label: "序号",
       type: "index",
-      width: 70
+      width: 70,
+      fixed: "left"
     },
     {
       label: "设备Ip",
@@ -101,12 +104,15 @@ export function useTask() {
     {
       type: "selection",
       width: 55,
-      align: "left"
+      align: "left",
+      fixed: "left",
+      label: "勾选列"
     },
     {
       label: "序号",
       type: "index",
-      width: 70
+      width: 70,
+      fixed: "left"
     },
     {
       label: "任务名称",

@@ -150,34 +150,43 @@ const {
     <el-dialog
       v-model="dialogFormVisible"
       :title="title"
-      width="800px"
+      width="500px"
       @close="cancel"
     >
       <el-form
         ref="addFormRef"
         :model="addForm.value"
-        :inline="true"
         :rules="rules"
         label-width="100px"
       >
         <el-form-item label="名称" prop="name">
-          <el-input v-model="addForm.value.name" placeholder="请输入角色名称" />
+          <el-input
+            v-model="addForm.value.name"
+            style="width: 200px"
+            placeholder="请输入角色名称"
+          />
         </el-form-item>
 
         <el-form-item label="编码" prop="code">
-          <el-input v-model="addForm.value.code" placeholder="请输入角色编码" />
+          <el-input
+            v-model="addForm.value.code"
+            style="width: 200px"
+            placeholder="请输入角色编码"
+          />
         </el-form-item>
 
         <el-form-item label="描述" prop="description">
           <el-input
             v-model="addForm.value.description"
             type="textarea"
+            style="width: 200px"
             placeholder="请输入角色描述"
           />
         </el-form-item>
         <el-form-item label="备注" prop="remarks">
           <el-input
             v-model="addForm.value.remarks"
+            style="width: 200px"
             type="textarea"
             placeholder="请输入备注信息"
           />

@@ -634,7 +634,12 @@ const closePro = () => {
       </el-form-item>
     </el-form>
 
-    <PureTableBar title="资源列表" :columns="columns" @refresh="onSearch">
+    <PureTableBar
+      title="资源列表"
+      :columns="columns"
+      :isShowColumnsSetting="false"
+      @refresh="onSearch"
+    >
       <template #buttons>
         <el-button
           v-if="hasAuth('res_add')"
