@@ -1,4 +1,4 @@
-import { computed, nextTick, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import { ElLoading, type FormInstance, type FormRules } from "element-plus";
 import {
@@ -7,9 +7,10 @@ import {
   cerUpdate,
   cerDelete,
   loseEfficacy
-} from "@/api/otaCer";
+} from "@/api/cerBus";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
+import { getProjSelectApi } from "@/api/cerProj";
 
 export function useCa() {
   // ----变量定义-----
@@ -27,6 +28,7 @@ export function useCa() {
   const loading = ref(true);
   const dialogFormVisible = ref(false);
   const title = ref("");
+  const projOption = ref([]);
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,
@@ -37,8 +39,8 @@ export function useCa() {
     value: {
       id: null,
       parentId: 0,
-      projName: "",
-      modelName: "",
+      projArray: [],
+      projId: "",
       name: "",
       domain: "",
       expiryData: "",
@@ -48,7 +50,7 @@ export function useCa() {
     }
   });
   const rules = reactive<FormRules>({
-    projName: [{ required: true, message: "所属项目必填", trigger: "blur" }],
+    projArray: [{ required: true, message: "所属项目必填", trigger: "change" }],
     modelName: [{ required: true, message: "所属模块必填", trigger: "blur" }],
     password: [{ required: true, message: "密码必填", trigger: "blur" }],
     name: [{ required: true, message: "名称必填", trigger: "blur" }],
@@ -93,11 +95,6 @@ export function useCa() {
     {
       label: "所属项目",
       prop: "projName",
-      minWidth: 100
-    },
-    {
-      label: "所属模块",
-      prop: "modelName",
       minWidth: 100
     },
     {
@@ -164,8 +161,9 @@ export function useCa() {
   // 修改
   function handleUpdate(row, formEl) {
     console.log(row);
-    const roleInfo = JSON.stringify(row);
-    addForm.value = JSON.parse(roleInfo);
+    const paramData = JSON.stringify(row);
+    addForm.value = JSON.parse(paramData);
+    addForm.value.projArray = row.projId.split(",");
     openDia("修改", formEl);
   }
   // 删除
@@ -233,15 +231,11 @@ export function useCa() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    nextTick(() => {
-      formEl.resetFields();
-    });
+    formEl.resetFields();
   };
   const restartForm = formEl => {
     if (!formEl) return;
-    nextTick(() => {
-      formEl.resetFields();
-    });
+    formEl.resetFields();
     cancel();
     onSearch();
   };
@@ -250,8 +244,8 @@ export function useCa() {
     addForm.value = {
       id: null,
       parentId: 0,
-      projName: "",
-      modelName: "",
+      projArray: [],
+      projId: "",
       name: "",
       domain: "",
       expiryData: "",
@@ -296,6 +290,7 @@ export function useCa() {
         } else {
           // 新增
           console.log("新增信息");
+          addForm.value.projId = addForm.value.projArray.join(",");
           cerSave(addForm.value).then(res => {
             if (res.code === SUCCESS) {
               message("保存成功！", { type: "success" });
@@ -311,10 +306,16 @@ export function useCa() {
       }
     });
   };
+  function getProjSelect() {
+    getProjSelectApi().then(res => {
+      projOption.value = res.data;
+    });
+  }
   // 打开弹框
   function openDia(param, formEl?) {
     dialogFormVisible.value = true;
     title.value = param;
+    getProjSelect();
     resetForm(formEl);
   }
 
@@ -335,6 +336,7 @@ export function useCa() {
     columns,
     status,
     buttonClass,
+    projOption,
     onSearch,
     resetForm,
     handleUpdate,

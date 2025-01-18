@@ -25,9 +25,9 @@ const {
   dialogFormVisible,
   title,
   addForm,
-  status,
   rules,
   moreCondition,
+  projOption,
   cancel,
   restartForm,
   submitForm,
@@ -58,14 +58,6 @@ defineOptions({
         <el-input
           v-model="queryForm.projName"
           placeholder="请输入项目名称"
-          clearable
-          class="!w-[150px]"
-        />
-      </el-form-item>
-      <el-form-item label="模块名称" prop="name">
-        <el-input
-          v-model="queryForm.modelName"
-          placeholder="请输入模块名称"
           clearable
           class="!w-[150px]"
         />
@@ -134,9 +126,8 @@ defineOptions({
           重置
         </el-button>
         <el-button
-          type="primary"
+          type="text"
           :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
-          link
           @click="moreCondition = !moreCondition"
         />
       </el-form-item>
@@ -221,7 +212,7 @@ defineOptions({
       </template>
     </PureTableBar>
 
-    <el-dialog v-model="dialogFormVisible" :title="title" width="800px">
+    <el-dialog v-model="dialogFormVisible" :title="title" width="780px">
       <el-form
         ref="addFormRef"
         :model="addForm.value"
@@ -229,18 +220,21 @@ defineOptions({
         :rules="rules"
         label-width="100px"
       >
-        <el-form-item label="项目名称" prop="projName">
-          <el-input
-            v-model="addForm.value.projName"
-            placeholder="请输入项目名称"
-          />
-        </el-form-item>
-
-        <el-form-item label="模块名称" prop="modelName">
-          <el-input
-            v-model="addForm.value.modelName"
-            placeholder="请输入模块名称"
-          />
+        <el-form-item label="项目名称" prop="projArray">
+          <el-select
+            v-model="addForm.value.projArray"
+            clearable
+            multiple
+            placeholder="请选择项目"
+            style="width: 200px"
+          >
+            <el-option
+              v-for="item in projOption"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
 
         <el-form-item label="CA名称" prop="name">
