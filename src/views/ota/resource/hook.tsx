@@ -61,7 +61,8 @@ export function useResource() {
     currentPage: 1,
     background: true,
     small: true,
-    align: "center"
+    align: "center",
+    class: "pageSonClass"
   });
 
   const paginationDev = reactive<PaginationProps>({

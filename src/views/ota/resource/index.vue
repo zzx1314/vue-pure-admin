@@ -757,6 +757,7 @@ const closePro = () => {
             <div class="px-10">
               <pure-table
                 ref="tableRefMod"
+                class-name="commonPageClass"
                 align-whole="center"
                 showOverflowTooltip
                 table-layout="auto"
@@ -1216,5 +1217,9 @@ const closePro = () => {
 
 .centered {
   width: 100%;
+}
+
+:deep(.el-pagination.is-background.pageSonClass .el-pager li.is-active) {
+  background-color: #67c23a !important;
 }
 </style>
