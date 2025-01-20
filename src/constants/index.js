@@ -1,1 +1,1 @@
-export const CHUNK_SIZE = 1024 * 1024 * 100;
+export const CHUNK_SIZE = 1024 * 1024 * 10;

@@ -655,6 +655,7 @@ export function useResource() {
         ]);
         percentage.value = Math.round((i / totalChunks) * 100);
       } catch (error) {
+        message("下载失败！" + i + "分片下载失败！" + error, { type: "error" });
         return;
       }
     }
@@ -664,6 +665,7 @@ export function useResource() {
     });
     downloadFileByBlob(blob, record.originFileName);
     message("下载成功！", { type: "success" });
+    percentage.value = 0;
   }
 
   const closeDiaLoad = () => {
