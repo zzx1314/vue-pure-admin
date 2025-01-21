@@ -138,7 +138,7 @@ class PureHttp {
         if (error.response.status === 500) {
           message("服务器错误", { type: "error" });
         } else if (error.response.status === 401) {
-          message("当前用户没有分配权限", { type: "error" });
+          message("权限失效，自动退出！", { type: "error" });
         } else if (
           error.response.status === 400 &&
           error.response.data &&

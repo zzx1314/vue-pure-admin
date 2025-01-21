@@ -94,7 +94,19 @@ const {
                   :key="hia.name"
                   class="mb-1"
                 >
-                  <div>{{ hia.name }}: {{ hia.value }}</div>
+                  <div class="flex flex-row">
+                    <div
+                      class="basis-10 mr-1"
+                      style="flex-basis: 10%; font-weight: bold"
+                    >
+                      {{ hia.name + ": " }}
+                    </div>
+                    <div
+                      class="basis-90"
+                      style="flex-basis: 90%"
+                      v-html="hia.value"
+                    />
+                  </div>
                 </div>
               </div>
               <div class="flex-1 px-4 flex flex-col items-center">
