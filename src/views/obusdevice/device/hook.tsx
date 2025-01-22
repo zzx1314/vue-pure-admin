@@ -118,11 +118,6 @@ export function useOBusDevice() {
       minWidth: 150
     },
     {
-      label: "系统架构",
-      prop: "arch",
-      minWidth: 100
-    },
-    {
       label: "状态",
       prop: "status",
       minWidth: 80,
