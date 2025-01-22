@@ -125,20 +125,8 @@ export function useOBusDevice() {
     {
       label: "状态",
       prop: "status",
-      minWidth: 100,
-      cellRenderer: ({ row }) => (
-        <el-tag
-          type={
-            row.status === "在线"
-              ? "success"
-              : row.status === "离线"
-                ? "warning"
-                : "danger"
-          }
-        >
-          {row.status}
-        </el-tag>
-      )
+      minWidth: 80,
+      slot: "content"
     },
     {
       label: "备注",

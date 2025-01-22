@@ -180,6 +180,12 @@ const {
               </template>
             </el-dropdown>
           </template>
+          <template #content="{ row }">
+            <div class="p-2.5 flex justify-center items-center">
+              <div v-if="row.status === '在线'" class="breathing-light" />
+              <div v-else class="offline-breathing-light" />
+            </div>
+          </template>
         </pure-table>
       </template>
     </PureTableBar>
@@ -230,6 +236,48 @@ const {
 <style scoped lang="scss">
 :deep(.el-dropdown-menu__item i) {
   margin: 0;
+}
+
+.breathing-light {
+  width: 10px;
+  height: 10px;
+  background: #67c23a;
+  border-radius: 100%;
+  animation: 2s shadow-breath ease-out infinite normal;
+}
+
+.offline-breathing-light {
+  width: 10px;
+  height: 10px;
+  background: #f56c6c;
+  border-radius: 100%;
+  animation: 2s offline-shadow-breath ease-out infinite normal;
+}
+
+@keyframes shadow-breath {
+  0%,
+  100% {
+    box-shadow: 0 0 4px 1px #67c23a;
+    transform: scale(0.8);
+  }
+
+  50% {
+    box-shadow: 0 0 30px 3px #67c23a;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes offline-shadow-breath {
+  0%,
+  100% {
+    box-shadow: 0 0 4px 1px #f56c6c;
+    transform: scale(0.8);
+  }
+
+  50% {
+    box-shadow: 0 0 30px 3px #f56c6c;
+    transform: scale(1.5);
+  }
 }
 
 :deep(.el-link) {
