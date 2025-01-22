@@ -1,4 +1,4 @@
-import { computed, nextTick, onMounted, reactive, ref } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules } from "element-plus";
 import {
@@ -359,6 +359,15 @@ export function useOBusDevice() {
 
   onMounted(() => {
     onSearch();
+
+    // 设置定时器，每分钟执行一次查询
+    const intervalId = setInterval(() => {
+      onSearch();
+    }, 60000);
+    // 在组件卸载时清除定时器
+    onUnmounted(() => {
+      clearInterval(intervalId);
+    });
   });
 
   return {
