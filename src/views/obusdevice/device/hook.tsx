@@ -38,6 +38,7 @@ export function useOBusDevice() {
   const dialogShellLoginVisible = ref(false);
   const terminal = ref(null);
   const webSocketShell = ref(null);
+  const expandRowKeys = ref([]);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -282,6 +283,13 @@ export function useOBusDevice() {
     dialogShellVisible.value = true;
   };
 
+  function handleExpandChange(row, rowArray) {
+    console.log("点击关闭或者展开", row.id, rowArray);
+    rowArray.forEach(item => {
+      expandRowKeys.value.push(item.id);
+    });
+  }
+
   // 查询
   async function onSearch() {
     loading.value = true;
@@ -382,6 +390,7 @@ export function useOBusDevice() {
     columns,
     buttonClass,
     moreCondition,
+    expandRowKeys,
     dialogFormVisible,
     dialogShellVisible,
     dialogShellLoginVisible,
@@ -397,6 +406,7 @@ export function useOBusDevice() {
     handleDialogOpened,
     handleShallLogin,
     handleDialogClosed,
+    handleExpandChange,
     cancel,
     restartForm,
     openDia

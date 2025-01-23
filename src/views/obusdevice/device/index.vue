@@ -31,6 +31,7 @@ const {
   loginShellForm,
   rules,
   columns,
+  expandRowKeys,
   dialogFormVisible,
   dialogShellVisible,
   dialogShellLoginVisible,
@@ -45,6 +46,7 @@ const {
   handleShallLogin,
   handleDialogOpened,
   handleDialogClosed,
+  handleExpandChange,
   cancel,
   openDia
 } = useOBusDevice();
@@ -81,6 +83,9 @@ const {
             background: 'var(--el-table-row-hover-bg-color)',
             color: 'var(--el-text-color-primary)'
           }"
+          row-key="id"
+          :expand-row-keys="expandRowKeys"
+          @expand-change="handleExpandChange"
           @selection-change="handleSelectionChange"
           @page-size-change="handleSizeChange"
           @page-current-change="handleCurrentChange"
