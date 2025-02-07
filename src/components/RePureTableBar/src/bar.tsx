@@ -316,7 +316,6 @@ export default defineComponent({
                   popper-style={{ padding: 0 }}
                   width="200"
                   trigger="click"
-                  v-if={props.isShowColumnsSetting}
                 >
                   <div class={[topClass.value]}>
                     <el-checkbox
