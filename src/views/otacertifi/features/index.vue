@@ -179,7 +179,7 @@ defineOptions({
     <el-dialog
       v-model="dialogFormVisible"
       :title="title"
-      width="800px"
+      width="500px"
       @close="cancel"
     >
       <el-form
@@ -191,6 +191,7 @@ defineOptions({
         <el-form-item label="特性名称" prop="featuresName">
           <el-input
             v-model="addForm.value.featuresName"
+            :disabled="title == '修改'"
             placeholder="请输入特性名称"
           />
         </el-form-item>
