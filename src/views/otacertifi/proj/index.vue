@@ -213,7 +213,6 @@ defineOptions({
           <el-input
             v-model="addForm.value.projCode"
             style="width: 200px"
-            :disabled="title == '修改'"
             placeholder="请输入项目编码"
           />
         </el-form-item>
@@ -223,7 +222,6 @@ defineOptions({
             clearable
             placeholder="请选择客户"
             style="width: 200px"
-            :disabled="title == '修改'"
           >
             <el-option
               v-for="item in customerList"
