@@ -411,6 +411,8 @@ export function useUser() {
         if (res.code === SUCCESS) {
           message("修改成功！", { type: "success" });
           cancel();
+        } else {
+          message(res.msg, { type: "error" });
         }
       });
     } else {
