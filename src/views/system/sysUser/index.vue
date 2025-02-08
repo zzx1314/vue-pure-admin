@@ -287,7 +287,7 @@ async function getAllRole() {
             v-if="hasAuth('user_add')"
             type="primary"
             :icon="useRenderIcon(AddFill)"
-            @click="openDia('添加用户', addFormRef)"
+            @click="openDia('新增用户', addFormRef)"
           >
             新增
           </el-button>
@@ -445,7 +445,7 @@ async function getAllRole() {
           </el-form-item>
 
           <el-form-item
-            v-if="title === '添加用户'"
+            v-if="title === '新增用户'"
             label="密码"
             prop="newpassword"
           >
@@ -457,7 +457,7 @@ async function getAllRole() {
             />
           </el-form-item>
           <el-form-item
-            v-if="title === '添加用户'"
+            v-if="title === '新增用户'"
             label="确认密码"
             prop="newpassword1"
           >
