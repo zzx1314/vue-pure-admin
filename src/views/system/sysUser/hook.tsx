@@ -121,7 +121,7 @@ export function useUser() {
         <el-switch
           size={scope.props.size === "small" ? "small" : "default"}
           loading={switchLoadMap.value[scope.index]?.loading}
-          v-model={scope.row.lockFlag}
+          v-model={scope.row.enable}
           active-value={1}
           inactive-value={0}
           active-text="已开启"
