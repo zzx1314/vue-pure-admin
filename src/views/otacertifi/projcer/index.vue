@@ -97,7 +97,13 @@ const defaultProps = {
             @click="toggleCollapse"
           />
         </div>
-        <div class="h-full bg-bg_color" :style="{ paddingTop: '20px' }">
+        <div
+          class="h-full bg-bg_color"
+          :style="{ paddingTop: '20px', width: '240px' }"
+        >
+          <p class="flex justify-center font-bold text-base truncate pb-2">
+            项目列表
+          </p>
           <el-tree
             ref="treeRef"
             node-key="id"
