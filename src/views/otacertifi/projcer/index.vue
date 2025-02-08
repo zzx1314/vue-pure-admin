@@ -356,7 +356,7 @@ const defaultProps = {
         :rules="rules"
         label-width="100px"
       >
-        <el-form-item label="项目名称" prop="projArray">
+        <el-form-item label="所属项目" prop="projArray">
           <el-select
             v-model="addForm.value.projArray"
             clearable
