@@ -136,7 +136,7 @@ const {
           重置
         </el-button>
         <el-button
-          type="text"
+          link
           :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
           @click="moreCondition = !moreCondition"
         />
