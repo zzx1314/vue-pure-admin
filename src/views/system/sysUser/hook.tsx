@@ -121,7 +121,7 @@ export function useUser() {
         <el-switch
           size={scope.props.size === "small" ? "small" : "default"}
           loading={switchLoadMap.value[scope.index]?.loading}
-          v-model={scope.row.lockFlag}
+          v-model={scope.row.enable}
           active-value={1}
           inactive-value={0}
           active-text="已开启"
@@ -177,8 +177,7 @@ export function useUser() {
    * 取消
    */
   function cancel() {
-    console.log("cancel!", addForm.value);
-    onSearch(addForm.value.orgId);
+    onSearch(queryForm.value);
     addForm.value.id = null;
     addForm.value.username = "";
     addForm.value.realName = "";
@@ -191,7 +190,7 @@ export function useUser() {
     addForm.value.orgName = orgNameVal.value;
 
     queryForm.value = {
-      orgIds: null,
+      orgIds: queryForm.value.orgIds,
       username: "",
       realName: "",
       lockFlag: null,
@@ -341,6 +340,7 @@ export function useUser() {
    */
   async function onSearch(param?: any) {
     console.log("onSearch", param);
+    console.log("onSearchQueryForm", queryForm.value);
     loading.value = true;
     const page = {
       size: pagination.pageSize,
@@ -411,6 +411,8 @@ export function useUser() {
         if (res.code === SUCCESS) {
           message("修改成功！", { type: "success" });
           cancel();
+        } else {
+          message(res.msg, { type: "error" });
         }
       });
     } else {
@@ -444,7 +446,7 @@ export function useUser() {
       formEl.resetFields();
     });
     cancel();
-    onSearch(addForm.value.orgId);
+    onSearch(queryForm.value.orgIds);
   };
 
   return {
