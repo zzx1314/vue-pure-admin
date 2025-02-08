@@ -55,16 +55,8 @@ defineOptions({
     >
       <el-form-item label="特性名称" prop="prodName">
         <el-input
-          v-model="queryForm.prodName"
+          v-model="queryForm.featuresName"
           placeholder="请输入特性名称"
-          clearable
-          class="!w-[150px]"
-        />
-      </el-form-item>
-      <el-form-item label="特性版本" prop="prodName">
-        <el-input
-          v-model="queryForm.prodVersion"
-          placeholder="请输入特性版本"
           clearable
           class="!w-[150px]"
         />

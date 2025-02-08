@@ -8,8 +8,8 @@ import { message } from "@/utils/message";
 export function useProd() {
   // ----变量定义-----
   const queryForm = reactive({
-    prodName: "",
-    prodVersion: "",
+    featuresName: "",
+    featuresVersion: "",
     modeInfo: "",
     endTime: "",
     beginTime: ""
@@ -205,8 +205,8 @@ export function useProd() {
       modeInfo: "",
       remark: ""
     };
-    queryForm.prodName = "";
-    queryForm.prodVersion = "";
+    queryForm.featuresName = "";
+    queryForm.featuresVersion = "";
     queryForm.modeInfo = "";
     queryForm.beginTime = "";
     queryForm.endTime = "";
