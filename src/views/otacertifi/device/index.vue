@@ -43,6 +43,14 @@ const {
           class="!w-[150px]"
         />
       </el-form-item>
+      <el-form-item label="激活用户" prop="name">
+        <el-input
+          v-model="queryForm.userName"
+          placeholder="请输入激活用户"
+          clearable
+          class="!w-[150px]"
+        />
+      </el-form-item>
       <el-form-item label="设备ID" prop="name">
         <el-input
           v-model="queryForm.activationCode"
@@ -94,14 +102,6 @@ const {
 
       <el-collapse-transition>
         <div v-show="moreCondition">
-          <el-form-item label="激活用户" prop="name">
-            <el-input
-              v-model="queryForm.userName"
-              placeholder="请输入激活用户"
-              clearable
-              class="!w-[150px]"
-            />
-          </el-form-item>
           <el-form-item label="激活开始时间：" prop="beginTime">
             <el-date-picker
               v-model="queryForm.beginTime"
