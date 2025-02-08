@@ -251,7 +251,7 @@ export function useProjCer() {
     console.log("handleSelectionChange", val);
   }
   // 查询
-  function onSearch() {
+  function onSearchOne() {
     loading.value = true;
     console.log("查询项目集合");
     getProjList().then(res => {
@@ -263,6 +263,14 @@ export function useProjCer() {
         getCerInfo(null);
       }
     });
+    setTimeout(() => {
+      loading.value = false;
+    }, 100);
+  }
+  function onSearch() {
+    loading.value = true;
+    console.log("查询项目集合");
+    getCerInfo(parentId.value);
     setTimeout(() => {
       loading.value = false;
     }, 100);
@@ -402,7 +410,7 @@ export function useProjCer() {
   };
 
   onMounted(() => {
-    onSearch();
+    onSearchOne();
   });
 
   return {
