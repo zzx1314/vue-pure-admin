@@ -310,7 +310,7 @@ const defaultProps = {
                           link
                           type="primary"
                           :size="size"
-                          :icon="useRenderIcon(Download)"
+                          :icon="useRenderIcon(EditPen)"
                           @click="handleUpdateProj(row, addFormRef)"
                         >
                           修改项目
