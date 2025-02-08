@@ -303,7 +303,8 @@ const defaultProps = {
                         <el-button
                           v-if="
                             hasAuth('projcer_update_proj') &&
-                            row.status != '未生效'
+                            row.status != '未生效' &&
+                            row.status != '已废弃'
                           "
                           class="reset-margin"
                           link

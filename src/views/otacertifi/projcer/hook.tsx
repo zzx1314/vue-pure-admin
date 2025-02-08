@@ -258,8 +258,9 @@ export function useProjCer() {
       console.log(res.data);
       projInfo.value = res.data;
       if (projInfo.value) {
-        deftCheck.value = [projInfo.value[0].id];
-        getCerInfo(projInfo.value[0].id);
+        /*deftCheck.value = [projInfo.value[0].id];
+        getCerInfo(projInfo.value[0].id);*/
+        getCerInfo(null);
       }
     });
     setTimeout(() => {
