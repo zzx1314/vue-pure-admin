@@ -16,6 +16,7 @@ import {
 import { useMultiTagsStoreHook } from "./multiTags";
 import { type DataInfo, setToken, removeToken, userKey } from "@/utils/auth";
 import aesUtils from "@/utils/aes";
+import { storageSession } from "@pureadmin/utils";
 
 export const useUserStore = defineStore({
   id: "pure-user",
@@ -94,6 +95,9 @@ export const useUserStore = defineStore({
       useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
       resetRouter();
       router.push("/login");
+      storageLocal().clear(); // 清空 localStorage
+      storageSession().clear(); // 清空 sessionStorage
+      location.reload();
     },
     /** 刷新`token` */
     async handRefreshToken(data) {
