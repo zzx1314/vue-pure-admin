@@ -5,7 +5,8 @@ import {
   oBusDeviceSave,
   oBusDevicePage,
   oBusDeviceUpdate,
-  oBusDeviceDelete
+  oBusDeviceDelete,
+  oBusReportLog
 } from "@/api/oBusDevice";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -289,6 +290,22 @@ export function useOBusDevice() {
       expandRowKeys.value.push(item.id);
     });
   }
+  function handleReportLog(row) {
+    console.log("handleReportLog", row);
+    let params = {
+      type: "reportLog",
+      data: {
+        fileName: "/var/log/dmesg"
+      }
+    };
+    oBusReportLog(row.deviceIp, params).then(res => {
+      if (res.code === SUCCESS) {
+        message("下发成功", { type: "success" });
+      } else {
+        message("下发失败！", { type: "error" });
+      }
+    });
+  }
 
   // 查询
   async function onSearch() {
@@ -407,6 +424,7 @@ export function useOBusDevice() {
     handleShallLogin,
     handleDialogClosed,
     handleExpandChange,
+    handleReportLog,
     cancel,
     restartForm,
     openDia

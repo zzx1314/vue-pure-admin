@@ -11,6 +11,7 @@ import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
 import More from "@iconify-icons/ep/more-filled";
 import Password from "@iconify-icons/ri/lock-password-line";
+import Upload from "@iconify-icons/ri/upload-line";
 import "@xterm/xterm/css/xterm.css";
 
 defineOptions({
@@ -47,6 +48,7 @@ const {
   handleDialogOpened,
   handleDialogClosed,
   handleExpandChange,
+  handleReportLog,
   cancel,
   openDia
 } = useOBusDevice();
@@ -179,6 +181,17 @@ const {
                       @click="handleShallLogin(row)"
                     >
                       远程登录
+                    </el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(Upload)"
+                      @click="handleReportLog(row)"
+                    >
+                      上报日志
                     </el-button>
                   </el-dropdown-item>
                 </el-dropdown-menu>

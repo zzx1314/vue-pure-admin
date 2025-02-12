@@ -19,7 +19,8 @@ const oBusDeviceUrls = {
   page: `/api/operation/oBusDevice/page`,
   save: "/api/operation/oBusDevice/save",
   delete: `/api/operation/oBusDevice/`,
-  update: "/api/operation/oBusDevice/update"
+  update: "/api/operation/oBusDevice/update",
+  reportLog: "/api/operation/command/reportLog/"
 };
 
 // 设备信息分页
@@ -37,4 +38,11 @@ export const oBusDeviceUpdate = (param?: object) => {
 // 设备信息删除
 export const oBusDeviceDelete = (param?: object) => {
   return http.axiosDelete<Result>(oBusDeviceUrls.delete + param);
+};
+// 设备上报日志
+export const oBusReportLog = (deviceId?: string, param?: object) => {
+  return http.axiosPostRequest<Result>(
+    oBusDeviceUrls.reportLog + deviceId,
+    param
+  );
 };
