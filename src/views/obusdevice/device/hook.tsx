@@ -298,7 +298,7 @@ export function useOBusDevice() {
         fileName: "/var/log/dmesg"
       }
     };
-    oBusReportLog(row.deviceIp, params).then(res => {
+    oBusReportLog(row.deviceId, params).then(res => {
       if (res.code === SUCCESS) {
         message("下发成功", { type: "success" });
       } else {
