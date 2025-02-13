@@ -487,6 +487,38 @@ class PureHttp {
   }
 
   /**
+   * 预览文件
+   */
+  public preViewMode(url, mode, name, param) {
+    const promise = new Promise((resolve, reject) => {
+      PureHttp.axiosInstance({
+        url: url,
+        method: mode,
+        data: param,
+        params: param,
+        headers: {
+          Authentication: sessionStorage.getItem("token"),
+          Accept: "application/json"
+        },
+        responseType: "arraybuffer"
+      })
+        .then((response: undefined) => {
+          debugger;
+          // name 截取后缀，以点
+          const fileType = name.substring(name.lastIndexOf(".") + 1);
+          const blob = new Blob([response], {
+            type: "application/" + fileType
+          });
+          resolve(URL.createObjectURL(blob));
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+    return promise;
+  }
+
+  /**
    * 文件预览
    * @param url
    * @param type

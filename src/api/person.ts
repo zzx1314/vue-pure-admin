@@ -63,3 +63,11 @@ export const downPerson = (param?: DownParam) => {
   let name = param.fileName.substring(param.fileName.lastIndexOf("/") + 1);
   return http.downloadUrlMode(personUrls.downPdf, "post", name, query);
 };
+
+export const preViewPerson = (param?: DownParam) => {
+  const query = {
+    fileName: param.fileName
+  };
+  let name = param.fileName.substring(param.fileName.lastIndexOf("/") + 1);
+  return http.preViewMode(personUrls.downPdf, "post", name, query);
+};

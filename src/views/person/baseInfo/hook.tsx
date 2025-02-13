@@ -6,7 +6,8 @@ import {
   personPage,
   personUpdate,
   personDelete,
-  downPerson
+  downPerson,
+  preViewPerson
 } from "@/api/person";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -237,7 +238,12 @@ export function usePerson() {
   function handleView(row) {
     console.log(row);
     dialogView.value = true;
-    viewUrl.value = row.previewUrl;
+    preViewPerson(row).then(res => {
+      console.log(res);
+      if (typeof res === "string") {
+        viewUrl.value = res;
+      }
+    });
   }
   function handleDown(row) {
     downPerson(row);
