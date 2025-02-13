@@ -32,7 +32,8 @@ export function usePerson() {
     endTime: "",
     status: "",
     interviewResult: "",
-    interviewAssess: ""
+    interviewAssess: "",
+    interviewAssessTwo: ""
   });
   const dataList = ref([]);
   const loading = ref(true);
@@ -65,7 +66,8 @@ export function usePerson() {
       technologyStack: "",
       remark: "",
       interviewResult: "",
-      interviewAssess: ""
+      interviewAssess: "",
+      interviewAssessTwo: ""
     }
   });
   const rules = reactive<FormRules>({
@@ -141,8 +143,13 @@ export function usePerson() {
       minWidth: 100
     },
     {
-      label: "面试评价",
+      label: "一面评价",
       prop: "interviewAssess",
+      minWidth: 150
+    },
+    {
+      label: "二面评价",
+      prop: "interviewAssessTwo",
       minWidth: 150
     },
     {
@@ -326,7 +333,8 @@ export function usePerson() {
       technologyStack: "",
       remark: "",
       interviewResult: "",
-      interviewAssess: ""
+      interviewAssess: "",
+      interviewAssessTwo: ""
     };
     queryForm.name = "";
     queryForm.sex = "";
@@ -345,6 +353,7 @@ export function usePerson() {
     queryForm.status = "";
     queryForm.interviewResult = "";
     queryForm.interviewAssess = "";
+    queryForm.interviewAssessTwo = "";
     dialogFormVisible.value = false;
     onSearch();
   }

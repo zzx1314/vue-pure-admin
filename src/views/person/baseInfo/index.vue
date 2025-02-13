@@ -198,11 +198,20 @@ defineOptions({
               >
                 <el-option label="通过" value="通过" />
                 <el-option label="未通过" value="未通过" />
+                <el-option label="待定" value="未通过" />
               </el-select>
             </el-form-item>
-            <el-form-item label="面试评价" prop="interviewAssess">
+            <el-form-item label="一面评价" prop="interviewAssess">
               <el-input
                 v-model="queryForm.interviewAssess"
+                placeholder="请输入面试评价"
+                clearable
+                class="!w-[150px]"
+              />
+            </el-form-item>
+            <el-form-item label="二面评价" prop="interviewAssess">
+              <el-input
+                v-model="queryForm.interviewAssessTwo"
                 placeholder="请输入面试评价"
                 clearable
                 class="!w-[150px]"
@@ -438,18 +447,29 @@ defineOptions({
           <el-select
             v-model="addForm.value.interviewResult"
             placeholder="请输入面试结果"
-            class="!w-[200px]"
+            class="!w-[191px]"
           >
             <el-option label="通过" value="通过" />
             <el-option label="未通过" value="未通过" />
+            <el-option label="待定" value="未通过" />
           </el-select>
         </el-form-item>
-        <el-form-item label="面试评价" prop="remark">
+        <el-form-item label="一面评价" prop="remark">
+          <el-input
+            v-model="addForm.value.interviewAssessTwo"
+            :rows="2"
+            type="textarea"
+            class="!w-[191px]"
+            placeholder="请输入一面试评价"
+          />
+        </el-form-item>
+        <el-form-item label="二面评价" prop="remark">
           <el-input
             v-model="addForm.value.interviewAssess"
             :rows="2"
             type="textarea"
-            placeholder="请输入面试结果"
+            class="!w-[191px]"
+            placeholder="请输入二面评价"
           />
         </el-form-item>
       </el-form>
