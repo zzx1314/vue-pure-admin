@@ -198,7 +198,7 @@ defineOptions({
               >
                 <el-option label="通过" value="通过" />
                 <el-option label="未通过" value="未通过" />
-                <el-option label="待定" value="未通过" />
+                <el-option label="待定" value="待定" />
               </el-select>
             </el-form-item>
             <el-form-item label="一面评价" prop="interviewAssess">
@@ -451,7 +451,7 @@ defineOptions({
           >
             <el-option label="通过" value="通过" />
             <el-option label="未通过" value="未通过" />
-            <el-option label="待定" value="未通过" />
+            <el-option label="待定" value="待定" />
           </el-select>
         </el-form-item>
         <el-form-item label="一面评价" prop="remark">
