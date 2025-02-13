@@ -1,12 +1,12 @@
 {
   "Version": "1.0.0",
-  "Title": "OTA管理平台",
+  "Title": "华郅人才管理系统",
   "FixedHeader": true,
   "HiddenSideBar": false,
   "MultiTagsCache": false,
   "KeepAlive": true,
   "Locale": "zh",
-  "Layout": "vertical",
+  "Layout": "horizontal",
   "Theme": "default",
   "DarkMode": false,
   "OverallStyle": "light",
@@ -34,8 +34,21 @@
   },
   "VersionList": [
     {
-      "content": "V1.0.0",
-      "timestamp": "2024-09-23",
+      "content": "V4.4.0",
+      "timestamp": "2018-04-12 20:46",
+      "size": "large",
+      "type": "primary"
+    },
+    {
+      "content": "V3.4.0",
+      "timestamp": "2018-04-03 20:46",
+      "size": "large",
+      "color": "#0bbd87",
+      "type": "primary"
+    },
+    {
+      "content": "V3.3.0",
+      "timestamp": "2018-04-03 20:46",
       "size": "large",
       "type": "primary"
     }

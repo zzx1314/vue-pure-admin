@@ -541,13 +541,24 @@ class PureHttp {
    * @param URL
    * @param formData
    */
-  public uploadFile(URL, formData) {
+  public uploadFile<T>(URL, formData): Promise<T> {
     const url = URL;
     const headers = {
       Authentication: sessionStorage.getItem("token"),
       "Content-Type": "multipart/form-data"
     };
-    return PureHttp.axiosInstance.post(url, formData, { headers: headers });
+    return new Promise((resolve, reject) => {
+      PureHttp.axiosInstance
+        .post(url, formData, {
+          headers: headers
+        })
+        .then((response: undefined) => {
+          resolve(response);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
   }
 
   /**
