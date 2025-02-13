@@ -143,13 +143,8 @@ export function usePerson() {
       minWidth: 100
     },
     {
-      label: "一面评价",
+      label: "面试评价",
       prop: "interviewAssess",
-      minWidth: 150
-    },
-    {
-      label: "二面评价",
-      prop: "interviewAssessTwo",
       minWidth: 150
     },
     {
