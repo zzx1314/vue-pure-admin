@@ -134,7 +134,6 @@ class PureHttp {
         $error.isCancelRequest = Axios.isCancel($error);
         // 关闭进度条动画
         NProgress.done();
-        useUserStoreHook().logOut();
         if (error.response.status === 500) {
           message("服务器错误", { type: "error" });
         } else if (error.response.status === 401) {
@@ -148,6 +147,7 @@ class PureHttp {
         } else {
           message("系统错误", { type: "error" });
         }
+        useUserStoreHook().logOut();
         // 所有的响应异常 区分来源为取消请求/非取消请求
         return Promise.reject($error);
       }
