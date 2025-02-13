@@ -48,6 +48,8 @@ import FolderShield2Line from "@iconify-icons/ri/folder-shield-2-line";
 import FileLockLine from "@iconify-icons/ri/file-lock-line";
 import ShieldFlashLine from "@iconify-icons/ri/shield-flash-line";
 import SlideshowLine from "@iconify-icons/ri/slideshow-line";
+import AccountPinBoxLine from "@iconify-icons/ri/account-box-line";
+import AccountPinCircleLine from "@iconify-icons/ri/account-circle-line";
 
 addIcon("ri:bookmark-2-line", Tag);
 addIcon("ri:file-ppt-2-line", Ppt);
@@ -77,6 +79,8 @@ addIcon("ri:folder-shield-2-line", FolderShield2Line);
 addIcon("ri:file-lock-line", FileLockLine);
 addIcon("ri:shield-flash-line", ShieldFlashLine);
 addIcon("ri:slideshow-line", SlideshowLine);
+addIcon("ri:account-pin-box-line", AccountPinBoxLine);
+addIcon("ri:account-pin-circle-line", AccountPinCircleLine);
 
 import Device from "@iconify-icons/tdesign/system-device";
 import DeviceOne from "@iconify-icons/tdesign/device";

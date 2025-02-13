@@ -73,6 +73,9 @@ export const useUserStore = defineStore({
     },
     /** 登入 */
     async loginByUsername(data) {
+      if (data.isLdapLogn == 2) {
+        data.username = "ldap_" + data.username;
+      }
       data.password = aesUtils.encode(data.password, "");
       data.grant_type = "password";
       data.scope = "select";

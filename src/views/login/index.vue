@@ -59,7 +59,8 @@ const { locale, translationCh, translationEn } = useTranslationLang();
 const ruleForm = reactive({
   username: "",
   password: "",
-  verifyCode: ""
+  verifyCode: "",
+  isLdapLogn: 1
 });
 
 const onLogin = async (formEl: FormInstance | undefined) => {
@@ -70,7 +71,8 @@ const onLogin = async (formEl: FormInstance | undefined) => {
       useUserStoreHook()
         .loginByUsername({
           username: ruleForm.username,
-          password: ruleForm.password
+          password: ruleForm.password,
+          isLdapLogn: ruleForm.isLdapLogn
         })
         .then(res => {
           if (res.success) {
@@ -138,7 +140,6 @@ watch(loginDay, value => {
       </div>
       <div class="login-box">
         <div class="login-form">
-          <avatar class="avatar" />
           <Motion>
             <h2 class="outline-none">
               <TypeIt
@@ -202,6 +203,15 @@ watch(loginDay, value => {
             </Motion>
 
             <Motion :delay="250">
+              <el-form-item prop="isLdapLogn">
+                <el-radio-group v-model="ruleForm.isLdapLogn">
+                  <el-radio :value="1">系统登录</el-radio>
+                  <el-radio :value="2">Ldap登录</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </Motion>
+
+            <Motion :delay="250">
               <el-form-item>
                 <el-button
                   class="w-full mt-4"
@@ -231,11 +241,7 @@ watch(loginDay, value => {
       class="w-full flex-c absolute bottom-3 text-sm text-[rgba(0,0,0,0.6)] dark:text-[rgba(220,220,242,0.8)]"
     >
       Copyright © 华郅技术
-      <a
-        class="hover:text-primary"
-        href="https://github.com/pure-admin"
-        target="_blank"
-      >
+      <a class="hover:text-primary" href="https://huazhi.com" target="_blank">
         &nbsp;{{ title }}
       </a>
     </div>

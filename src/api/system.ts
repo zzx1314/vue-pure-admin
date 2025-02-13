@@ -271,7 +271,7 @@ export const updateSysMenuById = (param?: object) => {
 
 /**删除菜单 */
 export const deleteSysMenu = (param?: object) => {
-  return http.axiosDelete<Result>(menuUrls.getSysMenuByRoleId + param);
+  return http.axiosDelete<Result>(menuUrls.deleteSysMenuById + param);
 };
 
 /** 获取权限菜单列表 */
