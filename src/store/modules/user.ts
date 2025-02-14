@@ -91,11 +91,11 @@ export const useUserStore = defineStore({
     logOut() {
       this.username = "";
       this.roles = [];
+      storageLocal().clear();
       removeToken();
       useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
       resetRouter();
       router.push("/login");
-      storageLocal().clear();
     },
     /** 刷新`token` */
     async handRefreshToken(data) {
