@@ -16,7 +16,6 @@ import {
 import { type DataInfo, removeToken, setToken, userKey } from "@/utils/auth";
 import aesUtils from "@/utils/aes";
 
-import { useDataThemeChange } from "@/layout/hooks/useDataThemeChange";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 
 export const useUserStore = defineStore({
@@ -93,10 +92,10 @@ export const useUserStore = defineStore({
       this.username = "";
       this.roles = [];
       removeToken();
+      localStorage.clear();
       useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
       resetRouter();
       router.push("/login");
-      useDataThemeChange().onReset();
     },
     /** 刷新`token` */
     async handRefreshToken(data) {
