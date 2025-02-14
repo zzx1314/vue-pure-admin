@@ -7,7 +7,7 @@
   "KeepAlive": true,
   "Locale": "zh",
   "Layout": "vertical",
-  "Theme": "light",
+  "Theme": "default",
   "DarkMode": false,
   "OverallStyle": "light",
   "Grey": false,
