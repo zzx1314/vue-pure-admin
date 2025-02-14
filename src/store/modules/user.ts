@@ -1,15 +1,22 @@
 import { defineStore } from "pinia";
-import { type userType, store, storageLocal } from "../utils";
+import {
+  type userType,
+  store,
+  storageLocal,
+  routerArrays,
+  resetRouter,
+  router
+} from "../utils";
 import {
   type UserResult,
   type RefreshTokenResult,
   getLogin,
   refreshTokenApi
 } from "@/api/user";
-import { type DataInfo, setToken, userKey } from "@/utils/auth";
+import { type DataInfo, removeToken, setToken, userKey } from "@/utils/auth";
 import aesUtils from "@/utils/aes";
 
-import { useDataThemeChange } from "@/layout/hooks/useDataThemeChange";
+import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 
 export const useUserStore = defineStore({
   id: "pure-user",
@@ -84,7 +91,11 @@ export const useUserStore = defineStore({
     logOut() {
       this.username = "";
       this.roles = [];
-      useDataThemeChange().onReset();
+      removeToken();
+      useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
+      resetRouter();
+      router.push("/login");
+      storageLocal().clear();
     },
     /** 刷新`token` */
     async handRefreshToken(data) {
