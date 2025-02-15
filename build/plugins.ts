@@ -11,7 +11,7 @@ import { visualizer } from "rollup-plugin-visualizer";
 import removeConsole from "vite-plugin-remove-console";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import { codeInspectorPlugin } from "code-inspector-plugin";
-import { vitePluginFakeServer } from "vite-plugin-fake-server";
+// import { vitePluginFakeServer } from "vite-plugin-fake-server";
 
 export function getPluginsList(
   VITE_CDN: boolean,
@@ -43,12 +43,12 @@ export function getPluginsList(
      */
     removeNoMatch(),
     // mock支持
-    vitePluginFakeServer({
+    /*vitePluginFakeServer({
       logger: false,
       include: "mock",
       infixName: false,
       enableProd: true
-    }),
+    }),*/
     // svg组件化支持
     svgLoader(),
     VITE_CDN ? cdn : null,
