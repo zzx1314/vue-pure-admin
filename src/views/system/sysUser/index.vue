@@ -1,0 +1,520 @@
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+import tree from "./tree.vue";
+import { useUser } from "./hook";
+import { PureTableBar } from "@/components/RePureTableBar";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+
+import { getSafePolicy, listAllRole } from "@/api/system";
+
+import Password from "@iconify-icons/ri/lock-password-line";
+import More from "@iconify-icons/ep/more-filled";
+import Delete from "@iconify-icons/ep/delete";
+import EditPen from "@iconify-icons/ep/edit-pen";
+import Search from "@iconify-icons/ep/search";
+import Refresh from "@iconify-icons/ep/refresh";
+import AddFill from "@iconify-icons/ri/add-circle-line";
+import Down from "@iconify-icons/ep/arrow-down";
+import Up from "@iconify-icons/ep/arrow-up";
+import { hasAuth } from "@/router/utils";
+import { SUCCESS } from "@/api/base";
+
+const {
+  moreCondition,
+  queryForm,
+  loading,
+  columns,
+  dataList,
+  pagination,
+  buttonClass,
+  roleArry,
+  orgDataList,
+  dialogFormVisible,
+  title,
+  addForm,
+  adaptiveConfig,
+  cancel,
+  setOrgId,
+  setOrgIds,
+  setOrgName,
+  setTreeData,
+  openDia,
+  onSearch,
+  handleUpdate,
+  handleDelete,
+  handleSizeChange,
+  handleCurrentChange,
+  handleSelectionChange,
+  resetPwd,
+  restartForm,
+  addFormInfo
+} = useUser();
+
+defineOptions({
+  name: "sysUser"
+});
+
+const addFormRul = ref({
+  type: "sys_security_policy",
+  sysLoginMaxLockTime: "5分钟",
+  sysLoginMaxTryCount: "5次",
+  sysPassLength: 11,
+  sysPassShortLength: 8,
+  sysPassChange: "5天",
+  sysOvertime: "30分钟",
+  passCom: "密码是数字，字母组合"
+});
+
+const getSysSeting = () => {
+  getSafePolicy().then(res => {
+    if (res.code === SUCCESS) {
+      addFormRul.value = res.data;
+      console.log("获取安全策略", addFormRul.value);
+    }
+  });
+};
+
+// 添加校验规则
+const validatePass2 = (rule: any, value: any, callback: any) => {
+  if (value === "") {
+    callback(new Error("请输入密码"));
+  } else if (value !== addForm.value.newpassword) {
+    callback(new Error("两次密码不一样"));
+  } else {
+    callback();
+  }
+};
+// 对密码长度进行校验
+const validatePass3 = (rule: any, value: any, callback: any) => {
+  // sessionStorage 中获取密码长度
+  const passMaxLengthStr = addFormRul.value.sysPassLength;
+  const passMinLengthStr = addFormRul.value.sysPassShortLength;
+
+  // 转换为整数
+  const passMaxLength = parseInt(passMaxLengthStr, 10);
+  const passMinLength = parseInt(passMinLengthStr, 10);
+
+  if (value.length < passMinLength) {
+    callback(new Error(`密码长度不能小于${passMinLength}位`));
+  } else if (value.length > passMaxLength) {
+    callback(new Error(`密码长度不能大于${passMaxLength}位`));
+  } else {
+    callback();
+  }
+};
+// 对密码的复杂度进行校验
+const validatePass4 = (rule: any, value: any, callback: any) => {
+  // 从sessionStorage 中获取密码复杂度
+  const passComplexityStr = addFormRul.value.passCom;
+  if (passComplexityStr === "1") {
+    // 密码是数字
+    if (value.match(/^[0-9]+$/)) {
+      callback();
+    } else {
+      callback(new Error("密码必须是数字"));
+    }
+  }
+  if (passComplexityStr === "2") {
+    // 密码是数字，字母组合
+    if (value.match(/^(?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z]+$/)) {
+      callback();
+    } else {
+      callback(new Error("密码必须是数字，字母组合"));
+    }
+  }
+  if (passComplexityStr === "3") {
+    // 密码是数字，字母，特殊字符组合
+    if (value.match(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\W_]).+$/)) {
+      callback();
+    } else {
+      callback(new Error("密码必须是数字，字母，特殊字符组合"));
+    }
+  }
+};
+
+const rules = {
+  realName: [{ required: true, message: "姓名必填", trigger: "blur" }],
+  username: [{ required: true, message: "账号必填", trigger: "blur" }],
+  lockFlag: [{ required: true, message: "类型必填", trigger: "change" }],
+  sex: [{ required: true, message: "性别必填", trigger: "change" }],
+  role: [{ required: true, message: "角色必填", trigger: "change" }],
+  newpassword: [
+    { validator: validatePass3, trigger: "blur" },
+    { validator: validatePass4, trigger: "blur" },
+    { required: true, message: "密码必填", trigger: "blur" }
+  ],
+  newpassword1: [
+    { validator: validatePass2, trigger: "blur" },
+    { validator: validatePass3, trigger: "blur" },
+    { validator: validatePass4, trigger: "blur" },
+    { required: true, message: "密码必填", trigger: "blur" }
+  ]
+};
+
+onMounted(() => {
+  getAllRole();
+  getSysSeting();
+});
+
+const addFormRef = ref();
+const formRef = ref();
+
+// 获取所有角色列表
+async function getAllRole() {
+  const { data } = await listAllRole();
+  const allCheckItem = ref([]);
+  data.map(item => {
+    allCheckItem.value.push({ text: item.name, value: item.id });
+  });
+  roleArry.value.push(...allCheckItem.value);
+}
+</script>
+
+<template>
+  <div class="main">
+    <tree
+      class="w-[17%] float-left"
+      @updatePage="onSearch"
+      @setOrgId="setOrgId"
+      @setOrgIds="setOrgIds"
+      @setOrgName="setOrgName"
+      @setTreeData="setTreeData"
+    />
+    <div class="float-right w-[81%]">
+      <el-form
+        ref="formRef"
+        :inline="true"
+        :model="queryForm"
+        class="bg-bg_color w-[99/100] pl-8 pt-4"
+      >
+        <el-form-item label="账号" prop="realName">
+          <el-input
+            v-model="queryForm.username"
+            placeholder="请输入账号"
+            clearable
+            class="!w-[150px]"
+          />
+        </el-form-item>
+        <el-form-item label="用户名" prop="realName">
+          <el-input
+            v-model="queryForm.realName"
+            placeholder="请输入用户名"
+            clearable
+            class="!w-[150px]"
+          />
+        </el-form-item>
+
+        <el-form-item label="角色" prop="role">
+          <el-select
+            v-model="queryForm.role"
+            placeholder="请选择角色"
+            style="width: 150px"
+          >
+            <el-option
+              v-for="item in roleArry"
+              :key="item.value"
+              :label="item.text"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
+        <!--        <el-form-item label="性别" prop="sex">
+          <el-select
+            v-model="queryForm.sex"
+            placeholder="请选择性别"
+            style="width: 150px"
+          >
+            <el-option
+              v-for="item in sexArray"
+              :key="item.value"
+              :label="item.text"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>-->
+
+        <el-collapse-transition>
+          <div v-show="moreCondition">
+            <el-form-item label="开始时间：" prop="beginTime">
+              <el-date-picker
+                v-model="queryForm.beginTime"
+                type="date"
+                placeholder="请输入开始时间"
+                class="!w-[180px]"
+                value-format="YYYY-MM-DD HH:mm:ss"
+              />
+            </el-form-item>
+            <el-form-item label="结束时间：" prop="endTime">
+              <el-date-picker
+                v-model="queryForm.endTime"
+                placeholder="请输入结束时间"
+                type="date"
+                class="!w-[180px]"
+                value-format="YYYY-MM-DD"
+              />
+            </el-form-item>
+          </div>
+        </el-collapse-transition>
+
+        <el-form-item>
+          <el-button
+            type="primary"
+            :icon="useRenderIcon(Search)"
+            :loading="loading"
+            @click="onSearch(addForm.orgId)"
+          >
+            搜索
+          </el-button>
+          <el-button
+            :icon="useRenderIcon(Refresh)"
+            @click="restartForm(formRef)"
+          >
+            重置
+          </el-button>
+
+          <el-button
+            type="primary"
+            :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
+            link
+            @click="moreCondition = !moreCondition"
+          />
+        </el-form-item>
+      </el-form>
+      <PureTableBar title="用户管理" :columns="columns" @refresh="onSearch">
+        <template #buttons>
+          <el-button
+            v-if="hasAuth('user_add')"
+            type="primary"
+            :icon="useRenderIcon(AddFill)"
+            @click="openDia('新增用户', addFormRef)"
+          >
+            新增
+          </el-button>
+        </template>
+        <template v-slot="{ size, dynamicColumns }">
+          <pure-table
+            ref="tableRef"
+            border
+            adaptive
+            :adaptiveConfig="adaptiveConfig"
+            align-whole="center"
+            table-layout="auto"
+            :loading="loading"
+            :size="size"
+            :data="dataList"
+            :columns="dynamicColumns"
+            :pagination="pagination"
+            :paginationSmall="size === 'small' ? true : false"
+            :header-cell-style="{
+              background: 'var(--el-table-row-hover-bg-color)',
+              color: 'var(--el-text-color-primary)'
+            }"
+            @selection-change="handleSelectionChange"
+            @page-size-change="handleSizeChange"
+            @page-current-change="handleCurrentChange"
+          >
+            <template #operation="{ row }">
+              <el-button
+                v-if="hasAuth('user_update') && row.isEdit"
+                class="reset-margin"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(EditPen)"
+                @click="handleUpdate(row, addFormRef)"
+              >
+                修改
+              </el-button>
+              <el-popconfirm
+                v-if="hasAuth('user_del') && row.isEdit"
+                title="是否确认删除?"
+                @confirm="handleDelete(row)"
+              >
+                <template #reference>
+                  <el-button
+                    class="reset-margin"
+                    link
+                    type="primary"
+                    :size="size"
+                    :icon="useRenderIcon(Delete)"
+                  >
+                    删除
+                  </el-button>
+                </template>
+              </el-popconfirm>
+              <el-dropdown v-if="hasAuth('re_set_pass')">
+                <el-button
+                  class="ml-3 mt-[2px]"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(More)"
+                />
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item>
+                      <el-button
+                        :class="buttonClass"
+                        link
+                        type="primary"
+                        :size="size"
+                        :icon="useRenderIcon(Password)"
+                        @click="resetPwd(row)"
+                      >
+                        重置密码
+                      </el-button>
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </template>
+          </pure-table>
+        </template>
+      </PureTableBar>
+
+      <el-dialog
+        v-model="dialogFormVisible"
+        :title="title"
+        width="500px"
+        @close="cancel"
+      >
+        <el-form
+          ref="addFormRef"
+          :model="addForm"
+          :rules="rules"
+          label-width="150px"
+        >
+          <el-form-item label="账号" prop="username">
+            <el-input
+              v-model="addForm.username"
+              style="width: 200px"
+              placeholder="请输入账号"
+            />
+          </el-form-item>
+          <el-form-item label="姓名" prop="realName">
+            <el-input
+              v-model="addForm.realName"
+              style="width: 200px"
+              placeholder="请输入姓名"
+            />
+          </el-form-item>
+          <!--          <el-form-item label="性别" prop="sex">
+            <el-select
+              v-model="addForm.sex"
+              placeholder="请选择性别"
+              style="width: 200px"
+            >
+              <el-option label="男" value="1" />
+              <el-option label="女" value="0" />
+            </el-select>
+          </el-form-item>-->
+
+          <el-form-item label="状态" prop="lockFlag">
+            <el-select
+              v-model="addForm.lockFlag"
+              style="width: 200px"
+              placeholder="请选择状态"
+            >
+              <el-option label="启用" :value="1" />
+              <el-option label="禁用" :value="0" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="角色" prop="role">
+            <el-select
+              v-model="addForm.role"
+              style="width: 200px"
+              placeholder="请选择角色"
+            >
+              <el-option
+                v-for="item in roleArry"
+                :key="item.value"
+                :label="item.text"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="部门" prop="orgId">
+            <el-tree-select
+              v-model="addForm.orgId"
+              :data="orgDataList"
+              check-strictly
+              :render-after-expand="false"
+              class="!w-[200px]"
+            />
+          </el-form-item>
+
+          <el-form-item
+            v-if="title === '新增用户'"
+            label="密码"
+            prop="newpassword"
+          >
+            <el-input
+              v-model="addForm.newpassword"
+              style="width: 200px"
+              placeholder="请输入密码"
+              type="password"
+            />
+          </el-form-item>
+          <el-form-item
+            v-if="title === '新增用户'"
+            label="确认密码"
+            prop="newpassword1"
+          >
+            <el-input
+              v-model="addForm.newpassword1"
+              style="width: 200px"
+              type="password"
+              placeholder="请输入密码"
+            />
+          </el-form-item>
+        </el-form>
+
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="cancel()">取消</el-button>
+            <el-button type="primary" @click="addFormInfo(addFormRef)"
+              >确认</el-button
+            >
+          </span>
+        </template>
+      </el-dialog>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="scss">
+:deep(.el-dropdown-menu__item i) {
+  margin: 0;
+}
+
+:deep(.el-form-item) {
+  margin-bottom: 10px;
+}
+
+.demo-row {
+  display: inline-flex;
+  padding-top: 5px;
+  padding-left: 5px;
+  background: white;
+}
+
+.search-top {
+  display: inline-flex;
+  height: 56px;
+  padding-top: 10px;
+  padding-left: 10px;
+  background: white;
+}
+
+.mc-btn {
+  width: 100%;
+  height: 17px;
+  padding: 0;
+  color: #c0c4cc;
+}
+
+.mc-btn:hover {
+  background-color: #f2f6fc;
+}
+</style>

@@ -1,0 +1,248 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import { useMenu } from "./hook";
+
+import { PureTableBar } from "@/components/RePureTableBar";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+
+import Delete from "@iconify-icons/ep/delete";
+import EditPen from "@iconify-icons/ep/edit-pen";
+import AddFill from "@iconify-icons/ri/add-circle-line";
+import { hasAuth } from "@/router/utils";
+
+defineOptions({
+  name: "sysMenu"
+});
+const tableRef = ref();
+const addFormRef = ref();
+const {
+  addForm,
+  dialogFormVisible,
+  options,
+  loading,
+  columns,
+  dataList,
+  rules,
+  title,
+  roleArry,
+  onSearch,
+  cancel,
+  submitForm,
+  openDia,
+  handleUpdate,
+  handleSelectionChange,
+  confirmEvent,
+  cancelEvent
+} = useMenu();
+</script>
+
+<template>
+  <div class="main">
+    <PureTableBar
+      title="菜单列表"
+      :tableRef="tableRef?.getTableRef()"
+      :columns="columns"
+      @refresh="onSearch"
+    >
+      <template #buttons>
+        <el-button
+          v-if="hasAuth('menu_add')"
+          type="primary"
+          :icon="useRenderIcon(AddFill)"
+          @click="openDia('添加菜单', addFormRef)"
+        >
+          新增菜单
+        </el-button>
+      </template>
+      <template v-slot="{ size, checkList, dynamicColumns }">
+        <pure-table
+          ref="tableRef"
+          border
+          align-whole="center"
+          row-key="id"
+          showOverflowTooltip
+          table-layout="auto"
+          default-expand-all
+          :loading="loading"
+          :size="size"
+          :data="dataList"
+          :columns="dynamicColumns"
+          :checkList="checkList"
+          :header-cell-style="{
+            background: 'var(--el-table-row-hover-bg-color)',
+            color: 'var(--el-text-color-primary)'
+          }"
+          @selection-change="handleSelectionChange"
+        >
+          <template #operation="{ row }">
+            <el-button
+              v-if="hasAuth('menu_update')"
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
+              :icon="useRenderIcon(EditPen)"
+              @click="handleUpdate(row, addFormRef)"
+            >
+              修改
+            </el-button>
+            <el-popconfirm
+              v-if="hasAuth('menu_del')"
+              title="是否确认删除?"
+              @confirm="confirmEvent(row)"
+              @cancel="cancelEvent"
+            >
+              <template #reference>
+                <el-button
+                  class="reset-margin"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(Delete)"
+                >
+                  删除
+                </el-button>
+              </template>
+            </el-popconfirm>
+          </template>
+        </pure-table>
+      </template>
+    </PureTableBar>
+
+    <el-dialog
+      v-model="dialogFormVisible"
+      :title="title"
+      :width="800"
+      @close="cancel"
+    >
+      <el-form
+        ref="addFormRef"
+        :model="addForm.value"
+        :inline="true"
+        :rules="rules"
+        label-width="100px"
+      >
+        <el-form-item label="菜单名称" prop="name">
+          <el-input v-model="addForm.value.name" placeholder="请输入菜单名称" />
+        </el-form-item>
+
+        <el-form-item label="类型" prop="type">
+          <el-select
+            v-model="addForm.value.type"
+            disabled
+            placeholder="请选择类型"
+            style="width: 200px"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.type"
+              :label="item.name"
+              :value="item.type"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item
+          v-if="addForm.value.type == 3"
+          label="路由"
+          prop="component"
+        >
+          <el-input
+            v-model="addForm.value.component"
+            disabled
+            placeholder="请输入路由"
+          />
+        </el-form-item>
+
+        <el-form-item
+          v-if="addForm.value.type == 3"
+          label="路径"
+          prop="pathUrl"
+        >
+          <el-input
+            v-model="addForm.value.pathUrl"
+            disabled
+            placeholder="请输入路径"
+          />
+        </el-form-item>
+
+        <el-form-item
+          v-if="addForm.value.type == 2 || addForm.value.type == 3"
+          label="上级菜单"
+          prop="parentId"
+        >
+          <el-tree-select
+            v-model="addForm.value.parentId"
+            disabled
+            :data="dataList"
+            filterable
+            check-strictly
+            :render-after-expand="false"
+            style="width: 200px"
+          />
+        </el-form-item>
+
+        <el-form-item
+          v-if="addForm.value.type == 2"
+          label="权限标识"
+          prop="permission"
+        >
+          <el-input
+            v-model="addForm.value.permission"
+            placeholder="请输入权限标识"
+          />
+        </el-form-item>
+
+        <el-form-item label="排序" prop="sort">
+          <el-input-number
+            v-model="addForm.value.sort"
+            disabled
+            :min="1"
+            :max="10"
+            style="width: 200px"
+          />
+        </el-form-item>
+
+        <el-form-item
+          v-if="addForm.value.type !== 4"
+          label="子节点"
+          prop="leaf"
+        >
+          <el-radio-group
+            v-model="addForm.value.leaf"
+            disabled
+            style="width: 200px"
+          >
+            <el-radio :label="1">是</el-radio>
+            <el-radio :label="0">不是</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
+        <el-form-item label="所属角色" prop="roleCodeList">
+          <el-select
+            v-model="addForm.value.roleCodeList"
+            multiple
+            placeholder="所属角色"
+            clearable
+            style="width: 200px"
+          >
+            <el-option
+              v-for="item in roleArry"
+              :key="item.value"
+              :label="item.text"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="cancel()">取消</el-button>
+          <el-button type="primary" @click="submitForm(addFormRef)"
+            >确认</el-button
+          >
+        </span>
+      </template>
+    </el-dialog>
+  </div>
+</template>

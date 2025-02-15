@@ -1,0 +1,286 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import { useDept } from "./hook";
+
+import { PureTableBar } from "@/components/RePureTableBar";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+
+import Delete from "@iconify-icons/ep/delete";
+import EditPen from "@iconify-icons/ep/edit-pen";
+import Search from "@iconify-icons/ep/search";
+import Refresh from "@iconify-icons/ep/refresh";
+import AddFill from "@iconify-icons/ri/add-circle-line";
+import Down from "@iconify-icons/ep/arrow-down";
+import Up from "@iconify-icons/ep/arrow-up";
+import { hasAuth } from "@/router/utils";
+
+defineOptions({
+  name: "sysOrg"
+});
+const formRef = ref();
+const tableRef = ref();
+const addFormRef = ref();
+const {
+  addForm,
+  searchForm,
+  dialogFormVisible,
+  options,
+  loading,
+  columns,
+  dataList,
+  rules,
+  title,
+  moreCondition,
+  onSearch,
+  restartForm,
+  cancel,
+  submitForm,
+  openDia,
+  changeSelet,
+  handleUpdate,
+  handleSelectionChange,
+  confirmEvent,
+  cancelEvent
+} = useDept();
+</script>
+
+<template>
+  <div class="main">
+    <el-form
+      ref="formRef"
+      :inline="true"
+      :model="searchForm"
+      class="bg-bg_color w-[99/100] pl-8 pt-4"
+    >
+      <el-form-item label="部门名称：" prop="name">
+        <el-input
+          v-model="searchForm.name"
+          placeholder="请输入部门名称"
+          clearable
+          class="!w-[200px]"
+        />
+      </el-form-item>
+
+      <el-form-item label="部门类型：" prop="type">
+        <el-select
+          v-model="searchForm.type"
+          placeholder="请选择类型"
+          class="!w-[180px]"
+        >
+          <el-option label="顶部门" value="top" />
+          <el-option label="单位" value="company" />
+          <el-option label="部门" value="common" />
+        </el-select>
+      </el-form-item>
+
+      <el-collapse-transition>
+        <div v-show="moreCondition">
+          <el-form-item label="开始时间：" prop="beginTime">
+            <el-date-picker
+              v-model="searchForm.beginTime"
+              type="date"
+              placeholder="请输入开始时间"
+              clearable
+              class="!w-[200px]"
+              value-format="YYYY-MM-DD HH:mm:ss"
+            />
+          </el-form-item>
+          <el-form-item label="结束时间：" prop="endTime">
+            <el-date-picker
+              v-model="searchForm.endTime"
+              type="date"
+              placeholder="请输入结束时间"
+              clearable
+              class="!w-[200px]"
+              value-format="YYYY-MM-DD"
+            />
+          </el-form-item>
+        </div>
+      </el-collapse-transition>
+
+      <el-form-item>
+        <el-button
+          type="primary"
+          :icon="useRenderIcon(Search)"
+          :loading="loading"
+          @click="onSearch"
+        >
+          搜索
+        </el-button>
+        <el-button :icon="useRenderIcon(Refresh)" @click="restartForm(formRef)">
+          重置
+        </el-button>
+        <el-button
+          type="primary"
+          :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
+          link
+          @click="moreCondition = !moreCondition"
+        />
+      </el-form-item>
+    </el-form>
+
+    <PureTableBar
+      title="组织列表"
+      :tableRef="tableRef?.getTableRef()"
+      :columns="columns"
+      @refresh="onSearch"
+    >
+      <template #buttons>
+        <el-button
+          v-if="hasAuth('org_add')"
+          type="primary"
+          :icon="useRenderIcon(AddFill)"
+          @click="openDia('添加组织')"
+        >
+          新增
+        </el-button>
+      </template>
+      <template v-slot="{ size, checkList, dynamicColumns }">
+        <pure-table
+          ref="tableRef"
+          border
+          adaptive
+          align-whole="center"
+          row-key="id"
+          showOverflowTooltip
+          table-layout="auto"
+          default-expand-all
+          :loading="loading"
+          :size="size"
+          :data="dataList"
+          :columns="dynamicColumns"
+          :checkList="checkList"
+          :header-cell-style="{
+            background: 'var(--el-table-row-hover-bg-color)',
+            color: 'var(--el-text-color-primary)'
+          }"
+          @selection-change="handleSelectionChange"
+        >
+          <template #operation="{ row }">
+            <el-button
+              v-if="hasAuth('org_update')"
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
+              :icon="useRenderIcon(EditPen)"
+              @click="handleUpdate(row)"
+            >
+              修改
+            </el-button>
+            <el-popconfirm
+              title="是否确认删除?"
+              @confirm="confirmEvent(row)"
+              @cancel="cancelEvent"
+            >
+              <template #reference>
+                <el-button
+                  v-if="hasAuth('org_del')"
+                  class="reset-margin"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(Delete)"
+                >
+                  删除
+                </el-button>
+              </template>
+            </el-popconfirm>
+          </template>
+        </pure-table>
+      </template>
+    </PureTableBar>
+
+    <el-dialog
+      v-model="dialogFormVisible"
+      :title="title"
+      width="500px"
+      @close="cancel"
+    >
+      <el-form
+        ref="addFormRef"
+        :model="addForm.value"
+        :rules="rules"
+        label-width="150px"
+      >
+        <el-form-item label="名称" prop="name">
+          <el-input
+            v-model="addForm.value.name"
+            style="width: 200px"
+            placeholder="请输入部门名称"
+          />
+        </el-form-item>
+
+        <el-form-item label="类型" prop="type">
+          <el-select
+            v-model="addForm.value.type"
+            placeholder="请选择类型"
+            class="!w-[200px]"
+            @change="changeSelet()"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.type"
+              :label="item.name"
+              :value="item.type"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item
+          v-if="addForm.value.type !== 'top'"
+          label="上级"
+          prop="parentId"
+        >
+          <el-tree-select
+            v-model="addForm.value.parentId"
+            :data="dataList"
+            filterable
+            check-strictly
+            :render-after-expand="false"
+            class="!w-[200px]"
+          />
+        </el-form-item>
+
+        <el-form-item label="排序" prop="sort">
+          <el-input-number
+            v-model="addForm.value.sort"
+            class="!w-[200px]"
+            :min="1"
+            :max="10"
+          />
+        </el-form-item>
+
+        <el-form-item label="备注" prop="remarks">
+          <el-input
+            v-model="addForm.value.remarks"
+            class="!w-[200px]"
+            type="textarea"
+            placeholder="请输入"
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="cancel()">取消</el-button>
+          <el-button type="primary" @click="submitForm(addFormRef)"
+            >确认</el-button
+          >
+        </span>
+      </template>
+    </el-dialog>
+  </div>
+</template>
+
+<style scoped lang="scss">
+.mc-btn {
+  width: 100%;
+  height: 17px;
+  padding: 0;
+  color: #c0c4cc;
+}
+
+.mc-btn:hover {
+  background-color: #f2f6fc;
+}
+</style>
