@@ -206,4 +206,9 @@ declare global {
       touched?: boolean;
     };
   }
+  interface Result {
+    code: number;
+    msg: string;
+    data?: Array<any>;
+  }
 }
