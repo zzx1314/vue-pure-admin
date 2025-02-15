@@ -123,34 +123,17 @@ const permissionRouter = {
       }
     },
     {
-      path: "/permission/button",
+      path: "/permission/button/index",
+      name: "PermissionButton",
       meta: {
         title: "menus.purePermissionButton",
-        roles: ["admin", "common"]
-      },
-      children: [
-        {
-          path: "/permission/button/router",
-          component: "permission/button/index",
-          name: "PermissionButtonRouter",
-          meta: {
-            title: "menus.purePermissionButtonRouter",
-            auths: [
-              "permission:btn:add",
-              "permission:btn:edit",
-              "permission:btn:delete"
-            ]
-          }
-        },
-        {
-          path: "/permission/button/login",
-          component: "permission/button/perms",
-          name: "PermissionButtonLogin",
-          meta: {
-            title: "menus.purePermissionButtonLogin"
-          }
-        }
-      ]
+        roles: ["admin", "common"],
+        auths: [
+          "permission:btn:add",
+          "permission:btn:edit",
+          "permission:btn:delete"
+        ]
+      }
     }
   ]
 };
@@ -259,7 +242,7 @@ const frameRouter = {
       children: [
         {
           path: "/external",
-          name: "https://pure-admin.cn/",
+          name: "https://pure-admin.github.io/pure-admin-doc",
           meta: {
             title: "menus.pureExternalLink",
             roles: ["admin", "common"]
