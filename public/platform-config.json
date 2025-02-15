@@ -1,6 +1,6 @@
 {
-  "Version": "5.9.0",
-  "Title": "PureAdmin",
+  "Version": "1.0.0",
+  "Title": "OTA管理平台",
   "FixedHeader": true,
   "HiddenSideBar": false,
   "MultiTagsCache": false,
@@ -31,5 +31,13 @@
       "center": [113.6401, 34.72468],
       "zoom": 12
     }
-  }
+  },
+  "VersionList": [
+    {
+      "content": "V1.0.0",
+      "timestamp": "2024-09-23",
+      "size": "large",
+      "type": "primary"
+    }
+  ]
 }
