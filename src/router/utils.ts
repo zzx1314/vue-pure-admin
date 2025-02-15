@@ -154,7 +154,8 @@ function handleAsyncRoutes(routeList) {
   if (routeList.length === 0) {
     usePermissionStoreHook().handleWholeMenus(routeList);
   } else {
-    formatFlatteningRoutes(addAsyncRoutes(routeList)).map(
+    const authMap: Map<string, any> = new Map();
+    formatFlatteningRoutes(addAsyncRoutes(routeList, authMap)).map(
       (v: RouteRecordRaw) => {
         // 防止重复添加路由
         if (
@@ -167,7 +168,7 @@ function handleAsyncRoutes(routeList) {
           // 切记将路由push到routes后还需要使用addRoute，这样路由才能正常跳转
           router.options.routes[0].children.push(v);
           // 最终路由进行升序
-          ascending(router.options.routes[0].children);
+          // ascending(router.options.routes[0].children);
           if (!router.hasRoute(v?.name)) router.addRoute(v);
           const flattenRouters: any = router
             .getRoutes()
@@ -176,6 +177,7 @@ function handleAsyncRoutes(routeList) {
         }
       }
     );
+    usePermissionStoreHook().setPermissionMap(authMap);
     usePermissionStoreHook().handleWholeMenus(routeList);
   }
   if (!useMultiTagsStoreHook().getMultiTagsCache) {
@@ -299,12 +301,18 @@ function handleAliveRoute({ name }: ToRouteType, mode?: string) {
 }
 
 /** 过滤后端传来的动态路由 重新生成规范路由 */
-function addAsyncRoutes(arrRoutes: Array<RouteRecordRaw>) {
+function addAsyncRoutes(
+  arrRoutes: Array<RouteRecordRaw>,
+  authMap: Map<string, any>
+) {
   if (!arrRoutes || !arrRoutes.length) return;
   const modulesRoutesKeys = Object.keys(modulesRoutes);
   arrRoutes.forEach((v: RouteRecordRaw) => {
     // 将backstage属性加入meta，标识此路由为后端返回路由
     v.meta.backstage = true;
+    if (v.meta?.auths) {
+      authMap.set(v.path, v.meta.auths);
+    }
     // 父级的redirect属性取值：如果子级存在且父级的redirect属性不存在，默认取第一个子级的path；如果子级存在且父级的redirect属性存在，取存在的redirect属性，会覆盖默认值
     if (v?.children && v.children.length && !v.redirect)
       v.redirect = v.children[0].path;
@@ -321,7 +329,7 @@ function addAsyncRoutes(arrRoutes: Array<RouteRecordRaw>) {
       v.component = modulesRoutes[modulesRoutesKeys[index]];
     }
     if (v?.children && v.children.length) {
-      addAsyncRoutes(v.children);
+      addAsyncRoutes(v.children, authMap);
     }
   });
   return arrRoutes;
@@ -352,7 +360,11 @@ function getHistoryMode(routerHistory): RouterHistory {
 
 /** 获取当前页面按钮级别的权限 */
 function getAuths(): Array<string> {
-  return router.currentRoute.value.meta.auths as Array<string>;
+  const permissionMap = usePermissionStoreHook().getPermissionMap();
+  if (permissionMap && permissionMap.get(router.currentRoute.value.path)) {
+    return permissionMap.get(router.currentRoute.value.path);
+  }
+  return [];
 }
 
 /** 是否有按钮级别的权限（根据路由`meta`中的`auths`字段进行判断）*/

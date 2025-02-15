@@ -12,7 +12,8 @@ import {
 } from "../utils";
 import { useMultiTagsStoreHook } from "./multiTags";
 
-export const usePermissionStore = defineStore("pure-permission", {
+export const usePermissionStore = defineStore({
+  id: "pure-permission",
   state: () => ({
     // 静态路由生成的菜单
     constantMenus,
@@ -21,9 +22,21 @@ export const usePermissionStore = defineStore("pure-permission", {
     // 整体路由（一维数组格式）
     flatteningRoutes: [],
     // 缓存页面keepAlive
-    cachePageList: []
+    cachePageList: [],
+    // 检测token是否过期
+    checkTokenTimeId: null,
+    // 权限map
+    permissionMap: null
   }),
   actions: {
+    // 设置权限map
+    setPermissionMap(permissionMap: any) {
+      this.permissionMap = permissionMap;
+    },
+    /** 获取权限map */
+    getPermissionMap() {
+      return this.permissionMap;
+    },
     /** 组装整体路由生成的菜单 */
     handleWholeMenus(routes: any[]) {
       this.wholeMenus = filterNoPermissionTree(
@@ -65,6 +78,17 @@ export const usePermissionStore = defineStore("pure-permission", {
     clearAllCachePage() {
       this.wholeMenus = [];
       this.cachePageList = [];
+    },
+    setCheckTokenTimeId(timeId: any) {
+      this.checkTokenTimeId = timeId;
+    },
+    getCheckTokenTimeId() {
+      return this.checkTokenTimeId;
+    },
+    clearCheckTokenTimeId() {
+      console.log("clearCheckTokenTimeId", this.checkTokenTimeId);
+      clearInterval(this.checkTokenTimeId);
+      this.checkTokenTimeId = null;
     }
   }
 });

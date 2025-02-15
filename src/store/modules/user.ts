@@ -1,22 +1,18 @@
 import { defineStore } from "pinia";
-import {
-  type userType,
-  store,
-  router,
-  resetRouter,
-  routerArrays,
-  storageLocal
-} from "../utils";
+import { type userType, store, storageLocal } from "../utils";
 import {
   type UserResult,
   type RefreshTokenResult,
   getLogin,
   refreshTokenApi
 } from "@/api/user";
-import { useMultiTagsStoreHook } from "./multiTags";
-import { type DataInfo, setToken, removeToken, userKey } from "@/utils/auth";
+import { type DataInfo, setToken, userKey } from "@/utils/auth";
+import aesUtils from "@/utils/aes";
 
-export const useUserStore = defineStore("pure-user", {
+import { useDataThemeChange } from "@/layout/hooks/useDataThemeChange";
+
+export const useUserStore = defineStore({
+  id: "pure-user",
   state: (): userType => ({
     // 头像
     avatar: storageLocal().getItem<DataInfo<number>>(userKey)?.avatar ?? "",
@@ -77,6 +73,9 @@ export const useUserStore = defineStore("pure-user", {
     },
     /** 登入 */
     async loginByUsername(data) {
+      data.password = aesUtils.encode(data.password, "");
+      data.grant_type = "password";
+      data.scope = "select";
       return new Promise<UserResult>((resolve, reject) => {
         getLogin(data)
           .then(data => {
@@ -92,11 +91,7 @@ export const useUserStore = defineStore("pure-user", {
     logOut() {
       this.username = "";
       this.roles = [];
-      this.permissions = [];
-      removeToken();
-      useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
-      resetRouter();
-      router.push("/login");
+      useDataThemeChange().onReset();
     },
     /** 刷新`token` */
     async handRefreshToken(data) {
