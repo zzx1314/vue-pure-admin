@@ -13,6 +13,9 @@ import AccountSettingsIcon from "@iconify-icons/ri/user-settings-line";
 import LogoutCircleRLine from "@iconify-icons/ri/logout-circle-r-line";
 import Setting from "@iconify-icons/ri/settings-3-line";
 import Check from "@iconify-icons/ep/check";
+import UserInfoForm from "@/layout/components/lay-sidebar/UserInfoForm.vue";
+import { onMounted, ref } from "vue";
+import { getUserInfo } from "@/api/system";
 
 const {
   layout,
@@ -28,6 +31,36 @@ const {
   getDropdownItemStyle,
   getDropdownItemClass
 } = useNav();
+
+const showDia = ref(false);
+const title = ref("");
+
+const showUserSet = () => {
+  showDia.value = true;
+  title.value = t("buttons.pureAccountSettings");
+};
+
+const closeDia = () => {
+  showDia.value = false;
+  title.value = "";
+};
+
+const getData = () => {
+  getUserInfo().then(res => {
+    console.log("getUserInfo", res);
+    if (res.data && res.data.isFirstLogin) {
+      title.value = "第一次登录请修改密码";
+      showDia.value = true;
+    }
+    if (res.data && res.data.isTipPassUpdate) {
+      title.value = "密码已过期，请修改密码";
+      showDia.value = true;
+    }
+  });
+};
+onMounted(() => {
+  getData();
+});
 
 const { t, locale, translationCh, translationEn } = useTranslationLang();
 </script>
@@ -51,51 +84,16 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
     <div v-if="layout === 'vertical'" class="vertical-header-right">
       <!-- 菜单搜索 -->
       <LaySearch id="header-search" />
-      <!-- 国际化 -->
-      <el-dropdown id="header-translation" trigger="click">
-        <GlobalizationIcon
-          class="navbar-bg-hover w-[40px] h-[48px] p-[11px] cursor-pointer outline-none"
-        />
-        <template #dropdown>
-          <el-dropdown-menu class="translation">
-            <el-dropdown-item
-              :style="getDropdownItemStyle(locale, 'zh')"
-              :class="['dark:!text-white', getDropdownItemClass(locale, 'zh')]"
-              @click="translationCh"
-            >
-              <IconifyIconOffline
-                v-show="locale === 'zh'"
-                class="check-zh"
-                :icon="Check"
-              />
-              简体中文
-            </el-dropdown-item>
-            <el-dropdown-item
-              :style="getDropdownItemStyle(locale, 'en')"
-              :class="['dark:!text-white', getDropdownItemClass(locale, 'en')]"
-              @click="translationEn"
-            >
-              <span v-show="locale === 'en'" class="check-en">
-                <IconifyIconOffline :icon="Check" />
-              </span>
-              English
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
       <!-- 全屏 -->
       <LaySidebarFullScreen id="full-screen" />
-      <!-- 消息通知 -->
-      <LayNotice id="header-notice" />
       <!-- 退出登录 -->
       <el-dropdown trigger="click">
         <span class="el-dropdown-link navbar-bg-hover select-none">
-          <img :src="userAvatar" :style="avatarsStyle" />
           <p v-if="username" class="dark:text-white">{{ username }}</p>
         </span>
         <template #dropdown>
           <el-dropdown-menu class="logout">
-            <el-dropdown-item @click="toAccountSettings">
+            <el-dropdown-item @click="showUserSet">
               <IconifyIconOffline
                 :icon="AccountSettingsIcon"
                 style="margin: 5px"
@@ -120,6 +118,12 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
         <IconifyIconOffline :icon="Setting" />
       </span>
     </div>
+
+    <UserInfoForm
+      :dialog-form-visible="showDia"
+      :title="title"
+      @update:dialogFormVisible="closeDia"
+    />
   </div>
 </template>
 

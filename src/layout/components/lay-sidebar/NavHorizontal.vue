@@ -16,6 +16,8 @@ import AccountSettingsIcon from "@iconify-icons/ri/user-settings-line";
 import LogoutCircleRLine from "@iconify-icons/ri/logout-circle-r-line";
 import Setting from "@iconify-icons/ri/settings-3-line";
 import Check from "@iconify-icons/ep/check";
+import { checkToken } from "@/api/user";
+import UserInfoForm from "@/layout/components/lay-sidebar/UserInfoForm.vue";
 
 const menuRef = ref();
 const showLogo = ref(
@@ -43,6 +45,19 @@ const {
 const defaultActive = computed(() =>
   !isAllEmpty(route.meta?.activePath) ? route.meta.activePath : route.path
 );
+
+const showDia = ref(false);
+const userSetTitle = ref("");
+
+const showUserSet = () => {
+  showDia.value = true;
+  userSetTitle.value = t("buttons.pureAccountSettings");
+};
+
+const closeDia = () => {
+  showDia.value = false;
+  userSetTitle.value = "";
+};
 
 nextTick(() => {
   menuRef.value?.handleResize();
@@ -81,48 +96,15 @@ onMounted(() => {
     <div class="horizontal-header-right">
       <!-- 菜单搜索 -->
       <LaySearch id="header-search" />
-      <!-- 国际化 -->
-      <el-dropdown id="header-translation" trigger="click">
-        <GlobalizationIcon
-          class="navbar-bg-hover w-[40px] h-[48px] p-[11px] cursor-pointer outline-none"
-        />
-        <template #dropdown>
-          <el-dropdown-menu class="translation">
-            <el-dropdown-item
-              :style="getDropdownItemStyle(locale, 'zh')"
-              :class="['dark:!text-white', getDropdownItemClass(locale, 'zh')]"
-              @click="translationCh"
-            >
-              <span v-show="locale === 'zh'" class="check-zh">
-                <IconifyIconOffline :icon="Check" />
-              </span>
-              简体中文
-            </el-dropdown-item>
-            <el-dropdown-item
-              :style="getDropdownItemStyle(locale, 'en')"
-              :class="['dark:!text-white', getDropdownItemClass(locale, 'en')]"
-              @click="translationEn"
-            >
-              <span v-show="locale === 'en'" class="check-en">
-                <IconifyIconOffline :icon="Check" />
-              </span>
-              English
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
       <!-- 全屏 -->
       <LaySidebarFullScreen id="full-screen" />
-      <!-- 消息通知 -->
-      <LayNotice id="header-notice" />
       <!-- 退出登录 -->
       <el-dropdown trigger="click">
         <span class="el-dropdown-link navbar-bg-hover">
-          <img :src="userAvatar" :style="avatarsStyle" />
           <p v-if="username" class="dark:text-white">{{ username }}</p>
         </span>
         <template #dropdown>
-          <el-dropdown-item @click="toAccountSettings">
+          <el-dropdown-item @click="showUserSet">
             <IconifyIconOffline
               :icon="AccountSettingsIcon"
               style="margin: 5px"
@@ -148,6 +130,12 @@ onMounted(() => {
         <IconifyIconOffline :icon="Setting" />
       </span>
     </div>
+
+    <UserInfoForm
+      :dialog-form-visible="showDia"
+      :title="userSetTitle"
+      @update:dialogFormVisible="closeDia"
+    />
   </div>
 </template>
 
