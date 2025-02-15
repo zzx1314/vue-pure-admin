@@ -1,0 +1,70 @@
+import { http } from "@/utils/http";
+
+type Result = {
+  code: number;
+  msg: string;
+  data?: Array<any>;
+};
+
+type ResultPage = {
+  code: number;
+  msg: string;
+  data?: {
+    records: Array<any>;
+    total: number;
+  };
+};
+
+const otaBusResourceUrls = {
+  page: `/api/ota/otaBusResource/page`,
+  pageV1: `/api/ota/otaBusResource/pageV1`,
+  save: "/api/ota/otaBusResource/save",
+  delete: `/api/ota/otaBusResource/`,
+  update: "/api/ota/otaBusResource/update",
+  push: "/api/ota/otaBusResource/push",
+  list: "/api/ota/otaBusResource/list",
+  statistics: "/api/ota/otaBusResource/statistics",
+  addModeBefore: "/api/ota/otaBusResource/addModeBefore"
+};
+
+// 资源分页
+export const resPage = (query?: object) => {
+  return http.axiosGetRequest<ResultPage>(otaBusResourceUrls.page, query);
+};
+
+// 资源分页V1
+export const resPageV1 = (query?: object) => {
+  return http.axiosGetRequest<ResultPage>(otaBusResourceUrls.pageV1, query);
+};
+
+// 资源保存
+export const resSave = (param?: object) => {
+  return http.axiosPost<Result>(otaBusResourceUrls.save, param);
+};
+
+// 资源保存
+export const addModeBefore = (param?: object) => {
+  return http.axiosPost<Result>(otaBusResourceUrls.addModeBefore, param);
+};
+// 资源修改
+export const resUpdate = (param?: object) => {
+  return http.axiosPut<Result>(otaBusResourceUrls.update, param);
+};
+// 资源删除
+export const resDelete = (param?: object) => {
+  return http.axiosDelete<Result>(otaBusResourceUrls.delete + param);
+};
+// 资源推送
+export const resPush = (param?: object) => {
+  return http.axiosPostRequest<Result>(otaBusResourceUrls.push, param);
+};
+
+// 查询资源集合
+export const resList = (param?: object) => {
+  return http.axiosGetRequest<Result>(otaBusResourceUrls.list, param);
+};
+
+// 资源统计
+export const resStatistics = (param?: object) => {
+  return http.axiosGetRequest<any>(otaBusResourceUrls.statistics, param);
+};

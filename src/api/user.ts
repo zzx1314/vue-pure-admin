@@ -11,14 +11,14 @@ export type UserResult = {
     nickname: string;
     /** 当前登录用户的角色 */
     roles: Array<string>;
-    /** 按钮级别权限 */
-    permissions: Array<string>;
     /** `token` */
     accessToken: string;
     /** 用于调用刷新`accessToken`的接口时所需的`token` */
     refreshToken: string;
     /** `accessToken`的过期时间（格式'xxxx/xx/xx xx:xx:xx'） */
     expires: Date;
+    // 用户id
+    user_id?: number;
   };
 };
 
@@ -68,14 +68,41 @@ type ResultTable = {
   };
 };
 
+const urls = {
+  token: `/api/auth/oauth/token`,
+  logout: `/api/auth/oauth/logout`,
+  refreshToken: `/api/auth/oauth/refreshToken`,
+  getInfo: `/api/upms/sysUser/info`,
+  checkToken: `/api/upms/checkToken/isExpire`,
+  updatePassword: `/api/upms/sysUser/edit`
+};
+
+/**
+ * 检查token
+ */
+export const checkToken = () => {
+  return http.request<Result>("get", urls.checkToken);
+};
+
 /** 登录 */
-export const getLogin = (data?: object) => {
-  return http.request<UserResult>("post", "/login", { data });
+export const getLogin = (data?: object): Promise<UserResult> => {
+  const headers = {
+    Authorization: "Basic dGhfY2xpZW50OnRo"
+  };
+  return http.axiosPostFromLogin(urls.token, data, headers);
+};
+
+export const userLogout = (): Promise<UserResult> => {
+  return http.axiosPostRequest(urls.logout);
 };
 
 /** 刷新`token` */
 export const refreshTokenApi = (data?: object) => {
-  return http.request<RefreshTokenResult>("post", "/refresh-token", { data });
+  return http.request<RefreshTokenResult>(
+    "post",
+    "/api/auth/oauth/refreshToken",
+    { data }
+  );
 };
 
 /** 账户设置-个人信息 */
@@ -86,4 +113,9 @@ export const getMine = (data?: object) => {
 /** 账户设置-个人安全日志 */
 export const getMineLogs = (data?: object) => {
   return http.request<ResultTable>("get", "/mine-logs", { data });
+};
+
+/** 账户设置-修改密码 */
+export const updatePassword = (data?: object) => {
+  return http.axiosPut<Result>(urls.updatePassword, data);
 };
