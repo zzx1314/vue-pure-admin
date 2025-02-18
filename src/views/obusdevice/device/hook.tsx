@@ -6,7 +6,8 @@ import {
   oBusDevicePage,
   oBusDeviceUpdate,
   oBusDeviceDelete,
-  oBusReportLog
+  oBusReportLog,
+  getHardWareInfo
 } from "@/api/oBusDevice";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -41,6 +42,7 @@ export function useOBusDevice() {
   const terminal = ref(null);
   const webSocketShell = ref(null);
   const expandRowKeys = ref([]);
+  const hardwareInfo = ref<any>({});
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -279,8 +281,14 @@ export function useOBusDevice() {
     dialogHardWareVisible.value = false;
   }
 
-  function handleDialogHardWareInfo() {
+  function handleDialogHardWareInfo(row) {
     dialogHardWareVisible.value = true;
+    getHardWareInfo(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        console.log(res.data);
+        hardwareInfo.value = res.data;
+      }
+    });
   }
 
   const handleShellSubmit = (values: FieldValues) => {
@@ -423,6 +431,7 @@ export function useOBusDevice() {
     dialogShellVisible,
     dialogShellLoginVisible,
     dialogHardWareVisible,
+    hardwareInfo,
     onSearch,
     resetForm,
     handleDelete,

@@ -42,6 +42,7 @@ const {
   dialogShellVisible,
   dialogShellLoginVisible,
   dialogHardWareVisible,
+  hardwareInfo,
   onSearch,
   handleDelete,
   handleSizeChange,
@@ -104,7 +105,7 @@ const {
             <div class="flex justify-between">
               <div class="flex-1 px-4 flex flex-col items-center">
                 <h3 class="mb-1">
-                  <el-button link @click="handleDialogHardWareInfo()"
+                  <el-button link @click="handleDialogHardWareInfo(row)"
                     ><h3>硬件信息</h3></el-button
                   >
                 </h3>
@@ -271,7 +272,7 @@ const {
       <el-row :gutter="20">
         <el-col :span="6">
           <el-card
-            style="max-width: 300px; margin-bottom: 10px"
+            style="max-width: 300px; height: 250px; margin-bottom: 10px"
             shadow="always"
           >
             <template #header>
@@ -280,11 +281,24 @@ const {
                 <div style="font-weight: bold">CPU信息</div>
               </div>
             </template>
-            <p>cpu信息</p>
+            <div
+              v-for="cpuInfo in hardwareInfo.cpu"
+              :key="cpuInfo.name"
+              class="mb-1"
+            >
+              <div class="flex">
+                <div style=" margin-right: 5px;font-weight: bold">
+                  {{ cpuInfo.name }}:
+                </div>
+                <div>
+                  {{ cpuInfo.value }}
+                </div>
+              </div>
+            </div>
           </el-card>
         </el-col>
         <el-col :span="6">
-          <el-card style="max-width: 300px" shadow="always">
+          <el-card style="max-width: 300px; height: 250px" shadow="always">
             <template #header>
               <div class="card-header flex items-center gap-2">
                 <IconifyIconOffline :icon="Memory" style="font-size: 30px" />
@@ -295,7 +309,7 @@ const {
           </el-card>
         </el-col>
         <el-col :span="6">
-          <el-card style="max-width: 300px" shadow="always">
+          <el-card style="max-width: 300px; height: 250px" shadow="always">
             <template #header>
               <div class="card-header flex items-center gap-2">
                 <GraphicsCard />
@@ -306,7 +320,7 @@ const {
           </el-card>
         </el-col>
         <el-col :span="6">
-          <el-card style="max-width: 300px" shadow="always">
+          <el-card style="max-width: 300px; height: 250px" shadow="always">
             <template #header>
               <div class="card-header flex items-center gap-2">
                 <IconifyIconOffline
@@ -320,7 +334,7 @@ const {
           </el-card>
         </el-col>
         <el-col :span="6">
-          <el-card style="max-width: 300px" shadow="always">
+          <el-card style="max-width: 300px; height: 250px" shadow="always">
             <template #header>
               <div class="card-header flex items-center gap-2">
                 <IconifyIconOffline :icon="Disk" style="font-size: 30px" />

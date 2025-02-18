@@ -20,7 +20,8 @@ const oBusDeviceUrls = {
   save: "/api/operation/oBusDevice/save",
   delete: `/api/operation/oBusDevice/`,
   update: "/api/operation/oBusDevice/update",
-  reportLog: "/api/operation/command/reportLog/"
+  reportLog: "/api/operation/command/reportLog/",
+  getHardWareInfo: "/api/operation/oBusDevice/getHardWareInfo/"
 };
 
 // 设备信息分页
@@ -43,6 +44,13 @@ export const oBusDeviceDelete = (param?: object) => {
 export const oBusReportLog = (deviceId?: string, param?: object) => {
   return http.axiosPostRequest<Result>(
     oBusDeviceUrls.reportLog + deviceId,
+    param
+  );
+};
+// 设备硬件信息
+export const getHardWareInfo = (deviceId?: string, param?: object) => {
+  return http.axiosGetRequest<Result>(
+    oBusDeviceUrls.getHardWareInfo + deviceId,
     param
   );
 };
