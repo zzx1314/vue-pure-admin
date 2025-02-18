@@ -13,6 +13,11 @@ import More from "@iconify-icons/ep/more-filled";
 import Password from "@iconify-icons/ri/lock-password-line";
 import Upload from "@iconify-icons/ri/upload-line";
 import "@xterm/xterm/css/xterm.css";
+import Cpu from "@iconify-icons/bi/cpu";
+import Memory from "@iconify-icons/bi/memory";
+import GraphicsCard from "@/assets/svg/graphics_card.svg?component";
+import Motherboard from "@iconify-icons/bi/motherboard";
+import Disk from "@iconify-icons/ph/floppy-disk-back-bold";
 
 defineOptions({
   name: "OBusDevice"
@@ -36,6 +41,7 @@ const {
   dialogFormVisible,
   dialogShellVisible,
   dialogShellLoginVisible,
+  dialogHardWareVisible,
   onSearch,
   handleDelete,
   handleSizeChange,
@@ -47,6 +53,8 @@ const {
   handleShallLogin,
   handleDialogOpened,
   handleDialogClosed,
+  handleDialogInfoClose,
+  handleDialogHardWareInfo,
   handleExpandChange,
   handleReportLog,
   cancel,
@@ -95,7 +103,11 @@ const {
           <template #expand="{ row }">
             <div class="flex justify-between">
               <div class="flex-1 px-4 flex flex-col items-center">
-                <h3 class="mb-1">硬件信息</h3>
+                <h3 class="mb-1">
+                  <el-button link @click="handleDialogHardWareInfo()"
+                    ><h3>硬件信息</h3></el-button
+                  >
+                </h3>
                 <div
                   v-for="hia in row.hardwareInfoJArray"
                   :key="hia.name"
@@ -247,6 +259,79 @@ const {
       @close="handleDialogClosed"
     >
       <div id="terminal" class="indexContainer" />
+    </el-dialog>
+
+    <el-dialog
+      v-model="dialogHardWareVisible"
+      title="硬件信息"
+      class="shellDialog"
+      width="80%"
+      @close="handleDialogInfoClose"
+    >
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-card
+            style="max-width: 300px; margin-bottom: 10px"
+            shadow="always"
+          >
+            <template #header>
+              <div class="card-header flex items-center gap-2">
+                <IconifyIconOffline :icon="Cpu" style="font-size: 30px" />
+                <div style="font-weight: bold">CPU信息</div>
+              </div>
+            </template>
+            <p>cpu信息</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card style="max-width: 300px" shadow="always">
+            <template #header>
+              <div class="card-header flex items-center gap-2">
+                <IconifyIconOffline :icon="Memory" style="font-size: 30px" />
+                <div style="font-weight: bold">内存信息</div>
+              </div>
+            </template>
+            <p>内存</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card style="max-width: 300px" shadow="always">
+            <template #header>
+              <div class="card-header flex items-center gap-2">
+                <GraphicsCard />
+                <div style="font-weight: bold">显卡</div>
+              </div>
+            </template>
+            <p>显卡信息</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card style="max-width: 300px" shadow="always">
+            <template #header>
+              <div class="card-header flex items-center gap-2">
+                <IconifyIconOffline
+                  :icon="Motherboard"
+                  style="font-size: 30px"
+                />
+                <div style="font-weight: bold">主板信息</div>
+              </div>
+            </template>
+            <p>主板信息</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card style="max-width: 300px" shadow="always">
+            <template #header>
+              <div class="card-header flex items-center gap-2">
+                <IconifyIconOffline :icon="Disk" style="font-size: 30px" />
+                <div style="font-weight: bold">硬盘信息</div>
+              </div>
+            </template>
+            <p>硬盘信息</p>
+          </el-card>
+        </el-col>
+        <el-col :span="6" />
+      </el-row>
     </el-dialog>
   </div>
 </template>

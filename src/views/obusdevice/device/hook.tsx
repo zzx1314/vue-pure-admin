@@ -36,6 +36,7 @@ export function useOBusDevice() {
   const title = ref("");
   const dialogFormVisible = ref(false);
   const dialogShellVisible = ref(false);
+  const dialogHardWareVisible = ref(false);
   const dialogShellLoginVisible = ref(false);
   const terminal = ref(null);
   const webSocketShell = ref(null);
@@ -274,6 +275,14 @@ export function useOBusDevice() {
     cancel();
   }
 
+  function handleDialogInfoClose() {
+    dialogHardWareVisible.value = false;
+  }
+
+  function handleDialogHardWareInfo() {
+    dialogHardWareVisible.value = true;
+  }
+
   const handleShellSubmit = (values: FieldValues) => {
     console.log(values, "Submit");
     loginShellForm.value.operate = "connect";
@@ -413,6 +422,7 @@ export function useOBusDevice() {
     dialogFormVisible,
     dialogShellVisible,
     dialogShellLoginVisible,
+    dialogHardWareVisible,
     onSearch,
     resetForm,
     handleDelete,
@@ -425,6 +435,8 @@ export function useOBusDevice() {
     handleDialogOpened,
     handleShallLogin,
     handleDialogClosed,
+    handleDialogHardWareInfo,
+    handleDialogInfoClose,
     handleExpandChange,
     handleReportLog,
     cancel,
