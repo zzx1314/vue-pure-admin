@@ -65,11 +65,7 @@ const getTaskStatistics = () => {
   });
 };
 
-onMounted(() => {
-  getDevStatistics();
-  getResStatistics();
-  getTaskStatistics();
-});
+onMounted(() => {});
 </script>
 
 <template>
@@ -194,92 +190,12 @@ onMounted(() => {
         <el-card shadow="never">
           <template #header>
             <TypeIt
-              :options="{
-                strings: ['接入设备信息'],
-                cursor: false,
-                speed: 120
-              }"
-            />
-          </template>
-          <el-skeleton animated :rows="7" :loading="loading">
-            <template #default>
-              <DevNum
-                :group-names="groupNames"
-                :online-nums="onlineNums"
-                :offline-nums="offlineNums"
-              />
-            </template>
-          </el-skeleton>
-        </el-card>
-      </el-col>
-
-      <el-col
-        v-motion
-        :xs="24"
-        :sm="24"
-        :md="12"
-        :lg="8"
-        :xl="8"
-        class="mb-[18px]"
-        :initial="{
-          opacity: 0,
-          y: 100
-        }"
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: 400
-          }
-        }"
-      >
-        <el-card shadow="never">
-          <template #header>
-            <TypeIt
               :options="{ strings: ['资源信息'], cursor: false, speed: 120 }"
             />
           </template>
           <el-skeleton animated :rows="7" :loading="loading">
             <template #default>
               <Pie :resInfo="resInfo" />
-            </template>
-          </el-skeleton>
-        </el-card>
-      </el-col>
-
-      <el-col
-        v-motion
-        :xs="24"
-        :sm="24"
-        :md="24"
-        :lg="8"
-        :xl="8"
-        class="mb-[18px]"
-        :initial="{
-          opacity: 0,
-          y: 100
-        }"
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: 400
-          }
-        }"
-      >
-        <el-card shadow="never">
-          <template #header>
-            <TypeIt
-              :options="{ strings: ['任务信息'], cursor: false, speed: 120 }"
-            />
-          </template>
-          <el-skeleton animated :rows="7" :loading="loading">
-            <template #default>
-              <Bar
-                :time="time"
-                :over-number="overNumber"
-                :un-over-number="unOverNumber"
-              />
             </template>
           </el-skeleton>
         </el-card>

@@ -287,7 +287,7 @@ const {
               class="mb-1"
             >
               <div class="flex">
-                <div style=" margin-right: 5px;font-weight: bold">
+                <div style="margin-right: 5px; font-weight: bold">
                   {{ cpuInfo.name }}:
                 </div>
                 <div>
@@ -305,7 +305,20 @@ const {
                 <div style="font-weight: bold">内存信息</div>
               </div>
             </template>
-            <p>内存</p>
+            <div
+              v-for="memoryInfo in hardwareInfo.memory"
+              :key="memoryInfo.name"
+              class="mb-1"
+            >
+              <div class="flex">
+                <div style="margin-right: 5px; font-weight: bold">
+                  {{ memoryInfo.name }}:
+                </div>
+                <div>
+                  {{ memoryInfo.value }}
+                </div>
+              </div>
+            </div>
           </el-card>
         </el-col>
         <el-col :span="6">
@@ -316,7 +329,20 @@ const {
                 <div style="font-weight: bold">显卡</div>
               </div>
             </template>
-            <p>显卡信息</p>
+            <div
+              v-for="graphicsCard in hardwareInfo.graphicsCard"
+              :key="graphicsCard.name"
+              class="mb-1"
+            >
+              <div class="flex">
+                <div style="margin-right: 5px; font-weight: bold">
+                  {{ graphicsCard.name }}:
+                </div>
+                <div>
+                  {{ graphicsCard.value }}
+                </div>
+              </div>
+            </div>
           </el-card>
         </el-col>
         <el-col :span="6">
@@ -330,7 +356,20 @@ const {
                 <div style="font-weight: bold">主板信息</div>
               </div>
             </template>
-            <p>主板信息</p>
+            <div
+              v-for="motherBoardInfo in hardwareInfo.motherBoard"
+              :key="motherBoardInfo.name"
+              class="mb-1"
+            >
+              <div class="flex">
+                <div style="margin-right: 5px; font-weight: bold">
+                  {{ motherBoardInfo.name }}:
+                </div>
+                <div>
+                  {{ motherBoardInfo.value }}
+                </div>
+              </div>
+            </div>
           </el-card>
         </el-col>
         <el-col :span="6">
@@ -341,7 +380,20 @@ const {
                 <div style="font-weight: bold">硬盘信息</div>
               </div>
             </template>
-            <p>硬盘信息</p>
+            <div
+              v-for="diskInfo in hardwareInfo.disk"
+              :key="diskInfo.name"
+              class="mb-1"
+            >
+              <div class="flex">
+                <div style="margin-right: 5px; font-weight: bold">
+                  {{ diskInfo.name }}:
+                </div>
+                <div>
+                  {{ diskInfo.value }}
+                </div>
+              </div>
+            </div>
           </el-card>
         </el-col>
         <el-col :span="6" />

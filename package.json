@@ -70,6 +70,7 @@
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.11",
     "echarts": "^5.5.1",
+    "echarts-liquidfill": "^3.1.0",
     "el-table-infinite-scroll": "^3.0.5",
     "element-plus": "^2.7.6",
     "intro.js": "^7.2.0",

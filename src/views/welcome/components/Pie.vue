@@ -44,28 +44,8 @@ setOptions(
     },
     series: [
       {
-        name: "资源信息",
-        type: "pie",
-        top: "20%",
-        radius: "80%",
-        center: ["40%", "50%"],
-        color: [
-          "#e6a23c",
-          "#f56c6c",
-          "#53a7ff",
-          "#ba53ff",
-          "#9253FFFF",
-          "#BA53FFFF",
-          "#53dfff"
-        ],
-        data: props.resInfo
-        // emphasis: {
-        //   itemStyle: {
-        //     shadowBlur: 10,
-        //     shadowOffsetX: 0,
-        //     shadowColor: "rgba(0, 0, 0, 0.5)"
-        //   }
-        // }
+        type: "liquidFill",
+        data: [0.6]
       }
     ]
   },

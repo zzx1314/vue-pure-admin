@@ -14,6 +14,8 @@ import {
   VisualMapComponent
 } from "echarts/components";
 
+import "echarts-liquidfill";
+
 const { use } = echarts;
 
 use([
