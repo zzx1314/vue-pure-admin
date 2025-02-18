@@ -286,9 +286,11 @@ export function useOBusDevice() {
 
   function handleExpandChange(row, rowArray) {
     console.log("点击关闭或者展开", row.id, rowArray);
-    rowArray.forEach(item => {
-      expandRowKeys.value.push(item.id);
-    });
+    if (rowArray.includes(row)) {
+      expandRowKeys.value = [];
+      expandRowKeys.value.push(row.id);
+      console.log("展开行");
+    }
   }
   function handleReportLog(row) {
     console.log("handleReportLog", row);

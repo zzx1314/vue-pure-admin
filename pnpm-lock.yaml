@@ -14,6 +14,12 @@ importers:
       '@howdyjs/mouse-menu':
         specifier: ^2.1.3
         version: 2.1.3(vue@3.4.31(typescript@5.5.3))
+      '@iconify-icons/bi':
+        specifier: ^1.2.19
+        version: 1.2.19
+      '@iconify-icons/ph':
+        specifier: ^1.2.5
+        version: 1.2.5
       '@infectoone/vue-ganttastic':
         specifier: ^2.3.2
         version: 2.3.2(dayjs@1.11.11)(vue@3.4.31(typescript@5.5.3))
@@ -1052,11 +1058,17 @@ packages:
     resolution: {integrity: sha512-d2CGZR2o7fS6sWB7DG/3a95bGKQyHMACZ5aW8qGkkqQpUoZV6C0X7Pc7l4ZNMZkfNBf4VWNe9E1jRsf0G146Ew==}
     engines: {node: '>=18.18'}
 
+  '@iconify-icons/bi@1.2.19':
+    resolution: {integrity: sha512-XXBRRsqgQqACKFVs8Caludf9w4EimplsCJ0rXmKDhqalzD9IvCqMae5TZDHPE1FkeqbxRGq6awxLSxnwdAIC+Q==}
+
   '@iconify-icons/ep@1.2.12':
     resolution: {integrity: sha512-8EJULn048sQq3fvytpQ5j40omnVOdBKpo+sXdYM35NRrqCe1BihxBesMcCOLWaocqkWia6uTQ3cnRHff4ZA11w==}
 
   '@iconify-icons/mdi@1.2.48':
     resolution: {integrity: sha512-51bfNoRLhYDfxSu0Nyi/uRVq6q/tP4TyEc0vvuNwImrXpxrRJUAWJF2A36CfBkXm3hO9IBlph/CD/XNDJKgG6w==}
+
+  '@iconify-icons/ph@1.2.5':
+    resolution: {integrity: sha512-Ox2VkJDoFowrf0e74LlLUuLMiN73PsCN28MUx9wCQfyZAFrL8ntfBnMpzukfi/0vN9qpJKAiKYZ3dQ5JjBqt/A==}
 
   '@iconify-icons/ri@1.2.10':
     resolution: {integrity: sha512-wNaXsQYK55WDUWCbcjvnwnODV4Jtsp+VC0duPanibEVu876TUYf6kdgTGtH7/GErBCNdJuJJbncG7vbOaeQi7w==}
@@ -6046,11 +6058,19 @@ snapshots:
 
   '@humanwhocodes/retry@0.3.0': {}
 
+  '@iconify-icons/bi@1.2.19':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify-icons/ep@1.2.12':
     dependencies:
       '@iconify/types': 2.0.0
 
   '@iconify-icons/mdi@1.2.48':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-icons/ph@1.2.5':
     dependencies:
       '@iconify/types': 2.0.0
 
