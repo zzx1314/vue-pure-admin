@@ -45,7 +45,30 @@ setOptions(
     series: [
       {
         type: "liquidFill",
-        data: [0.6]
+        data: [0.6],
+        color: ["#FFA661"],
+        label: {
+          normal: {
+            color: "#000000", //百分比颜色
+            textStyle: {
+              fontSize: 20,
+              fontWeight: "bold"
+            }
+          }
+        },
+        outline: {
+          borderDistance: 0,
+          itemStyle: {
+            borderWidth: 5,
+            borderColor: "#FFA661",
+            shadowBlur: 20,
+            shadowColor: "rgba(255, 0, 0, 1)"
+          }
+        },
+        backgroundStyle: {
+          //水球背景色
+          color: "rgba(255, 255, 255)"
+        }
       }
     ]
   },
