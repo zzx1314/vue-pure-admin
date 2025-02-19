@@ -45,8 +45,10 @@ export function useOBusDevice() {
   const webSocketShell = ref(null);
   const expandRowKeys = ref([]);
   const hardwareInfo = ref<any>({});
-  const memColor = ref<any>({});
+  const memColor = ref<string>("#67C23A");
   const memNumber = ref(0);
+  const diskColor = ref<string>("#67C23A");
+  const diskNumber = ref(0);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -285,7 +287,10 @@ export function useOBusDevice() {
     dialogHardWareVisible.value = false;
     dialogSysStatusVisible.value = false;
     memNumber.value = 0;
-    memColor.value = 0;
+    memColor.value = "#67C23A";
+    diskNumber.value = 0;
+    diskColor.value = "#67C23A";
+    dialogShellLoginVisible.value = false;
   }
 
   function handleDialogHardWareInfo(row) {
@@ -305,6 +310,8 @@ export function useOBusDevice() {
         console.log(res.data);
         memNumber.value = res.data.useMemRatio.value;
         memColor.value = res.data.useMemRatio.color;
+        diskNumber.value = res.data.useDiskRatio.value;
+        diskColor.value = res.data.useDiskRatio.color;
       }
     });
   }
@@ -453,6 +460,8 @@ export function useOBusDevice() {
     hardwareInfo,
     memNumber,
     memColor,
+    diskNumber,
+    diskColor,
     onSearch,
     resetForm,
     handleDelete,

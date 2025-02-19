@@ -21,6 +21,7 @@ const { setOptions, resize } = useECharts(waterBallRef as Ref<HTMLDivElement>, {
 
 const percentageNum = ref(0);
 const colorValue = ref<string>("#FFA661");
+const shapeValue = ref<string>("circle");
 
 const props = defineProps({
   // 目标进度
@@ -31,6 +32,10 @@ const props = defineProps({
   color: {
     type: String,
     default: "#FFA661"
+  },
+  shape: {
+    type: String,
+    default: "circle"
   }
 });
 
@@ -49,7 +54,9 @@ const updateChartOptions = () => {
         {
           type: "liquidFill",
           data: [percentageNum.value / 100],
+          radius: "70%",
           color: [colorValue.value],
+          shape: shapeValue.value,
           label: {
             normal: {
               color: "#000000", //百分比颜色
@@ -92,11 +99,15 @@ const updateChartOptions = () => {
   );
 };
 
-watch([() => props.percentage, () => props.color], ([newV, newColor]) => {
-  percentageNum.value = newV;
-  colorValue.value = newColor;
-  updateChartOptions();
-});
+watch(
+  [() => props.percentage, () => props.color, () => props.shape],
+  ([newV, newColor, newShape]) => {
+    percentageNum.value = newV;
+    colorValue.value = newColor;
+    shapeValue.value = newShape;
+    updateChartOptions();
+  }
+);
 
 // 初始化图表选项
 updateChartOptions();

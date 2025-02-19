@@ -47,6 +47,8 @@ const {
   hardwareInfo,
   memNumber,
   memColor,
+  diskNumber,
+  diskColor,
   onSearch,
   handleDelete,
   handleSizeChange,
@@ -446,7 +448,13 @@ const {
                 <div style="font-weight: bold">磁盘使用率</div>
               </div>
             </template>
-            <p>磁盘使用率</p>
+            <div>
+              <water-ball-v1
+                :percentage="diskNumber"
+                :color="diskColor"
+                shape="rect"
+              />
+            </div>
           </el-card>
         </el-col>
       </el-row>
