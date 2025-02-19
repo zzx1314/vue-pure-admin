@@ -19,6 +19,7 @@ import GraphicsCard from "@/assets/svg/graphics_card.svg?component";
 import Motherboard from "@iconify-icons/bi/motherboard";
 import Disk from "@iconify-icons/ph/floppy-disk-back-bold";
 import WaterBallV1 from "@/components/ReEcharts/WaterBallV1.vue";
+import Gauge from "@/components/ReEcharts/Gauge.vue";
 
 defineOptions({
   name: "OBusDevice"
@@ -49,6 +50,7 @@ const {
   memColor,
   diskNumber,
   diskColor,
+  cpuPercent,
   onSearch,
   handleDelete,
   handleSizeChange,
@@ -437,7 +439,9 @@ const {
                 <div style="font-weight: bold">CPU使用率</div>
               </div>
             </template>
-            <p>cpu使用率</p>
+            <div>
+              <Gauge :percentage="cpuPercent" />
+            </div>
           </el-card>
         </el-col>
         <el-col :span="8">

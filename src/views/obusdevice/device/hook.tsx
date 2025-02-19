@@ -49,6 +49,7 @@ export function useOBusDevice() {
   const memNumber = ref(0);
   const diskColor = ref<string>("#67C23A");
   const diskNumber = ref(0);
+  const cpuPercent = ref(0);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -290,6 +291,7 @@ export function useOBusDevice() {
     memColor.value = "#67C23A";
     diskNumber.value = 0;
     diskColor.value = "#67C23A";
+    cpuPercent.value = 0;
     dialogShellLoginVisible.value = false;
   }
 
@@ -312,6 +314,7 @@ export function useOBusDevice() {
         memColor.value = res.data.useMemRatio.color;
         diskNumber.value = res.data.useDiskRatio.value;
         diskColor.value = res.data.useDiskRatio.color;
+        cpuPercent.value = res.data.useCpuRatio.value;
       }
     });
   }
@@ -462,6 +465,7 @@ export function useOBusDevice() {
     memColor,
     diskNumber,
     diskColor,
+    cpuPercent,
     onSearch,
     resetForm,
     handleDelete,
