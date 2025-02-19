@@ -7,7 +7,8 @@ import {
   oBusDeviceUpdate,
   oBusDeviceDelete,
   oBusReportLog,
-  getHardWareInfo
+  getHardWareInfo,
+  getSysStatus
 } from "@/api/oBusDevice";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -38,11 +39,14 @@ export function useOBusDevice() {
   const dialogFormVisible = ref(false);
   const dialogShellVisible = ref(false);
   const dialogHardWareVisible = ref(false);
+  const dialogSysStatusVisible = ref(false);
   const dialogShellLoginVisible = ref(false);
   const terminal = ref(null);
   const webSocketShell = ref(null);
   const expandRowKeys = ref([]);
   const hardwareInfo = ref<any>({});
+  const memColor = ref<any>({});
+  const memNumber = ref(0);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -279,6 +283,9 @@ export function useOBusDevice() {
 
   function handleDialogInfoClose() {
     dialogHardWareVisible.value = false;
+    dialogSysStatusVisible.value = false;
+    memNumber.value = 0;
+    memColor.value = 0;
   }
 
   function handleDialogHardWareInfo(row) {
@@ -287,6 +294,17 @@ export function useOBusDevice() {
       if (res.code === SUCCESS) {
         console.log(res.data);
         hardwareInfo.value = res.data;
+      }
+    });
+  }
+
+  function handleDialogSysStem(row) {
+    dialogSysStatusVisible.value = true;
+    getSysStatus(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        console.log(res.data);
+        memNumber.value = res.data.useMemRatio.value;
+        memColor.value = res.data.useMemRatio.color;
       }
     });
   }
@@ -431,7 +449,10 @@ export function useOBusDevice() {
     dialogShellVisible,
     dialogShellLoginVisible,
     dialogHardWareVisible,
+    dialogSysStatusVisible,
     hardwareInfo,
+    memNumber,
+    memColor,
     onSearch,
     resetForm,
     handleDelete,
@@ -442,6 +463,7 @@ export function useOBusDevice() {
     handleShellSubmit,
     handleSubmitError,
     handleDialogOpened,
+    handleDialogSysStem,
     handleShallLogin,
     handleDialogClosed,
     handleDialogHardWareInfo,

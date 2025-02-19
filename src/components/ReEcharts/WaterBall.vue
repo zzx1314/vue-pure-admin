@@ -114,7 +114,7 @@ function startAnimation(percentage) {
 
 .box {
   position: absolute;
-  top: 50%;
+  top: 70px;
   left: 50%;
   overflow: hidden;
   border-radius: 100%;
@@ -123,7 +123,7 @@ function startAnimation(percentage) {
 
 .box .percent {
   position: absolute;
-  top: 0;
+  top: 10px;
   left: 0;
   z-index: 3;
   display: flex;

@@ -18,6 +18,7 @@ import Memory from "@iconify-icons/bi/memory";
 import GraphicsCard from "@/assets/svg/graphics_card.svg?component";
 import Motherboard from "@iconify-icons/bi/motherboard";
 import Disk from "@iconify-icons/ph/floppy-disk-back-bold";
+import WaterBallV1 from "@/components/ReEcharts/WaterBallV1.vue";
 
 defineOptions({
   name: "OBusDevice"
@@ -42,7 +43,10 @@ const {
   dialogShellVisible,
   dialogShellLoginVisible,
   dialogHardWareVisible,
+  dialogSysStatusVisible,
   hardwareInfo,
+  memNumber,
+  memColor,
   onSearch,
   handleDelete,
   handleSizeChange,
@@ -56,6 +60,7 @@ const {
   handleDialogClosed,
   handleDialogInfoClose,
   handleDialogHardWareInfo,
+  handleDialogSysStem,
   handleExpandChange,
   handleReportLog,
   cancel,
@@ -140,7 +145,9 @@ const {
                 </div>
               </div>
               <div class="flex-1 px-4 flex flex-col items-center">
-                <h3 class="mb-1">系统状态</h3>
+                <el-button link @click="handleDialogSysStem(row)"
+                  ><h3>系统状态</h3></el-button
+                >
                 <div
                   v-for="ssa in row.systemStatusJArray"
                   :key="ssa.name"
@@ -397,6 +404,51 @@ const {
           </el-card>
         </el-col>
         <el-col :span="6" />
+      </el-row>
+    </el-dialog>
+
+    <el-dialog
+      v-model="dialogSysStatusVisible"
+      title="系统状态"
+      width="80%"
+      @close="handleDialogInfoClose"
+    >
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-card style="max-width: 300px; height: 300px" shadow="always">
+            <template #header>
+              <div class="card-header flex items-center gap-2">
+                <IconifyIconOffline :icon="Memory" style="font-size: 30px" />
+                <div style="font-weight: bold">内存使用率</div>
+              </div>
+            </template>
+            <div>
+              <water-ball-v1 :percentage="memNumber" :color="memColor" />
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card style="max-width: 300px; height: 300px" shadow="always">
+            <template #header>
+              <div class="card-header flex items-center gap-2">
+                <IconifyIconOffline :icon="Cpu" style="font-size: 30px" />
+                <div style="font-weight: bold">CPU使用率</div>
+              </div>
+            </template>
+            <p>cpu使用率</p>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card style="max-width: 300px; height: 300px" shadow="always">
+            <template #header>
+              <div class="card-header flex items-center gap-2">
+                <IconifyIconOffline :icon="Disk" style="font-size: 30px" />
+                <div style="font-weight: bold">磁盘使用率</div>
+              </div>
+            </template>
+            <p>磁盘使用率</p>
+          </el-card>
+        </el-col>
       </el-row>
     </el-dialog>
   </div>

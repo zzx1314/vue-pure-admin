@@ -3,7 +3,7 @@ import { http } from "@/utils/http";
 type Result = {
   code: number;
   msg: string;
-  data?: Array<any>;
+  data?: any;
 };
 
 type ResultPage = {
@@ -21,7 +21,8 @@ const oBusDeviceUrls = {
   delete: `/api/operation/oBusDevice/`,
   update: "/api/operation/oBusDevice/update",
   reportLog: "/api/operation/command/reportLog/",
-  getHardWareInfo: "/api/operation/oBusDevice/getHardWareInfo/"
+  getHardWareInfo: "/api/operation/oBusDevice/getHardWareInfo/",
+  getSysStatus: "/api/operation/oBusDevice/getSysStatus/"
 };
 
 // 设备信息分页
@@ -51,6 +52,13 @@ export const oBusReportLog = (deviceId?: string, param?: object) => {
 export const getHardWareInfo = (deviceId?: string, param?: object) => {
   return http.axiosGetRequest<Result>(
     oBusDeviceUrls.getHardWareInfo + deviceId,
+    param
+  );
+};
+
+export const getSysStatus = (deviceId?: string, param?: object) => {
+  return http.axiosGetRequest<Result>(
+    oBusDeviceUrls.getSysStatus + deviceId,
     param
   );
 };

@@ -2,7 +2,6 @@
   <div class="corner">
     <span class="bottom-left" />
     <span class="bottom-right" />
-    <div class="title">【饼图】</div>
     <div ref="pieRef" class="w-full h-full" />
   </div>
 </template>
