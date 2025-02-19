@@ -34,8 +34,7 @@
       "vite/client",
       "element-plus/global",
       "@pureadmin/table/volar",
-      "@pureadmin/descriptions/volar",
-      "echarts-liquidfill"
+      "@pureadmin/descriptions/volar"
     ]
   },
   "include": [
