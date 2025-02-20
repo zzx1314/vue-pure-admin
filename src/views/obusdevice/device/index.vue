@@ -47,6 +47,7 @@ const {
   dialogShellLoginVisible,
   dialogHardWareVisible,
   dialogSysStatusVisible,
+  dialogDeviceOnOrLineVisible,
   hardwareInfo,
   memNumber,
   memColor,
@@ -56,6 +57,7 @@ const {
   cpuHistory,
   memHistory,
   diskHistory,
+  activities,
   onSearch,
   handleDelete,
   handleSizeChange,
@@ -551,12 +553,53 @@ const {
         </el-col>
       </el-row>
     </el-dialog>
+
+    <el-dialog
+      v-model="dialogDeviceOnOrLineVisible"
+      title=""
+      width="500px"
+      @close="handleDialogInfoClose"
+    >
+      <el-card shadow="never">
+        <template #header>
+          <div class="card-header">
+            <h3>设备运行状态</h3>
+          </div>
+        </template>
+        <div class="flex justify-center">
+          <el-scrollbar max-height="504" class="mt-3">
+            <el-timeline>
+              <el-timeline-item
+                v-for="(activity, index) in activities"
+                :key="index"
+                :icon="activity.icon"
+                :timestamp="activity.timestamp"
+                placement="bottom"
+              >
+                <div class="message">
+                  {{ activity.content }}
+                </div>
+              </el-timeline-item>
+            </el-timeline>
+          </el-scrollbar>
+        </div>
+      </el-card>
+    </el-dialog>
   </div>
 </template>
 
 <style scoped lang="scss">
 :deep(.customizeCardBody .el-card__body) {
   padding-top: 0 !important;
+}
+
+:deep(.el-timeline-item__node--normal) {
+  width: 18px;
+  height: 18px;
+}
+
+:deep(.el-timeline-item__wrapper) {
+  top: 3px;
 }
 
 :deep(.el-row) {
@@ -611,5 +654,31 @@ const {
 
 :deep(.el-link) {
   padding-left: 10px;
+}
+
+.message {
+  position: relative;
+  box-sizing: border-box;
+  width: 200px;
+  padding: 5px 12px;
+  line-height: 18px;
+  color: #fff;
+  word-break: break-all;
+  background-color: var(--el-color-primary);
+  border-color: var(--el-color-primary);
+  border-radius: 6px;
+}
+
+.message::after {
+  position: absolute;
+  top: 8px;
+  left: -10px;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  content: "";
+  border-color: var(--el-color-primary) transparent transparent;
+  border-style: solid dashed dashed;
+  border-width: 10px;
 }
 </style>

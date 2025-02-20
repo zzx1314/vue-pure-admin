@@ -23,7 +23,7 @@ const oBusDeviceUrls = {
   reportLog: "/api/operation/command/reportLog/",
   getHardWareInfo: "/api/operation/oBusDevice/getHardWareInfo/",
   getSysStatus: "/api/operation/oBusDevice/getSysStatus/",
-  getLineChart: "/api/operation/oBusDeviceHistoryHeartbeat/getLineChart/"
+  getHistoryOnOrOffine: "/api/operation/oBusDeviceOnOrOffine/getHistory/"
 };
 
 // 设备信息分页
@@ -56,10 +56,17 @@ export const getHardWareInfo = (deviceId?: string, param?: object) => {
     param
   );
 };
-
+// 获取系统状态
 export const getSysStatus = (deviceId?: string, param?: object) => {
   return http.axiosGetRequest<Result>(
     oBusDeviceUrls.getSysStatus + deviceId,
+    param
+  );
+};
+// 获取离线在线状态
+export const getHistoryOnOrOffine = (deviceId?: string, param?: object) => {
+  return http.axiosGetRequest<Result>(
+    oBusDeviceUrls.getHistoryOnOrOffine + deviceId,
     param
   );
 };

@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import Bar from "./components/Bar.vue";
-import Pie from "./components/Pie.vue";
-import DevNum from "@/views/welcome/components/DevNum.vue";
 import TypeIt from "@/components/ReTypeit";
 import { useWindowSize } from "@vueuse/core";
 import { ref, getCurrentInstance, onMounted } from "vue";
@@ -162,40 +159,6 @@ onMounted(() => {});
               <el-scrollbar :height="`calc(${height}px - 35vh - 340px)`">
                 <Github />
               </el-scrollbar>
-            </template>
-          </el-skeleton>
-        </el-card>
-      </el-col>
-
-      <el-col
-        v-motion
-        :xs="24"
-        :sm="24"
-        :md="12"
-        :lg="8"
-        :xl="8"
-        class="mb-[18px]"
-        :initial="{
-          opacity: 0,
-          y: 100
-        }"
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: 400
-          }
-        }"
-      >
-        <el-card shadow="never">
-          <template #header>
-            <TypeIt
-              :options="{ strings: ['资源信息'], cursor: false, speed: 120 }"
-            />
-          </template>
-          <el-skeleton animated :rows="7" :loading="loading">
-            <template #default>
-              <Pie :resInfo="resInfo" />
             </template>
           </el-skeleton>
         </el-card>

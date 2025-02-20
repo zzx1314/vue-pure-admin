@@ -1,4 +1,12 @@
-import { computed, nextTick, onMounted, onUnmounted, reactive, ref } from "vue";
+import {
+  computed,
+  markRaw,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  reactive,
+  ref
+} from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules } from "element-plus";
 import {
@@ -16,6 +24,7 @@ import type { FieldValues } from "plus-pro-components";
 import { Terminal } from "@xterm/xterm";
 import WebSocketClient from "@/components/ReWebSocket";
 import aesUtils from "@/utils/aes";
+import { useRenderFlicker } from "@/components/ReFlicker";
 
 export function useOBusDevice() {
   // ----变量定义-----
@@ -40,6 +49,7 @@ export function useOBusDevice() {
   const dialogShellVisible = ref(false);
   const dialogHardWareVisible = ref(false);
   const dialogSysStatusVisible = ref(false);
+  const dialogDeviceOnOrLineVisible = ref(false);
   const dialogShellLoginVisible = ref(false);
   const terminal = ref(null);
   const webSocketShell = ref(null);
@@ -54,6 +64,20 @@ export function useOBusDevice() {
   const cpuHistory = ref<any>({});
   const memHistory = ref<any>({});
   const diskHistory = ref<any>({});
+
+  const { lastBuildTime } = __APP_INFO__;
+  const activities = [
+    {
+      content: "上线了",
+      timestamp: lastBuildTime,
+      icon: markRaw(useRenderFlicker({ background: "#67C23A" }))
+    },
+    {
+      content: "下线",
+      timestamp: lastBuildTime,
+      icon: markRaw(useRenderFlicker({ background: "#F56C6C" }))
+    }
+  ];
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -131,7 +155,17 @@ export function useOBusDevice() {
     {
       label: "通信时间",
       prop: "commTime",
-      minWidth: 150
+      minWidth: 150,
+      cellRenderer: ({ row, props }) => (
+        <el-button
+          size={props.size}
+          type="primary"
+          text
+          onClick={() => handleCommTime(row)}
+        >
+          {row.commTime}
+        </el-button>
+      )
     },
     {
       label: "状态",
@@ -291,6 +325,7 @@ export function useOBusDevice() {
   function handleDialogInfoClose() {
     dialogHardWareVisible.value = false;
     dialogSysStatusVisible.value = false;
+    dialogDeviceOnOrLineVisible.value = false;
     memNumber.value = 0;
     memColor.value = "#67C23A";
     diskNumber.value = 0;
@@ -370,6 +405,11 @@ export function useOBusDevice() {
         message("下发失败！", { type: "error" });
       }
     });
+  }
+
+  function handleCommTime(row) {
+    console.log("handleCommTime", row);
+    dialogDeviceOnOrLineVisible.value = true;
   }
 
   // 查询
@@ -478,6 +518,7 @@ export function useOBusDevice() {
     dialogShellLoginVisible,
     dialogHardWareVisible,
     dialogSysStatusVisible,
+    dialogDeviceOnOrLineVisible,
     hardwareInfo,
     memNumber,
     memColor,
@@ -487,6 +528,7 @@ export function useOBusDevice() {
     cpuHistory,
     memHistory,
     diskHistory,
+    activities,
     onSearch,
     resetForm,
     handleDelete,
