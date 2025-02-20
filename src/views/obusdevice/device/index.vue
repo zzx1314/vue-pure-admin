@@ -20,6 +20,7 @@ import Motherboard from "@iconify-icons/bi/motherboard";
 import Disk from "@iconify-icons/ph/floppy-disk-back-bold";
 import WaterBallV1 from "@/components/ReEcharts/WaterBallV1.vue";
 import Gauge from "@/components/ReEcharts/Gauge.vue";
+import { MoreFilled } from "@element-plus/icons-vue";
 
 defineOptions({
   name: "OBusDevice"
@@ -113,11 +114,19 @@ const {
           <template #expand="{ row }">
             <div class="flex justify-between">
               <div class="flex-1 px-4 flex flex-col items-center">
-                <h3 class="mb-1">
+                <div class="flex mb-1">
                   <el-button link @click="handleDialogHardWareInfo(row)"
                     ><h3>硬件信息</h3></el-button
                   >
-                </h3>
+                  <div class="button">
+                    <el-button
+                      link
+                      :icon="MoreFilled"
+                      type="primary"
+                      @click="handleDialogHardWareInfo(row)"
+                    />
+                  </div>
+                </div>
                 <div
                   v-for="hia in row.hardwareInfoJArray"
                   :key="hia.name"
@@ -149,9 +158,19 @@ const {
                 </div>
               </div>
               <div class="flex-1 px-4 flex flex-col items-center">
-                <el-button link @click="handleDialogSysStem(row)"
-                  ><h3>系统状态</h3></el-button
-                >
+                <div class="flex mb-1">
+                  <el-button link @click="handleDialogSysStem(row)"
+                    ><h3>系统状态</h3></el-button
+                  >
+                  <div class="button">
+                    <el-button
+                      link
+                      :icon="MoreFilled"
+                      type="primary"
+                      @click="handleDialogSysStem(row)"
+                    />
+                  </div>
+                </div>
                 <div
                   v-for="ssa in row.systemStatusJArray"
                   :key="ssa.name"
