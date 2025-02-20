@@ -21,6 +21,7 @@ import Disk from "@iconify-icons/ph/floppy-disk-back-bold";
 import WaterBallV1 from "@/components/ReEcharts/WaterBallV1.vue";
 import Gauge from "@/components/ReEcharts/Gauge.vue";
 import { MoreFilled } from "@element-plus/icons-vue";
+import LineCharts from "@/components/ReEcharts/lineCharts.vue";
 
 defineOptions({
   name: "OBusDevice"
@@ -481,13 +482,59 @@ const {
           </el-card>
         </el-col>
       </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-card style="max-width: 300px; height: 300px" shadow="always">
+            <template #header>
+              <div class="card-header flex items-center gap-2">
+                <IconifyIconOffline :icon="Memory" style="font-size: 30px" />
+                <div style="font-weight: bold">历史内存使用率</div>
+              </div>
+            </template>
+            <div>
+              <line-charts />
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card style="max-width: 300px; height: 300px" shadow="always">
+            <template #header>
+              <div class="card-header flex items-center gap-2">
+                <IconifyIconOffline :icon="Cpu" style="font-size: 30px" />
+                <div style="font-weight: bold">历史CPU使用率</div>
+              </div>
+            </template>
+            <div>
+              <line-charts />
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="8">
+          <el-card style="max-width: 300px; height: 300px" shadow="always">
+            <template #header>
+              <div class="card-header flex items-center gap-2">
+                <IconifyIconOffline :icon="Disk" style="font-size: 30px" />
+                <div style="font-weight: bold">历史磁盘使用率</div>
+              </div>
+            </template>
+            <div>
+              <line-charts />
+              <line-charts />
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
     </el-dialog>
   </div>
 </template>
 
 <style scoped lang="scss">
-:deep(.el-dropdown-menu__item i) {
-  margin: 0;
+:deep(.el-row) {
+  margin-bottom: 20px;
+}
+
+:deep(.el-row:last-child) {
+  margin-bottom: 0;
 }
 
 .breathing-light {
