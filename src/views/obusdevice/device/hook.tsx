@@ -51,6 +51,10 @@ export function useOBusDevice() {
   const diskNumber = ref(0);
   const cpuPercent = ref(0);
 
+  const cpuHistory = ref<any>({});
+  const memHistory = ref<any>({});
+  const diskHistory = ref<any>({});
+
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,
@@ -293,6 +297,9 @@ export function useOBusDevice() {
     diskColor.value = "#67C23A";
     cpuPercent.value = 0;
     dialogShellLoginVisible.value = false;
+    cpuHistory.value = {};
+    diskHistory.value = {};
+    memHistory.value = {};
   }
 
   function handleDialogHardWareInfo(row) {
@@ -315,6 +322,17 @@ export function useOBusDevice() {
         diskNumber.value = res.data.useDiskRatio.value;
         diskColor.value = res.data.useDiskRatio.color;
         cpuPercent.value = res.data.useCpuRatio.value;
+
+        if (res.data.historySystemInfo) {
+          cpuHistory.value.x = res.data.historySystemInfo.useCpuRatio.x;
+          cpuHistory.value.y = res.data.historySystemInfo.useCpuRatio.y;
+
+          diskHistory.value.x = res.data.historySystemInfo.useDiskRatio.x;
+          diskHistory.value.y = res.data.historySystemInfo.useDiskRatio.y;
+
+          memHistory.value.x = res.data.historySystemInfo.useMemRatio.x;
+          memHistory.value.y = res.data.historySystemInfo.useMemRatio.y;
+        }
       }
     });
   }
@@ -466,6 +484,9 @@ export function useOBusDevice() {
     diskNumber,
     diskColor,
     cpuPercent,
+    cpuHistory,
+    memHistory,
+    diskHistory,
     onSearch,
     resetForm,
     handleDelete,

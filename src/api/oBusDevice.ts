@@ -22,7 +22,8 @@ const oBusDeviceUrls = {
   update: "/api/operation/oBusDevice/update",
   reportLog: "/api/operation/command/reportLog/",
   getHardWareInfo: "/api/operation/oBusDevice/getHardWareInfo/",
-  getSysStatus: "/api/operation/oBusDevice/getSysStatus/"
+  getSysStatus: "/api/operation/oBusDevice/getSysStatus/",
+  getLineChart: "/api/operation/oBusDeviceHistoryHeartbeat/getLineChart/"
 };
 
 // 设备信息分页

@@ -13,29 +13,37 @@ const { setOptions } = useECharts(lineChartRef as Ref<HTMLDivElement>, {
   theme
 });
 
-const dataNumberArray = ref([10, 20, 20, 50, 79, 75, 100]);
+const dataNumberXArray = ref([]);
+const dataNumberYArray = ref([]);
 
 const props = defineProps({
   // 数据
-  data: {
+  dataX: {
+    type: Array<string>,
+    default: []
+  },
+  dataY: {
     type: Array<number>,
-    default: [10, 20, 20, 50, 79, 75, 100]
+    default: []
   }
 });
 
 const updateChartOptions = () => {
   setOptions(
     {
+      tooltip: {
+        trigger: "item"
+      },
       xAxis: {
         type: "category",
-        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        data: dataNumberXArray.value
       },
       yAxis: {
         type: "value"
       },
       series: [
         {
-          data: dataNumberArray.value,
+          data: dataNumberYArray.value,
           type: "line",
           smooth: true
         }
@@ -58,8 +66,11 @@ const updateChartOptions = () => {
   );
 };
 
-watch([() => props.data], ([newV]) => {
-  dataNumberArray.value = newV;
+watch([() => props.dataX, () => props.dataY], ([newX, newY]) => {
+  console.log(newX);
+  console.log(newY);
+  dataNumberXArray.value = newX;
+  dataNumberYArray.value = newY;
   updateChartOptions();
 });
 

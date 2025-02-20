@@ -53,6 +53,9 @@ const {
   diskNumber,
   diskColor,
   cpuPercent,
+  cpuHistory,
+  memHistory,
+  diskHistory,
   onSearch,
   handleDelete,
   handleSizeChange,
@@ -508,7 +511,7 @@ const {
               </div>
             </template>
             <div>
-              <line-charts />
+              <line-charts :data-x="memHistory.x" :data-y="memHistory.y" />
             </div>
           </el-card>
         </el-col>
@@ -525,7 +528,7 @@ const {
               </div>
             </template>
             <div>
-              <line-charts />
+              <line-charts :data-x="cpuHistory.x" :data-y="cpuHistory.y" />
             </div>
           </el-card>
         </el-col>
@@ -542,7 +545,7 @@ const {
               </div>
             </template>
             <div>
-              <line-charts />
+              <line-charts :data-x="diskHistory.x" :data-y="diskHistory.y" />
             </div>
           </el-card>
         </el-col>
