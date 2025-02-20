@@ -16,7 +16,8 @@ import {
   oBusDeviceDelete,
   oBusReportLog,
   getHardWareInfo,
-  getSysStatus
+  getSysStatus,
+  getHistoryOnOrOffine
 } from "@/api/oBusDevice";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -65,19 +66,7 @@ export function useOBusDevice() {
   const memHistory = ref<any>({});
   const diskHistory = ref<any>({});
 
-  const { lastBuildTime } = __APP_INFO__;
-  const activities = [
-    {
-      content: "上线了",
-      timestamp: lastBuildTime,
-      icon: markRaw(useRenderFlicker({ background: "#67C23A" }))
-    },
-    {
-      content: "下线",
-      timestamp: lastBuildTime,
-      icon: markRaw(useRenderFlicker({ background: "#F56C6C" }))
-    }
-  ];
+  const activities = ref([]);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -335,6 +324,7 @@ export function useOBusDevice() {
     cpuHistory.value = {};
     diskHistory.value = {};
     memHistory.value = {};
+    activities.value = [];
   }
 
   function handleDialogHardWareInfo(row) {
@@ -410,6 +400,23 @@ export function useOBusDevice() {
   function handleCommTime(row) {
     console.log("handleCommTime", row);
     dialogDeviceOnOrLineVisible.value = true;
+    getHistoryOnOrOffine(row.deviceId).then(res => {
+      if (res.code === SUCCESS) {
+        console.log(res.data);
+        for (let i = 0; i < res.data.length; i++) {
+          activities.value.push({
+            content: res.data[i].status,
+            timestamp: res.data[i].createTime,
+            icon: markRaw(
+              useRenderFlicker({
+                background:
+                  res.data[i].status === "上线" ? "#67C23A" : "#F56C6C"
+              })
+            )
+          });
+        }
+      }
+    });
   }
 
   // 查询
