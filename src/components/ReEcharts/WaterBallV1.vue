@@ -108,5 +108,5 @@ updateChartOptions();
 </script>
 
 <template>
-  <div ref="waterBallRef" style="width: 100%; height: 24vh" />
+  <div ref="waterBallRef" style="width: 100%; height: 30vh" />
 </template>

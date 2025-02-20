@@ -439,7 +439,11 @@ const {
     >
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-card style="max-width: 300px; height: 300px" shadow="always">
+          <el-card
+            style="max-width: 300px; height: 300px"
+            shadow="always"
+            class="customizeCardBody"
+          >
             <template #header>
               <div class="card-header flex items-center gap-2">
                 <IconifyIconOffline :icon="Memory" style="font-size: 30px" />

@@ -120,5 +120,5 @@ updateChartOptions();
 </script>
 
 <template>
-  <div ref="gaugeRef" style="width: 100%; height: 24vh" />
+  <div ref="gaugeRef" style="width: 100%; height: 30vh" />
 </template>

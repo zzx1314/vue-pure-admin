@@ -68,5 +68,5 @@ updateChartOptions();
 </script>
 
 <template>
-  <div ref="lineChartRef" style="width: 100%; height: 24vh" />
+  <div ref="lineChartRef" style="width: 100%; height: 30vh" />
 </template>
