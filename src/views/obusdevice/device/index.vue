@@ -452,7 +452,11 @@ const {
           </el-card>
         </el-col>
         <el-col :span="8">
-          <el-card style="max-width: 300px; height: 300px" shadow="always">
+          <el-card
+            style="max-width: 300px; height: 300px"
+            shadow="always"
+            class="customizeCardBody"
+          >
             <template #header>
               <div class="card-header flex items-center gap-2">
                 <IconifyIconOffline :icon="Cpu" style="font-size: 30px" />
@@ -465,7 +469,11 @@ const {
           </el-card>
         </el-col>
         <el-col :span="8">
-          <el-card style="max-width: 300px; height: 300px" shadow="always">
+          <el-card
+            style="max-width: 300px; height: 300px"
+            shadow="always"
+            class="customizeCardBody"
+          >
             <template #header>
               <div class="card-header flex items-center gap-2">
                 <IconifyIconOffline :icon="Disk" style="font-size: 30px" />
@@ -484,7 +492,11 @@ const {
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-card style="max-width: 300px; height: 300px" shadow="always">
+          <el-card
+            style="max-width: 300px; height: 300px"
+            shadow="always"
+            class="customizeCardBody"
+          >
             <template #header>
               <div class="card-header flex items-center gap-2">
                 <IconifyIconOffline :icon="Memory" style="font-size: 30px" />
@@ -497,7 +509,11 @@ const {
           </el-card>
         </el-col>
         <el-col :span="8">
-          <el-card style="max-width: 300px; height: 300px" shadow="always">
+          <el-card
+            style="max-width: 300px; height: 300px"
+            shadow="always"
+            class="customizeCardBody"
+          >
             <template #header>
               <div class="card-header flex items-center gap-2">
                 <IconifyIconOffline :icon="Cpu" style="font-size: 30px" />
@@ -510,7 +526,11 @@ const {
           </el-card>
         </el-col>
         <el-col :span="8">
-          <el-card style="max-width: 300px; height: 300px" shadow="always">
+          <el-card
+            style="max-width: 300px; height: 300px"
+            shadow="always"
+            class="customizeCardBody"
+          >
             <template #header>
               <div class="card-header flex items-center gap-2">
                 <IconifyIconOffline :icon="Disk" style="font-size: 30px" />
@@ -518,7 +538,6 @@ const {
               </div>
             </template>
             <div>
-              <line-charts />
               <line-charts />
             </div>
           </el-card>
@@ -529,6 +548,10 @@ const {
 </template>
 
 <style scoped lang="scss">
+:deep(.customizeCardBody .el-card__body) {
+  padding-top: 0 !important;
+}
+
 :deep(.el-row) {
   margin-bottom: 20px;
 }
