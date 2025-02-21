@@ -16,10 +16,10 @@ type ResultPage = {
 };
 
 const oBusCommandUrls = {
-  page: `/api/operation/oBusCommand/page`,
-  save: "/api/operation/oBusCommand/save",
-  delete: `/api/operation/oBusCommand/`,
-  update: "/api/operation/oBusCommand/update"
+  page: `/api/operation/command/page`,
+  save: "/api/operation/command/save",
+  delete: `/api/operation/command/`,
+  update: "/api/operation/command/update"
 };
 
 // 指令分页

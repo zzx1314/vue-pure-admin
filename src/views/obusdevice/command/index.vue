@@ -15,25 +15,19 @@ defineOptions({
 });
 
 const addFormRef = ref<FormInstance>();
-const { columnsForm, columnsQueryForm } = useCollectorBusDevForm();
+const { columnsQueryForm } = useCollectorBusDevForm();
 
 const {
   queryForm,
   dataList,
   loading,
-  dialogFormVisible,
-  title,
   pagination,
-  addForm,
-  rules,
   columns,
   onSearch,
   handleDelete,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
-  handleSubmitError,
-  handleSubmit,
   cancel,
   openDia
 } = useOBusCommand();
@@ -44,7 +38,7 @@ const {
       <PlusSearch
         v-model="queryForm"
         :columns="columnsQueryForm"
-        :show-number="2"
+        :show-number="3"
         label-width="80"
         label-position="right"
         @search="onSearch"
@@ -102,26 +96,15 @@ const {
         </pure-table>
       </template>
     </PureTableBar>
-
-    <PlusDialogForm
-      ref="addFormRef"
-      v-model:visible="dialogFormVisible"
-      v-model="addForm"
-      :dialog="{ title: title }"
-      :form="{
-        columns: columnsForm,
-        rules,
-        labelWidth: '100px'
-      }"
-      @cancel="cancel"
-      @confirm-error="handleSubmitError"
-      @confirm="handleSubmit"
-    />
   </div>
 </template>
 
 <style scoped lang="scss">
 :deep(.el-dropdown-menu__item i) {
   margin: 0;
+}
+
+:deep(.el-link) {
+  padding-left: 10px;
 }
 </style>

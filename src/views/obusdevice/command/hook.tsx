@@ -50,10 +50,29 @@ export function useOBusCommand() {
       width: 70
     },
     {
-      label: "操作",
-      fixed: "right",
-      width: 180,
-      slot: "operation"
+      label: "下发人",
+      prop: "username",
+      minWidth: 100
+    },
+    {
+      label: "设备ID",
+      prop: "deviceId",
+      minWidth: 100
+    },
+    {
+      label: "指令内容",
+      prop: "content",
+      minWidth: 100
+    },
+    {
+      label: "执行状态",
+      prop: "status",
+      minWidth: 100
+    },
+    {
+      label: "创建时间",
+      prop: "createTime",
+      minWidth: 100
     }
   ];
   const buttonClass = computed(() => {
@@ -136,10 +155,10 @@ export function useOBusCommand() {
     };
     const query = {
       ...page,
-      ...queryForm
+      ...queryForm.value
     };
-    if (query.value.endTime) {
-      query.value.endTime = query.value.endTime + " 23:59:59";
+    if (query.endTime) {
+      query.endTime = query.endTime + " 23:59:59";
     }
     const { data } = await oBusCommandPage(query);
     dataList.value = data.records;

@@ -2,32 +2,57 @@
 import type { PlusColumn } from "plus-pro-components";
 
 export function useCollectorBusDevForm() {
-  const columnsForm: PlusColumn[] = [
+  const columnsQueryForm: PlusColumn[] = [
     {
-      label: "名称",
-      prop: "name",
+      label: "下发人",
+      prop: "username",
       valueType: "copy",
+      colProps: {
+        span: 4
+      },
       formItemProps: {
         style: {
-          width: "50%"
+          width: "100%"
         }
       }
     },
     {
-      label: "备注",
-      prop: "remark",
-      width: "10px",
-      valueType: "textarea"
-    }
-  ];
-
-  const columnsQueryForm: PlusColumn[] = [
-    {
-      label: "名称",
-      prop: "name",
+      label: "设备ID",
+      prop: "deviceId",
       valueType: "copy",
       colProps: {
-        span: 5
+        span: 4
+      },
+      formItemProps: {
+        style: {
+          width: "100%"
+        }
+      }
+    },
+    {
+      label: "指令内容",
+      prop: "content",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      },
+      formItemProps: {
+        style: {
+          width: "100%"
+        }
+      }
+    },
+    {
+      label: "状态",
+      prop: "status",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      },
+      formItemProps: {
+        style: {
+          width: "100%"
+        }
       }
     },
     {
@@ -45,7 +70,7 @@ export function useCollectorBusDevForm() {
         valueFormat: "YYYY-MM-DD HH:mm:ss"
       },
       colProps: {
-        span: 5
+        span: 4
       }
     },
     {
@@ -62,12 +87,11 @@ export function useCollectorBusDevForm() {
         valueFormat: "YYYY-MM-DD"
       },
       colProps: {
-        span: 5
+        span: 4
       }
     }
   ];
   return {
-    columnsForm,
     columnsQueryForm
   };
 }
