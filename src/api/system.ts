@@ -77,8 +77,51 @@ const fileMinoUp = {
 };
 
 const dictUrls = {
+  pageItem: `/api/upms/sysDictItem/page`,
+  pageDict: `/api/upms/sysDict/page`,
+  getItemById: `/api/upms/sysDictItem/getDictItemByDictId/`,
+  saveItem: `/api/upms/sysDictItem/save`,
+  save: `/api/upms/sysDict/save`,
+  updateItem: `/api/upms/sysDictItem/update`,
+  update: `/api/upms/sysDict/update`,
+  deleteIte: `/api/upms/sysDictItem/deleteItem/`,
+  delete: `/api/upms/sysDict/deleteDict/`,
   getSafePolicy: `/api/upms/sysDictItem/getSafePolicy`,
-  updateSafePolicy: `/api/upms/sysDictItem/updateSafePolicy`
+  updateSafePolicy: `/api/upms/sysDictItem/updateSafePolicy`,
+  getDictItemByType: `/api/upms/sysDictItem/getDIByDT/`
+};
+
+export const getDictItemByType = (query?: string) => {
+  return http.axiosGetRequest<Result>(dictUrls.getDictItemByType + query, null);
+};
+export const getDictPage = (query?: object) => {
+  return http.axiosGetRequest<ResultPage>(dictUrls.pageDict, query);
+};
+export const getItemById = (id: string) => {
+  return http.axiosGetRequest<ResultOne>(dictUrls.getItemById + id, null);
+};
+
+export const saveItem = (data?: object) => {
+  return http.axiosPostRequest<Result>(dictUrls.saveItem, data);
+};
+
+export const saveDict = (data?: object) => {
+  return http.axiosPostRequest<Result>(dictUrls.save, data);
+};
+
+export const updateItem = (data?: object) => {
+  return http.axiosPut<Result>(dictUrls.updateItem, data);
+};
+
+export const updateDict = (data?: object) => {
+  return http.axiosPut<Result>(dictUrls.update, data);
+};
+
+export const deleteDictItem = (id: object) => {
+  return http.axiosDelete<Result>(dictUrls.deleteIte + id);
+};
+export const deleteDict = (id: object) => {
+  return http.axiosDelete<Result>(dictUrls.delete + id);
 };
 
 export const getSafePolicy = () => {
