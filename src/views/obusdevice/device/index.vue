@@ -393,7 +393,7 @@ const {
               </div>
             </template>
             <div
-              v-for="motherBoardInfo in hardwareInfo.motherBoard"
+              v-for="motherBoardInfo in hardwareInfo.board"
               :key="motherBoardInfo.name"
               class="mb-1"
             >
