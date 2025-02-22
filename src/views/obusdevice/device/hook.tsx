@@ -433,7 +433,7 @@ export function useOBusDevice() {
           params = {
             type: "command",
             data: {
-              content: commandForm.value.content
+              cmd: commandForm.value.content
             }
           };
         }
