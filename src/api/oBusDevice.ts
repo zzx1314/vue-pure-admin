@@ -20,7 +20,7 @@ const oBusDeviceUrls = {
   save: "/api/operation/oBusDevice/save",
   delete: `/api/operation/oBusDevice/`,
   update: "/api/operation/oBusDevice/update",
-  reportLog: "/api/operation/command/reportLog/",
+  pushCommand: "/api/operation/command/pushCommand/",
   getHardWareInfo: "/api/operation/oBusDevice/getHardWareInfo/",
   getSysStatus: "/api/operation/oBusDevice/getSysStatus/",
   getHistoryOnOrOffine: "/api/operation/oBusDeviceOnOrOffine/getHistory/"
@@ -43,9 +43,9 @@ export const oBusDeviceDelete = (param?: object) => {
   return http.axiosDelete<Result>(oBusDeviceUrls.delete + param);
 };
 // 设备上报日志
-export const oBusReportLog = (deviceId?: string, param?: object) => {
+export const oBusPushCommand = (deviceId?: string, param?: object) => {
   return http.axiosPostRequest<Result>(
-    oBusDeviceUrls.reportLog + deviceId,
+    oBusDeviceUrls.pushCommand + deviceId,
     param
   );
 };

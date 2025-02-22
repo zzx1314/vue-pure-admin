@@ -14,7 +14,7 @@ import {
   oBusDevicePage,
   oBusDeviceUpdate,
   oBusDeviceDelete,
-  oBusReportLog,
+  oBusPushCommand,
   getHardWareInfo,
   getSysStatus,
   getHistoryOnOrOffine
@@ -437,11 +437,11 @@ export function useOBusDevice() {
             }
           };
         }
-        oBusReportLog(commandForm.value.deviceId, params).then(res => {
+        oBusPushCommand(commandForm.value.deviceId, params).then(res => {
           if (res.code === SUCCESS) {
             message("下发成功", { type: "success" });
           } else {
-            message("下发失败！", { type: "error" });
+            message(res.msg, { type: "error" });
           }
         });
       } else {
