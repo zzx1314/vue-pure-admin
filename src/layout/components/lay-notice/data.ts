@@ -21,13 +21,7 @@ export interface TabItem {
 export const noticesData: TabItem[] = [
   {
     key: "1",
-    name: $t("status.pureNotify"),
-    list: [],
-    emptyText: $t("status.pureNoNotify")
-  },
-  {
-    key: "2",
-    name: $t("status.pureMessage"),
+    name: $t("status.pureTodo"),
     list: [
       {
         avatar: "https://xiaoxian521.github.io/hyperlink/svg/smile1.svg",
@@ -55,8 +49,8 @@ export const noticesData: TabItem[] = [
     emptyText: $t("status.pureNoMessage")
   },
   {
-    key: "3",
-    name: $t("status.pureTodo"),
+    key: "2",
+    name: $t("status.alreadyDone"),
     list: [
       {
         avatar: "",
@@ -64,7 +58,6 @@ export const noticesData: TabItem[] = [
         description:
           "小林提交于 2024-05-10，需在 2024-05-11 前完成代码变更任务",
         datetime: "",
-        extra: "马上到期",
         status: "danger",
         type: "3",
         isShowHandle: true
@@ -74,7 +67,6 @@ export const noticesData: TabItem[] = [
         title: "版本发布",
         description: "指派小铭于 2024-06-18 前完成更新并发布",
         datetime: "",
-        extra: "已耗时 8 天",
         status: "warning",
         type: "3",
         isShowHandle: true
@@ -84,7 +76,6 @@ export const noticesData: TabItem[] = [
         title: "新功能开发",
         description: "开发多租户管理",
         datetime: "",
-        extra: "进行中",
         type: "3"
       },
       {
@@ -92,7 +83,6 @@ export const noticesData: TabItem[] = [
         title: "任务名称",
         description: "任务需要在 2030-10-30 10:00 前启动",
         datetime: "",
-        extra: "未开始",
         status: "info",
         type: "3"
       }
