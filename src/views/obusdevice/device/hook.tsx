@@ -8,7 +8,7 @@ import {
   ref
 } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
-import type { FormRules } from "element-plus";
+import type { FormInstance, FormRules } from "element-plus";
 import {
   oBusDeviceSave,
   oBusDevicePage,
@@ -414,33 +414,41 @@ export function useOBusDevice() {
     commandFormRef.clearValidate();
   }
 
-  function handleCommandSubmit(values: FieldValues) {
-    console.log(values, "Submit");
-    console.log(commandForm.value);
-    let params = {};
-    if (commandForm.value.type === "日志") {
-      params = {
-        type: "reportLog",
-        data: {
-          fileName: commandForm.value.logPath
+  const handleCommandSubmit = async (
+    commandFormRef: FormInstance | undefined
+  ) => {
+    if (!commandFormRef) return;
+    await commandFormRef.validate((valid, fields) => {
+      if (valid) {
+        console.log(commandForm.value);
+        let params = {};
+        if (commandForm.value.type === "日志") {
+          params = {
+            type: "reportLog",
+            data: {
+              fileName: commandForm.value.logPath
+            }
+          };
+        } else {
+          params = {
+            type: "command",
+            data: {
+              content: commandForm.value.content
+            }
+          };
         }
-      };
-    } else {
-      params = {
-        type: "command",
-        data: {
-          content: commandForm.value.content
-        }
-      };
-    }
-    oBusReportLog(commandForm.value.deviceId, params).then(res => {
-      if (res.code === SUCCESS) {
-        message("下发成功", { type: "success" });
+        oBusReportLog(commandForm.value.deviceId, params).then(res => {
+          if (res.code === SUCCESS) {
+            message("下发成功", { type: "success" });
+          } else {
+            message("下发失败！", { type: "error" });
+          }
+        });
       } else {
-        message("下发失败！", { type: "error" });
+        console.log("error submit!", fields);
       }
     });
-  }
+  };
 
   function handleCommTime(row) {
     console.log("handleCommTime", row);
