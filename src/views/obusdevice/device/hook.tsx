@@ -64,6 +64,7 @@ export function useOBusDevice() {
   const diskNumber = ref(0);
   const cpuPercent = ref(0);
   const commandOptions = ref([]);
+  const CommonCommandOptions = ref([]);
 
   const cpuHistory = ref<any>({});
   const memHistory = ref<any>({});
@@ -409,7 +410,6 @@ export function useOBusDevice() {
         console.log(commandOptions.value);
       }
     });
-    cancel();
     if (!commandFormRef) return;
     commandFormRef.clearValidate();
   }
@@ -592,6 +592,7 @@ export function useOBusDevice() {
     diskHistory,
     activities,
     commandOptions,
+    CommonCommandOptions,
     rulesCommand,
     onSearch,
     resetForm,

@@ -623,15 +623,19 @@ const {
         <el-form-item
           v-if="commandForm.type === '日志'"
           label="日志路径"
-          prop="content"
+          prop="logPath"
         >
           <el-input
-            v-model="commandForm.content"
+            v-model="commandForm.logPath"
             placeholder="请输入日志路径"
           />
         </el-form-item>
 
-        <el-form-item v-else label="内容" prop="content">
+        <el-form-item
+          v-if="commandForm.type === '自定义指令'"
+          label="内容"
+          prop="content"
+        >
           <el-input
             v-model="commandForm.content"
             placeholder="请输入指令内容"
