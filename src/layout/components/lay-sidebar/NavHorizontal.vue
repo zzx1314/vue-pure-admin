@@ -69,6 +69,8 @@ nextTick(() => {
     <div class="horizontal-header-right">
       <!-- 菜单搜索 -->
       <LaySearch id="header-search" />
+      <!-- 消息通知 -->
+      <LayNotice id="header-notice" />
       <!-- 全屏 -->
       <LaySidebarFullScreen id="full-screen" />
       <!-- 退出登录 -->

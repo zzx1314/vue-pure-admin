@@ -8,6 +8,7 @@ export interface ListItem {
   description: string;
   status?: "primary" | "success" | "warning" | "info" | "danger";
   extra?: string;
+  isShowHandle?: boolean;
 }
 
 export interface TabItem {
@@ -65,7 +66,8 @@ export const noticesData: TabItem[] = [
         datetime: "",
         extra: "马上到期",
         status: "danger",
-        type: "3"
+        type: "3",
+        isShowHandle: true
       },
       {
         avatar: "",
@@ -74,7 +76,8 @@ export const noticesData: TabItem[] = [
         datetime: "",
         extra: "已耗时 8 天",
         status: "warning",
-        type: "3"
+        type: "3",
+        isShowHandle: true
       },
       {
         avatar: "",

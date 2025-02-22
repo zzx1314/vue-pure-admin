@@ -103,6 +103,14 @@ function hoverDescription(event, description) {
       <div class="notice-text-datetime text-[#00000073] dark:text-white">
         {{ noticeItem.datetime }}
       </div>
+      <div
+        v-if="noticeItem.isShowHandle"
+        style="display: flex; justify-content: flex-end"
+      >
+        <div>
+          <el-button type="primary" size="small">处置</el-button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
