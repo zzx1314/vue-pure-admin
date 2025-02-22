@@ -11,7 +11,7 @@ import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
 import More from "@iconify-icons/ep/more-filled";
 import Password from "@iconify-icons/ri/lock-password-line";
-import Upload from "@iconify-icons/ri/upload-line";
+import Dowload from "@iconify-icons/ri/download-line";
 import "@xterm/xterm/css/xterm.css";
 import Cpu from "@iconify-icons/bi/cpu";
 import Memory from "@iconify-icons/bi/memory";
@@ -28,6 +28,7 @@ defineOptions({
 });
 
 const addFormRef = ref<FormInstance>();
+const commandFormRef = ref<FormInstance>();
 const { columnsForm, columnsQueryForm, columnsFormShellLogin } =
   useCollectorBusDevForm();
 
@@ -39,6 +40,7 @@ const {
   pagination,
   addForm,
   loginShellForm,
+  commandForm,
   rules,
   columns,
   expandRowKeys,
@@ -48,6 +50,7 @@ const {
   dialogHardWareVisible,
   dialogSysStatusVisible,
   dialogDeviceOnOrLineVisible,
+  dialogCommandVisible,
   hardwareInfo,
   memNumber,
   memColor,
@@ -58,6 +61,8 @@ const {
   memHistory,
   diskHistory,
   activities,
+  commandOptions,
+  rulesCommand,
   onSearch,
   handleDelete,
   handleSizeChange,
@@ -73,7 +78,8 @@ const {
   handleDialogHardWareInfo,
   handleDialogSysStem,
   handleExpandChange,
-  handleReportLog,
+  handleCommandSubmit,
+  downCommand,
   cancel,
   openDia
 } = useOBusDevice();
@@ -237,10 +243,10 @@ const {
                       link
                       type="primary"
                       :size="size"
-                      :icon="useRenderIcon(Upload)"
-                      @click="handleReportLog(row)"
+                      :icon="useRenderIcon(Dowload)"
+                      @click="downCommand(row)"
                     >
-                      上报日志
+                      下发指令
                     </el-button>
                   </el-dropdown-item>
                 </el-dropdown-menu>
@@ -584,6 +590,62 @@ const {
           </el-scrollbar>
         </div>
       </el-card>
+    </el-dialog>
+
+    <el-dialog
+      v-model="dialogCommandVisible"
+      title="指令下发"
+      width="500px"
+      @close="handleDialogInfoClose"
+    >
+      <el-form
+        ref="commandFormRef"
+        :model="commandForm"
+        :inline="true"
+        :rules="rulesCommand"
+        label-width="100px"
+      >
+        <el-form-item label="类型" prop="type">
+          <el-select
+            v-model="commandForm.type"
+            placeholder="请选择类型"
+            class="!w-[180px]"
+          >
+            <el-option
+              v-for="item in commandOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item
+          v-if="commandForm.type === '日志'"
+          label="日志路径"
+          prop="content"
+        >
+          <el-input
+            v-model="commandForm.content"
+            placeholder="请输入日志路径"
+          />
+        </el-form-item>
+
+        <el-form-item v-else label="内容" prop="content">
+          <el-input
+            v-model="commandForm.content"
+            placeholder="请输入指令内容"
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="cancel">取消</el-button>
+          <el-button type="primary" @click="handleCommandSubmit(commandFormRef)"
+            >确认</el-button
+          >
+        </span>
+      </template>
     </el-dialog>
   </div>
 </template>

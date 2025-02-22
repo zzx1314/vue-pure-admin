@@ -88,11 +88,16 @@ const dictUrls = {
   delete: `/api/upms/sysDict/deleteDict/`,
   getSafePolicy: `/api/upms/sysDictItem/getSafePolicy`,
   updateSafePolicy: `/api/upms/sysDictItem/updateSafePolicy`,
-  getDictItemByType: `/api/upms/sysDictItem/getDIByDT/`
+  getDictItemByType: `/api/upms/sysDictItem/getDIByDT/`,
+  getSelectByType: `/api/upms/sysDictItem/getSelectByType/`
 };
 
 export const getDictItemByType = (query?: string) => {
   return http.axiosGetRequest<Result>(dictUrls.getDictItemByType + query, null);
+};
+
+export const getSelectByType = (query?: string) => {
+  return http.axiosGetRequest<Result>(dictUrls.getSelectByType + query, null);
 };
 export const getDictPage = (query?: object) => {
   return http.axiosGetRequest<ResultPage>(dictUrls.pageDict, query);

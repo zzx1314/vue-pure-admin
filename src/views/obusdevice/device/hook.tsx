@@ -26,6 +26,7 @@ import { Terminal } from "@xterm/xterm";
 import WebSocketClient from "@/components/ReWebSocket";
 import aesUtils from "@/utils/aes";
 import { useRenderFlicker } from "@/components/ReFlicker";
+import { getSelectByType } from "@/api/system";
 
 export function useOBusDevice() {
   // ----变量定义-----
@@ -51,6 +52,7 @@ export function useOBusDevice() {
   const dialogHardWareVisible = ref(false);
   const dialogSysStatusVisible = ref(false);
   const dialogDeviceOnOrLineVisible = ref(false);
+  const dialogCommandVisible = ref(false);
   const dialogShellLoginVisible = ref(false);
   const terminal = ref(null);
   const webSocketShell = ref(null);
@@ -61,6 +63,7 @@ export function useOBusDevice() {
   const diskColor = ref<string>("#67C23A");
   const diskNumber = ref(0);
   const cpuPercent = ref(0);
+  const commandOptions = ref([]);
 
   const cpuHistory = ref<any>({});
   const memHistory = ref<any>({});
@@ -83,6 +86,12 @@ export function useOBusDevice() {
     arch: "",
     remark: ""
   });
+  const commandForm = ref({
+    content: "",
+    deviceId: "",
+    type: "",
+    logPath: ""
+  });
   const loginShellForm = ref({
     operate: "",
     host: "",
@@ -95,6 +104,9 @@ export function useOBusDevice() {
     port: [{ required: true, message: "端口必填", trigger: "blur" }],
     username: [{ required: true, message: "用户名必填", trigger: "blur" }],
     password: [{ required: true, message: "密码必填", trigger: "blur" }]
+  });
+  const rulesCommand = reactive<FormRules>({
+    type: [{ required: true, message: "指令类型必填", trigger: "change" }]
   });
   const columns: TableColumnList = [
     {
@@ -315,6 +327,7 @@ export function useOBusDevice() {
     dialogHardWareVisible.value = false;
     dialogSysStatusVisible.value = false;
     dialogDeviceOnOrLineVisible.value = false;
+    dialogCommandVisible.value = false;
     memNumber.value = 0;
     memColor.value = "#67C23A";
     diskNumber.value = 0;
@@ -325,6 +338,12 @@ export function useOBusDevice() {
     diskHistory.value = {};
     memHistory.value = {};
     activities.value = [];
+    commandForm.value = {
+      content: "",
+      deviceId: "",
+      type: "",
+      logPath: ""
+    };
   }
 
   function handleDialogHardWareInfo(row) {
@@ -380,8 +399,19 @@ export function useOBusDevice() {
       console.log("展开行");
     }
   }
-  function handleReportLog(row) {
-    console.log("handleReportLog", row);
+  function downCommand(row) {
+    console.log("downCommand", row);
+    dialogCommandVisible.value = true;
+    getSelectByType("command_type").then(res => {
+      if (res.code === SUCCESS) {
+        commandOptions.value = res.data;
+      }
+    });
+  }
+
+  function handleCommandSubmit(values: FieldValues) {
+    console.log(values, "Submit");
+    console.log(commandForm.value);
     let params = {
       type: "reportLog",
       data: {
@@ -517,6 +547,7 @@ export function useOBusDevice() {
     loginShellForm,
     rules,
     columns,
+    commandForm,
     buttonClass,
     moreCondition,
     expandRowKeys,
@@ -526,6 +557,7 @@ export function useOBusDevice() {
     dialogHardWareVisible,
     dialogSysStatusVisible,
     dialogDeviceOnOrLineVisible,
+    dialogCommandVisible,
     hardwareInfo,
     memNumber,
     memColor,
@@ -536,6 +568,8 @@ export function useOBusDevice() {
     memHistory,
     diskHistory,
     activities,
+    commandOptions,
+    rulesCommand,
     onSearch,
     resetForm,
     handleDelete,
@@ -552,7 +586,8 @@ export function useOBusDevice() {
     handleDialogHardWareInfo,
     handleDialogInfoClose,
     handleExpandChange,
-    handleReportLog,
+    handleCommandSubmit,
+    downCommand,
     cancel,
     restartForm,
     openDia
