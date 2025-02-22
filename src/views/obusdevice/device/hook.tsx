@@ -399,8 +399,9 @@ export function useOBusDevice() {
       console.log("展开行");
     }
   }
-  function downCommand(row) {
+  function downCommand(row, commandFormRef) {
     console.log("downCommand", row);
+    commandFormRef.clearValidate();
     dialogCommandVisible.value = true;
     getSelectByType("command_type").then(res => {
       if (res.code === SUCCESS) {
@@ -412,12 +413,22 @@ export function useOBusDevice() {
   function handleCommandSubmit(values: FieldValues) {
     console.log(values, "Submit");
     console.log(commandForm.value);
-    let params = {
-      type: "reportLog",
-      data: {
-        fileName: "/var/log/dmesg"
-      }
-    };
+    let params = {};
+    if (commandForm.value.type === "日志") {
+      params = {
+        type: "reportLog",
+        data: {
+          fileName: commandForm.value.logPath
+        }
+      };
+    } else {
+      params = {
+        type: "command",
+        data: {
+          content: commandForm.value.content
+        }
+      };
+    }
     oBusReportLog(row.deviceId, params).then(res => {
       if (res.code === SUCCESS) {
         message("下发成功", { type: "success" });

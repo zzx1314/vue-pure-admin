@@ -244,7 +244,7 @@ const {
                       type="primary"
                       :size="size"
                       :icon="useRenderIcon(Dowload)"
-                      @click="downCommand(row)"
+                      @click="downCommand(row, commandFormRef)"
                     >
                       下发指令
                     </el-button>
