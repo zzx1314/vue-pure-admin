@@ -401,13 +401,17 @@ export function useOBusDevice() {
   }
   function downCommand(row, commandFormRef) {
     console.log("downCommand", row);
-    commandFormRef.clearValidate();
     dialogCommandVisible.value = true;
+    commandForm.value.deviceId = row.deviceId;
     getSelectByType("command_type").then(res => {
       if (res.code === SUCCESS) {
         commandOptions.value = res.data;
+        console.log(commandOptions.value);
       }
     });
+    cancel();
+    if (!commandFormRef) return;
+    commandFormRef.clearValidate();
   }
 
   function handleCommandSubmit(values: FieldValues) {
@@ -429,7 +433,7 @@ export function useOBusDevice() {
         }
       };
     }
-    oBusReportLog(row.deviceId, params).then(res => {
+    oBusReportLog(commandForm.value.deviceId, params).then(res => {
       if (res.code === SUCCESS) {
         message("下发成功", { type: "success" });
       } else {

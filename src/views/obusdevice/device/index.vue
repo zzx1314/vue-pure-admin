@@ -609,7 +609,7 @@ const {
           <el-select
             v-model="commandForm.type"
             placeholder="请选择类型"
-            class="!w-[180px]"
+            class="!w-[200px]"
           >
             <el-option
               v-for="item in commandOptions"
@@ -640,7 +640,7 @@ const {
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="cancel">取消</el-button>
+          <el-button @click="handleDialogInfoClose">取消</el-button>
           <el-button type="primary" @click="handleCommandSubmit(commandFormRef)"
             >确认</el-button
           >
