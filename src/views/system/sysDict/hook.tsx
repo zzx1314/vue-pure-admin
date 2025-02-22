@@ -45,7 +45,7 @@ export function useDictBus() {
     remark: ""
   });
   const rules = reactive<FormRules>({
-    dictType: [{ required: true, message: "字典类型必填", trigger: "blur" }],
+    dictType: [{ required: true, message: "配置类型必填", trigger: "blur" }],
     type: [{ required: true, message: "类型必填", trigger: "change" }]
   });
   const columns: TableColumnList = [
@@ -65,12 +65,12 @@ export function useDictBus() {
       prop: "dictType"
     },
     {
-      label: "字典类型",
+      label: "配置类型",
       minWidth: 100,
       prop: "type"
     },
     {
-      label: "字典描述",
+      label: "配置描述",
       minWidth: 100,
       prop: "description"
     },
@@ -99,7 +99,7 @@ export function useDictBus() {
       width: 70
     },
     {
-      label: "字典类型",
+      label: "配置类型",
       minWidth: 100,
       prop: "type",
       cellRenderer: ({ row, index }) => (
@@ -141,7 +141,7 @@ export function useDictBus() {
       )
     },
     {
-      label: "字典描述",
+      label: "配置描述",
       minWidth: 100,
       prop: "description",
       cellRenderer: ({ row, index }) => (
@@ -302,7 +302,7 @@ export function useDictBus() {
     title.value = param;
     resetForm(formEl);
   }
-  // 打开字典项弹框
+  // 打开配置项弹框
   async function openSetDia(param) {
     console.log(param);
     dialogItemFormVisible.value = true;

@@ -63,12 +63,12 @@ const {
         @reset="cancel"
       />
     </el-card>
-    <PureTableBar title="字典列表" :columns="columns" @refresh="onSearch">
+    <PureTableBar title="配置列表" :columns="columns" @refresh="onSearch">
       <template #buttons>
         <el-button
           type="primary"
           :icon="useRenderIcon(AddFill)"
-          @click="openDia('添加字典', addFormRef)"
+          @click="openDia('添加配置', addFormRef)"
         >
           新增
         </el-button>
@@ -104,7 +104,7 @@ const {
               :icon="useRenderIcon(alignItemBottomLine)"
               @click="openSetDia(row)"
             >
-              字典项
+              配置项
             </el-button>
             <el-button
               class="reset-margin"
@@ -138,7 +138,7 @@ const {
       ref="addFormRef"
       v-model:visible="dialogFormVisible"
       v-model="addForm"
-      :dialog="{ title: '修改字典' }"
+      :dialog="{ title: '修改配置' }"
       :form="{
         columns: columnsForm,
         rules,
@@ -148,7 +148,7 @@ const {
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
     />
-    <el-dialog v-model="dialogItemFormVisible" title="设置字典项" width="60%">
+    <el-dialog v-model="dialogItemFormVisible" title="设置配置项" width="60%">
       <pure-table
         row-key="id"
         align-whole="center"

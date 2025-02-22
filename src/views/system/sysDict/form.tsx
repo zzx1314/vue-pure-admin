@@ -24,7 +24,7 @@ export function useDictForm() {
       }
     },
     {
-      label: "字典类型",
+      label: "配置类型",
       prop: "type",
       formItemProps: {
         style: {
@@ -33,7 +33,7 @@ export function useDictForm() {
       }
     },
     {
-      label: "字典描述",
+      label: "配置描述",
       prop: "description",
       formItemProps: {
         style: {
@@ -51,7 +51,7 @@ export function useDictForm() {
 
   const columnsQueryForm: PlusColumn[] = [
     {
-      label: "字典类型",
+      label: "配置类型",
       prop: "dictType",
       valueType: "copy",
       colProps: {
@@ -59,7 +59,7 @@ export function useDictForm() {
       }
     },
     {
-      label: "字典描述",
+      label: "配置描述",
       prop: "description",
       colProps: {
         span: 5
