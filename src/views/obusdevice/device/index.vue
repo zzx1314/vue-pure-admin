@@ -62,6 +62,7 @@ const {
   diskHistory,
   activities,
   commandOptions,
+  logPathOptions,
   rulesCommand,
   onSearch,
   handleDelete,
@@ -625,9 +626,28 @@ const {
           label="日志路径"
           prop="logPath"
         >
-          <el-input
+          <el-select
             v-model="commandForm.logPath"
-            placeholder="请输入日志路径"
+            placeholder="请选择类型"
+            class="!w-[200px]"
+          >
+            <el-option
+              v-for="item in logPathOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item
+          v-if="commandForm.logPath === 'customize'"
+          label="自定义"
+          prop="content"
+        >
+          <el-input
+            v-model="commandForm.content"
+            placeholder="请输入正确路径"
           />
         </el-form-item>
 

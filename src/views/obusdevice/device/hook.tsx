@@ -64,6 +64,7 @@ export function useOBusDevice() {
   const diskNumber = ref(0);
   const cpuPercent = ref(0);
   const commandOptions = ref([]);
+  const logPathOptions = ref([]);
   const CommonCommandOptions = ref([]);
 
   const cpuHistory = ref<any>({});
@@ -107,7 +108,8 @@ export function useOBusDevice() {
     password: [{ required: true, message: "密码必填", trigger: "blur" }]
   });
   const rulesCommand = reactive<FormRules>({
-    type: [{ required: true, message: "指令类型必填", trigger: "change" }]
+    type: [{ required: true, message: "指令类型必填", trigger: "change" }],
+    logPath: [{ required: true, message: "日志路径必填", trigger: "change" }]
   });
   const columns: TableColumnList = [
     {
@@ -410,6 +412,13 @@ export function useOBusDevice() {
         console.log(commandOptions.value);
       }
     });
+
+    getSelectByType("device_log_path").then(res => {
+      if (res.code === SUCCESS) {
+        logPathOptions.value = res.data;
+        console.log(logPathOptions.value);
+      }
+    });
     if (!commandFormRef) return;
     commandFormRef.clearValidate();
   }
@@ -592,6 +601,7 @@ export function useOBusDevice() {
     diskHistory,
     activities,
     commandOptions,
+    logPathOptions,
     CommonCommandOptions,
     rulesCommand,
     onSearch,

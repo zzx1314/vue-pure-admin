@@ -360,6 +360,7 @@ export function useDictBus() {
   function onDel(row) {
     const index = dataListMode.value.indexOf(row);
     if (index !== -1) dataListMode.value.splice(index, 1);
+    if (!row.id) return;
     deleteDictItem(row.id).then(res => {
       if (res.code === SUCCESS) {
         message("删除成功！", { type: "success" });
