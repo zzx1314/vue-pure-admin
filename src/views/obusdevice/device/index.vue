@@ -257,6 +257,10 @@ const {
           <template #content="{ row }">
             <div class="p-2.5 flex justify-center items-center">
               <div v-if="row.status === '在线'" class="breathing-light" />
+              <div
+                v-if="row.status === '短路'"
+                class="offline-breathing-shotCircuit"
+              />
               <div v-else class="offline-breathing-light" />
             </div>
           </template>
@@ -708,6 +712,14 @@ const {
   width: 10px;
   height: 10px;
   background: #f56c6c;
+  border-radius: 100%;
+  animation: 2s offline-shadow-breath ease-out infinite normal;
+}
+
+.offline-breathing-shotCircuit {
+  width: 10px;
+  height: 10px;
+  background: #e6a23c;
   border-radius: 100%;
   animation: 2s offline-shadow-breath ease-out infinite normal;
 }

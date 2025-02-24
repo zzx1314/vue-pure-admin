@@ -1,5 +1,6 @@
 // form表单
 import type { PlusColumn } from "plus-pro-components";
+import { h } from "vue";
 
 export function useCollectorBusDevForm() {
   const columnsForm: PlusColumn[] = [
@@ -142,16 +143,28 @@ export function useCollectorBusDevForm() {
       },
       options: [
         {
-          label: "已注册",
-          value: "已注册"
+          label: "短路",
+          value: "短路",
+          color: "var(--el-color-warning)",
+          fieldSlot: ({ label, color }) => {
+            return h("div", { style: { color } }, `${label}`);
+          }
         },
         {
           label: "在线",
-          value: "在线"
+          value: "在线",
+          color: "var(--el-color-success)",
+          fieldSlot: ({ label, color }) => {
+            return h("div", { style: { color } }, `${label}`);
+          }
         },
         {
           label: "离线",
-          value: "离线"
+          value: "离线",
+          color: "var(--el-color-danger)",
+          fieldSlot: ({ label, color }) => {
+            return h("div", { style: { color } }, `${label}`);
+          }
         }
       ],
       colProps: {
