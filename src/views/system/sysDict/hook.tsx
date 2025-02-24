@@ -42,7 +42,7 @@ export function useDictBus() {
     id: null,
     collectorId: "",
     collectorIp: "",
-    remark: ""
+    remarks: ""
   });
   const rules = reactive<FormRules>({
     dictType: [{ required: true, message: "配置类型必填", trigger: "blur" }],
@@ -82,7 +82,7 @@ export function useDictBus() {
     {
       label: "备注",
       minWidth: 100,
-      prop: "remark"
+      prop: "remarks"
     },
     {
       label: "操作",
@@ -157,13 +157,13 @@ export function useDictBus() {
     {
       label: "备注",
       minWidth: 100,
-      prop: "remark",
+      prop: "remarks",
       cellRenderer: ({ row, index }) => (
         <>
           {editMap.value[index]?.editable ? (
-            <el-input v-model={row.remark} />
+            <el-input v-model={row.remarks} />
           ) : (
-            <p>{row.remark}</p>
+            <p>{row.remarks}</p>
           )}
         </>
       )
@@ -255,7 +255,7 @@ export function useDictBus() {
       id: null,
       collectorId: "",
       collectorIp: "",
-      remark: ""
+      remarks: ""
     };
     queryForm.value.type = "";
     queryForm.value.description = "";
@@ -320,7 +320,7 @@ export function useDictBus() {
       label: "",
       value: "",
       description: "",
-      remark: ""
+      remarks: ""
     });
     onEdit(
       dataListMode.value[dataListMode.value.length - 1],

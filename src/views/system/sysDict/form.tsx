@@ -43,7 +43,7 @@ export function useDictForm() {
     },
     {
       label: "备注",
-      prop: "remark",
+      prop: "remarks",
       width: "10px",
       valueType: "textarea"
     }
