@@ -16,15 +16,28 @@ type ResultPage = {
 };
 
 const pSysMessageUrls = {
-  page: `/api/p/pSysMessage/page`,
-  save: "/api/p/pSysMessage/save",
-  delete: `/api/p/pSysMessage/`,
-  update: "/api/p/pSysMessage/update"
+  page: `/api/message/pSysMessage/page`,
+  save: "/api/message/pSysMessage/save",
+  delete: `/api/message/pSysMessage/`,
+  update: "/api/message/pSysMessage/update",
+  list: "/api/message/pSysMessage/list",
+  readMessage: "/api/message/pSysMessage/readMessage/"
 };
 
 // 系统消息分页
 export const pSysMessagePage = (query?: object) => {
   return http.axiosGetRequest<ResultPage>(pSysMessageUrls.page, query);
+};
+// 系统消息列表
+export const pSysMessageList = (query?: object) => {
+  return http.axiosGetRequest<Result>(pSysMessageUrls.list, query);
+};
+// 系统消息已读
+export const pSysMessageReadMessage = (param?: number, data?: object) => {
+  return http.axiosPostRequest<Result>(
+    pSysMessageUrls.readMessage + param,
+    data
+  );
 };
 // 系统消息保存
 export const pSysMessageSave = (param?: object) => {

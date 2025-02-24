@@ -45,6 +45,14 @@ function hoverDescription(event, description) {
     ? (descriptionTooltip.value = true)
     : (descriptionTooltip.value = false);
 }
+
+const emit = defineEmits<{
+  (e: "item-clicked", item: ListItem): void;
+}>();
+
+function handleHandle(noticeItem) {
+  emit("item-clicked", noticeItem);
+}
 </script>
 
 <template>
@@ -108,7 +116,12 @@ function hoverDescription(event, description) {
         style="display: flex; justify-content: flex-end"
       >
         <div>
-          <el-button type="primary" size="small">处置</el-button>
+          <el-button
+            type="primary"
+            size="small"
+            @click="handleHandle(noticeItem)"
+            >处置</el-button
+          >
         </div>
       </div>
     </div>

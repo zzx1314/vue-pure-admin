@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { ref, computed } from "vue";
-import { noticesData } from "./data";
+import { ref, computed, onMounted } from "vue";
+import { ListItem, noticesData, TabItem } from "./data";
 import NoticeList from "./components/NoticeList.vue";
 import BellIcon from "@iconify-icons/ep/bell";
+import { pSysMessageList, pSysMessageReadMessage } from "@/api/pSysMessage";
+import { SUCCESS } from "@/api/base";
+import { message } from "@/utils/message";
 
 const { t } = useI18n();
 const noticesNum = ref(0);
-const notices = ref(noticesData);
+const notices = ref<TabItem[]>(noticesData);
 const activeKey = ref(noticesData[0]?.key);
 
 notices.value.map(v => (noticesNum.value += v.list.length));
@@ -16,6 +19,39 @@ const getLabel = computed(
   () => item =>
     t(item.name) + (item.list.length > 0 ? `(${item.list.length})` : "")
 );
+
+function getMessage() {
+  notices.value[0].list = [];
+  notices.value[1].list = [];
+  pSysMessageList().then(res => {
+    console.log(res);
+    if (res.code == SUCCESS && res.data) {
+      for (let i = 0; i < res.data.length; i++) {
+        if (res.data[i].status === "未读") {
+          notices.value[0].list.push(res.data[i]);
+        } else {
+          notices.value[1].list.push(res.data[i]);
+        }
+      }
+      noticesNum.value = notices.value[0].list.length;
+    }
+  });
+}
+
+const handlerItem = (item: ListItem) => {
+  console.log("Received item:", item);
+  pSysMessageReadMessage(item.id).then(res => {
+    if (res.code === SUCCESS) {
+      message("处理成功！", { type: "success" });
+      getMessage();
+    }
+  });
+};
+
+onMounted(() => {
+  console.log("onMounted");
+  getMessage();
+});
 </script>
 
 <template>
@@ -52,7 +88,11 @@ const getLabel = computed(
               <el-tab-pane :label="getLabel(item)" :name="`${item.key}`">
                 <el-scrollbar max-height="330px">
                   <div class="noticeList-container">
-                    <NoticeList :list="item.list" :emptyText="item.emptyText" />
+                    <NoticeList
+                      :list="item.list"
+                      :emptyText="item.emptyText"
+                      @list-change="handlerItem"
+                    />
                   </div>
                 </el-scrollbar>
               </el-tab-pane>
