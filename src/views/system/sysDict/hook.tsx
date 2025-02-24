@@ -262,6 +262,9 @@ export function useDictBus() {
     queryForm.value.beginTime = "";
     queryForm.value.endTime = "";
     dialogFormVisible.value = false;
+    dialogItemFormVisible.value = false;
+    editMap.value = {};
+    editRow.value = {};
     onSearch();
   }
   // 提交

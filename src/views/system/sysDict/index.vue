@@ -152,7 +152,12 @@ const {
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
     />
-    <el-dialog v-model="dialogItemFormVisible" title="设置配置项" width="60%">
+    <el-dialog
+      v-model="dialogItemFormVisible"
+      title="设置配置项"
+      width="60%"
+      @close="cancel"
+    >
       <pure-table
         row-key="id"
         align-whole="center"
