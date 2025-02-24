@@ -205,7 +205,7 @@ const {
             >
               修改
             </el-button>
-            <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
+            <!--            <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>
                 <el-button
                   class="reset-margin"
@@ -217,7 +217,7 @@ const {
                   删除
                 </el-button>
               </template>
-            </el-popconfirm>
+            </el-popconfirm>-->
             <el-dropdown>
               <el-button
                 class="ml-3 mt-[2px]"
