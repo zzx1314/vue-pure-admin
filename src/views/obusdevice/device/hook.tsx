@@ -186,7 +186,7 @@ export function useOBusDevice() {
     {
       label: "操作",
       fixed: "right",
-      width: 100,
+      width: 130,
       slot: "operation"
     }
   ];
@@ -435,33 +435,8 @@ export function useOBusDevice() {
     if (!commandFormRef) return;
     await commandFormRef.validate((valid, fields) => {
       if (valid) {
-        debugger;
-        if (
-          commandForm.value.type === "日志" &&
-          commandForm.value.logPath === "customize"
-        ) {
-          // 自定义指令
-          let reg = regularExpression.value;
-          if (reg.length > 0) {
-            for (let i = 0; i < reg.length; i++) {
-              if (reg[i].value === "") {
-                message("请填写正则表达式", { type: "error" });
-                return;
-              }
-              try {
-                const regex = new RegExp(reg[i].value);
-                if (!regex.test(commandForm.value.content)) {
-                  message(`内容不满足正则表达式: ${reg[i].value}`, {
-                    type: "error"
-                  });
-                  return;
-                }
-              } catch (e) {
-                message("正则表达式无效", { type: "error" });
-                return;
-              }
-            }
-          }
+        if (!checkLogPath()) {
+          return;
         }
         console.log(commandForm.value);
         let params = {};
@@ -492,6 +467,36 @@ export function useOBusDevice() {
       }
     });
   };
+
+  function checkLogPath() {
+    if (
+      commandForm.value.type === "日志" &&
+      commandForm.value.logPath === "customize"
+    ) {
+      // 自定义指令
+      let reg = regularExpression.value;
+      if (reg.length > 0) {
+        for (let i = 0; i < reg.length; i++) {
+          if (reg[i].value === "") {
+            message("请填写正则表达式", { type: "error" });
+            return false;
+          }
+          try {
+            const regex = new RegExp(reg[i].value);
+            if (!regex.test(commandForm.value.content)) {
+              message(`内容不满足正则表达式: ${reg[i].value}`, {
+                type: "error"
+              });
+              return false;
+            }
+          } catch (e) {
+            message("正则表达式无效", { type: "error" });
+            return false;
+          }
+        }
+      }
+    }
+  }
 
   function handleCommTime(row) {
     console.log("handleCommTime", row);
@@ -655,6 +660,7 @@ export function useOBusDevice() {
     handleDialogInfoClose,
     handleExpandChange,
     handleCommandSubmit,
+    checkLogPath,
     downCommand,
     cancel,
     restartForm,

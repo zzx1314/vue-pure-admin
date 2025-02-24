@@ -80,6 +80,7 @@ const {
   handleDialogSysStem,
   handleExpandChange,
   handleCommandSubmit,
+  checkLogPath,
   downCommand,
   cancel,
   openDia
@@ -654,6 +655,7 @@ const {
           <el-input
             v-model="commandForm.content"
             placeholder="请输入正确路径"
+            @blur="checkLogPath"
           />
         </el-form-item>
 
