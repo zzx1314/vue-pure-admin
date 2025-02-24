@@ -320,7 +320,8 @@ export function useDictBus() {
       label: "",
       value: "",
       description: "",
-      remarks: ""
+      remarks: "",
+      allowDeletion: true
     });
     onEdit(
       dataListMode.value[dataListMode.value.length - 1],

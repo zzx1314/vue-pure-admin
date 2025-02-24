@@ -116,7 +116,11 @@ const {
             >
               修改
             </el-button>
-            <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
+            <el-popconfirm
+              v-if="row.allowDeletion"
+              title="是否确认删除?"
+              @confirm="handleDelete(row)"
+            >
               <template #reference>
                 <el-button
                   class="reset-margin"
@@ -181,7 +185,7 @@ const {
             修改
           </el-button>
           <el-button
-            v-if="!editMap[index]?.editable"
+            v-if="!editMap[index]?.editable && row.allowDeletion"
             class="reset-margin"
             link
             type="primary"
