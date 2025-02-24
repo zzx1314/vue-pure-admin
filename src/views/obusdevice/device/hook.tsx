@@ -72,6 +72,7 @@ export function useOBusDevice() {
   const diskHistory = ref<any>({});
 
   const activities = ref([]);
+  const regularExpression = ref([]);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -412,11 +413,16 @@ export function useOBusDevice() {
         console.log(commandOptions.value);
       }
     });
-
     getSelectByType("device_log_path").then(res => {
       if (res.code === SUCCESS) {
         logPathOptions.value = res.data;
         console.log(logPathOptions.value);
+      }
+    });
+    getSelectByType("device_log_custom").then(res => {
+      if (res.code === SUCCESS) {
+        regularExpression.value = res.data;
+        console.log(regularExpression.value);
       }
     });
     if (!commandFormRef) return;
@@ -429,6 +435,34 @@ export function useOBusDevice() {
     if (!commandFormRef) return;
     await commandFormRef.validate((valid, fields) => {
       if (valid) {
+        debugger;
+        if (
+          commandForm.value.type === "日志" &&
+          commandForm.value.logPath === "customize"
+        ) {
+          // 自定义指令
+          let reg = regularExpression.value;
+          if (reg.length > 0) {
+            for (let i = 0; i < reg.length; i++) {
+              if (reg[i].value === "") {
+                message("请填写正则表达式", { type: "error" });
+                return;
+              }
+              try {
+                const regex = new RegExp(reg[i].value);
+                if (!regex.test(commandForm.value.content)) {
+                  message(`内容不满足正则表达式: ${reg[i].value}`, {
+                    type: "error"
+                  });
+                  return;
+                }
+              } catch (e) {
+                message("正则表达式无效", { type: "error" });
+                return;
+              }
+            }
+          }
+        }
         console.log(commandForm.value);
         let params = {};
         if (commandForm.value.type === "日志") {

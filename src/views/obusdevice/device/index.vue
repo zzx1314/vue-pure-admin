@@ -645,7 +645,9 @@ const {
         </el-form-item>
 
         <el-form-item
-          v-if="commandForm.logPath === 'customize'"
+          v-if="
+            commandForm.logPath === 'customize' && commandForm.type === '日志'
+          "
           label="自定义"
           prop="content"
         >
