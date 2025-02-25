@@ -11,6 +11,8 @@ import EditPen from "@iconify-icons/ep/edit-pen";
 import alignItemBottomLine from "@iconify-icons/ri/archive-drawer-line";
 import { useDictBus } from "@/views/system/sysDict/hook";
 import { useDictForm } from "@/views/system/sysDict/form";
+import { VxeTableInstance, VxeTablePropTypes, VxeUI } from "vxe-table";
+import { message } from "@/utils/message";
 
 defineOptions({
   name: "sysDict"
@@ -18,6 +20,65 @@ defineOptions({
 
 const addFormRef = ref<FormInstance>();
 const { columnsForm, columnsQueryForm } = useDictForm();
+
+interface RowVO {
+  id: number;
+  type: string;
+  label: string;
+  value: string;
+  description: string;
+  remarks: string;
+}
+
+const tableRef = ref<VxeTableInstance<RowVO>>();
+
+const validRules = ref<VxeTablePropTypes.EditRules<RowVO>>({
+  type: [{ required: true, message: "类型必须填写" }],
+  label: [{ required: true, message: "标签必须填写" }]
+});
+
+const hasEditStatus = (row: RowVO) => {
+  const $table = tableRef.value;
+  if ($table) {
+    return $table.isEditByRow(row);
+  }
+};
+
+const saveRowEvent = async (row: RowVO) => {
+  const $table = tableRef.value;
+  if ($table) {
+    const errMap = await $table.validate(true);
+    if (errMap) {
+      message("校验不通过", { type: "error" });
+    } else {
+      $table.clearEdit().then(() => {
+        onSave(row);
+      });
+    }
+  }
+};
+
+const cancelRowEvent = (row: RowVO) => {
+  const $table = tableRef.value;
+  if ($table) {
+    $table.clearEdit().then(() => {
+      // 还原行数据
+      $table.revertData(row);
+    });
+  }
+};
+
+const editRowEvent = (row: RowVO) => {
+  const $table = tableRef.value;
+  if ($table) {
+    $table.setEditRow(row);
+  }
+};
+
+const removeRow = async (row: RowVO) => {
+  dataListMode.value = dataListMode.value.filter(item => item.id !== row.id);
+  onDel(row);
+};
 
 const {
   queryForm,
@@ -29,9 +90,7 @@ const {
   addForm,
   rules,
   columns,
-  columnsItem,
   dataListMode,
-  editMap,
   onSearch,
   handleDelete,
   handleSizeChange,
@@ -43,10 +102,7 @@ const {
   openDia,
   openSetDia,
   cancel,
-  onAdd,
-  onEdit,
   onSave,
-  onCancel,
   onDel
 } = useDictBus();
 </script>
@@ -155,64 +211,78 @@ const {
     <el-dialog
       v-model="dialogItemFormVisible"
       title="设置配置项"
-      width="60%"
+      width="65%"
       @close="cancel"
     >
-      <pure-table
-        row-key="id"
-        align-whole="center"
-        :header-cell-style="{
-          background: 'var(--el-fill-color-light)',
-          color: 'var(--el-text-color-primary)'
-        }"
-        :border="true"
+      <vxe-table
+        ref="tableRef"
+        border
+        show-overflow
+        keep-source
+        height="500"
         :data="dataListMode"
-        :columns="columnsItem"
+        :edit-rules="validRules"
+        :edit-config="{
+          trigger: 'manual',
+          mode: 'row',
+          showStatus: true,
+          autoClear: false
+        }"
       >
-        <template #append>
-          <el-button
-            plain
-            class="w-full my-2"
-            :icon="useRenderIcon(AddFill)"
-            @click="onAdd"
-          >
-            添加一行数据
-          </el-button>
-        </template>
-        <template #operation="{ row, index }">
-          <el-button
-            v-if="!editMap[index]?.editable"
-            class="reset-margin"
-            link
-            type="primary"
-            @click="onEdit(row, index)"
-          >
-            修改
-          </el-button>
-          <el-button
-            v-if="!editMap[index]?.editable && row.allowDeletion"
-            class="reset-margin"
-            link
-            type="primary"
-            @click="onDel(row)"
-          >
-            删除
-          </el-button>
-          <div v-if="editMap[index]?.editable">
-            <el-button
-              class="reset-margin"
-              link
-              type="primary"
-              @click="onSave(index)"
-            >
-              保存
-            </el-button>
-            <el-button class="reset-margin" link @click="onCancel(index)">
-              取消
-            </el-button>
-          </div>
-        </template>
-      </pure-table>
+        <vxe-column type="seq" width="70" />
+        <vxe-column
+          field="type"
+          title="配置类型"
+          :edit-render="{ name: 'VxeInput' }"
+        />
+        <vxe-column
+          field="label"
+          title="标签"
+          :edit-render="{ name: 'VxeInput' }"
+        />
+        <vxe-column
+          field="value"
+          title="数据值"
+          :edit-render="{ name: 'VxeInput' }"
+        />
+        <vxe-column
+          field="description"
+          title="配置描述"
+          :edit-render="{ name: 'VxeInput' }"
+        />
+        <vxe-column
+          field="remarks"
+          title="备注"
+          :edit-render="{ name: 'VxeInput' }"
+        />
+        <vxe-column title="操作" width="200">
+          <template #default="{ row }">
+            <template v-if="hasEditStatus(row)">
+              <el-button type="primary" plain @click="saveRowEvent(row)"
+                >保存</el-button
+              >
+              <el-button @click="cancelRowEvent(row)">取消</el-button>
+            </template>
+            <template v-else>
+              <el-button
+                type="primary"
+                plain
+                :icon="useRenderIcon(EditPen)"
+                @click="editRowEvent(row)"
+                >编辑</el-button
+              >
+              <el-button
+                v-if="row.allowDeletion"
+                type="danger"
+                plain
+                :icon="useRenderIcon(Delete)"
+                @click="removeRow(row)"
+                >删除</el-button
+              >
+            </template>
+          </template>
+        </vxe-column>
+      </vxe-table>
     </el-dialog>
   </div>
 </template>

@@ -11,11 +11,11 @@ import {
   VXETable,
   // 表格功能
   // Filter,
-  // Edit,
+  Edit,
   // Menu,
   // Export,
-  // Keyboard,
-  // Validator,
+  Keyboard,
+  Validator,
   Custom,
   // 可选组件
   Icon,
@@ -44,7 +44,9 @@ import {
   // List,
   // Pulldown,
   // 表格
-  Table
+  Table,
+  Switch,
+  Input
 } from "vxe-table";
 
 // 全局默认参数
@@ -67,11 +69,11 @@ export function useVxeTable(app: App) {
   // 表格功能
   app
     // .use(Filter)
-    // .use(Edit)
+    .use(Edit)
     // .use(Menu)
     // .use(Export)
-    // .use(Keyboard)
-    // .use(Validator)
+    .use(Keyboard)
+    .use(Validator)
     .use(Custom)
     // 可选组件
     .use(Icon)
@@ -90,8 +92,8 @@ export function useVxeTable(app: App) {
     // .use(Radio)
     // .use(RadioGroup)
     // .use(RadioButton)
-    // .use(Switch)
-    // .use(Input)
+    .use(Switch)
+    .use(Input)
     // .use(Optgroup)
     // .use(Option)
     // .use(Textarea)

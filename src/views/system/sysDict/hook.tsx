@@ -262,8 +262,7 @@ export function useDictBus() {
     queryForm.value.beginTime = "";
     queryForm.value.endTime = "";
     dialogFormVisible.value = false;
-    editMap.value = {};
-    editRow.value = {};
+    dataListMode.value = [];
     onSearch();
   }
   // 提交
@@ -335,14 +334,9 @@ export function useDictBus() {
     editMap.value[index] = Object.assign({ ...row, editable: true });
     console.log(editMap.value[index]);
   }
-  // 保存
-  function onSave(index) {
-    editMap.value[index].editable = false;
-    if (!dataListMode.value[index].type && !dataListMode.value[index].label) {
-      message("类型和标签不能为空！", { type: "error" });
-      return;
-    }
-    saveItem(dataListMode.value[index]).then(res => {
+  // 保存一行
+  function onSave(row) {
+    saveItem(row).then(res => {
       if (res.code === SUCCESS) {
         message("新增成功！", { type: "success" });
         cancel();
@@ -361,9 +355,6 @@ export function useDictBus() {
   }
   // 删除
   function onDel(row) {
-    const index = dataListMode.value.indexOf(row);
-    if (index !== -1) dataListMode.value.splice(index, 1);
-    if (!row.id) return;
     deleteDictItem(row.id).then(res => {
       if (res.code === SUCCESS) {
         message("删除成功！", { type: "success" });
