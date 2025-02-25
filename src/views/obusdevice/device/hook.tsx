@@ -10,14 +10,14 @@ import {
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormInstance, FormRules } from "element-plus";
 import {
-  oBusDeviceSave,
-  oBusDevicePage,
-  oBusDeviceUpdate,
-  oBusDeviceDelete,
-  oBusPushCommand,
   getHardWareInfo,
+  getHistoryOnOrOffine,
   getSysStatus,
-  getHistoryOnOrOffine
+  oBusDeviceDelete,
+  oBusDevicePage,
+  oBusDeviceSave,
+  oBusDeviceUpdate,
+  oBusPushCommand
 } from "@/api/oBusDevice";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -93,7 +93,8 @@ export function useOBusDevice() {
     content: "",
     deviceId: "",
     type: "",
-    logPath: ""
+    logPath: "",
+    lable: ""
   });
   const loginShellForm = ref({
     operate: "",
@@ -346,7 +347,8 @@ export function useOBusDevice() {
       content: "",
       deviceId: "",
       type: "",
-      logPath: ""
+      logPath: "",
+      lable: ""
     };
   }
 
@@ -435,12 +437,13 @@ export function useOBusDevice() {
     if (!commandFormRef) return;
     await commandFormRef.validate((valid, fields) => {
       if (valid) {
-        if (!checkLogPath()) {
-          return;
-        }
         console.log(commandForm.value);
         let params = {};
         if (commandForm.value.type === "日志") {
+          // 处理日志类的指令
+          if (!checkLogPath()) {
+            return;
+          }
           params = {
             type: "reportLog",
             data: {
@@ -448,8 +451,23 @@ export function useOBusDevice() {
             }
           };
         } else {
+          // 处理其他类型
+          let paramType = "command";
+          if (commandForm.value.lable === "heartbeat") {
+            // 心跳包
+            paramType = "heartbeat";
+          } else if (commandForm.value.lable === "shutDown") {
+            // 关机
+            paramType = "shutDown";
+          } else if (commandForm.value.lable === "reboot") {
+            // 重启
+            paramType = "reboot";
+          }
+          if (!commandForm.value.content) {
+            commandForm.value.content = commandForm.value.type;
+          }
           params = {
-            type: "command",
+            type: paramType,
             data: {
               cmd: commandForm.value.content
             }
@@ -467,6 +485,13 @@ export function useOBusDevice() {
       }
     });
   };
+
+  function handlerChangeType(value) {
+    const selectedItem = commandOptions.value.find(
+      item => item.value === value
+    );
+    commandForm.value.lable = selectedItem ? selectedItem.label : "";
+  }
 
   function checkLogPath() {
     if (
@@ -660,6 +685,7 @@ export function useOBusDevice() {
     handleDialogInfoClose,
     handleExpandChange,
     handleCommandSubmit,
+    handlerChangeType,
     checkLogPath,
     downCommand,
     cancel,

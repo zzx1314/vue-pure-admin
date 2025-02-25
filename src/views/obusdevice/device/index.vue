@@ -78,6 +78,7 @@ const {
   handleDialogSysStem,
   handleExpandChange,
   handleCommandSubmit,
+  handlerChangeType,
   checkLogPath,
   downCommand,
   cancel,
@@ -614,6 +615,7 @@ const {
             v-model="commandForm.type"
             placeholder="请选择类型"
             class="!w-[200px]"
+            @change="handlerChangeType($event)"
           >
             <el-option
               v-for="item in commandOptions"

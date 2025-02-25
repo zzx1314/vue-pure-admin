@@ -314,8 +314,7 @@ export function useDictBus() {
   function onSave(row) {
     saveItem(row).then(res => {
       if (res.code === SUCCESS) {
-        message("新增成功！", { type: "success" });
-        cancel();
+        message("保存成功！", { type: "success" });
       } else {
         message(res.msg, { type: "error" });
       }
