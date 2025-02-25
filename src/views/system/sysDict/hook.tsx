@@ -13,7 +13,6 @@ import {
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import type { FieldValues } from "plus-pro-components";
-import { delObjectProperty } from "@pureadmin/utils";
 
 export function useDictBus() {
   // ----变量定义-----
@@ -311,29 +310,6 @@ export function useDictBus() {
     const { data } = await getItemById(param.id);
     dataListMode.value = data;
   }
-  // 新增一行
-  function onAdd() {
-    dataListMode.value.push({
-      id: null,
-      dictId: editRow.value.id,
-      sort: dataListMode.value.length + 1,
-      type: "",
-      label: "",
-      value: "",
-      description: "",
-      remarks: "",
-      allowDeletion: true
-    });
-    onEdit(
-      dataListMode.value[dataListMode.value.length - 1],
-      dataListMode.value.length - 1
-    );
-  }
-  // 修改
-  function onEdit(row, index) {
-    editMap.value[index] = Object.assign({ ...row, editable: true });
-    console.log(editMap.value[index]);
-  }
   // 保存一行
   function onSave(row) {
     saveItem(row).then(res => {
@@ -344,14 +320,6 @@ export function useDictBus() {
         message(res.msg, { type: "error" });
       }
     });
-  }
-  // 取消
-  function onCancel(index) {
-    editMap.value[index].editable = false;
-    dataListMode.value[index] = delObjectProperty(
-      editMap.value[index],
-      "editable"
-    );
   }
   // 删除
   function onDel(row) {
@@ -396,10 +364,7 @@ export function useDictBus() {
     handleSubmitError,
     openDia,
     openSetDia,
-    onAdd,
-    onEdit,
     onSave,
-    onCancel,
     onDel
   };
 }
