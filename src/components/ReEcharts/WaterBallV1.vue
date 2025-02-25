@@ -15,7 +15,7 @@ const { setOptions, resize } = useECharts(waterBallRef as Ref<HTMLDivElement>, {
 
 const percentageNum = ref(0);
 const colorValue = ref<string>("#FFA661");
-const shapeValue = ref<string>("circle");
+const shapeValue = ref<string>("");
 
 const props = defineProps({
   // 目标进度

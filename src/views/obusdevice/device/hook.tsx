@@ -61,7 +61,7 @@ export function useOBusDevice() {
   const memColor = ref<string>("#67C23A");
   const memNumber = ref(0);
   const diskColor = ref<string>("#67C23A");
-  const diskNumber = ref(0);
+  const diskNumber = ref(null);
   const cpuPercent = ref(0);
   const commandOptions = ref([]);
   const logPathOptions = ref([]);
