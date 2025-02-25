@@ -4,7 +4,6 @@ import { type ElDialog, FormInstance } from "element-plus";
 import { useOBusDevice } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import EditPen from "@iconify-icons/ep/edit-pen";
-import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
@@ -65,7 +64,6 @@ const {
   logPathOptions,
   rulesCommand,
   onSearch,
-  handleDelete,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
