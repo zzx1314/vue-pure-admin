@@ -14,7 +14,6 @@ import NProgress from "../progress";
 import { getToken, formatToken } from "@/utils/auth";
 import type { UserResult } from "@/api/user";
 import { message } from "@/utils/message";
-import { useUserStoreHook } from "@/store/modules/user";
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
@@ -134,7 +133,6 @@ class PureHttp {
         $error.isCancelRequest = Axios.isCancel($error);
         // 关闭进度条动画
         NProgress.done();
-        useUserStoreHook().logOut();
         if (error.response.status === 500) {
           message("服务器错误", { type: "error" });
         } else if (error.response.status === 401) {
