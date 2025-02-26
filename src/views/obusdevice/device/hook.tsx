@@ -437,7 +437,6 @@ export function useOBusDevice() {
     if (!commandFormRef) return;
     await commandFormRef.validate((valid, fields) => {
       if (valid) {
-        debugger;
         console.log(commandForm.value);
         let params = {};
         if (commandForm.value.type === "日志") {
@@ -457,12 +456,6 @@ export function useOBusDevice() {
           if (commandForm.value.lable === "心跳时间") {
             // 心跳包
             paramType = "heartbeat";
-          } else if (commandForm.value.lable === "关机") {
-            // 关机
-            paramType = "shutDown";
-          } else if (commandForm.value.lable === "重启") {
-            // 重启
-            paramType = "reboot";
           }
           if (!commandForm.value.content) {
             commandForm.value.content = commandForm.value.type;

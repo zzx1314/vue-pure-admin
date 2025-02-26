@@ -218,8 +218,8 @@ const {
         ref="tableRef"
         border
         show-overflow
-        keep-source
         height="500"
+        :row-config="{ isHover: true }"
         :data="dataListMode"
         :edit-rules="validRules"
         :edit-config="{
@@ -243,6 +243,7 @@ const {
         <vxe-column
           field="value"
           title="数据值"
+          show-overflow
           :edit-render="{ name: 'VxeInput' }"
         />
         <vxe-column
