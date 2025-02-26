@@ -14,6 +14,7 @@ import NProgress from "../progress";
 import { getToken, formatToken } from "@/utils/auth";
 import type { UserResult } from "@/api/user";
 import { message } from "@/utils/message";
+import { useUserStoreHook } from "@/store/modules/user";
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
@@ -135,8 +136,10 @@ class PureHttp {
         NProgress.done();
         if (error.response.status === 500) {
           message("服务器错误", { type: "error" });
+          useUserStoreHook().logOut();
         } else if (error.response.status === 401) {
-          message("当前用户没有分配权限", { type: "error" });
+          message("权限失效，自动退出！", { type: "error" });
+          useUserStoreHook().logOut();
         } else if (
           error.response.status === 400 &&
           error.response.data &&
@@ -145,6 +148,7 @@ class PureHttp {
           message(error.response.data.error_description, { type: "error" });
         } else {
           message("系统错误", { type: "error" });
+          useUserStoreHook().logOut();
         }
         // 所有的响应异常 区分来源为取消请求/非取消请求
         return Promise.reject($error);
