@@ -261,7 +261,10 @@ const {
                 v-if="row.status === '短路'"
                 class="offline-breathing-shotCircuit"
               />
-              <div v-else class="offline-breathing-light" />
+              <div
+                v-if="row.status === '离线'"
+                class="offline-breathing-light"
+              />
             </div>
           </template>
         </pure-table>
