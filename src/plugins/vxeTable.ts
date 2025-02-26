@@ -24,7 +24,7 @@ import {
   Pager,
   Select,
   // Colgroup,
-  // Tooltip,
+  Tooltip,
   // Toolbar,
   // Form,
   // FormItem,
@@ -82,7 +82,7 @@ export function useVxeTable(app: App) {
     .use(Pager)
     .use(Select)
     // .use(Colgroup)
-    // .use(Tooltip)
+    .use(Tooltip)
     // .use(Toolbar)
     // .use(Form)
     // .use(FormItem)

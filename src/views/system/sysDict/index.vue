@@ -218,8 +218,10 @@ const {
         ref="tableRef"
         border
         show-overflow
+        keep-source
         height="500"
         :row-config="{ isHover: true }"
+        :tooltip-config="{ zIndex: 10000 }"
         :data="dataListMode"
         :edit-rules="validRules"
         :edit-config="{
