@@ -11,7 +11,7 @@ import EditPen from "@iconify-icons/ep/edit-pen";
 import alignItemBottomLine from "@iconify-icons/ri/archive-drawer-line";
 import { useDictBus } from "@/views/system/sysDict/hook";
 import { useDictForm } from "@/views/system/sysDict/form";
-import { VxeTableInstance, VxeTablePropTypes, VxeUI } from "vxe-table";
+import { VxeTableEvents, VxeTableInstance, VxeTablePropTypes } from "vxe-table";
 import { message } from "@/utils/message";
 
 defineOptions({
@@ -28,9 +28,11 @@ interface RowVO {
   value: string;
   description: string;
   remarks: string;
+  allowDeletion: boolean;
 }
 
 const tableRef = ref<VxeTableInstance<RowVO>>();
+const disabledFiled = ref(false);
 
 const validRules = ref<VxeTablePropTypes.EditRules<RowVO>>({
   type: [{ required: true, message: "类型必须填写" }],
@@ -78,6 +80,10 @@ const editRowEvent = (row: RowVO) => {
 const removeRow = async (row: RowVO) => {
   dataListMode.value = dataListMode.value.filter(item => item.id !== row.id);
   onDel(row);
+};
+
+const editActivatedEvent: VxeTableEvents.EditActived<RowVO> = ({ row }) => {
+  disabledFiled.value = !row.allowDeletion;
 };
 
 const {
@@ -230,18 +236,19 @@ const {
           showStatus: true,
           autoClear: false
         }"
+        @edit-activated="editActivatedEvent"
       >
         <vxe-column type="seq" width="70" />
-        <vxe-column
-          field="type"
-          title="配置类型"
-          :edit-render="{ name: 'VxeInput' }"
-        />
-        <vxe-column
-          field="label"
-          title="标签"
-          :edit-render="{ name: 'VxeInput' }"
-        />
+        <vxe-column field="type" title="配置类型" :edit-render="{}">
+          <template #edit="{ row }">
+            <vxe-input v-model="row.type" :disabled="disabledFiled" />
+          </template>
+        </vxe-column>
+        <vxe-column field="label" title="标签" :edit-render="{}">
+          <template #edit="{ row }">
+            <vxe-input v-model="row.label" :disabled="disabledFiled" />
+          </template>
+        </vxe-column>
         <vxe-column
           field="value"
           title="数据值"
