@@ -67,6 +67,24 @@ export function useOBusCommand() {
     {
       label: "执行状态",
       prop: "status",
+      minWidth: 100,
+      cellRenderer: ({ row }) => (
+        <el-tag
+          type={
+            row.status === "执行成功"
+              ? "success"
+              : row.status === "执行失败"
+                ? "danger"
+                : "warning"
+          }
+        >
+          {row.status}
+        </el-tag>
+      )
+    },
+    {
+      label: "执行结果",
+      prop: "returnValue",
       minWidth: 100
     },
     {
