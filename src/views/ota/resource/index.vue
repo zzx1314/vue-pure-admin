@@ -698,7 +698,7 @@ const closePro = () => {
         >
           <template #expand="{ row }">
             <div class="m-1">
-              <h4>{{ row.softwareName }}软件包</h4>
+              <h4>{{ row.softwareName }}模块</h4>
             </div>
             <el-form
               ref="formRefMode"
@@ -706,6 +706,24 @@ const closePro = () => {
               :model="queryForm"
               class="bg-bg_color w-[99/100] pl-8 pt-4"
             >
+              <el-form-item label="模块名称：" prop="pkgName">
+                <el-input
+                  v-model="queryForm.pkgName"
+                  size="small"
+                  placeholder="请输入模块名称"
+                  clearable
+                  class="!w-[150px]"
+                />
+              </el-form-item>
+              <el-form-item label="模块版本：" prop="version">
+                <el-input
+                  v-model="queryForm.version"
+                  size="small"
+                  placeholder="请输入模块版本"
+                  clearable
+                  class="!w-[150px]"
+                />
+              </el-form-item>
               <el-form-item label="资源类型：" prop="devType">
                 <el-select
                   v-model="queryForm.resType"
@@ -720,24 +738,6 @@ const closePro = () => {
                     :value="item.value"
                   />
                 </el-select>
-              </el-form-item>
-              <el-form-item label="组件包名称：" prop="pkgName">
-                <el-input
-                  v-model="queryForm.pkgName"
-                  size="small"
-                  placeholder="请输入组件包名称"
-                  clearable
-                  class="!w-[150px]"
-                />
-              </el-form-item>
-              <el-form-item label="组件包版本：" prop="version">
-                <el-input
-                  v-model="queryForm.version"
-                  size="small"
-                  placeholder="请输入组件包版本"
-                  clearable
-                  class="!w-[150px]"
-                />
               </el-form-item>
               <el-form-item>
                 <el-button

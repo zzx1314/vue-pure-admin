@@ -21,27 +21,27 @@ export function useResModeTable() {
       )
     },
     {
+      label: "模块名称",
+      prop: "pkgName",
+      minWidth: 100
+    },
+    {
+      label: "模块版本",
+      prop: "version",
+      minWidth: 50
+    },
+    {
       label: "资源类型",
       prop: "resType",
       minWidth: 50
     },
     {
-      label: "组件包名称",
-      prop: "pkgName",
-      minWidth: 100
-    },
-    {
-      label: "组件包版本",
-      prop: "version",
-      minWidth: 50
-    },
-    {
-      label: "文件名称",
+      label: "资源名称",
       prop: "originFileName",
       minWidth: 100
     },
     {
-      label: "文件大小",
+      label: "资源大小",
       prop: "fileSizeShow",
       minWidth: 100
     },

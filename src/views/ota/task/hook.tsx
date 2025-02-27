@@ -141,7 +141,7 @@ export function useTask() {
       prop: "finishTime"
     },
     {
-      label: "状态值",
+      label: "状态",
       minWidth: 100,
       prop: "status",
       cellRenderer: ({ row }) => (
