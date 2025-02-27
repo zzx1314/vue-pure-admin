@@ -514,6 +514,8 @@ export function useOBusDevice() {
           }
         }
       }
+    } else {
+      return true;
     }
   }
 
