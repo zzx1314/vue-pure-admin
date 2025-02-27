@@ -629,12 +629,12 @@ const closePro = () => {
           重置
         </el-button>
 
-        <el-button
+        <!--        <el-button
           type="primary"
           :icon="moreCondition ? useRenderIcon(Down) : useRenderIcon(Up)"
           link
           @click="moreCondition = !moreCondition"
-        />
+        />-->
       </el-form-item>
     </el-form>
 
