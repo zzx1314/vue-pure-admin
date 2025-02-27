@@ -507,6 +507,8 @@ export function useOBusDevice() {
                 type: "error"
               });
               return false;
+            } else {
+              return true;
             }
           } catch (e) {
             message("正则表达式无效", { type: "error" });
