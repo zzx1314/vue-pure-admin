@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useOBusLogs } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import Search from "@iconify-icons/ep/search";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
@@ -24,6 +23,7 @@ const {
   loading,
   pagination,
   columns,
+  columnsHistory,
   dialogHistoryLogVisible,
   onSearch,
   onSearchHistory,
@@ -150,7 +150,7 @@ const {
       </el-card>
       <PureTableBar
         title="日志列表"
-        :columns="columns"
+        :columns="columnsHistory"
         @refresh="onSearchHistory"
       >
         <template v-slot="{ size, checkList, dynamicColumns }">
@@ -181,7 +181,7 @@ const {
                 link
                 type="primary"
                 :size="size"
-                :icon="useRenderIcon(Search)"
+                :icon="useRenderIcon(Download)"
                 @click="handleDownloadLog(row)"
               >
                 下载

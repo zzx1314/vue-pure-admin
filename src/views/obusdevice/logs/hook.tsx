@@ -100,6 +100,60 @@ export function useOBusLogs() {
       slot: "operation"
     }
   ];
+
+  const columnsHistory: TableColumnList = [
+    {
+      type: "selection",
+      width: 55,
+      align: "left"
+    },
+    {
+      label: "序号",
+      type: "index",
+      width: 70
+    },
+    {
+      label: "设备ID",
+      prop: "deviceId",
+      minWidth: 100
+    },
+    {
+      label: "设备IP",
+      prop: "deviceIp",
+      minWidth: 100
+    },
+    {
+      label: "操作系统",
+      prop: "os",
+      minWidth: 100
+    },
+    {
+      label: "操作系统版本",
+      prop: "osVersion",
+      minWidth: 100
+    },
+    {
+      label: "系统架构",
+      prop: "arch",
+      minWidth: 100
+    },
+    {
+      label: "日志名称",
+      prop: "originalFilename",
+      minWidth: 100
+    },
+    {
+      label: "创建时间",
+      prop: "createTime",
+      minWidth: 150
+    },
+    {
+      label: "操作",
+      fixed: "right",
+      width: 200,
+      slot: "operation"
+    }
+  ];
   const buttonClass = computed(() => {
     return [
       "!h-[20px]",
@@ -269,6 +323,7 @@ export function useOBusLogs() {
     addForm,
     rules,
     columns,
+    columnsHistory,
     buttonClass,
     moreCondition,
     dialogHistoryLogVisible,
