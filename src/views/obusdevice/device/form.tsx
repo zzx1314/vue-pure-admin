@@ -143,15 +143,7 @@ export function useCollectorBusDevForm() {
       },
       options: [
         {
-          label: "短路",
-          value: "短路",
-          color: "var(--el-color-warning)",
-          fieldSlot: ({ label, color }) => {
-            return h("div", { style: { color } }, `${label}`);
-          }
-        },
-        {
-          label: "在线",
+          label: "在线状态",
           value: "在线",
           color: "var(--el-color-success)",
           fieldSlot: ({ label, color }) => {
@@ -159,8 +151,16 @@ export function useCollectorBusDevForm() {
           }
         },
         {
-          label: "离线",
+          label: "心跳丢失",
           value: "离线",
+          color: "var(--el-color-warning)",
+          fieldSlot: ({ label, color }) => {
+            return h("div", { style: { color } }, `${label}`);
+          }
+        },
+        {
+          label: "离线状态",
+          value: "短路",
           color: "var(--el-color-danger)",
           fieldSlot: ({ label, color }) => {
             return h("div", { style: { color } }, `${label}`);
