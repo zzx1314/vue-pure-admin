@@ -322,6 +322,9 @@ export function useDictBus() {
   }
   // 删除
   function onDel(row) {
+    if (!row.id) {
+      return;
+    }
     deleteDictItem(row.id).then(res => {
       if (res.code === SUCCESS) {
         message("删除成功！", { type: "success" });

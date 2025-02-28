@@ -81,8 +81,11 @@ const editRowEvent = (row: RowVO) => {
 };
 
 const removeRow = async (row: RowVO) => {
-  dataListMode.value = dataListMode.value.filter(item => item.id !== row.id);
-  onDel(row);
+  const $table = tableRef.value;
+  if ($table) {
+    $table.remove(row);
+    onDel(row);
+  }
 };
 
 const editActivatedEvent: VxeTableEvents.EditActivated<RowVO> = ({ row }) => {
@@ -90,6 +93,22 @@ const editActivatedEvent: VxeTableEvents.EditActivated<RowVO> = ({ row }) => {
   disabledValue.value = row.label === "日志" || row.label === "自定义指令";
   disabledRemark.value = row.label === "心跳时间";
   disabledDescription.value = row.label === "心跳时间";
+};
+
+const addEvent = async () => {
+  const $table = tableRef.value;
+  if ($table) {
+    const record = {
+      type: "",
+      label: "",
+      value: "",
+      description: "",
+      remarks: "",
+      allowDeletion: true
+    };
+    const { row: newRow } = await $table.insert(record);
+    $table.setEditRow(newRow, "type");
+  }
 };
 
 const {
@@ -226,6 +245,14 @@ const {
       width="65%"
       @close="cancel"
     >
+      <div class="mb-1">
+        <el-button
+          type="primary"
+          :icon="useRenderIcon(AddFill)"
+          @click="addEvent"
+          >新增</el-button
+        >
+      </div>
       <vxe-table
         ref="tableRef"
         border
