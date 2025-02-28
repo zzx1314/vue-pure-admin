@@ -35,8 +35,8 @@ const tableRef = ref<VxeTableInstance<RowVO>>();
 const disabledFiled = ref(false);
 
 const validRules = ref<VxeTablePropTypes.EditRules<RowVO>>({
-  type: [{ required: true, message: "类型必须填写" }],
-  label: [{ required: true, message: "标签必须填写" }]
+  type: [{ required: true, content: "类型必须填写" }],
+  label: [{ required: true, content: "标签必须填写" }]
 });
 
 const hasEditStatus = (row: RowVO) => {
@@ -82,7 +82,7 @@ const removeRow = async (row: RowVO) => {
   onDel(row);
 };
 
-const editActivatedEvent: VxeTableEvents.EditActived<RowVO> = ({ row }) => {
+const editActivatedEvent: VxeTableEvents.EditActivated<RowVO> = ({ row }) => {
   disabledFiled.value = !row.allowDeletion;
 };
 
