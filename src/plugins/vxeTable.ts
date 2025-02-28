@@ -1,106 +1,63 @@
-import "vxe-table/lib/style.css";
-// import "xe-utils";
-// import XEUtils from "xe-utils";
-import type { App } from "vue";
-// import { i18n } from "@/plugins/i18n";
-// import zh from "vxe-table/lib/locale/lang/zh-CN";
-// import en from "vxe-table/lib/locale/lang/en-US";
+import {
+  VxeUI,
+
+  // VxeButton,
+  // VxeButtonGroup,
+  // VxeDrawer,
+  // VxeForm,
+  // VxeFormGroup,
+  // VxeFormItem,
+  VxeIcon,
+  VxeLoading,
+  VxeModal,
+  // VxePager,
+  // VxePrint,
+  VxeTooltip,
+  // VxeUpload,
+  VxeInput,
+  VxeNumberInput
+} from "vxe-pc-ui";
 
 import {
-  // 全局对象
-  VXETable,
-  // 表格功能
-  // Filter,
-  Edit,
-  // Menu,
-  // Export,
-  Keyboard,
-  Validator,
-  Custom,
-  // 可选组件
-  Icon,
-  Column,
-  Grid,
-  Pager,
-  Select,
-  // Colgroup,
-  Tooltip,
-  // Toolbar,
-  // Form,
-  // FormItem,
-  // FormGather,
-  // Checkbox,
-  // CheckboxGroup,
-  // Radio,
-  // RadioGroup,
-  // RadioButton,
-  // Switch,
-  // Input,
-  // Optgroup,
-  // Option,
-  // Textarea,
-  // Button,
-  // Modal,
-  // List,
-  // Pulldown,
-  // 表格
-  Table,
-  Switch,
-  Input
+  VxeTable,
+  VxeColumn,
+  VxeColgroup,
+  VxeGrid,
+  VxeToolbar
 } from "vxe-table";
 
-// 全局默认参数
-VXETable.setConfig({
-  // i18n: (key, args) => {
-  //   return unref(i18n.global.locale) === "zh"
-  //     ? XEUtils.toFormatString(XEUtils.get(zh, key), args)
-  //     : XEUtils.toFormatString(XEUtils.get(en, key), args);
-  // },
-  // translate(key) {
-  //   const NAMESPACED = ["el.", "buttons."];
-  //   if (key && NAMESPACED.findIndex(v => key.includes(v)) !== -1) {
-  //     return i18n.global.t.call(i18n.global.locale, key);
-  //   }
-  //   return key;
-  // }
-});
+// 导入主题变量，也可以重写主题变量
+import "vxe-table/styles/cssvar.scss";
+import "vxe-pc-ui/styles/cssvar.scss";
+// 导入默认的语言包
+import zhCN from "vxe-table/es/locale/lang/zh-CN";
+// 导入主题变量，也可以重写主题变量
+import "vxe-table/styles/cssvar.scss";
+import type { App } from "vue";
+
+// 导入默认的语言
+VxeUI.setI18n("zh-CN", zhCN);
+VxeUI.setLanguage("zh-CN");
 
 export function useVxeTable(app: App) {
-  // 表格功能
-  app
-    // .use(Filter)
-    .use(Edit)
-    // .use(Menu)
-    // .use(Export)
-    .use(Keyboard)
-    .use(Validator)
-    .use(Custom)
-    // 可选组件
-    .use(Icon)
-    .use(Column)
-    .use(Grid)
-    .use(Pager)
-    .use(Select)
-    // .use(Colgroup)
-    .use(Tooltip)
-    // .use(Toolbar)
-    // .use(Form)
-    // .use(FormItem)
-    // .use(FormGather)
-    // .use(Checkbox)
-    // .use(CheckboxGroup)
-    // .use(Radio)
-    // .use(RadioGroup)
-    // .use(RadioButton)
-    .use(Switch)
-    .use(Input)
-    // .use(Optgroup)
-    // .use(Option)
-    // .use(Textarea)
-    // .use(Button)
-    // .use(Modal)
-    // .use(List)
-    // .use(Pulldown)
-    // 安装表格
-    .use(Table);
+  // app.use(VxeButton)
+  // app.use(VxeButtonGroup)
+  // app.use(VxeDrawer)
+  // app.use(VxeForm)
+  // app.use(VxeFormGroup)
+  // app.use(VxeFormItem)
+  app.use(VxeIcon);
+  app.use(VxeLoading);
+  app.use(VxeModal);
+  // app.use(VxePager)
+  // app.use(VxePrint)
+  // app.use(VxeUpload);
+  app.use(VxeInput);
+  app.use(VxeNumberInput);
+  app.use(VxeTable);
+  app.use(VxeColumn);
+  app.use(VxeColgroup);
+  app.use(VxeGrid);
+  app.use(VxeToolbar);
+  app.use(VxeTooltip);
 }

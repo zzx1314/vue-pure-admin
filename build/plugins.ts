@@ -14,6 +14,7 @@ import { themePreprocessorPlugin } from "@pureadmin/theme";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import { genScssMultipleScopeVars } from "../src/layout/theme";
 import { vitePluginFakeServer } from "vite-plugin-fake-server";
+import { lazyImport, VxeResolver } from "vite-plugin-lazy-import";
 
 export function getPluginsList(
   VITE_CDN: boolean,
@@ -22,6 +23,16 @@ export function getPluginsList(
   const lifecycle = process.env.npm_lifecycle_event;
   return [
     vue(),
+    lazyImport({
+      resolvers: [
+        VxeResolver({
+          libraryName: "vxe-table"
+        }),
+        VxeResolver({
+          libraryName: "vxe-pc-ui"
+        })
+      ]
+    }),
     // jsx、tsx语法支持
     vueJsx(),
     VueI18nPlugin({

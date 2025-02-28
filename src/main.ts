@@ -9,6 +9,7 @@ import { createApp, type Directive } from "vue";
 import { useVxeTable } from "@/plugins/vxeTable";
 import { useElementPlus } from "@/plugins/elementPlus";
 import { injectResponsiveStorage } from "@/utils/responsive";
+import VXETable from "vxe-table";
 
 import Table from "@pureadmin/table";
 import PureDescriptions from "@pureadmin/descriptions";
@@ -51,6 +52,14 @@ import "tippy.js/dist/tippy.css";
 import "tippy.js/themes/light.css";
 import VueTippy from "vue-tippy";
 app.use(VueTippy);
+
+VXETable.setConfig({
+  version: 0,
+  zIndex: 9999,
+  table: {
+    autoResize: true
+  }
+});
 
 getPlatformConfig(app).then(async config => {
   setupStore(app);
