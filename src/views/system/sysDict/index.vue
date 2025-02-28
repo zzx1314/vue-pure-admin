@@ -253,7 +253,17 @@ const {
           title="数据值"
           show-overflow
           :edit-render="{ name: 'VxeInput' }"
-        />
+        >
+          <template #edit="{ row }">
+            <vxe-number-input
+              v-if="row.label === '心跳时间'"
+              v-model="row.value"
+              :min="10"
+              :max="300"
+            />
+            <vxe-input v-else v-model="row.value" />
+          </template>
+        </vxe-column>
         <vxe-column
           field="description"
           title="配置描述"
