@@ -28,6 +28,7 @@ export function useOBusLogs() {
   const dialogHistoryLogVisible = ref(false);
   const title = ref("");
   const currentDeviceId = ref("");
+  const currentDeviceIp = ref("");
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -249,6 +250,7 @@ export function useOBusLogs() {
       ...queryForm.value
     };
     query.deviceId = currentDeviceId.value;
+    query.deviceIp = currentDeviceIp.value;
     if (query.endTime) {
       query.endTime = query.endTime + " 23:59:59";
     }
@@ -285,6 +287,7 @@ export function useOBusLogs() {
       endTime: ""
     };
     currentDeviceId.value = "";
+    currentDeviceIp.value = "";
     dialogHistoryLogVisible.value = false;
     onSearch();
   }
@@ -305,6 +308,7 @@ export function useOBusLogs() {
   function openDia(param) {
     console.log(param);
     currentDeviceId.value = param.deviceId;
+    currentDeviceIp.value = param.deviceIp;
     dialogHistoryLogVisible.value = true;
     onSearchHistory();
   }
