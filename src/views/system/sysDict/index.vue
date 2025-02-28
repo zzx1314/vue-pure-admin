@@ -33,6 +33,7 @@ interface RowVO {
 
 const tableRef = ref<VxeTableInstance<RowVO>>();
 const disabledFiled = ref(false);
+const disabledValue = ref(false);
 
 const validRules = ref<VxeTablePropTypes.EditRules<RowVO>>({
   type: [{ required: true, content: "类型必须填写" }],
@@ -84,6 +85,7 @@ const removeRow = async (row: RowVO) => {
 
 const editActivatedEvent: VxeTableEvents.EditActivated<RowVO> = ({ row }) => {
   disabledFiled.value = !row.allowDeletion;
+  disabledValue.value = row.label === "日志" || row.label === "自定义指令";
 };
 
 const {
@@ -261,7 +263,7 @@ const {
               :min="10"
               :max="300"
             />
-            <vxe-input v-else v-model="row.value" />
+            <vxe-input v-else v-model="row.value" :disabled="disabledValue" />
           </template>
         </vxe-column>
         <vxe-column
