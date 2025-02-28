@@ -24,10 +24,10 @@ function getMessage() {
   notices.value[0].list = [];
   notices.value[1].list = [];
   pSysMessageList().then(res => {
-    console.log(res);
+    console.log("消息列表:", res.data);
     if (res.code == SUCCESS && res.data) {
       for (let i = 0; i < res.data.length; i++) {
-        if (res.data[i].status === "未读") {
+        if (res.data[i].extra === "待处理") {
           notices.value[0].list.push(res.data[i]);
         } else {
           notices.value[1].list.push(res.data[i]);
