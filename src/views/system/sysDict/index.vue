@@ -34,6 +34,8 @@ interface RowVO {
 const tableRef = ref<VxeTableInstance<RowVO>>();
 const disabledFiled = ref(false);
 const disabledValue = ref(false);
+const disabledRemark = ref(false);
+const disabledDescription = ref(false);
 
 const validRules = ref<VxeTablePropTypes.EditRules<RowVO>>({
   type: [{ required: true, content: "类型必须填写" }],
@@ -86,6 +88,8 @@ const removeRow = async (row: RowVO) => {
 const editActivatedEvent: VxeTableEvents.EditActivated<RowVO> = ({ row }) => {
   disabledFiled.value = !row.allowDeletion;
   disabledValue.value = row.label === "日志" || row.label === "自定义指令";
+  disabledRemark.value = row.label === "心跳时间";
+  disabledDescription.value = row.label === "心跳时间";
 };
 
 const {
@@ -266,16 +270,19 @@ const {
             <vxe-input v-else v-model="row.value" :disabled="disabledValue" />
           </template>
         </vxe-column>
-        <vxe-column
-          field="description"
-          title="配置描述"
-          :edit-render="{ name: 'VxeInput' }"
-        />
-        <vxe-column
-          field="remarks"
-          title="备注"
-          :edit-render="{ name: 'VxeInput' }"
-        />
+        <vxe-column field="description" title="配置描述" :edit-render="{}">
+          <template #edit="{ row }">
+            <vxe-input
+              v-model="row.description"
+              :disabled="disabledDescription"
+            />
+          </template>
+        </vxe-column>
+        <vxe-column field="remarks" title="备注" :edit-render="{}">
+          <template #edit="{ row }">
+            <vxe-input v-model="row.remarks" :disabled="disabledRemark" />
+          </template>
+        </vxe-column>
         <vxe-column title="操作" width="200">
           <template #default="{ row }">
             <template v-if="hasEditStatus(row)">
