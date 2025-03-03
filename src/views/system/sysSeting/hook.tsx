@@ -66,7 +66,9 @@ export function useSysSeting() {
     console.log("保存", ref);
     updateSafePolicy(addForm.value).then(res => {
       if (res.code === SUCCESS) {
-        ElMessage.success("保存成功");
+        ElMessage.success("保存成功，新的配置将会在下次生效！");
+      } else {
+        ElMessage.error(res.msg);
       }
     });
   };
