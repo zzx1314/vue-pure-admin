@@ -48,6 +48,10 @@ export function useCollectorBusDevForm() {
       valueType: "select",
       options: [
         {
+          label: "已下发",
+          value: "已下发"
+        },
+        {
           label: "执行成功",
           value: "执行成功"
         },
