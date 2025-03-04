@@ -63,39 +63,39 @@ function closeDialog() {
 }
 
 const cancel = formEl => {
+  clearForm();
+  resetForm(formEl);
+  closeDialog();
+};
+
+function clearForm() {
   addForm.value = {
     id: null,
     password: "",
     newpassword: "",
     newpassword1: ""
   };
-  resetForm(formEl);
-  closeDialog();
-};
+}
 
 const addFormInfo = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
       console.log("修改密码");
-      addForm.value.password = aesUtils.encode(addForm.value.password, "");
-      addForm.value.newpassword = aesUtils.encode(
-        addForm.value.newpassword,
-        ""
-      );
-      addForm.value.newpassword1 = aesUtils.encode(
-        addForm.value.newpassword1,
-        ""
-      );
-      addForm.value.id =
-        storageLocal().getItem<DataInfo<number>>(userKey).user_id;
+      let param = {
+        ...addForm.value
+      };
+      param.password = aesUtils.encode(addForm.value.password, "");
+      param.newpassword = aesUtils.encode(addForm.value.newpassword, "");
+      param.newpassword1 = aesUtils.encode(addForm.value.newpassword1, "");
+      param.id = storageLocal().getItem<DataInfo<number>>(userKey).user_id;
       console.log(addForm.value);
-      updatePassword(addForm.value).then(res => {
+      updatePassword(param).then(res => {
         if (res.code === SUCCESS) {
           ElMessage.success("修改成功");
           closeDialog();
         } else {
-          ElMessage.error("修改失败");
+          ElMessage.error(res.msg);
         }
       });
     } else {
@@ -153,7 +153,7 @@ const validatePass4 = (rule: any, value: any, callback: any) => {
   }
   if (passComplexityStr === "2") {
     // 密码是数字，字母组合
-    if (value.match(/^[0-9a-zA-Z]+$/)) {
+    if (value.match(/^(?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z]+$/)) {
       callback();
     } else {
       callback(new Error("密码必须是数字，字母组合"));
@@ -161,7 +161,7 @@ const validatePass4 = (rule: any, value: any, callback: any) => {
   }
   if (passComplexityStr === "3") {
     // 密码是数字，字母，特殊字符组合
-    if (value.match(/^[0-9a-zA-Z\W]+$/)) {
+    if (value.match(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\W_]).+$/)) {
       callback();
     } else {
       callback(new Error("密码必须是数字，字母，特殊字符组合"));
@@ -191,7 +191,7 @@ const rules = {
     <el-dialog
       :model-value="dialogFormVisible"
       :title="title"
-      width="40%"
+      width="500px"
       :append-to-body="true"
       @close="cancel(addFormRef)"
     >

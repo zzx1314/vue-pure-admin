@@ -18,6 +18,7 @@ import LogoutCircleRLine from "@iconify-icons/ri/logout-circle-r-line";
 import Setting from "@iconify-icons/ri/settings-3-line";
 import Check from "@iconify-icons/ep/check";
 import { checkToken } from "@/api/user";
+import UserInfoForm from "@/layout/components/lay-sidebar/UserInfoForm.vue";
 
 const menuRef = ref();
 const defaultActive = ref(null);
@@ -46,6 +47,19 @@ function getDefaultActive(routePath) {
     ? route.meta.activePath
     : findRouteByPath(parentRoutes, wholeMenus)?.children[0]?.path;
 }
+
+const showDia = ref(false);
+const title = ref("");
+
+const showUserSet = () => {
+  showDia.value = true;
+  title.value = t("buttons.pureAccountSettings");
+};
+
+const closeDia = () => {
+  showDia.value = false;
+  title.value = "";
+};
 
 onMounted(() => {
   getDefaultActive(route.path);
@@ -113,7 +127,7 @@ watch(
           <p v-if="username" class="dark:text-white">{{ username }}</p>
         </span>
         <template #dropdown>
-          <el-dropdown-item @click="toAccountSettings">
+          <el-dropdown-item @click="showUserSet">
             <IconifyIconOffline
               :icon="AccountSettingsIcon"
               style="margin: 5px"
@@ -139,6 +153,12 @@ watch(
         <IconifyIconOffline :icon="Setting" />
       </span>
     </div>
+
+    <UserInfoForm
+      :dialog-form-visible="showDia"
+      :title="title"
+      @update:dialogFormVisible="closeDia"
+    />
   </div>
 </template>
 
