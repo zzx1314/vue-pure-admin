@@ -45,7 +45,21 @@ export function useCollectorBusDevForm() {
     {
       label: "状态",
       prop: "status",
-      valueType: "copy",
+      valueType: "select",
+      options: [
+        {
+          label: "执行成功",
+          value: "执行成功"
+        },
+        {
+          label: "执行失败",
+          value: "执行失败"
+        },
+        {
+          label: "响应超时",
+          value: "响应超时"
+        }
+      ],
       colProps: {
         span: 4
       },
