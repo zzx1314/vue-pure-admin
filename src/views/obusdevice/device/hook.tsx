@@ -534,7 +534,7 @@ export function useOBusDevice() {
             icon: markRaw(
               useRenderFlicker({
                 background:
-                  res.data[i].status === "上线" ? "#67C23A" : "#F56C6C"
+                  res.data[i].status === "在线状态" ? "#67C23A" : "#E6A23C"
               })
             )
           });
