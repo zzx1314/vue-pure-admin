@@ -50,6 +50,7 @@ const {
   dialogSysStatusVisible,
   dialogDeviceOnOrLineVisible,
   dialogCommandVisible,
+  dialogSoftInfoVisible,
   hardwareInfo,
   memNumber,
   memColor,
@@ -63,6 +64,7 @@ const {
   commandOptions,
   logPathOptions,
   rulesCommand,
+  softwareInfoJArray,
   onSearch,
   handleSizeChange,
   handleCurrentChange,
@@ -76,6 +78,7 @@ const {
   handleDialogInfoClose,
   handleDialogHardWareInfo,
   handleDialogSysStem,
+  handleDialogSlot,
   handleExpandChange,
   handleCommandSubmit,
   handlerChangeType,
@@ -267,6 +270,24 @@ const {
               />
             </div>
           </template>
+          <template #hardwareInfoSlot="{ row }">
+            <el-button
+              link
+              type="primary"
+              @click="handleDialogHardWareInfo(row)"
+              >查看详情</el-button
+            >
+          </template>
+          <template #systemInfoSlot="{ row }">
+            <el-button link type="success" @click="handleDialogSysStem(row)"
+              >查看详情</el-button
+            >
+          </template>
+          <template #softInfoSlot="{ row }">
+            <el-button link type="warning" @click="handleDialogSlot(row)"
+              >查看详情</el-button
+            >
+          </template>
         </pure-table>
       </template>
     </PureTableBar>
@@ -315,7 +336,6 @@ const {
     <el-dialog
       v-model="dialogHardWareVisible"
       title="硬件信息"
-      class="shellDialog"
       width="80%"
       @close="handleDialogInfoClose"
     >
@@ -448,6 +468,19 @@ const {
         </el-col>
         <el-col :span="6" />
       </el-row>
+    </el-dialog>
+
+    <el-dialog
+      v-model="dialogSoftInfoVisible"
+      title="软件信息"
+      width="500px"
+      @close="handleDialogInfoClose"
+    >
+      <div class="flex flex-col items-center">
+        <div v-for="sia in softwareInfoJArray" :key="sia.name" class="mb-1">
+          <div>{{ sia.name }}: {{ sia.version }}</div>
+        </div>
+      </div>
     </el-dialog>
 
     <el-dialog

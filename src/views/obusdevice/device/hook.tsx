@@ -50,6 +50,7 @@ export function useOBusDevice() {
   const dialogFormVisible = ref(false);
   const dialogShellVisible = ref(false);
   const dialogHardWareVisible = ref(false);
+  const dialogSoftInfoVisible = ref(false);
   const dialogSysStatusVisible = ref(false);
   const dialogDeviceOnOrLineVisible = ref(false);
   const dialogCommandVisible = ref(false);
@@ -73,6 +74,7 @@ export function useOBusDevice() {
 
   const activities = ref([]);
   const regularExpression = ref([]);
+  const softwareInfoJArray = ref([]);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -152,6 +154,24 @@ export function useOBusDevice() {
       label: "系统架构",
       prop: "arch",
       minWidth: 100
+    },
+    {
+      label: "硬件信息",
+      prop: "hardwareInfo",
+      minWidth: 100,
+      slot: "hardwareInfoSlot"
+    },
+    {
+      label: "软件信息",
+      prop: "softInfo",
+      minWidth: 100,
+      slot: "softInfoSlot"
+    },
+    {
+      label: "系统状态",
+      prop: "systemInfo",
+      minWidth: 100,
+      slot: "systemInfoSlot"
     },
     {
       label: "创建时间",
@@ -333,6 +353,8 @@ export function useOBusDevice() {
     dialogSysStatusVisible.value = false;
     dialogDeviceOnOrLineVisible.value = false;
     dialogCommandVisible.value = false;
+    dialogSoftInfoVisible.value = false;
+    softwareInfoJArray.value = [];
     memNumber.value = 0;
     memColor.value = "#67C23A";
     diskNumber.value = 0;
@@ -385,6 +407,11 @@ export function useOBusDevice() {
         }
       }
     });
+  }
+  function handleDialogSlot(row) {
+    console.log("handleDialogSlot", row);
+    dialogSoftInfoVisible.value = true;
+    softwareInfoJArray.value.push(...row.softwareInfoJArray);
   }
 
   const handleShellSubmit = (values: FieldValues) => {
@@ -652,6 +679,7 @@ export function useOBusDevice() {
     dialogSysStatusVisible,
     dialogDeviceOnOrLineVisible,
     dialogCommandVisible,
+    dialogSoftInfoVisible,
     hardwareInfo,
     memNumber,
     memColor,
@@ -666,6 +694,7 @@ export function useOBusDevice() {
     logPathOptions,
     CommonCommandOptions,
     rulesCommand,
+    softwareInfoJArray,
     onSearch,
     resetForm,
     handleDelete,
@@ -677,6 +706,7 @@ export function useOBusDevice() {
     handleSubmitError,
     handleDialogOpened,
     handleDialogSysStem,
+    handleDialogSlot,
     handleShallLogin,
     handleDialogClosed,
     handleDialogHardWareInfo,
