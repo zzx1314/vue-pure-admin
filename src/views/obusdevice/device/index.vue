@@ -261,11 +261,11 @@ const {
             <div class="p-2.5 flex justify-center items-center">
               <div v-if="row.status === '在线'" class="breathing-light" />
               <div
-                v-if="row.status === '离线'"
+                v-if="row.status === '心跳丢失'"
                 class="offline-breathing-shotCircuit"
               />
               <div
-                v-if="row.status === '短路'"
+                v-if="row.status === '离线'"
                 class="offline-breathing-light"
               />
             </div>
