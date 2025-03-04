@@ -1,7 +1,7 @@
 import { message } from "@/utils/message";
 import { handleTree } from "@/utils/tree";
 import { reactive, ref, onMounted, nextTick } from "vue";
-import { getDeptList, saveSysOrg, updateById, removeById } from "@/api/system";
+import { getDeptList, saveSysOrg, updateById, removeByIds } from "@/api/system";
 import type { FormInstance, FormRules } from "element-plus";
 import { SUCCESS } from "@/api/base";
 
@@ -50,12 +50,16 @@ export function useDept() {
     {
       type: "selection",
       width: 55,
-      align: "left"
+      align: "left",
+      fixed: "left",
+      label: "勾选列",
+      reserveSelection: true
     },
     {
       label: "序号",
       type: "index",
-      minWidth: 70
+      minWidth: 70,
+      fixed: "left"
     },
     {
       label: "部门名称",
@@ -135,13 +139,32 @@ export function useDept() {
   // 确认删除
   const confirmEvent = row => {
     console.log("confirm!", row);
-    removeById(row.id).then(res => {
+    let childList: any = [];
+    findOrgChildren(row.children, childList);
+    childList.push(row.id);
+    console.log(childList);
+    removeByIds(childList).then(res => {
       if (res.code === SUCCESS) {
         message("删除成功！", { type: "success" });
         onSearch();
+      } else {
+        message(res.msg, { type: "error" });
       }
     });
   };
+
+  function findOrgChildren(treeData: any, result: any) {
+    if (!treeData) return;
+    for (let i = 0; i < treeData.length; i++) {
+      if (treeData[i].children && treeData[i].children.length > 0) {
+        findOrgChildren(treeData[i].children, result);
+        result.push(treeData[i].id);
+      } else {
+        result.push(treeData[i].id);
+      }
+    }
+  }
+
   // 取消
   const cancelEvent = () => {
     console.log("cancel!");

@@ -132,7 +132,7 @@ const {
           :icon="useRenderIcon(AddFill)"
           @click="openDia('添加组织')"
         >
-          新增部门
+          新增
         </el-button>
       </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
@@ -194,18 +194,21 @@ const {
     <el-dialog
       v-model="dialogFormVisible"
       :title="title"
-      width="800px"
+      width="500px"
       @close="cancel"
     >
       <el-form
         ref="addFormRef"
         :model="addForm.value"
-        :inline="true"
         :rules="rules"
         label-width="150px"
       >
         <el-form-item label="名称" prop="name">
-          <el-input v-model="addForm.value.name" placeholder="请输入部门名称" />
+          <el-input
+            v-model="addForm.value.name"
+            style="width: 200px"
+            placeholder="请输入部门名称"
+          />
         </el-form-item>
 
         <el-form-item label="类型" prop="type">
@@ -259,7 +262,7 @@ const {
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="cancel(addFormRef)">取消</el-button>
+          <el-button @click="cancel()">取消</el-button>
           <el-button type="primary" @click="submitForm(addFormRef)"
             >确认</el-button
           >

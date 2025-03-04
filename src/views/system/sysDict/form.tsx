@@ -13,8 +13,8 @@ export function useDictForm() {
           value: "用户类"
         },
         {
-          label: "业务类",
-          value: "业务类"
+          label: "系统类",
+          value: "系统类"
         }
       ],
       formItemProps: {

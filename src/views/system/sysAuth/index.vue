@@ -119,6 +119,7 @@ const handleNodeClick = (data: SysRoleType) => {
                       :key="one.id"
                       :label="one.id"
                       :value="one.id"
+                      :disabled="one.disabled ? one.disabled : false"
                       @change="setCheck(item.id)"
                     >
                       {{ one.name }}
