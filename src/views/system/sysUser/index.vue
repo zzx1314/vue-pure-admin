@@ -69,6 +69,7 @@ const getSysSeting = () => {
   getSafePolicy().then(res => {
     if (res.code === SUCCESS) {
       addFormRul.value = res.data;
+      console.log("获取安全策略", addFormRul.value);
     }
   });
 };
@@ -115,7 +116,7 @@ const validatePass4 = (rule: any, value: any, callback: any) => {
   }
   if (passComplexityStr === "2") {
     // 密码是数字，字母组合
-    if (value.match(/^[0-9a-zA-Z]+$/)) {
+    if (value.match(/^(?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z]+$/)) {
       callback();
     } else {
       callback(new Error("密码必须是数字，字母组合"));
@@ -123,7 +124,7 @@ const validatePass4 = (rule: any, value: any, callback: any) => {
   }
   if (passComplexityStr === "3") {
     // 密码是数字，字母，特殊字符组合
-    if (value.match(/^[0-9a-zA-Z\W]+$/)) {
+    if (value.match(/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\W_]).+$/)) {
       callback();
     } else {
       callback(new Error("密码必须是数字，字母，特殊字符组合"));
@@ -261,7 +262,7 @@ async function getAllRole() {
             type="primary"
             :icon="useRenderIcon(Search)"
             :loading="loading"
-            @click="onSearch"
+            @click="onSearch(addForm.orgId)"
           >
             搜索
           </el-button>
@@ -286,7 +287,7 @@ async function getAllRole() {
             v-if="hasAuth('user_add')"
             type="primary"
             :icon="useRenderIcon(AddFill)"
-            @click="openDia('添加用户', addFormRef)"
+            @click="openDia('新增用户', addFormRef)"
           >
             新增
           </el-button>
@@ -375,21 +376,28 @@ async function getAllRole() {
       <el-dialog
         v-model="dialogFormVisible"
         :title="title"
-        width="800px"
+        width="500px"
         @close="cancel"
       >
         <el-form
           ref="addFormRef"
           :model="addForm"
-          :inline="true"
           :rules="rules"
           label-width="150px"
         >
           <el-form-item label="账号" prop="username">
-            <el-input v-model="addForm.username" placeholder="请输入账号" />
+            <el-input
+              v-model="addForm.username"
+              style="width: 200px"
+              placeholder="请输入账号"
+            />
           </el-form-item>
           <el-form-item label="姓名" prop="realName">
-            <el-input v-model="addForm.realName" placeholder="请输入姓名" />
+            <el-input
+              v-model="addForm.realName"
+              style="width: 200px"
+              placeholder="请输入姓名"
+            />
           </el-form-item>
           <!--          <el-form-item label="性别" prop="sex">
             <el-select
@@ -437,18 +445,28 @@ async function getAllRole() {
           </el-form-item>
 
           <el-form-item
-            v-if="title === '添加用户'"
+            v-if="title === '新增用户'"
             label="密码"
             prop="newpassword"
           >
-            <el-input v-model="addForm.newpassword" type="password" />
+            <el-input
+              v-model="addForm.newpassword"
+              style="width: 200px"
+              placeholder="请输入密码"
+              type="password"
+            />
           </el-form-item>
           <el-form-item
-            v-if="title === '添加用户'"
+            v-if="title === '新增用户'"
             label="确认密码"
             prop="newpassword1"
           >
-            <el-input v-model="addForm.newpassword1" type="password" />
+            <el-input
+              v-model="addForm.newpassword1"
+              style="width: 200px"
+              type="password"
+              placeholder="请输入密码"
+            />
           </el-form-item>
         </el-form>
 
