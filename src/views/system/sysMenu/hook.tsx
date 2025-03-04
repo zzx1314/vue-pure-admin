@@ -120,7 +120,7 @@ export function useMenu() {
       )
     },
     {
-      label: "角色编码",
+      label: "编码",
       prop: "roleCode",
       width: 180,
       align: "left"

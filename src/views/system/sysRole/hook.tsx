@@ -33,8 +33,8 @@ export function useRole() {
     }
   });
   const rules = reactive<FormRules>({
-    name: [{ required: true, message: "角色名称必填", trigger: "blur" }],
-    code: [{ required: true, message: "角色编码必填", trigger: "blur" }]
+    name: [{ required: true, message: "名称必填", trigger: "blur" }],
+    code: [{ required: true, message: "编码必填", trigger: "blur" }]
   });
   const columns: TableColumnList = [
     {
@@ -51,12 +51,12 @@ export function useRole() {
       fixed: "left"
     },
     {
-      label: "角色编号",
+      label: "编码",
       prop: "code",
       minWidth: 100
     },
     {
-      label: "角色名称",
+      label: "名称",
       prop: "name",
       minWidth: 120
     },

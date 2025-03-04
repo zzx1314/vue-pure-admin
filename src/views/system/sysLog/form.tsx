@@ -62,7 +62,7 @@ export function useLogForm() {
       }
     },
     {
-      label: "操作人",
+      label: "账号",
       prop: "operator",
       valueType: "copy",
       colProps: {

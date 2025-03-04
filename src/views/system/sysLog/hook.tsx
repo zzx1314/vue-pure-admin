@@ -72,7 +72,7 @@ export function usePSysLogrecord() {
       minWidth: 100
     },
     {
-      label: "操作人",
+      label: "账号",
       prop: "operator",
       minWidth: 100
     },

@@ -49,18 +49,18 @@ const {
       :model="form"
       class="bg-bg_color w-[99/100] pl-8 pt-4"
     >
-      <el-form-item label="角色名称：" prop="name">
+      <el-form-item label="名称：" prop="name">
         <el-input
           v-model="form.name"
-          placeholder="请输入角色名称"
+          placeholder="请输入名称"
           clearable
           class="!w-[180px]"
         />
       </el-form-item>
-      <el-form-item label="角色编码：" prop="code">
+      <el-form-item label="编码：" prop="code">
         <el-input
           v-model="form.code"
-          placeholder="请输入角色编码"
+          placeholder="请输入编码"
           clearable
           class="!w-[180px]"
         />
@@ -163,7 +163,7 @@ const {
           <el-input
             v-model="addForm.value.name"
             style="width: 200px"
-            placeholder="请输入角色名称"
+            placeholder="请输入名称"
           />
         </el-form-item>
 
@@ -171,7 +171,7 @@ const {
           <el-input
             v-model="addForm.value.code"
             style="width: 200px"
-            placeholder="请输入角色编码"
+            placeholder="请输入编码"
           />
         </el-form-item>
 
