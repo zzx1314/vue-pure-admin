@@ -61,7 +61,8 @@ export function useDept() {
       label: "部门名称",
       prop: "name",
       width: 180,
-      align: "left"
+      align: "left",
+      fixed: "left"
     },
     {
       label: "排序",
