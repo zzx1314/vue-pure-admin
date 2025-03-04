@@ -266,7 +266,8 @@ const {
           trigger: 'manual',
           mode: 'row',
           showStatus: true,
-          autoClear: false
+          autoClear: false,
+          showIcon: false
         }"
         @edit-activated="editActivatedEvent"
       >
