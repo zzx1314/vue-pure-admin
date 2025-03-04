@@ -50,7 +50,7 @@ export function useOBusCommand() {
       width: 70
     },
     {
-      label: "下发人",
+      label: "用户",
       prop: "username",
       minWidth: 100
     },

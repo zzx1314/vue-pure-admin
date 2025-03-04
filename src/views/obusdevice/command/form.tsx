@@ -4,7 +4,7 @@ import type { PlusColumn } from "plus-pro-components";
 export function useCollectorBusDevForm() {
   const columnsQueryForm: PlusColumn[] = [
     {
-      label: "下发人",
+      label: "用户",
       prop: "username",
       valueType: "copy",
       colProps: {
