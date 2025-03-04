@@ -4,7 +4,8 @@ import {
   saveUser,
   removeUserById,
   updateUser,
-  userResetPwd
+  userResetPwd,
+  userEnable
 } from "@/api/system";
 import { ElMessageBox } from "element-plus";
 import type { PaginationProps, AdaptiveConfig } from "@pureadmin/table";
@@ -249,7 +250,7 @@ export function useUser() {
           enable: row.enable
         };
 
-        updateUser(updateParam).then(res => {
+        userEnable(updateParam).then(res => {
           if (res.code === SUCCESS) {
             switchLoadMap.value[index] = Object.assign(
               {},

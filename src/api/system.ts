@@ -26,7 +26,8 @@ const orgurls = {
   allList: `/api/upms/sysOrg/allList`,
   saveSysOrg: `/api/upms/sysOrg`,
   updateById: `/api/upms/sysOrg`,
-  removeById: `/api/upms/sysOrg/`
+  removeById: `/api/upms/sysOrg/`,
+  removeByIds: `/api/upms/sysOrg/removeByIds`
 };
 
 const userUrls = {
@@ -35,7 +36,8 @@ const userUrls = {
   deleteUserById: "/api/upms/sysUser/",
   update: "/api/upms/sysUser",
   resetPwd: "/api/upms/sysUser/resetPwd",
-  userInfo: `/api/upms/sysUser/info`
+  userInfo: `/api/upms/sysUser/info`,
+  enable: `/api/upms/sysUser/enable`
 };
 
 const roleUrls = {
@@ -72,7 +74,7 @@ const fileMinoUp = {
   checkFileByMd5: `/api/upms/files/multipart/check/`,
   initMultiPartUpload: "/api/upms/files/multipart/init",
   mergeMultipartUpload: "/api/upms/files/multipart/merge/",
-  downloadMultipartFile: "/api/upms/files/download/",
+  downloadMultipartFile: "/api/upms/files/downloadByFileId/",
   getFileList: "/api/upms/files/list"
 };
 
@@ -222,6 +224,13 @@ export const removeById = (param: internal) => {
 };
 
 /**
+ * 删除部门
+ */
+export const removeByIds = (param?: object) => {
+  return http.axiosPostRequest<Result>(orgurls.removeByIds, param);
+};
+
+/**
  * 分页查询用户
  */
 export const userPage = (query?: object) => {
@@ -233,6 +242,13 @@ export const userPage = (query?: object) => {
  */
 export const userResetPwd = (param?: object) => {
   return http.axiosPut<Result>(userUrls.resetPwd, param);
+};
+/**
+ * 禁用和启用
+ * @param param
+ */
+export const userEnable = (param?: object) => {
+  return http.axiosPut<Result>(userUrls.enable, param);
 };
 
 /**
