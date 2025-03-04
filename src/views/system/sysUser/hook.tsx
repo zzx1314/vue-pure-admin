@@ -223,7 +223,7 @@ export function useUser() {
     }
     ElMessageBox.confirm(
       `确认要<strong>${
-        row.lockFlag === 0 ? "停用" : "启用"
+        row.enable === 0 ? "停用" : "启用"
       }</strong><strong style='color:var(--el-color-primary)'>${
         row.username
       }</strong>用户吗?`,
@@ -246,7 +246,7 @@ export function useUser() {
         );
         const updateParam = {
           id: row.id,
-          lockFlag: row.lockFlag
+          enable: row.enable
         };
 
         updateUser(updateParam).then(res => {
@@ -265,7 +265,7 @@ export function useUser() {
         });
       })
       .catch(() => {
-        row.lockFlag === 0 ? (row.lockFlag = 1) : (row.lockFlag = 0);
+        row.enable === 0 ? (row.enable = 1) : (row.enable = 0);
       });
   }
 
