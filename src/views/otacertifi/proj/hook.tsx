@@ -13,7 +13,7 @@ export function useProj() {
     projName: "",
     userName: "",
     featuresName: "",
-    startTime: "",
+    beginTime: "",
     endTime: ""
   });
   const dataList = ref([]);
@@ -256,7 +256,7 @@ export function useProj() {
     queryForm.projName = "";
     queryForm.userName = "";
     queryForm.featuresName = "";
-    queryForm.startTime = "";
+    queryForm.beginTime = "";
     queryForm.endTime = "";
     dialogFormVisible.value = false;
     customerList.value = [];
