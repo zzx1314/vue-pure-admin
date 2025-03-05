@@ -84,12 +84,12 @@ export function useTask() {
       slot: "status"
     },
     {
-      label: "类型",
+      label: "设备类型",
       prop: "type",
       minWidth: 100
     },
     {
-      label: "组别",
+      label: "设备组别",
       prop: "devGroup",
       minWidth: 100
     },
@@ -141,7 +141,7 @@ export function useTask() {
       prop: "finishTime"
     },
     {
-      label: "状态",
+      label: "任务状态",
       minWidth: 100,
       prop: "status",
       cellRenderer: ({ row }) => (

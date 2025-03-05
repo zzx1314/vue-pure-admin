@@ -40,7 +40,7 @@ export function useDevice() {
     devIp: [{ required: true, message: "设备ip必填", trigger: "blur" }],
     type: [{ required: true, message: "设备类型必填", trigger: "blur" }],
     versionInfo: [{ required: true, message: "版本信息必填", trigger: "blur" }],
-    devGroup: [{ required: true, message: "组别必填", trigger: "blur" }]
+    devGroup: [{ required: true, message: "设备组别必填", trigger: "blur" }]
   });
 
   const moreCondition = ref(false);
@@ -104,7 +104,7 @@ export function useDevice() {
       )
     },
     {
-      label: "类型",
+      label: "设备类型",
       prop: "type",
       minWidth: 120
     },
@@ -119,7 +119,7 @@ export function useDevice() {
       prop: "heartbeatTime"
     },
     {
-      label: "组别",
+      label: "设备组别",
       minWidth: 150,
       prop: "devGroup"
     },
