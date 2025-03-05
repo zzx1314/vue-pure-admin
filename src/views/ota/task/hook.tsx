@@ -50,8 +50,8 @@ export function useTask() {
     }
   });
   const rules = reactive<FormRules>({
-    name: [{ required: true, message: "角色名称必填", trigger: "blur" }],
-    code: [{ required: true, message: "角色编码必填", trigger: "blur" }]
+    name: [{ required: true, message: "名称必填", trigger: "blur" }],
+    code: [{ required: true, message: "编码必填", trigger: "blur" }]
   });
   const devClumns: TableColumnList = [
     {
