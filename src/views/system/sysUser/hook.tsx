@@ -41,7 +41,7 @@ export function useUser() {
     password: "",
     newpassword: "",
     newpassword1: "",
-    lockFlag: null,
+    enable: null,
     sex: "",
     role: "",
     orgId: null,
@@ -184,7 +184,7 @@ export function useUser() {
     addForm.value.password = "";
     addForm.value.newpassword = "";
     addForm.value.newpassword1 = "";
-    addForm.value.lockFlag = null;
+    addForm.value.enable = null;
     addForm.value.sex = "";
     addForm.value.role = "";
     addForm.value.orgName = orgNameVal.value;

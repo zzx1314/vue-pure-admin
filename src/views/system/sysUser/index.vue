@@ -412,12 +412,12 @@ async function getAllRole() {
 
           <el-form-item label="状态" prop="lockFlag">
             <el-select
-              v-model="addForm.lockFlag"
+              v-model="addForm.enable"
               style="width: 200px"
               placeholder="请选择状态"
             >
               <el-option label="启用" :value="1" />
-              <el-option label="禁用" :value="0" />
+              <el-option label="禁用" :value="2" />
             </el-select>
           </el-form-item>
           <el-form-item label="角色" prop="role">
