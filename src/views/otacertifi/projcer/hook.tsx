@@ -444,6 +444,7 @@ export function useProjCer() {
     cancel,
     restartForm,
     submitForm,
-    openDia
+    openDia,
+    onSearchOne
   };
 }

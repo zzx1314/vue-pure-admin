@@ -72,7 +72,7 @@ export function useLicenseBusDevice() {
     {
       label: "状态",
       prop: "cerStatus",
-      minWidth: 100,
+      minWidth: 120,
       cellRenderer: ({ row }) => (
         <el-tag type={row.cerStatus === "已激活" ? "success" : "danger"}>
           {row.cerStatus}

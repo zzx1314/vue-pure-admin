@@ -15,7 +15,6 @@ import Download from "@iconify-icons/ep/download";
 import DeleteBin from "@iconify-icons/ri/delete-bin-2-line";
 import { hasAuth } from "@/router/utils";
 import More from "@iconify-icons/ep/more-filled";
-import Password from "@iconify-icons/ri/lock-password-line";
 import MenuFold from "@iconify-icons/ri/menu-fold-fill";
 
 defineOptions({
@@ -52,6 +51,7 @@ const {
   submitForm,
   openDia,
   onSearch,
+  onSearchOne,
   handleUpdate,
   handleUpdateProj,
   handleDelete,
@@ -72,6 +72,11 @@ const handleNodeClick = (data: ClientCa) => {
   const currentId = data.id;
   treeRef.value.setCheckedKeys([currentId]);
   getCerInfo(data.id);
+};
+
+const getAllCerInfo = () => {
+  treeRef.value.setCheckedKeys([]);
+  onSearchOne();
 };
 
 const defaultProps = {
@@ -102,7 +107,20 @@ const defaultProps = {
           :style="{ paddingTop: '20px', width: '240px' }"
         >
           <p class="flex justify-center font-bold text-base truncate pb-2">
-            项目列表
+            项目列表 &nbsp;
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="全部"
+              placement="top-start"
+            >
+              <el-button
+                link
+                type="primary"
+                :icon="useRenderIcon(More)"
+                @click="getAllCerInfo"
+              />
+            </el-tooltip>
           </p>
           <el-tree
             ref="treeRef"
