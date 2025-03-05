@@ -80,7 +80,7 @@ export function useLogForm() {
       prop: "action",
       valueType: "copy",
       colProps: {
-        span: 4
+        span: 5
       },
       formItemProps: {
         labelWidth: "80px",
@@ -105,7 +105,7 @@ export function useLogForm() {
         valueFormat: "YYYY-MM-DD HH:mm:ss"
       },
       colProps: {
-        span: 4
+        span: 5
       }
     },
     {
@@ -123,7 +123,7 @@ export function useLogForm() {
         valueFormat: "YYYY-MM-DD"
       },
       colProps: {
-        span: 4
+        span: 5
       }
     }
   ];
