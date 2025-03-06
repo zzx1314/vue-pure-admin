@@ -103,7 +103,7 @@ export function useProj() {
       fixed: "left"
     },
     {
-      label: "客户名称",
+      label: "客户账号",
       prop: "customerName",
       minWidth: 100
     },

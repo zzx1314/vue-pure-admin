@@ -54,10 +54,10 @@ defineOptions({
       :model="queryForm"
       class="bg-bg_color w-[99/100] pl-8 pt-4"
     >
-      <el-form-item label="客户名称" prop="name">
+      <el-form-item label="客户账号" prop="name">
         <el-input
           v-model="queryForm.userName"
-          placeholder="请输入客户名称"
+          placeholder="请输入客户账号"
           clearable
           class="!w-[150px]"
         />
@@ -82,7 +82,7 @@ defineOptions({
         <div v-show="moreCondition">
           <el-form-item label="开始时间：" prop="beginTime">
             <el-date-picker
-              v-model="queryForm.startTime"
+              v-model="queryForm.beginTime"
               type="date"
               placeholder="请输入开始时间"
               class="!w-[180px]"
@@ -130,7 +130,7 @@ defineOptions({
           :icon="useRenderIcon(AddFill)"
           @click="openDia('新增项目', addFormRef)"
         >
-          添加
+          新增
         </el-button>
       </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
@@ -216,7 +216,7 @@ defineOptions({
             placeholder="请输入项目编码"
           />
         </el-form-item>
-        <el-form-item label="客户名称" prop="customerId">
+        <el-form-item label="客户账号" prop="customerId">
           <el-select
             v-model="addForm.value.customerId"
             clearable

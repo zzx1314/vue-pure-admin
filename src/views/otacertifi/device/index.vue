@@ -89,6 +89,7 @@ const {
           <el-option label="用户名变化" value="用户名变化" />
           <el-option label="license时间发生变化" value="license时间发生变化" />
           <el-option label="授权证书过期" value="授权证书过期" />
+          <el-option label="通信证书过期" value="通信证书过期" />
           <el-option label="获取磁盘信息失败" value="获取磁盘信息失败" />
           <el-option label="解码license失败" value="解码license失败" />
           <el-option label="校验license失败" value="校验license失败" />
