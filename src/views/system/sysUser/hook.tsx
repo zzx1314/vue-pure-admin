@@ -123,7 +123,7 @@ export function useUser() {
           loading={switchLoadMap.value[scope.index]?.loading}
           v-model={scope.row.enable}
           active-value={1}
-          inactive-value={0}
+          inactive-value={2}
           active-text="已开启"
           inactive-text="已关闭"
           inline-prompt
@@ -222,7 +222,7 @@ export function useUser() {
     }
     ElMessageBox.confirm(
       `确认要<strong>${
-        row.enable === 0 ? "停用" : "启用"
+        row.enable === 1 ? "启用" : "停用"
       }</strong><strong style='color:var(--el-color-primary)'>${
         row.username
       }</strong>用户吗?`,
