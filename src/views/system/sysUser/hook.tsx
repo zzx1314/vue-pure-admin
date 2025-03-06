@@ -264,7 +264,7 @@ export function useUser() {
         });
       })
       .catch(() => {
-        row.enable === 0 ? (row.enable = 1) : (row.enable = 0);
+        row.enable === 1 ? (row.enable = 2) : (row.enable = 1);
       });
   }
 
