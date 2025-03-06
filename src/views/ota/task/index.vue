@@ -80,7 +80,7 @@ const {
       <el-form-item label="任务状态" prop="status">
         <el-select
           v-model="queryForm.status"
-          placeholder="请选择状态"
+          placeholder="请选择任务状态"
           class="!w-[180px]"
         >
           <el-option label="已下发" value="已下发" />
