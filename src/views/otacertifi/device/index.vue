@@ -43,10 +43,10 @@ const {
           class="!w-[150px]"
         />
       </el-form-item>
-      <el-form-item label="激活用户" prop="name">
+      <el-form-item label="激活账号" prop="name">
         <el-input
           v-model="queryForm.userName"
-          placeholder="请输入激活用户"
+          placeholder="请输入激活账号"
           clearable
           class="!w-[150px]"
         />

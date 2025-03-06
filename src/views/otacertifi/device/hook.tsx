@@ -65,7 +65,7 @@ export function useLicenseBusDevice() {
       minWidth: 150
     },
     {
-      label: "激活用户",
+      label: "激活账号",
       prop: "username",
       minWidth: 100
     },
