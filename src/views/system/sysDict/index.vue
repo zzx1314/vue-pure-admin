@@ -266,7 +266,8 @@ const {
           trigger: 'manual',
           mode: 'row',
           showStatus: true,
-          autoClear: false
+          autoClear: false,
+          showIcon: false
         }"
         @edit-activated="editActivatedEvent"
       >
@@ -289,10 +290,15 @@ const {
         >
           <template #edit="{ row }">
             <vxe-number-input
-              v-if="row.label === '心跳时间'"
+              v-if="
+                row.label === '心跳时间' ||
+                row.label === 'CPU阈值' ||
+                row.label === '磁盘阈值' ||
+                row.label === '内存阈值'
+              "
               v-model="row.value"
               :min="10"
-              :max="300"
+              :max="row.label === '心跳时间' ? 300 : 100"
             />
             <vxe-input v-else v-model="row.value" :disabled="disabledValue" />
           </template>
