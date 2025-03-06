@@ -8,7 +8,8 @@ import { ElMessageBox } from "element-plus";
 export function sysAuth() {
   const defaultProps = {
     children: "children",
-    label: "label"
+    label: "label",
+    disabled: "disabled"
   };
 
   const sysMenuTitleVoData = ref([]);
@@ -110,7 +111,8 @@ export function sysAuth() {
       allCheckItem.value.push({
         id: item.id,
         label: item.name,
-        code: item.code
+        code: item.code,
+        disabled: true
       });
     });
     roleData.value.push(...allCheckItem.value);
