@@ -44,6 +44,7 @@ const {
   projOption,
   deftCheck,
   isUpdateProj,
+  isUpdate,
   handleDown,
   getCerInfo,
   cancel,
@@ -401,7 +402,7 @@ const defaultProps = {
         <el-form-item label="证书类型" prop="type">
           <el-select
             v-model="addForm.value.type"
-            :disabled="isUpdateProj"
+            :disabled="isUpdateProj || isUpdate"
             placeholder="请选择证书类型"
             class="!w-[200px]"
           >

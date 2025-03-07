@@ -35,6 +35,7 @@ export function useProjCer() {
   const dialogFormVisible = ref(false);
   const title = ref("");
   const isUpdateProj = ref(false);
+  const isUpdate = ref(false);
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,
@@ -198,6 +199,7 @@ export function useProjCer() {
     const roleInfo = JSON.stringify(row);
     addForm.value = JSON.parse(roleInfo);
     addForm.value.projArray = row.projId.split(",");
+    isUpdate.value = true;
     openDia("修改证书", formEl);
   }
   // 修改项目
@@ -336,6 +338,7 @@ export function useProjCer() {
     queryForm.type = "";
     dialogFormVisible.value = false;
     isUpdateProj.value = false;
+    isUpdate.value = false;
     getCerInfo(parentId.value);
   }
   // 保存
@@ -430,6 +433,7 @@ export function useProjCer() {
     projOption,
     deftCheck,
     isUpdateProj,
+    isUpdate,
     getCerInfo,
     onSearch,
     resetForm,
