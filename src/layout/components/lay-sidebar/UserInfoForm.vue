@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
-import { updatePassword } from "@/api/user";
+import { updatePassword, userLogout } from "@/api/user";
 import { SUCCESS } from "@/api/base";
 import { DataInfo, userKey } from "@/utils/auth";
 import { storageLocal } from "@pureadmin/utils";
 import aesUtils from "@/utils/aes";
 import { getSafePolicy } from "@/api/system";
+import { message } from "@/utils/message";
+import { useUserStoreHook } from "@/store/modules/user";
 
 const props = defineProps({
   dialogFormVisible: {
@@ -94,6 +96,11 @@ const addFormInfo = async (formEl: FormInstance | undefined) => {
         if (res.code === SUCCESS) {
           ElMessage.success("修改成功");
           closeDialog();
+          userLogout().then(res => {
+            console.log(res);
+            message("密码被修改重新登录！", { type: "success" });
+            useUserStoreHook().logOut();
+          });
         } else {
           ElMessage.error(res.msg);
         }
