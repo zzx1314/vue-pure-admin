@@ -13,6 +13,10 @@ import { useDictBus } from "@/views/system/sysDict/hook";
 import { useDictForm } from "@/views/system/sysDict/form";
 import { VxeTableEvents, VxeTableInstance, VxeTablePropTypes } from "vxe-table";
 import { message } from "@/utils/message";
+import Search from "@iconify-icons/ep/search";
+import Refresh from "@iconify-icons/ep/refresh";
+import ArrowUp from "@iconify-icons/ep/arrow-up-bold";
+import ArrowDown from "@iconify-icons/ri/arrow-down-s-line";
 
 defineOptions({
   name: "sysDict"
@@ -148,7 +152,33 @@ const {
         label-position="right"
         @search="onSearch"
         @reset="cancel"
-      />
+      >
+        <template
+          #footer="{ handleReset, handleSearch, handleUnfold, isShowUnfold }"
+        >
+          <div style="display: flex">
+            <el-button
+              type="primary"
+              :icon="useRenderIcon(Search)"
+              @click="handleSearch"
+              >搜索</el-button
+            >
+            <el-button :icon="useRenderIcon(Refresh)" @click="handleReset"
+              >重置</el-button
+            >
+            <el-button
+              type="primary"
+              :icon="
+                isShowUnfold ? useRenderIcon(ArrowUp) : useRenderIcon(ArrowDown)
+              "
+              link
+              @click="handleUnfold"
+            >
+              {{ isShowUnfold ? "收起" : "展开" }}
+            </el-button>
+          </div>
+        </template>
+      </PlusSearch>
     </el-card>
     <PureTableBar title="配置列表" :columns="columns" @refresh="onSearch">
       <template #buttons>
@@ -349,10 +379,6 @@ const {
 </template>
 
 <style scoped lang="scss">
-:deep(.el-card__body) {
-  padding-bottom: 0;
-}
-
 :deep(.el-link) {
   padding-left: 10px;
 }
