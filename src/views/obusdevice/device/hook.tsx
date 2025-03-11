@@ -130,6 +130,11 @@ export function useOBusDevice() {
       fixed: "left"
     },
     {
+      label: "设备型号",
+      prop: "deviceMode",
+      minWidth: 100
+    },
+    {
       label: "设备ID",
       prop: "deviceId",
       minWidth: 100
