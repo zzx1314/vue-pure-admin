@@ -152,7 +152,7 @@ export function useCollectorBusDevForm() {
         },
         {
           label: "心跳丢失",
-          value: "离线",
+          value: "心跳丢失",
           color: "var(--el-color-warning)",
           fieldSlot: ({ label, color }) => {
             return h("div", { style: { color } }, `${label}`);
@@ -160,7 +160,7 @@ export function useCollectorBusDevForm() {
         },
         {
           label: "离线状态",
-          value: "短路",
+          value: "离线",
           color: "var(--el-color-danger)",
           fieldSlot: ({ label, color }) => {
             return h("div", { style: { color } }, `${label}`);
@@ -187,7 +187,7 @@ export function useCollectorBusDevForm() {
         valueFormat: "YYYY-MM-DD HH:mm:ss"
       },
       colProps: {
-        span: 4
+        span: 5
       }
     },
     {
@@ -205,7 +205,7 @@ export function useCollectorBusDevForm() {
         valueFormat: "YYYY-MM-DD"
       },
       colProps: {
-        span: 4
+        span: 5
       }
     }
   ];

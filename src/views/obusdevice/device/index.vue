@@ -21,6 +21,10 @@ import WaterBallV1 from "@/components/ReEcharts/WaterBallV1.vue";
 import Gauge from "@/components/ReEcharts/Gauge.vue";
 import { MoreFilled } from "@element-plus/icons-vue";
 import LineCharts from "@/components/ReEcharts/lineCharts.vue";
+import Search from "@iconify-icons/ep/search";
+import Refresh from "@iconify-icons/ep/refresh";
+import ArrowUp from "@iconify-icons/ep/arrow-up-bold";
+import ArrowDown from "@iconify-icons/ri/arrow-down-s-line";
 
 defineOptions({
   name: "OBusDevice"
@@ -99,7 +103,33 @@ const {
         label-position="right"
         @search="onSearch"
         @reset="cancel"
-      />
+      >
+        <template
+          #footer="{ handleReset, handleSearch, handleUnfold, isShowUnfold }"
+        >
+          <div style="display: flex">
+            <el-button
+              type="primary"
+              :icon="useRenderIcon(Search)"
+              @click="handleSearch"
+              >搜索</el-button
+            >
+            <el-button :icon="useRenderIcon(Refresh)" @click="handleReset"
+              >重置</el-button
+            >
+            <el-button
+              type="primary"
+              :icon="
+                isShowUnfold ? useRenderIcon(ArrowUp) : useRenderIcon(ArrowDown)
+              "
+              link
+              @click="handleUnfold"
+            >
+              {{ isShowUnfold ? "收起" : "展开" }}
+            </el-button>
+          </div>
+        </template>
+      </PlusSearch>
     </el-card>
     <PureTableBar title="设备列表" :columns="columns" @refresh="onSearch">
       <template v-slot="{ size, checkList, dynamicColumns }">

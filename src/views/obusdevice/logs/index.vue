@@ -9,6 +9,10 @@ import { PlusSearch } from "plus-pro-components";
 import More from "@iconify-icons/ep/more-filled";
 import History from "@iconify-icons/ri/chat-history-line";
 import Download from "@iconify-icons/ri/download-line";
+import Search from "@iconify-icons/ep/search";
+import Refresh from "@iconify-icons/ep/refresh";
+import ArrowUp from "@iconify-icons/ep/arrow-up-bold";
+import ArrowDown from "@iconify-icons/ri/arrow-down-s-line";
 
 defineOptions({
   name: "OBusLogs"
@@ -52,7 +56,33 @@ const {
         label-position="right"
         @search="onSearch"
         @reset="cancel"
-      />
+      >
+        <template
+          #footer="{ handleReset, handleSearch, handleUnfold, isShowUnfold }"
+        >
+          <div style="display: flex">
+            <el-button
+              type="primary"
+              :icon="useRenderIcon(Search)"
+              @click="handleSearch"
+              >搜索</el-button
+            >
+            <el-button :icon="useRenderIcon(Refresh)" @click="handleReset"
+              >重置</el-button
+            >
+            <el-button
+              type="primary"
+              :icon="
+                isShowUnfold ? useRenderIcon(ArrowUp) : useRenderIcon(ArrowDown)
+              "
+              link
+              @click="handleUnfold"
+            >
+              {{ isShowUnfold ? "收起" : "展开" }}
+            </el-button>
+          </div>
+        </template>
+      </PlusSearch>
     </el-card>
     <PureTableBar title="日志列表" :columns="columns" @refresh="onSearch">
       <template v-slot="{ size, checkList, dynamicColumns }">
