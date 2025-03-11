@@ -49,14 +49,17 @@ export function useDictBus() {
   });
   const columns: TableColumnList = [
     {
+      label: "勾选列",
       type: "selection",
       width: 55,
-      align: "left"
+      align: "left",
+      fixed: "left"
     },
     {
       label: "序号",
       type: "index",
-      width: 70
+      width: 70,
+      fixed: "left"
     },
     {
       label: "类型",
