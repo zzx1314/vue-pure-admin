@@ -361,7 +361,7 @@ export function useProjCer() {
         if (addForm.value.id) {
           // 修改
           console.log("修改信息");
-          addForm.value.updateProj = false;
+          addForm.value.updateProj = isUpdateProj.value;
           addForm.value.projId = addForm.value.projArray.join(",");
           cerUpdate(addForm.value).then(res => {
             if (res.code === SUCCESS) {
