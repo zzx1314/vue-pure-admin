@@ -13,6 +13,7 @@ import VXETable from "vxe-table";
 
 import Table from "@pureadmin/table";
 import PureDescriptions from "@pureadmin/descriptions";
+import "plus-pro-components/index.css";
 
 // 引入重置样式
 import "./style/reset.scss";
