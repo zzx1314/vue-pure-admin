@@ -135,7 +135,7 @@ const validatePass4 = (rule: any, value: any, callback: any) => {
 const rules = {
   realName: [{ required: true, message: "姓名必填", trigger: "blur" }],
   username: [{ required: true, message: "账号必填", trigger: "blur" }],
-  lockFlag: [{ required: true, message: "类型必填", trigger: "change" }],
+  enable: [{ required: true, message: "类型必填", trigger: "change" }],
   sex: [{ required: true, message: "性别必填", trigger: "change" }],
   role: [{ required: true, message: "角色必填", trigger: "change" }],
   newpassword: [
@@ -410,7 +410,7 @@ async function getAllRole() {
             </el-select>
           </el-form-item>-->
 
-          <el-form-item label="状态" prop="lockFlag">
+          <el-form-item label="状态" prop="enable">
             <el-select
               v-model="addForm.enable"
               style="width: 200px"
