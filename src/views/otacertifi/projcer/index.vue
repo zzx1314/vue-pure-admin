@@ -82,7 +82,8 @@ const getAllCerInfo = () => {
 
 const defaultProps = {
   children: "children",
-  label: "label"
+  label: "label",
+  disabled: "disabled"
 };
 </script>
 
