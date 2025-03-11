@@ -51,9 +51,19 @@ export function useDictForm() {
 
   const columnsQueryForm: PlusColumn[] = [
     {
-      label: "配置类型",
+      label: "类型",
       prop: "dictType",
-      valueType: "copy",
+      valueType: "select",
+      options: [
+        {
+          label: "用户类",
+          value: "用户类"
+        },
+        {
+          label: "系统类",
+          value: "系统类"
+        }
+      ],
       colProps: {
         span: 5
       }
