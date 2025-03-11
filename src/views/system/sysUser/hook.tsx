@@ -177,6 +177,16 @@ export function useUser() {
    * 取消
    */
   function cancel() {
+    queryForm.value = {
+      orgIds: queryForm.value.orgIds,
+      username: "",
+      realName: "",
+      lockFlag: null,
+      sex: "",
+      role: null,
+      beginTime: null,
+      endTime: null
+    };
     onSearch(queryForm.value);
     addForm.value.id = null;
     addForm.value.username = "";
@@ -188,17 +198,6 @@ export function useUser() {
     addForm.value.sex = "";
     addForm.value.role = "";
     addForm.value.orgName = orgNameVal.value;
-
-    queryForm.value = {
-      orgIds: queryForm.value.orgIds,
-      username: "",
-      realName: "",
-      lockFlag: null,
-      sex: "",
-      role: null,
-      beginTime: null,
-      endTime: null
-    };
     dialogFormVisible.value = false;
   }
 
