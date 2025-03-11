@@ -10,6 +10,7 @@ import {
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormInstance, FormRules } from "element-plus";
 import {
+  checkShellLogin,
   getHardWareInfo,
   getHistoryOnOrOffine,
   getSysStatus,
@@ -339,8 +340,17 @@ export function useOBusDevice() {
   }
   const handleShallLogin = row => {
     console.log("shallLogin", row);
-    dialogShellLoginVisible.value = true;
-    loginShellForm.value.host = row.deviceIp;
+    // 检查是否能ping通设备
+    checkShellLogin(row.deviceIp).then(res => {
+      if (res.code === SUCCESS) {
+        // 可以ping通
+        dialogShellLoginVisible.value = true;
+        loginShellForm.value.host = row.deviceIp;
+      } else {
+        // 不可以ping通
+        message(res.msg, { type: "error" });
+      }
+    });
   };
 
   function handleDialogClosed() {

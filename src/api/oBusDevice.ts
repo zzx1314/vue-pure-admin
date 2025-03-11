@@ -23,7 +23,8 @@ const oBusDeviceUrls = {
   pushCommand: "/api/operation/command/pushCommand/",
   getHardWareInfo: "/api/operation/oBusDevice/getHardWareInfo/",
   getSysStatus: "/api/operation/oBusDevice/getSysStatus/",
-  getHistoryOnOrOffine: "/api/operation/oBusDeviceOnOrOffine/getHistory/"
+  getHistoryOnOrOffine: "/api/operation/oBusDeviceOnOrOffine/getHistory/",
+  checkShellLogin: "/api/operation/oBusDevice/checkShellLogin/"
 };
 
 // 设备信息分页
@@ -67,6 +68,14 @@ export const getSysStatus = (deviceId?: string, param?: object) => {
 export const getHistoryOnOrOffine = (deviceId?: string, param?: object) => {
   return http.axiosGetRequest<Result>(
     oBusDeviceUrls.getHistoryOnOrOffine + deviceId,
+    param
+  );
+};
+
+// 获取设备是否登录
+export const checkShellLogin = (deviceId?: string, param?: object) => {
+  return http.axiosGetRequest<Result>(
+    oBusDeviceUrls.checkShellLogin + deviceId,
     param
   );
 };
