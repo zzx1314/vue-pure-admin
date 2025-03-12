@@ -321,11 +321,7 @@ const defaultProps = {
                       </el-dropdown-item>
                       <el-dropdown-item>
                         <el-button
-                          v-if="
-                            hasAuth('projcer_update_proj') &&
-                            row.status != '未生效' &&
-                            row.status != '已废弃'
-                          "
+                          v-if="hasAuth('projcer_update_proj')"
                           class="reset-margin"
                           link
                           type="primary"
@@ -383,6 +379,7 @@ const defaultProps = {
             multiple
             placeholder="请选择项目"
             style="width: 200px"
+            :disabled="isUpdate"
           >
             <el-option
               v-for="item in projOption"
