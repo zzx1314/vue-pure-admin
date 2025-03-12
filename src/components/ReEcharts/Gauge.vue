@@ -33,7 +33,13 @@ const updateChartOptions = () => {
   setOptions(
     {
       tooltip: {
-        trigger: "item"
+        trigger: "item",
+        formatter: params => {
+          if (params.seriesType === "gauge") {
+            return `${params.value}%`;
+          }
+          return params.value;
+        }
       },
       legend: {
         icon: "circle",

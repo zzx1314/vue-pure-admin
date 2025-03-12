@@ -25,6 +25,7 @@ import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
 import ArrowUp from "@iconify-icons/ep/arrow-up-bold";
 import ArrowDown from "@iconify-icons/ri/arrow-down-s-line";
+import WaterBallRect from "@/components/ReEcharts/WaterBallRect.vue";
 
 defineOptions({
   name: "OBusDevice"
@@ -567,7 +568,7 @@ const {
               </div>
             </template>
             <div>
-              <water-ball-v1
+              <water-ball-rect
                 :percentage="diskNumber"
                 :color="diskColor"
                 shape="rect"
