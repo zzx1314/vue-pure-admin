@@ -76,6 +76,7 @@ export function useOBusDevice() {
   const activities = ref([]);
   const regularExpression = ref([]);
   const softwareInfoJArray = ref([]);
+  let systemStatusInterval: NodeJS.Timeout | null = null;
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -386,6 +387,11 @@ export function useOBusDevice() {
       logPath: "",
       lable: ""
     };
+    // 清除定时器
+    if (systemStatusInterval) {
+      clearInterval(systemStatusInterval);
+      systemStatusInterval = null;
+    }
   }
 
   function handleDialogHardWareInfo(row) {
@@ -398,8 +404,7 @@ export function useOBusDevice() {
     });
   }
 
-  function handleDialogSysStem(row) {
-    dialogSysStatusVisible.value = true;
+  function extracted(row) {
     getSysStatus(row.id).then(res => {
       if (res.code === SUCCESS) {
         console.log(res.data);
@@ -421,6 +426,14 @@ export function useOBusDevice() {
         }
       }
     });
+  }
+
+  function handleDialogSysStem(row) {
+    dialogSysStatusVisible.value = true;
+    extracted(row);
+    systemStatusInterval = setInterval(() => {
+      extracted(row);
+    }, 6000);
   }
   function handleDialogSlot(row) {
     console.log("handleDialogSlot", row);
