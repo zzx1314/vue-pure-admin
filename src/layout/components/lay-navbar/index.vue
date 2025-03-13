@@ -16,6 +16,7 @@ import Check from "@iconify-icons/ep/check";
 import UserInfoForm from "@/layout/components/lay-sidebar/UserInfoForm.vue";
 import { onMounted, ref } from "vue";
 import { getUserInfo } from "@/api/system";
+import SysDate from "@/layout/components/lay-sidebar/SysDate.vue";
 
 const {
   layout,
@@ -82,6 +83,7 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
     <LayNavMix v-if="layout === 'mix'" />
 
     <div v-if="layout === 'vertical'" class="vertical-header-right">
+      <SysDate />
       <!-- 菜单搜索 -->
       <LaySearch id="header-search" />
       <!-- 全屏 -->
