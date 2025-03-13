@@ -321,7 +321,10 @@ const defaultProps = {
                       </el-dropdown-item>
                       <el-dropdown-item>
                         <el-button
-                          v-if="hasAuth('projcer_update_proj')"
+                          v-if="
+                            hasAuth('projcer_update_proj') &&
+                            row.status != '已废弃'
+                          "
                           class="reset-margin"
                           link
                           type="primary"
