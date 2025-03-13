@@ -32,6 +32,7 @@ const {
   onSearch,
   onSearchHistory,
   handleDelete,
+  handleHistoryDelete,
   handleSizeChange,
   handleSizeChangeHistory,
   handleCurrentChange,
@@ -216,7 +217,10 @@ const {
               >
                 下载
               </el-button>
-              <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
+              <el-popconfirm
+                title="是否确认删除?"
+                @confirm="handleHistoryDelete(row)"
+              >
                 <template #reference>
                   <el-button
                     class="reset-margin"

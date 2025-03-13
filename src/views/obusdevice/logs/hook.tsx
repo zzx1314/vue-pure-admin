@@ -181,6 +181,17 @@ export function useOBusLogs() {
       }
     });
   }
+  function handleHistoryDelete(row) {
+    console.log(row);
+    oBusLogsDelete(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        message("删除成功！", { type: "success" });
+        onSearchHistory();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
+  }
 
   function handleSizeChange(val: number) {
     pagination.pageSize = val;
@@ -338,6 +349,7 @@ export function useOBusLogs() {
     onSearchHistory,
     resetForm,
     handleDelete,
+    handleHistoryDelete,
     handleSizeChange,
     handleSizeChangeHistory,
     handleCurrentChange,
