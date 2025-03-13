@@ -83,6 +83,7 @@ const {
         >
           <el-option label="待激活" value="待激活" />
           <el-option label="已激活" value="已激活" />
+          <el-option label="待更新授权证书" value="待更新授权证书" />
           <el-option label="系统版本和架构异常" value="系统版本和架构异常" />
           <el-option label="系统版本异常" value="系统版本异常" />
           <el-option label="系统架构异常" value="系统架构异常" />
