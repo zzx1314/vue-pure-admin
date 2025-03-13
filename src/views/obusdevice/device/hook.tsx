@@ -392,6 +392,7 @@ export function useOBusDevice() {
       clearInterval(systemStatusInterval);
       systemStatusInterval = null;
     }
+    onSearch();
   }
 
   function handleDialogHardWareInfo(row) {
