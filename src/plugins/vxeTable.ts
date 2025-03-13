@@ -15,7 +15,8 @@ import {
   VxeTooltip,
   // VxeUpload,
   VxeInput,
-  VxeNumberInput
+  VxeNumberInput,
+  VxeSelect
 } from "vxe-pc-ui";
 
 import {
@@ -53,7 +54,7 @@ export function useVxeTable(app: App) {
   // app.use(VxePrint)
   // app.use(VxeUpload);
   app.use(VxeInput);
-  app.use(VxeNumberInput);
+  app.use(VxeSelect), app.use(VxeNumberInput);
   app.use(VxeTable);
   app.use(VxeColumn);
   app.use(VxeColgroup);

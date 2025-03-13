@@ -95,7 +95,10 @@ const removeRow = async (row: RowVO) => {
 const editActivatedEvent: VxeTableEvents.EditActivated<RowVO> = ({ row }) => {
   disabledFiled.value = !row.allowDeletion;
   disabledValue.value = row.label === "日志" || row.label === "自定义指令";
-  disabledRemark.value = row.label === "心跳时间";
+  disabledRemark.value =
+    row.label === "心跳时间" ||
+    row.label === "定时删除历史心跳" ||
+    row.label === "定时删除系统日志";
   disabledDescription.value = row.label === "心跳时间";
 };
 
@@ -114,6 +117,29 @@ const addEvent = async () => {
     $table.setEditRow(newRow, "type");
   }
 };
+
+const deviceType = ref([
+  {
+    label: "一周",
+    value: "7"
+  },
+  {
+    label: "一个月",
+    value: "30"
+  },
+  {
+    label: "两个月",
+    value: "60"
+  },
+  {
+    label: "半年",
+    value: "180"
+  },
+  {
+    label: "一年",
+    value: "365"
+  }
+]);
 
 const {
   queryForm,
@@ -329,6 +355,14 @@ const {
               v-model="row.value"
               :min="10"
               :max="row.label === '心跳时间' ? 300 : 100"
+            />
+            <vxe-select
+              v-else-if="
+                row.label === '定时删除历史心跳' ||
+                row.label === '定时删除系统日志'
+              "
+              v-model="row.value"
+              :options="deviceType"
             />
             <vxe-input v-else v-model="row.value" :disabled="disabledValue" />
           </template>
