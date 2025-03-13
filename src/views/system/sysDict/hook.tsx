@@ -315,6 +315,7 @@ export function useDictBus() {
   }
   // 保存一行
   function onSave(row) {
+    row.dictId = editRow.value.id;
     saveItem(row).then(res => {
       if (res.code === SUCCESS) {
         message("保存成功！", { type: "success" });
