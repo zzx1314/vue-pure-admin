@@ -12,7 +12,7 @@ import type { optionsItem, dragItem } from "../types";
 import { ref, computed, shallowRef, watch } from "vue";
 import { useDebounceFn, onKeyStroke } from "@vueuse/core";
 import { usePermissionStoreHook } from "@/store/modules/permission";
-import { cloneDeep, isAllEmpty, storageLocal } from "@pureadmin/utils";
+import { cloneDeep, isAllEmpty, storageSession } from "@pureadmin/utils";
 import SearchIcon from "@iconify-icons/ri/search-line";
 
 interface Props {
@@ -85,11 +85,11 @@ const showEmpty = computed(() => {
 });
 
 function getStorageItem(key) {
-  return storageLocal().getItem<optionsItem[]>(key) || [];
+  return storageSession().getItem<optionsItem[]>(key) || [];
 }
 
 function setStorageItem(key, value) {
-  storageLocal().setItem(key, value);
+  storageSession().setItem(key, value);
 }
 
 /** 将菜单树形结构扁平化为一维数组，用于菜单查询 */
@@ -230,7 +230,7 @@ function saveHistory() {
     if (existingIndex !== -1) searchHistoryList.splice(existingIndex, 1);
     if (searchHistoryList.length >= historyNum) searchHistoryList.pop();
     searchHistoryList.unshift({ path, meta, type: HISTORY_TYPE });
-    storageLocal().setItem(LOCALEHISTORYKEY, searchHistoryList);
+    storageSession().setItem(LOCALEHISTORYKEY, searchHistoryList);
   }
 }
 
@@ -260,7 +260,7 @@ function handleDrag(item: dragItem) {
   const searchCollectList = getStorageItem(LOCALECOLLECTKEY);
   const [reorderedItem] = searchCollectList.splice(item.oldIndex, 1);
   searchCollectList.splice(item.newIndex, 0, reorderedItem);
-  storageLocal().setItem(LOCALECOLLECTKEY, searchCollectList);
+  storageSession().setItem(LOCALECOLLECTKEY, searchCollectList);
   historyOptions.value = [
     ...getStorageItem(LOCALEHISTORYKEY),
     ...getStorageItem(LOCALECOLLECTKEY)

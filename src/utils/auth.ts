@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { storageLocal } from "@pureadmin/utils";
+import { storageSession } from "@pureadmin/utils";
 import { useUserStoreHook } from "@/store/modules/user";
 
 export interface DataInfo<T> {
@@ -36,7 +36,7 @@ export function getToken(): DataInfo<number> {
   // 此处与`TokenKey`相同，此写法解决初始化时`Cookies`中不存在`TokenKey`报错
   return Cookies.get(TokenKey)
     ? JSON.parse(Cookies.get(TokenKey))
-    : storageLocal().getItem(userKey);
+    : storageSession().getItem(userKey);
 }
 
 /**
@@ -73,7 +73,7 @@ export function setToken(data: DataInfo<Date>) {
     useUserStoreHook().SET_USERNAME(username);
     useUserStoreHook().SET_NICKNAME(nickname);
     useUserStoreHook().SET_ROLES(roles);
-    storageLocal().setItem(userKey, {
+    storageSession().setItem(userKey, {
       accessToken,
       refreshToken,
       expires,
@@ -96,15 +96,15 @@ export function setToken(data: DataInfo<Date>) {
     });
   } else {
     const avatar =
-      storageLocal().getItem<DataInfo<number>>(userKey)?.avatar ?? "";
+      storageSession().getItem<DataInfo<number>>(userKey)?.avatar ?? "";
     const username =
-      storageLocal().getItem<DataInfo<number>>(userKey)?.username ?? "";
+      storageSession().getItem<DataInfo<number>>(userKey)?.username ?? "";
     const nickname =
-      storageLocal().getItem<DataInfo<number>>(userKey)?.nickname ?? "";
+      storageSession().getItem<DataInfo<number>>(userKey)?.nickname ?? "";
     const roles =
-      storageLocal().getItem<DataInfo<number>>(userKey)?.roles ?? [];
+      storageSession().getItem<DataInfo<number>>(userKey)?.roles ?? [];
     const user_id =
-      storageLocal().getItem<DataInfo<number>>(userKey)?.user_id ?? "";
+      storageSession().getItem<DataInfo<number>>(userKey)?.user_id ?? "";
     setUserKey({
       avatar,
       username,
@@ -119,7 +119,7 @@ export function setToken(data: DataInfo<Date>) {
 export function removeToken() {
   Cookies.remove(TokenKey);
   Cookies.remove(multipleTabsKey);
-  storageLocal().removeItem(userKey);
+  storageSession().removeItem(userKey);
 }
 
 /** 格式化token（jwt格式） */
