@@ -88,7 +88,7 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
       <LaySidebarFullScreen id="full-screen" />
       <LayNotice id="header-notice" />
       <!-- 退出登录 -->
-      <el-dropdown trigger="click">
+      <el-dropdown trigger="click" class="mr-4">
         <span class="el-dropdown-link navbar-bg-hover select-none">
           <p v-if="username" class="dark:text-white">{{ username }}</p>
         </span>
@@ -111,13 +111,13 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <span
+      <!--      <span
         class="set-icon navbar-bg-hover"
         :title="t('buttons.pureOpenSystemSet')"
         @click="onPanel"
       >
         <IconifyIconOffline :icon="Setting" />
-      </span>
+      </span>-->
     </div>
 
     <UserInfoForm
