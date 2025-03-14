@@ -28,6 +28,8 @@ import "./assets/iconfont/iconfont.css";
 
 const app = createApp(App);
 
+export default app;
+
 // 自定义指令
 import * as directives from "@/directives";
 Object.keys(directives).forEach(key => {
