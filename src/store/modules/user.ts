@@ -17,6 +17,9 @@ import { type DataInfo, removeToken, setToken, userKey } from "@/utils/auth";
 import aesUtils from "@/utils/aes";
 
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
+import { getPlatformConfig } from "@/config";
+import { injectResponsiveStorage } from "@/utils/responsive";
+import app from "@/main";
 
 export const useUserStore = defineStore({
   id: "pure-user",
@@ -95,6 +98,9 @@ export const useUserStore = defineStore({
       this.roles = [];
       storageSession().clear();
       removeToken();
+      getPlatformConfig(app).then(async config => {
+        injectResponsiveStorage(app, config);
+      });
       useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
       resetRouter();
       router.push("/login");
