@@ -1,19 +1,19 @@
 // 响应式storage
 import type { App } from "vue";
-import Storage from "responsive-storage";
 import { routerArrays } from "@/layout/types";
 import { responsiveStorageNameSpace } from "@/config";
+import { storageSession } from "@pureadmin/utils";
 
 export const injectResponsiveStorage = (app: App, config: PlatformConfigs) => {
   const nameSpace = responsiveStorageNameSpace();
   const configObj = Object.assign(
     {
       // 国际化 默认中文zh
-      locale: Storage.getData("locale", nameSpace) ?? {
+      locale: storageSession().getItem(nameSpace + "locale") ?? {
         locale: config.Locale ?? "zh"
       },
       // layout模式以及主题
-      layout: Storage.getData("layout", nameSpace) ?? {
+      layout: storageSession().getItem(nameSpace + "layout") ?? {
         layout: config.Layout ?? "vertical",
         theme: config.Theme ?? "light",
         darkMode: config.DarkMode ?? false,
@@ -23,7 +23,7 @@ export const injectResponsiveStorage = (app: App, config: PlatformConfigs) => {
         overallStyle: config.OverallStyle ?? "light" // 整体风格（浅色：light、深色：dark、自动：system）
       },
       // 系统配置-界面显示
-      configure: Storage.getData("configure", nameSpace) ?? {
+      configure: storageSession().getItem(nameSpace + "configure") ?? {
         grey: config.Grey ?? false,
         weak: config.Weak ?? false,
         hideTabs: config.HideTabs ?? false,
@@ -37,10 +37,15 @@ export const injectResponsiveStorage = (app: App, config: PlatformConfigs) => {
     config.MultiTagsCache
       ? {
           // 默认显示顶级菜单tag
-          tags: Storage.getData("tags", nameSpace) ?? routerArrays
+          tags: storageSession().getItem(nameSpace + "tags") ?? routerArrays
         }
       : {}
   );
 
-  app.use(Storage, { nameSpace, memory: configObj });
+  // 初始化数据
+  for (const [key, value] of Object.entries(configObj)) {
+    storageSession().setItem(nameSpace + key, value);
+  }
+  // 注册自定义的 sessionStorage 工具函数到 Vue 实例
+  app.config.globalProperties.$storage = configObj;
 };

@@ -2,7 +2,7 @@
 import { type I18n, createI18n } from "vue-i18n";
 import type { App, WritableComputedRef } from "vue";
 import { responsiveStorageNameSpace } from "@/config";
-import { storageLocal, isObject } from "@pureadmin/utils";
+import { storageSession, isObject } from "@pureadmin/utils";
 
 // element-plus国际化
 import enLocale from "element-plus/es/locale/lang/en";
@@ -104,7 +104,7 @@ export const $t = (key: string) => key;
 export const i18n: I18n = createI18n({
   legacy: false,
   locale:
-    storageLocal().getItem<StorageConfigs>(
+    storageSession().getItem<StorageConfigs>(
       `${responsiveStorageNameSpace()}locale`
     )?.locale ?? "zh",
   fallbackLocale: "en",

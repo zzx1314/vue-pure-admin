@@ -13,7 +13,7 @@ import {
   cloneDeep,
   isAllEmpty,
   intersection,
-  storageLocal,
+  storageSession,
   isIncludeAllChildren
 } from "@pureadmin/utils";
 import { getConfig } from "@/config";
@@ -84,7 +84,7 @@ function isOneOfArray(a: Array<string>, b: Array<string>) {
 /** 从localStorage里取出当前登录用户的角色roles，过滤无权限的菜单 */
 function filterNoPermissionTree(data: RouteComponent[]) {
   const currentRoles =
-    storageLocal().getItem<DataInfo<number>>(userKey)?.roles ?? [];
+    storageSession().getItem<DataInfo<number>>(userKey)?.roles ?? [];
   const newTree = cloneDeep(data).filter((v: any) =>
     isOneOfArray(v.meta?.roles, currentRoles)
   );
@@ -196,7 +196,7 @@ function initRouter() {
   if (getConfig()?.CachingAsyncRoutes) {
     // 开启动态路由缓存本地localStorage
     const key = "async-routes";
-    const asyncRouteList = storageLocal().getItem(key) as any;
+    const asyncRouteList = storageSession().getItem(key) as any;
     if (asyncRouteList && asyncRouteList?.length > 0) {
       return new Promise(resolve => {
         handleAsyncRoutes(asyncRouteList);
@@ -206,7 +206,7 @@ function initRouter() {
       return new Promise(resolve => {
         getAsyncRoutes().then(({ data }) => {
           handleAsyncRoutes(cloneDeep(data));
-          storageLocal().setItem(key, data);
+          storageSession().setItem(key, data);
           resolve(router);
         });
       });

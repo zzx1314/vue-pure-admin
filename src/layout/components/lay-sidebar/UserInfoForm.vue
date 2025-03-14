@@ -4,7 +4,7 @@ import { ElMessage, FormInstance } from "element-plus";
 import { updatePassword, userLogout } from "@/api/user";
 import { SUCCESS } from "@/api/base";
 import { DataInfo, userKey } from "@/utils/auth";
-import { storageLocal } from "@pureadmin/utils";
+import { storageSession } from "@pureadmin/utils";
 import aesUtils from "@/utils/aes";
 import { getSafePolicy } from "@/api/system";
 import { message } from "@/utils/message";
@@ -90,7 +90,7 @@ const addFormInfo = async (formEl: FormInstance | undefined) => {
       param.password = aesUtils.encode(addForm.value.password, "");
       param.newpassword = aesUtils.encode(addForm.value.newpassword, "");
       param.newpassword1 = aesUtils.encode(addForm.value.newpassword1, "");
-      param.id = storageLocal().getItem<DataInfo<number>>(userKey).user_id;
+      param.id = storageSession().getItem<DataInfo<number>>(userKey).user_id;
       console.log(addForm.value);
       updatePassword(param).then(res => {
         if (res.code === SUCCESS) {

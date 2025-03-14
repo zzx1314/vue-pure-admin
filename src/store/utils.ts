@@ -15,7 +15,7 @@ export {
   debounce,
   isBoolean,
   getKeyList,
-  storageLocal,
+  storageSession,
   deviceDetection
 } from "@pureadmin/utils";
 export type {
