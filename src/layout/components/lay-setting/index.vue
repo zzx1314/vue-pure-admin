@@ -257,7 +257,7 @@ function setLayoutModel(layout: string) {
   useAppStoreHook().setLayout(layout);
 }
 
-watch($storage, ({ layout }) => {
+/*watch($storage, ({ layout }) => {
   switch (layout["layout"]) {
     case "vertical":
       toggleClass(true, "is-select", unref(verticalRef));
@@ -275,7 +275,7 @@ watch($storage, ({ layout }) => {
       debounce(setFalse([horizontalRef]), 50);
       break;
   }
-});
+});*/
 
 const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
 
