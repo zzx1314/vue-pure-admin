@@ -3,7 +3,7 @@
   "Title": "设备管理平台",
   "FixedHeader": true,
   "HiddenSideBar": false,
-  "MultiTagsCache": false,
+  "MultiTagsCache": true,
   "KeepAlive": true,
   "Locale": "zh",
   "Layout": "vertical",
