@@ -7,7 +7,7 @@ import { buildHierarchyTree } from "@/utils/tree";
 import remainingRouter from "./modules/remaining";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 import { usePermissionStoreHook } from "@/store/modules/permission";
-import { isUrl, openLink, storageLocal, isAllEmpty } from "@pureadmin/utils";
+import { isUrl, openLink, storageSession, isAllEmpty } from "@pureadmin/utils";
 import {
   ascending,
   getTopMenu,
@@ -117,7 +117,7 @@ router.beforeEach((to: ToRouteType, _from, next) => {
       handleAliveRoute(to);
     }
   }
-  const userInfo = storageLocal().getItem<DataInfo<number>>(userKey);
+  const userInfo = storageSession().getItem<DataInfo<number>>(userKey);
   NProgress.start();
   const externalLink = isUrl(to?.name as string);
   if (!externalLink) {

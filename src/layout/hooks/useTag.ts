@@ -16,7 +16,7 @@ import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 import {
   isEqual,
   isBoolean,
-  storageLocal,
+  storageSession,
   toggleClass,
   hasClass
 } from "@pureadmin/utils";
@@ -46,14 +46,14 @@ export function useTags() {
 
   /** 显示模式，默认灵动模式 */
   const showModel = ref(
-    storageLocal().getItem<StorageConfigs>(
+    storageSession().getItem<StorageConfigs>(
       `${responsiveStorageNameSpace()}configure`
     )?.showModel || "smart"
   );
   /** 是否隐藏标签页，默认显示 */
   const showTags =
     ref(
-      storageLocal().getItem<StorageConfigs>(
+      storageSession().getItem<StorageConfigs>(
         `${responsiveStorageNameSpace()}configure`
       ).hideTabs
     ) ?? ref("false");
@@ -203,11 +203,11 @@ export function useTags() {
 
   onMounted(() => {
     if (!showModel.value) {
-      const configure = storageLocal().getItem<StorageConfigs>(
+      const configure = storageSession().getItem<StorageConfigs>(
         `${responsiveStorageNameSpace()}configure`
       );
       configure.showModel = "card";
-      storageLocal().setItem(
+      storageSession().setItem(
         `${responsiveStorageNameSpace()}configure`,
         configure
       );
