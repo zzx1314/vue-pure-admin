@@ -1,5 +1,5 @@
 import { storeToRefs } from "pinia";
-import { getConfig } from "@/config";
+import { getConfig, getPlatformConfig } from "@/config";
 import { useRouter } from "vue-router";
 import { emitter } from "@/utils/mitt";
 import Avatar from "@/assets/user.jpg";
@@ -8,7 +8,7 @@ import { useFullscreen } from "@vueuse/core";
 import type { routeMetaType } from "../types";
 import { transformI18n } from "@/plugins/i18n";
 import { router, remainingPaths } from "@/router";
-import { computed, type CSSProperties } from "vue";
+import { computed, createApp, type CSSProperties } from "vue";
 import { useAppStoreHook } from "@/store/modules/app";
 import { useUserStoreHook } from "@/store/modules/user";
 import { useGlobal, isAllEmpty } from "@pureadmin/utils";
@@ -19,9 +19,13 @@ import Fullscreen from "@iconify-icons/ri/fullscreen-fill";
 
 import { userLogout } from "@/api/user";
 import { message } from "@/utils/message";
+import App from "@/App.vue";
+import { injectResponsiveStorage } from "@/utils/responsive";
 
 const errorInfo =
   "The current routing configuration is incorrect, please check the configuration";
+
+const app = createApp(App);
 
 export function useNav() {
   const pureApp = useAppStoreHook();
@@ -105,6 +109,9 @@ export function useNav() {
       console.log(res);
       message("退出成功！", { type: "success" });
       useUserStoreHook().logOut();
+      getPlatformConfig(app).then(async config => {
+        injectResponsiveStorage(app, config);
+      });
     });
   }
 
