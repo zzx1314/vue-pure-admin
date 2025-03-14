@@ -120,7 +120,7 @@ watch(
       <!-- 全屏 -->
       <LaySidebarFullScreen id="full-screen" />
       <!-- 退出登录 -->
-      <el-dropdown trigger="click">
+      <el-dropdown trigger="click" class="mr-4">
         <span class="el-dropdown-link navbar-bg-hover select-none">
           <p v-if="username" class="dark:text-white">{{ username }}</p>
         </span>
@@ -143,13 +143,13 @@ watch(
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <span
+      <!--      <span
         class="set-icon navbar-bg-hover"
         :title="t('buttons.pureOpenSystemSet')"
         @click="onPanel"
       >
         <IconifyIconOffline :icon="Setting" />
-      </span>
+      </span>-->
     </div>
 
     <UserInfoForm
