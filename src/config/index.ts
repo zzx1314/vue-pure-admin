@@ -49,6 +49,19 @@ export const getPlatformConfig = async (app: App): Promise<undefined> => {
     });
 };
 
+export const getPlatformConfigV1 = async (): Promise<any> => {
+  return axios({
+    method: "get",
+    url: `${VITE_PUBLIC_PATH}platform-config.json`
+  })
+    .then(({ data: config }) => {
+      return config;
+    })
+    .catch(() => {
+      throw "请在public文件夹下添加platform-config.json配置文件";
+    });
+};
+
 /** 本地响应式存储的命名空间 */
 const responsiveStorageNameSpace = () => getConfig().ResponsiveStorageNameSpace;
 

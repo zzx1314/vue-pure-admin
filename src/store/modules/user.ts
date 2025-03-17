@@ -5,7 +5,8 @@ import {
   storageSession,
   routerArrays,
   resetRouter,
-  router
+  router,
+  responsiveStorageNameSpace
 } from "../utils";
 import {
   type UserResult,
@@ -17,9 +18,7 @@ import { type DataInfo, removeToken, setToken, userKey } from "@/utils/auth";
 import aesUtils from "@/utils/aes";
 
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
-import { getPlatformConfig } from "@/config";
-import { injectResponsiveStorage } from "@/utils/responsive";
-import app from "@/main";
+import { getPlatformConfigV1 } from "@/config";
 
 export const useUserStore = defineStore({
   id: "pure-user",
@@ -98,8 +97,49 @@ export const useUserStore = defineStore({
       this.roles = [];
       storageSession().clear();
       removeToken();
-      getPlatformConfig(app).then(async config => {
-        injectResponsiveStorage(app, config);
+      getPlatformConfigV1().then(config => {
+        console.log("重新获取", config);
+        // responsive-configure， responsive-layout，responsive-locale，responsive-tags
+        const nameSpace = responsiveStorageNameSpace();
+        const configObj = Object.assign(
+          {
+            // 国际化 默认中文zh
+            locale: storageSession().getItem(nameSpace + "locale") ?? {
+              locale: config.Locale ?? "zh"
+            },
+            // layout模式以及主题
+            layout: storageSession().getItem(nameSpace + "layout") ?? {
+              layout: config.Layout ?? "vertical",
+              theme: config.Theme ?? "light",
+              darkMode: config.DarkMode ?? false,
+              sidebarStatus: config.SidebarStatus ?? true,
+              epThemeColor: config.EpThemeColor ?? "#409EFF",
+              themeColor: config.Theme ?? "light", // 主题色（对应系统配置中的主题色，与theme不同的是它不会受到浅色、深色整体风格切换的影响，只会在手动点击主题色时改变）
+              overallStyle: config.OverallStyle ?? "light" // 整体风格（浅色：light、深色：dark、自动：system）
+            },
+            // 系统配置-界面显示
+            configure: storageSession().getItem(nameSpace + "configure") ?? {
+              grey: config.Grey ?? false,
+              weak: config.Weak ?? false,
+              hideTabs: config.HideTabs ?? false,
+              hideFooter: config.HideFooter ?? true,
+              showLogo: config.ShowLogo ?? true,
+              showModel: config.ShowModel ?? "smart",
+              multiTagsCache: config.MultiTagsCache ?? false,
+              stretch: config.Stretch ?? false
+            }
+          },
+          config.MultiTagsCache
+            ? {
+                // 默认显示顶级菜单tag
+                tags:
+                  storageSession().getItem(nameSpace + "tags") ?? routerArrays
+              }
+            : {}
+        );
+        for (const [key, value] of Object.entries(configObj)) {
+          storageSession().setItem(nameSpace + key, value);
+        }
       });
       useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
       resetRouter();
