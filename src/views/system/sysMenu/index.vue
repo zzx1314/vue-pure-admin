@@ -49,9 +49,9 @@ const {
           v-if="hasAuth('menu_add')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
-          @click="openDia('添加菜单', addFormRef)"
+          @click="openDia('新增菜单', addFormRef)"
         >
-          新增菜单
+          新增
         </el-button>
       </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
