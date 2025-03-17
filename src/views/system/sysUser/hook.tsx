@@ -221,7 +221,7 @@ export function useUser() {
     }
     ElMessageBox.confirm(
       `确认要<strong>${
-        row.enable === 1 ? "启用" : "停用"
+        row.enable === 1 ? "启用" : "禁用"
       }</strong><strong style='color:var(--el-color-primary)'>${
         row.username
       }</strong>用户吗?`,
