@@ -235,7 +235,7 @@ const defaultProps = {
               :icon="useRenderIcon(AddFill)"
               @click="openDia('新增证书', addFormRef)"
             >
-              添加
+              新增
             </el-button>
           </template>
           <template v-slot="{ size, checkList, dynamicColumns }">

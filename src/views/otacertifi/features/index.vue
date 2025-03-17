@@ -112,7 +112,7 @@ defineOptions({
           :icon="useRenderIcon(AddFill)"
           @click="openDia('新增特性', addFormRef)"
         >
-          添加
+          新增
         </el-button>
       </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
