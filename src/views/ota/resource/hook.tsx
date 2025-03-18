@@ -550,7 +550,7 @@ export function useResource() {
   function openDia(param, formEl?) {
     dialogFormVisible.value = true;
     title.value = param;
-    if (param === "添加操作系统") {
+    if (param === "新增操作系统") {
       addType.value = "addSoftware";
     } else {
       addType.value = "addMode";

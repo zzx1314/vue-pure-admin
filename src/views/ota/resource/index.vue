@@ -649,17 +649,17 @@ const closePro = () => {
           v-if="hasAuth('res_add')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
-          @click="openDia('添加操作系统', addFormRef)"
+          @click="openDia('新增操作系统', addFormRef)"
         >
-          添加操作系统
+          新增操作系统
         </el-button>
         <el-button
           v-if="hasAuth('add_mode')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
-          @click="openDia('添加模块', addFormRef)"
+          @click="openDia('新增模块', addFormRef)"
         >
-          添加模块
+          新增模块
         </el-button>
         <el-button
           v-if="hasAuth('push_res')"
