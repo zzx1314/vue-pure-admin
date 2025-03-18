@@ -8,7 +8,7 @@ export function useCollectorBusDevForm() {
       prop: "username",
       valueType: "copy",
       colProps: {
-        span: 4
+        span: 5
       },
       formItemProps: {
         style: {
@@ -21,7 +21,7 @@ export function useCollectorBusDevForm() {
       prop: "deviceId",
       valueType: "copy",
       colProps: {
-        span: 4
+        span: 5
       },
       formItemProps: {
         style: {
@@ -34,7 +34,7 @@ export function useCollectorBusDevForm() {
       prop: "content",
       valueType: "copy",
       colProps: {
-        span: 4
+        span: 5
       },
       formItemProps: {
         style: {
@@ -65,7 +65,7 @@ export function useCollectorBusDevForm() {
         }
       ],
       colProps: {
-        span: 4
+        span: 5
       },
       formItemProps: {
         style: {
@@ -88,7 +88,7 @@ export function useCollectorBusDevForm() {
         valueFormat: "YYYY-MM-DD HH:mm:ss"
       },
       colProps: {
-        span: 4
+        span: 5
       }
     },
     {
@@ -105,7 +105,7 @@ export function useCollectorBusDevForm() {
         valueFormat: "YYYY-MM-DD"
       },
       colProps: {
-        span: 4
+        span: 5
       }
     }
   ];
