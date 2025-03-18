@@ -30,6 +30,7 @@ export function useDictBus() {
   const dataListMode = ref([]);
   const editMap = ref({});
   const editRow = ref();
+  const titleValue = ref("");
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -193,7 +194,7 @@ export function useDictBus() {
     console.log(row);
     const roleInfo = JSON.stringify(row);
     addForm.value = JSON.parse(roleInfo);
-    openDia("修改", formEl);
+    openDia("修改配置", formEl);
   }
   // 删除
   function handleDelete(row) {
@@ -301,6 +302,7 @@ export function useDictBus() {
   // 打开弹框
   function openDia(param, formEl) {
     console.log("formEl", formEl);
+    titleValue.value = param;
     dialogFormVisible.value = true;
     title.value = param;
     resetForm(formEl);
@@ -358,6 +360,7 @@ export function useDictBus() {
     columnsItem,
     dataListMode,
     editMap,
+    titleValue,
     onSearch,
     resetForm,
     handleDelete,

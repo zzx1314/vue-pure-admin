@@ -152,6 +152,7 @@ const {
   rules,
   columns,
   dataListMode,
+  titleValue,
   onSearch,
   handleDelete,
   handleSizeChange,
@@ -211,7 +212,7 @@ const {
         <el-button
           type="primary"
           :icon="useRenderIcon(AddFill)"
-          @click="openDia('添加配置', addFormRef)"
+          @click="openDia('新增配置', addFormRef)"
         >
           新增
         </el-button>
@@ -285,7 +286,7 @@ const {
       ref="addFormRef"
       v-model:visible="dialogFormVisible"
       v-model="addForm"
-      :dialog="{ title: '修改配置' }"
+      :dialog="{ title: titleValue }"
       :form="{
         columns: columnsForm,
         rules,
