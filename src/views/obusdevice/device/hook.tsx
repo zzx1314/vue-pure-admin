@@ -167,12 +167,12 @@ export function useOBusDevice() {
       minWidth: 100,
       slot: "hardwareInfoSlot"
     },
-    {
+    /*{
       label: "软件信息",
       prop: "softInfo",
       minWidth: 100,
       slot: "softInfoSlot"
-    },
+    },*/
     {
       label: "系统状态",
       prop: "systemInfo",

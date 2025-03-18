@@ -9,7 +9,7 @@ const theme: EchartOptions["theme"] = computed(() => {
 });
 
 const lineChartRef = ref<HTMLDivElement | null>(null);
-const { setOptions } = useECharts(lineChartRef as Ref<HTMLDivElement>, {
+const { setOptions, resize } = useECharts(lineChartRef as Ref<HTMLDivElement>, {
   theme
 });
 
@@ -64,6 +64,7 @@ const updateChartOptions = () => {
       }
     }
   );
+  resize();
 };
 
 watch([() => props.dataX, () => props.dataY], ([newX, newY]) => {

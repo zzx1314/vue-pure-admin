@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { ref, computed, watch, type Ref } from "vue";
-import { useAppStoreHook } from "@/store/modules/app";
 import {
-  delay,
-  useDark,
-  useECharts,
-  type EchartOptions
-} from "@pureadmin/utils";
+  ref,
+  computed,
+  watch,
+  onMounted,
+  onUnmounted,
+  nextTick,
+  type Ref
+} from "vue";
+import { useDark, useECharts, type EchartOptions } from "@pureadmin/utils";
 
 const { isDark } = useDark();
 
@@ -15,9 +17,12 @@ const theme: EchartOptions["theme"] = computed(() => {
 });
 
 const gaugeRef = ref<HTMLDivElement | null>(null);
-const { setOptions, resize } = useECharts(gaugeRef as Ref<HTMLDivElement>, {
-  theme
-});
+const { setOptions, resize, getInstance } = useECharts(
+  gaugeRef as Ref<HTMLDivElement>,
+  {
+    theme
+  }
+);
 
 const percentageNum = ref(0);
 
@@ -114,6 +119,7 @@ const updateChartOptions = () => {
       }
     }
   );
+  resize();
 };
 
 watch([() => props.percentage], ([newV]) => {
@@ -123,6 +129,38 @@ watch([() => props.percentage], ([newV]) => {
 
 // 初始化图表选项
 updateChartOptions();
+
+// 监听窗口大小变化
+const handleResize = () => {
+  if (gaugeRef.value) {
+    nextTick(() => {
+      const width = gaugeRef.value?.clientWidth || 0;
+      const height = gaugeRef.value?.clientHeight || 0;
+      console.log("width", width);
+      console.log("height", height);
+      if (width > 0 && height > 0) {
+        getInstance().resize({
+          width: width,
+          height: height
+        });
+      } else {
+        console.warn("gaugeRef dimensions are zero, retrying with nextTick...");
+      }
+    });
+  } else {
+    console.warn("gaugeRef is not yet available for resizing.");
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("resize", handleResize);
+  // 确保在初始挂载时也调用 handleResize
+  handleResize();
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", handleResize);
+});
 </script>
 
 <template>

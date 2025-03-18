@@ -97,6 +97,7 @@ const updateChartOptions = () => {
       }
     }
   );
+  resize();
 };
 
 watch(
