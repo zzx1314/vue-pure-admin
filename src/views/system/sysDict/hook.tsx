@@ -316,16 +316,24 @@ export function useDictBus() {
     dataListMode.value = data;
   }
   // 保存一行
-  function onSave(row) {
+  async function onSave(row) {
     row.dictId = editRow.value.id;
-    saveItem(row).then(res => {
+    try {
+      const res = await saveItem(row);
       if (res.code === SUCCESS) {
         message("保存成功！", { type: "success" });
+        return true; // 或者返回 res，取决于你需要返回什么
       } else {
         message(res.msg, { type: "error" });
+        return false; // 或者返回 res，取决于你需要返回什么
       }
-    });
+    } catch (error) {
+      message("保存失败！", { type: "error" });
+      console.error(error);
+      return false; // 或者返回 error，取决于你需要返回什么
+    }
   }
+
   // 删除
   function onDel(row) {
     if (!row.id) {

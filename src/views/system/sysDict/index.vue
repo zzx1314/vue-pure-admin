@@ -60,9 +60,10 @@ const saveRowEvent = async (row: RowVO) => {
     if (errMap) {
       message("校验不通过", { type: "error" });
     } else {
-      $table.clearEdit().then(() => {
-        onSave(row);
-      });
+      const result = await onSave(row);
+      if (result) {
+        $table.clearEdit();
+      }
     }
   }
 };
