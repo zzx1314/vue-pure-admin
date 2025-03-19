@@ -26,6 +26,7 @@ import Refresh from "@iconify-icons/ep/refresh";
 import ArrowUp from "@iconify-icons/ep/arrow-up-bold";
 import ArrowDown from "@iconify-icons/ri/arrow-down-s-line";
 import WaterBallRect from "@/components/ReEcharts/WaterBallRect.vue";
+import { hasAuth } from "@/router/utils";
 
 defineOptions({
   name: "OBusDevice"
@@ -230,6 +231,7 @@ const {
           </template>
           <template #operation="{ row }">
             <el-button
+              v-if="hasAuth('update_device')"
               class="reset-margin"
               link
               type="primary"
@@ -264,6 +266,7 @@ const {
                 <el-dropdown-menu>
                   <el-dropdown-item>
                     <el-button
+                      v-if="hasAuth('shell_login')"
                       link
                       type="primary"
                       :size="size"
@@ -275,6 +278,7 @@ const {
                   </el-dropdown-item>
                   <el-dropdown-item>
                     <el-button
+                      v-if="hasAuth('down_command')"
                       link
                       type="primary"
                       :size="size"
