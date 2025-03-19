@@ -3,9 +3,11 @@ import TypeIt from "@/components/ReTypeit";
 import { useWindowSize } from "@vueuse/core";
 import { ref, getCurrentInstance, onMounted } from "vue";
 import Github from "./components/Github.vue";
-import { devStatistics } from "@/api/otaDev";
-import { resStatistics } from "@/api/otaRes";
-import { taskStatistics } from "@/api/otaTask";
+import Bar from "@/views/welcome/components/Bar.vue";
+import Pie from "@/views/welcome/components/Pie.vue";
+import DevNum from "@/views/welcome/components/DevNum.vue";
+import { statisticsCommandByStatus } from "@/api/oBusCommand";
+import { statisticsDeviceByType, statisticsOnOrOffine } from "@/api/oBusDevice";
 
 defineOptions({
   name: "Welcome"
@@ -16,15 +18,57 @@ const loading = ref<boolean>(true);
 const { version } = __APP_INFO__.pkg;
 
 // 设备统计
-const groupNames = ref([]);
-const onlineNums = ref([]);
-const offlineNums = ref([]);
-// 资源统计
+const groupNames = ref(["在线", "心跳丢失", "离线"]);
+const onlineNums = ref([
+  {
+    value: 0,
+    itemStyle: {
+      color: "#67C23A"
+    }
+  },
+  {
+    value: 0,
+    itemStyle: {
+      color: "#E6A23C"
+    }
+  },
+  {
+    value: 0,
+    itemStyle: {
+      color: "#F56C6C"
+    }
+  }
+]);
+// 设备类型统计
 const resInfo = ref([]);
-// 任务统计
-const time = ref([]);
-const overNumber = ref([]);
-const unOverNumber = ref([]);
+// 指令统计
+const commandType = ref(["已下发", "执行成功", "执行失败", "响应超时"]);
+const commandTypeNumber = ref([
+  {
+    value: 0,
+    itemStyle: {
+      color: "#E6A23C"
+    }
+  },
+  {
+    value: 0,
+    itemStyle: {
+      color: "#67C23A"
+    }
+  },
+  {
+    value: 0,
+    itemStyle: {
+      color: "#F56C6C"
+    }
+  },
+  {
+    value: 0,
+    itemStyle: {
+      color: "#9f0429"
+    }
+  }
+]);
 
 const { VersionList } =
   getCurrentInstance().appContext.config.globalProperties.$config;
@@ -37,32 +81,49 @@ setTimeout(() => {
   loading.value = !loading.value;
 }, 800);
 
-const getDevStatistics = () => {
-  devStatistics().then(res => {
+const getDevStatisticsOnOrOffine = () => {
+  statisticsOnOrOffine().then(res => {
     console.log(res);
-    groupNames.value = res.data.groupNames;
-    onlineNums.value = res.data.onlineNums;
-    offlineNums.value = res.data.offlineNums;
+    if (res.data) {
+      onlineNums.value[0].value = res.data.online ? res.data.online : 0;
+      onlineNums.value[1].value = res.data.missHeartBeat
+        ? res.data.missHeartBeat
+        : 0;
+      onlineNums.value[2].value = res.data.offline ? res.data.offline : 0;
+    }
   });
 };
 
-const getResStatistics = () => {
-  resStatistics().then(res => {
+const getResStatisticsByStatus = () => {
+  statisticsDeviceByType().then(res => {
     console.log(res);
-    resInfo.value = res.data;
+    if (res.data) {
+      resInfo.value = res.data;
+    }
   });
 };
 
-const getTaskStatistics = () => {
-  taskStatistics().then(res => {
+const getCommandStatistics = () => {
+  statisticsCommandByStatus().then(res => {
     console.log(res);
-    time.value = res.data.time;
-    overNumber.value = res.data.overNums;
-    unOverNumber.value = res.data.offlineNums;
+    if (res.data) {
+      commandTypeNumber.value[0].value = res.data.issued ? res.data.issued : 0;
+      commandTypeNumber.value[1].value = res.data.success
+        ? res.data.success
+        : 0;
+      commandTypeNumber.value[2].value = res.data.failed ? res.data.failed : 0;
+      commandTypeNumber.value[3].value = res.data.reportTime
+        ? res.data.reportTime
+        : 0;
+    }
   });
 };
 
-onMounted(() => {});
+onMounted(() => {
+  getDevStatisticsOnOrOffine();
+  getResStatisticsByStatus();
+  getCommandStatistics();
+});
 </script>
 
 <template>
@@ -159,6 +220,123 @@ onMounted(() => {});
               <el-scrollbar :height="`calc(${height}px - 35vh - 340px)`">
                 <Github />
               </el-scrollbar>
+            </template>
+          </el-skeleton>
+        </el-card>
+      </el-col>
+
+      <el-col
+        v-motion
+        :xs="24"
+        :sm="24"
+        :md="12"
+        :lg="8"
+        :xl="8"
+        class="mb-[18px]"
+        :initial="{
+          opacity: 0,
+          y: 100
+        }"
+        :enter="{
+          opacity: 1,
+          y: 0,
+          transition: {
+            delay: 400
+          }
+        }"
+      >
+        <el-card shadow="never">
+          <template #header>
+            <TypeIt
+              :options="{
+                strings: ['设备状态统计'],
+                cursor: false,
+                speed: 120
+              }"
+            />
+          </template>
+          <el-skeleton animated :rows="7" :loading="loading">
+            <template #default>
+              <DevNum :group-names="groupNames" :online-nums="onlineNums" />
+            </template>
+          </el-skeleton>
+        </el-card>
+      </el-col>
+
+      <el-col
+        v-motion
+        :xs="24"
+        :sm="24"
+        :md="12"
+        :lg="8"
+        :xl="8"
+        class="mb-[18px]"
+        :initial="{
+          opacity: 0,
+          y: 100
+        }"
+        :enter="{
+          opacity: 1,
+          y: 0,
+          transition: {
+            delay: 400
+          }
+        }"
+      >
+        <el-card shadow="never">
+          <template #header>
+            <TypeIt
+              :options="{
+                strings: ['设备类型统计'],
+                cursor: false,
+                speed: 120
+              }"
+            />
+          </template>
+          <el-skeleton animated :rows="7" :loading="loading">
+            <template #default>
+              <Pie :resInfo="resInfo" />
+            </template>
+          </el-skeleton>
+        </el-card>
+      </el-col>
+
+      <el-col
+        v-motion
+        :xs="24"
+        :sm="24"
+        :md="24"
+        :lg="8"
+        :xl="8"
+        class="mb-[18px]"
+        :initial="{
+          opacity: 0,
+          y: 100
+        }"
+        :enter="{
+          opacity: 1,
+          y: 0,
+          transition: {
+            delay: 400
+          }
+        }"
+      >
+        <el-card shadow="never">
+          <template #header>
+            <TypeIt
+              :options="{
+                strings: ['指令信息统计'],
+                cursor: false,
+                speed: 120
+              }"
+            />
+          </template>
+          <el-skeleton animated :rows="7" :loading="loading">
+            <template #default>
+              <DevNum
+                :group-names="commandType"
+                :online-nums="commandTypeNumber"
+              />
             </template>
           </el-skeleton>
         </el-card>

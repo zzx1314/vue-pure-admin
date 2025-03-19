@@ -26,12 +26,8 @@ const props = defineProps({
     default: () => ["测试组1", "测试组2"]
   },
   onlineNums: {
-    type: Array<number>,
+    type: Array<any>,
     default: () => [10, 15]
-  },
-  offlineNums: {
-    type: Array<number>,
-    default: () => [2, 3]
   }
 });
 
@@ -46,11 +42,6 @@ setOptions(
     grid: {
       bottom: "20px",
       right: "10px"
-    },
-    legend: {
-      //@ts-expect-error
-      right: true,
-      data: ["在线设备", "离线设备"]
     },
     xAxis: [
       {
@@ -75,40 +66,9 @@ setOptions(
     ],
     series: [
       {
-        name: "在线设备",
         type: "bar",
-        barWidth: "15%",
-        itemStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: "#3ce6ab"
-            },
-            {
-              offset: 1,
-              color: "#3ce675"
-            }
-          ])
-        },
+        barWidth: "30%",
         data: props.onlineNums
-      },
-      {
-        name: "离线设备",
-        type: "bar",
-        barWidth: "15%",
-        itemStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: "#f56c6c"
-            },
-            {
-              offset: 1,
-              color: "#f89898"
-            }
-          ])
-        },
-        data: props.offlineNums
       }
     ],
     addTooltip: true

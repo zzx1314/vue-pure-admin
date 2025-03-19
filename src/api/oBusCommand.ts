@@ -3,7 +3,7 @@ import { http } from "@/utils/http";
 type Result = {
   code: number;
   msg: string;
-  data?: Array<any>;
+  data?: any;
 };
 
 type ResultPage = {
@@ -19,7 +19,8 @@ const oBusCommandUrls = {
   page: `/api/operation/command/page`,
   save: "/api/operation/command/save",
   delete: `/api/operation/command/`,
-  update: "/api/operation/command/update"
+  update: "/api/operation/command/update",
+  statisticsCommandByStatus: "/api/operation/command/statisticsCommandByStatus"
 };
 
 // 指令分页
@@ -37,4 +38,11 @@ export const oBusCommandUpdate = (param?: object) => {
 // 指令删除
 export const oBusCommandDelete = (param?: object) => {
   return http.axiosDelete<Result>(oBusCommandUrls.delete + param);
+};
+// 指令统计
+export const statisticsCommandByStatus = (param?: object) => {
+  return http.axiosGetRequest<Result>(
+    oBusCommandUrls.statisticsCommandByStatus,
+    param
+  );
 };

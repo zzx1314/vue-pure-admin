@@ -22,13 +22,7 @@ const { setOptions, resize } = useECharts(pieChartRef as Ref<HTMLDivElement>, {
 const props = defineProps({
   resInfo: {
     type: Array<any>,
-    default: () => [
-      { value: 400, name: "驱动" },
-      { value: 1600, name: "固件" },
-      { value: 7200, name: "设备树" },
-      { value: 7200, name: "文件系统" },
-      { value: 200, name: "镜像" }
-    ]
+    default: () => []
   }
 });
 
@@ -44,31 +38,28 @@ setOptions(
     },
     series: [
       {
-        type: "liquidFill",
-        data: [0.6],
-        color: ["#FFA661"],
-        label: {
-          normal: {
-            color: "#000000", //百分比颜色
-            textStyle: {
-              fontSize: 20,
-              fontWeight: "bold"
-            }
-          }
-        },
-        outline: {
-          borderDistance: 0,
-          itemStyle: {
-            borderWidth: 5,
-            borderColor: "#FFA661",
-            shadowBlur: 20,
-            shadowColor: "rgba(255, 0, 0, 1)"
-          }
-        },
-        backgroundStyle: {
-          //水球背景色
-          color: "rgba(255, 255, 255)"
-        }
+        name: "资源信息",
+        type: "pie",
+        top: "20%",
+        radius: "80%",
+        center: ["40%", "50%"],
+        color: [
+          "#e6a23c",
+          "#f56c6c",
+          "#53a7ff",
+          "#ba53ff",
+          "#9253FFFF",
+          "#BA53FFFF",
+          "#53dfff"
+        ],
+        data: props.resInfo
+        // emphasis: {
+        //   itemStyle: {
+        //     shadowBlur: 10,
+        //     shadowOffsetX: 0,
+        //     shadowColor: "rgba(0, 0, 0, 0.5)"
+        //   }
+        // }
       }
     ]
   },
