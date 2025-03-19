@@ -13,6 +13,7 @@ import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
 import ArrowUp from "@iconify-icons/ep/arrow-up-bold";
 import ArrowDown from "@iconify-icons/ri/arrow-down-s-line";
+import { hasAuth } from "@/router/utils";
 
 defineOptions({
   name: "OBusLogs"
@@ -110,6 +111,7 @@ const {
         >
           <template #operation="{ row }">
             <el-button
+              v-if="hasAuth('find_history_log')"
               class="reset-margin"
               link
               type="primary"
@@ -122,6 +124,7 @@ const {
             <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>
                 <el-button
+                  v-if="hasAuth('delete_history_log')"
                   class="reset-margin"
                   link
                   type="primary"
@@ -144,6 +147,7 @@ const {
                 <el-dropdown-menu>
                   <el-dropdown-item>
                     <el-button
+                      v-if="hasAuth('down_log')"
                       link
                       type="primary"
                       :size="size"
