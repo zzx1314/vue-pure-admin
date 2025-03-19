@@ -31,6 +31,7 @@ export function useDictBus() {
   const editMap = ref({});
   const editRow = ref();
   const titleValue = ref("");
+  const isShowItemAdd = ref(false);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -266,6 +267,7 @@ export function useDictBus() {
     queryForm.value.endTime = "";
     dialogFormVisible.value = false;
     dataListMode.value = [];
+    isShowItemAdd.value = false;
     onSearch();
   }
   // 提交
@@ -310,6 +312,9 @@ export function useDictBus() {
   // 打开配置项弹框
   async function openSetDia(param) {
     console.log(param);
+    if (param.type === "device_log_custom") {
+      isShowItemAdd.value = true;
+    }
     dialogItemFormVisible.value = true;
     editRow.value = param;
     const { data } = await getItemById(param.id);
@@ -322,15 +327,17 @@ export function useDictBus() {
       const res = await saveItem(row);
       if (res.code === SUCCESS) {
         message("保存成功！", { type: "success" });
-        return true; // 或者返回 res，取决于你需要返回什么
+        const { data } = await getItemById(row.dictId);
+        dataListMode.value = data;
+        return true;
       } else {
         message(res.msg, { type: "error" });
-        return false; // 或者返回 res，取决于你需要返回什么
+        return false;
       }
     } catch (error) {
       message("保存失败！", { type: "error" });
       console.error(error);
-      return false; // 或者返回 error，取决于你需要返回什么
+      return false;
     }
   }
 
@@ -342,7 +349,6 @@ export function useDictBus() {
     deleteDictItem(row.id).then(res => {
       if (res.code === SUCCESS) {
         message("删除成功！", { type: "success" });
-        cancel();
       } else {
         message(res.msg, { type: "error" });
       }
@@ -369,6 +375,7 @@ export function useDictBus() {
     dataListMode,
     editMap,
     titleValue,
+    isShowItemAdd,
     onSearch,
     resetForm,
     handleDelete,

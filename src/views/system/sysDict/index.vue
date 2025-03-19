@@ -154,6 +154,7 @@ const {
   columns,
   dataListMode,
   titleValue,
+  isShowItemAdd,
   onSearch,
   handleDelete,
   handleSizeChange,
@@ -162,7 +163,6 @@ const {
   handleUpdate,
   handleSubmit,
   handleSubmitError,
-  openDia,
   openSetDia,
   cancel,
   onSave,
@@ -210,13 +210,13 @@ const {
     </el-card>
     <PureTableBar title="配置列表" :columns="columns" @refresh="onSearch">
       <template #buttons>
-        <el-button
+        <!--        <el-button
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="openDia('新增配置', addFormRef)"
         >
           新增
-        </el-button>
+        </el-button>-->
       </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
@@ -252,6 +252,7 @@ const {
               配置项
             </el-button>
             <el-button
+              v-if="row.allowDeletion"
               class="reset-margin"
               link
               type="primary"
@@ -305,6 +306,7 @@ const {
     >
       <div class="mb-1">
         <el-button
+          v-if="isShowItemAdd"
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="addEvent"
