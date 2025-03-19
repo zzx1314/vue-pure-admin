@@ -14,6 +14,7 @@ import {
   getHardWareInfo,
   getHistoryOnOrOffine,
   getSysStatus,
+  loginShellLog,
   oBusDeviceDelete,
   oBusDevicePage,
   oBusDeviceSave,
@@ -319,10 +320,17 @@ export function useOBusDevice() {
         onError: function (error) {
           //连接失败回调
           terminal.value.write("Error: " + error + "\r\n");
+          let param = {
+            ...loginShellForm.value,
+            loginResult: "连接失败" + error
+          };
+          loginShellLog(param);
         },
         onConnect: function () {
           //连接主机
           webSocketShell.value.send(loginShellForm.value);
+          let param = { ...loginShellForm.value, loginResult: "连接成功" };
+          loginShellLog(param);
         },
         onClose: function () {
           //连接关闭回调

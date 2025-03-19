@@ -26,7 +26,8 @@ const oBusDeviceUrls = {
   getHistoryOnOrOffine: "/api/operation/oBusDeviceOnOrOffine/getHistory/",
   checkShellLogin: "/api/operation/oBusDevice/checkShellLogin/",
   statisticsDeviceByType: "/api/operation/oBusDevice/statisticsDeviceByType",
-  statisticsOnOrOffine: "/api/operation/oBusDevice/statisticsOnOrOffine"
+  statisticsOnOrOffine: "/api/operation/oBusDevice/statisticsOnOrOffine",
+  loginShellLog: "/api/operation/oBusDevice/loginShellLog"
 };
 
 // 设备信息分页
@@ -94,4 +95,8 @@ export const statisticsOnOrOffine = (param?: object) => {
     oBusDeviceUrls.statisticsOnOrOffine,
     param
   );
+};
+
+export const loginShellLog = (param?: object) => {
+  return http.axiosPostRequest<Result>(oBusDeviceUrls.loginShellLog, param);
 };
