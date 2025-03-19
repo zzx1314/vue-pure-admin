@@ -55,6 +55,19 @@ export function usePSysMessage() {
       minWidth: 100
     },
     {
+      label: "业务类型",
+      prop: "status",
+      minWidth: 60,
+      cellRenderer: ({ row, props }) => (
+        <el-tag
+          size={props.size}
+          type={row.status === "已读" ? "success" : "warning"}
+        >
+          {row.status}
+        </el-tag>
+      )
+    },
+    {
       label: "系统消息",
       prop: "message",
       minWidth: 100
@@ -68,6 +81,12 @@ export function usePSysMessage() {
       label: "创建时间",
       prop: "createTime",
       minWidth: 100
+    },
+    {
+      label: "操作",
+      fixed: "right",
+      width: 160,
+      slot: "operation"
     }
   ];
   const buttonClass = computed(() => {
