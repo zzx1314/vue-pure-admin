@@ -55,7 +55,7 @@ export function usePSysMessage() {
       minWidth: 100
     },
     {
-      label: "业务类型",
+      label: "状态",
       prop: "status",
       minWidth: 60,
       cellRenderer: ({ row, props }) => (

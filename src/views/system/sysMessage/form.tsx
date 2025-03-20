@@ -36,6 +36,29 @@ export function useSysMessageForm() {
       }
     },
     {
+      label: "状态",
+      prop: "status",
+      valueType: "select",
+      options: [
+        {
+          label: "已读",
+          value: "已读"
+        },
+        {
+          label: "未读",
+          value: "未读"
+        }
+      ],
+      colProps: {
+        span: 5
+      },
+      formItemProps: {
+        style: {
+          width: "100%"
+        }
+      }
+    },
+    {
       label: "系统消息",
       prop: "message",
       valueType: "copy",
