@@ -312,7 +312,10 @@ export function useDictBus() {
   // 打开配置项弹框
   async function openSetDia(param) {
     console.log(param);
-    if (param.type === "device_log_custom") {
+    if (
+      param.type === "device_log_custom" ||
+      param.type === "device_log_path"
+    ) {
       isShowItemAdd.value = true;
     }
     dialogItemFormVisible.value = true;

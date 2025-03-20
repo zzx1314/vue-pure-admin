@@ -95,7 +95,10 @@ const removeRow = async (row: RowVO) => {
 
 const editActivatedEvent: VxeTableEvents.EditActivated<RowVO> = ({ row }) => {
   disabledFiled.value = !row.allowDeletion;
-  disabledValue.value = row.label === "日志" || row.label === "自定义指令";
+  disabledValue.value =
+    row.label === "日志" ||
+    row.label === "自定义指令" ||
+    row.label === "自定义";
   disabledRemark.value =
     row.label === "心跳时间" ||
     row.label === "定时删除历史心跳" ||
