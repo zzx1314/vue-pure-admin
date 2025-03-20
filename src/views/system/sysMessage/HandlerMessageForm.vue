@@ -95,7 +95,7 @@ const rules = {
         :rules="rules"
         label-width="100px"
       >
-        <el-form-item label="处置内容" prop="password">
+        <el-form-item label="处置内容" prop="handleMessage">
           <el-input
             v-model="addForm.handleMessage"
             :autosize="{ minRows: 2, maxRows: 4 }"
