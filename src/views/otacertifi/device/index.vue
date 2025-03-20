@@ -40,7 +40,7 @@ const {
           v-model="queryForm.projName"
           placeholder="请输入项目名称"
           clearable
-          class="!w-[150px]"
+          class="!w-[145px]"
         />
       </el-form-item>
       <el-form-item label="激活账号" prop="name">
@@ -48,7 +48,7 @@ const {
           v-model="queryForm.userName"
           placeholder="请输入激活账号"
           clearable
-          class="!w-[150px]"
+          class="!w-[145px]"
         />
       </el-form-item>
       <el-form-item label="设备ID" prop="name">
@@ -56,7 +56,7 @@ const {
           v-model="queryForm.activationCode"
           placeholder="请输入设备ID"
           clearable
-          class="!w-[150px]"
+          class="!w-[145px]"
         />
       </el-form-item>
       <el-form-item label="系统版本" prop="name">
@@ -64,46 +64,49 @@ const {
           v-model="queryForm.osVersion"
           placeholder="请输入系统版本"
           clearable
-          class="!w-[150px]"
+          class="!w-[145px]"
         />
-      </el-form-item>
-      <el-form-item label="系统架构" prop="name">
-        <el-input
-          v-model="queryForm.processArch"
-          placeholder="请输入系统架构"
-          clearable
-          class="!w-[150px]"
-        />
-      </el-form-item>
-      <el-form-item label="状态" prop="name">
-        <el-select
-          v-model="queryForm.cerStatus"
-          placeholder="请输状态"
-          class="!w-[150px]"
-        >
-          <el-option label="待激活" value="待激活" />
-          <el-option label="已激活" value="已激活" />
-          <el-option label="待更新授权证书" value="待更新授权证书" />
-          <el-option label="系统版本和架构异常" value="系统版本和架构异常" />
-          <el-option label="系统版本异常" value="系统版本异常" />
-          <el-option label="系统架构异常" value="系统架构异常" />
-          <el-option label="用户名变化" value="用户名变化" />
-          <el-option label="license时间发生变化" value="license时间发生变化" />
-          <el-option label="授权证书过期" value="授权证书过期" />
-          <el-option label="通信证书过期" value="通信证书过期" />
-          <el-option label="获取磁盘信息失败" value="获取磁盘信息失败" />
-          <el-option label="解码license失败" value="解码license失败" />
-          <el-option label="校验license失败" value="校验license失败" />
-          <el-option label="解析json内容失败" value="解析json内容失败" />
-          <el-option
-            label="设置license信息到内核失败"
-            value="设置license信息到内核失败"
-          />
-        </el-select>
       </el-form-item>
 
       <el-collapse-transition>
         <div v-show="moreCondition">
+          <el-form-item label="系统架构" prop="name">
+            <el-input
+              v-model="queryForm.processArch"
+              placeholder="请输入系统架构"
+              clearable
+              class="!w-[150px]"
+            />
+          </el-form-item>
+          <el-form-item label="状态" prop="name">
+            <el-select
+              v-model="queryForm.cerStatus"
+              placeholder="请输状态"
+              class="!w-[150px]"
+            >
+              <el-option label="待激活" value="待激活" />
+              <el-option label="已激活" value="已激活" />
+              <el-option label="待更新授权证书" value="待更新授权证书" />
+              <el-option
+                label="系统版本和架构异常"
+                value="系统版本和架构异常"
+              />
+              <el-option label="系统版本异常" value="系统版本异常" />
+              <el-option label="系统架构异常" value="系统架构异常" />
+              <el-option label="用户名变化" value="用户名变化" />
+              <el-option label="授权时间发生变化" value="授权时间发生变化" />
+              <el-option label="授权证书过期" value="授权证书过期" />
+              <el-option label="通信证书过期" value="通信证书过期" />
+              <el-option label="获取磁盘信息失败" value="获取磁盘信息失败" />
+              <el-option label="解码授权文件失败" value="解码授权文件失败" />
+              <el-option label="校验授权文件失败" value="校验授权文件失败" />
+              <el-option label="解析json内容失败" value="解析json内容失败" />
+              <el-option
+                label="设置授权文件信息到内核失败"
+                value="设置授权文件信息到内核失败"
+              />
+            </el-select>
+          </el-form-item>
           <el-form-item label="激活开始时间：" prop="beginTime">
             <el-date-picker
               v-model="queryForm.beginTime"
