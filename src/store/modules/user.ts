@@ -19,6 +19,7 @@ import aesUtils from "@/utils/aes";
 
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
 import { getPlatformConfigV1 } from "@/config";
+import { updateGlobalStorage } from "@/main";
 
 export const useUserStore = defineStore({
   id: "pure-user",
@@ -140,6 +141,7 @@ export const useUserStore = defineStore({
         for (const [key, value] of Object.entries(configObj)) {
           storageSession().setItem(nameSpace + key, value);
         }
+        updateGlobalStorage(configObj);
       });
       useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
       resetRouter();
