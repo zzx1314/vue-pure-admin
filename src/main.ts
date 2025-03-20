@@ -28,13 +28,6 @@ import "./assets/iconfont/iconfont.css";
 
 const app = createApp(App);
 
-app.config.globalProperties.$storage = {};
-
-// 在需要的地方更新全局属性
-export function updateGlobalStorage(configObj: any) {
-  app.config.globalProperties.$storage = configObj;
-}
-
 // 自定义指令
 import * as directives from "@/directives";
 Object.keys(directives).forEach(key => {
