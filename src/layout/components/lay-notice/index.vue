@@ -36,6 +36,7 @@ function getMessage() {
         }
       }
       noticesNum.value = notices.value[0].list.length;
+      console.log("notices.value:", notices.value);
     }
   });
 }
@@ -47,7 +48,9 @@ const handlerItem = (item: ListItem) => {
 };
 
 function closeDia() {
+  debugger;
   dialogFormVisible.value = false;
+  getMessage();
 }
 
 onMounted(() => {

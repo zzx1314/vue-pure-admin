@@ -36,6 +36,7 @@ function resetForm(formEl) {
 }
 
 function closeDialog() {
+  debugger;
   emit("update:dialogFormVisible", false);
 }
 
@@ -87,7 +88,7 @@ const rules = {
       :title="title"
       width="500px"
       :append-to-body="true"
-      @close="cancel(addFormRef)"
+      :show-close="false"
     >
       <el-form
         ref="addFormRef"
