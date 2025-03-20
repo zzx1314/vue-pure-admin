@@ -224,7 +224,7 @@ export function useUser() {
         row.enable === 1 ? "启用" : "禁用"
       }</strong><strong style='color:var(--el-color-primary)'>${
         row.username
-      }</strong>用户吗?`,
+      }</strong>账号吗?`,
       "系统提示",
       {
         confirmButtonText: "确定",
