@@ -4,14 +4,16 @@ import { ref, computed, onMounted } from "vue";
 import { ListItem, noticesData, TabItem } from "./data";
 import NoticeList from "./components/NoticeList.vue";
 import BellIcon from "@iconify-icons/ep/bell";
-import { pSysMessageList, pSysMessageReadMessage } from "@/api/pSysMessage";
+import { pSysMessageList } from "@/api/pSysMessage";
 import { SUCCESS } from "@/api/base";
-import { message } from "@/utils/message";
+import HandlerMessageForm from "@/views/system/sysMessage/HandlerMessageForm.vue";
 
 const { t } = useI18n();
 const noticesNum = ref(0);
 const notices = ref<TabItem[]>(noticesData);
 const activeKey = ref(noticesData[0]?.key);
+const dialogFormVisible = ref(false);
+const messageId = ref(null);
 
 notices.value.map(v => (noticesNum.value += v.list.length));
 
@@ -40,13 +42,13 @@ function getMessage() {
 
 const handlerItem = (item: ListItem) => {
   console.log("Received item:", item);
-  pSysMessageReadMessage(item.id).then(res => {
-    if (res.code === SUCCESS) {
-      message("处理成功！", { type: "success" });
-      getMessage();
-    }
-  });
+  dialogFormVisible.value = true;
+  messageId.value = item.id;
 };
+
+function closeDia() {
+  dialogFormVisible.value = false;
+}
 
 onMounted(() => {
   console.log("onMounted");
@@ -102,6 +104,12 @@ onMounted(() => {
       </el-dropdown-menu>
     </template>
   </el-dropdown>
+  <handler-message-form
+    :id="messageId"
+    :dialogFormVisible="dialogFormVisible"
+    title="消息处置"
+    @update:dialogFormVisible="closeDia"
+  />
 </template>
 
 <style lang="scss" scoped>

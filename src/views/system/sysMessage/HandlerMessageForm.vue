@@ -13,13 +13,16 @@ const props = defineProps({
   title: {
     type: String,
     default: ""
+  },
+  id: {
+    type: Number,
+    default: null
   }
 });
 const emit = defineEmits(["update:dialogFormVisible"]);
 
 const addFormRef = ref();
 const addForm = ref({
-  id: null,
   handleMessage: ""
 });
 
@@ -44,7 +47,6 @@ const cancel = formEl => {
 
 function clearForm() {
   addForm.value = {
-    id: null,
     handleMessage: ""
   };
 }
@@ -54,7 +56,8 @@ const addFormInfo = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       let param = {
-        ...addForm.value
+        ...addForm.value,
+        id: props.id
       };
       pSysMessageUpdate(param).then(res => {
         if (res.code === SUCCESS) {
