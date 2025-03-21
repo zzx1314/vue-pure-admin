@@ -890,7 +890,7 @@ const closePro = () => {
         >
           <el-input
             v-model="addForm.value.softwareName"
-            placeholder="请输入软件名称"
+            placeholder="请输入操作系统名称"
           />
         </el-form-item>
 
@@ -926,12 +926,12 @@ const closePro = () => {
 
         <el-form-item
           v-if="addType === 'addMode' || updateType === 'updateMode'"
-          label="模块包名称"
+          label="模块名称"
           prop="pkgName"
         >
           <el-input
             v-model="addForm.value.pkgName"
-            placeholder="请输入模块包名称"
+            placeholder="请输入模块名称"
           />
         </el-form-item>
 
