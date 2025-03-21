@@ -229,7 +229,7 @@ export function useProjCer() {
     console.log(row);
     loseEfficacy(row.id).then(res => {
       if (res.code === SUCCESS) {
-        message("失效成功！", { type: "success" });
+        message("废弃成功！", { type: "success" });
         onSearch();
       } else {
         message(res.msg, { type: "error" });

@@ -302,7 +302,26 @@ const defaultProps = {
                     <el-dropdown-menu>
                       <el-dropdown-item v-if="row.type !== 'ca'">
                         <el-popconfirm
+                          v-if="row.status !== '已废弃'"
                           title="下载后证书状态将变成已使用，是否确认下载？"
+                          @confirm="handleDown(row)"
+                        >
+                          <template #reference>
+                            <el-button
+                              v-if="hasAuth('projcer_down')"
+                              class="reset-margin"
+                              link
+                              type="primary"
+                              :size="size"
+                              :icon="useRenderIcon(Download)"
+                            >
+                              下载
+                            </el-button>
+                          </template>
+                        </el-popconfirm>
+                        <el-popconfirm
+                          v-else
+                          title="是否确认下载？"
                           @confirm="handleDown(row)"
                         >
                           <template #reference>
