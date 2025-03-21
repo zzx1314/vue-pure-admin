@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { ListItem, noticesData, TabItem } from "./data";
 import NoticeList from "./components/NoticeList.vue";
 import BellIcon from "@iconify-icons/ep/bell";
 import { pSysMessageList } from "@/api/pSysMessage";
 import { SUCCESS } from "@/api/base";
 import HandlerMessageForm from "@/views/system/sysMessage/HandlerMessageForm.vue";
+import { useMessageStoreHook } from "@/store/modules/message";
 
 const { t } = useI18n();
 const noticesNum = ref(0);
@@ -48,10 +49,20 @@ const handlerItem = (item: ListItem) => {
 };
 
 function closeDia() {
-  debugger;
   dialogFormVisible.value = false;
   getMessage();
 }
+
+const messageStore = useMessageStoreHook();
+watch(
+  () => messageStore.deleteMessage,
+  newValue => {
+    if (newValue) {
+      messageStore.deleteMessage = false;
+      getMessage();
+    }
+  }
+);
 
 onMounted(() => {
   console.log("onMounted");

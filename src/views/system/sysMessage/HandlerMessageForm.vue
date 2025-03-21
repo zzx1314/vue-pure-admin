@@ -4,6 +4,7 @@ import { ElMessage, FormInstance } from "element-plus";
 import { pSysMessageUpdate } from "@/api/pSysMessage";
 import { message } from "@/utils/message";
 import { SUCCESS } from "@/api/base";
+import { useMessageStoreHook } from "@/store/modules/message";
 
 const props = defineProps({
   dialogFormVisible: {
@@ -36,7 +37,6 @@ function resetForm(formEl) {
 }
 
 function closeDialog() {
-  debugger;
   emit("update:dialogFormVisible", false);
 }
 
@@ -66,6 +66,7 @@ const addFormInfo = async (formEl: FormInstance | undefined) => {
           clearForm();
           resetForm(formEl);
           closeDialog();
+          useMessageStoreHook().setHandleMessage(true);
         } else {
           ElMessage.error(res.msg);
         }

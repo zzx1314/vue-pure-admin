@@ -1,9 +1,10 @@
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref, watch } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules } from "element-plus";
 import { pSysMessagePage, pSysMessageDelete } from "@/api/pSysMessage";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
+import { useMessageStoreHook } from "@/store/modules/message";
 
 export function usePSysMessage() {
   // ----变量定义-----
@@ -107,6 +108,7 @@ export function usePSysMessage() {
       if (res.code === SUCCESS) {
         message("删除成功！", { type: "success" });
         onSearch();
+        useMessageStoreHook().setDeleteMessage(true);
       } else {
         message(res.msg, { type: "error" });
       }
@@ -185,6 +187,16 @@ export function usePSysMessage() {
     resetForm(formEl);
   }
 
+  const messageStore = useMessageStoreHook();
+  watch(
+    () => messageStore.handleMessage,
+    newValue => {
+      if (newValue) {
+        messageStore.handleMessage = false;
+        onSearch();
+      }
+    }
+  );
   onMounted(() => {
     onSearch();
   });
