@@ -199,6 +199,7 @@ export function useProjCer() {
     const roleInfo = JSON.stringify(row);
     addForm.value = JSON.parse(roleInfo);
     addForm.value.projArray = row.projId.split(",");
+    addForm.value.parentId = row.parentId;
     isUpdate.value = true;
     openDia("修改证书", formEl);
   }
@@ -351,7 +352,6 @@ export function useProjCer() {
           text: "制作证书中",
           background: "rgba(0, 0, 0, 0.7)"
         });
-        addForm.value.parentId = parentId.value;
         if (
           addForm.value.commonExpireDta &&
           addForm.value.commonExpireDta !== ""
