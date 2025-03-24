@@ -1,6 +1,6 @@
 # 设置仓库路径和目标分支名称列表
 $repoPath = "D:\demo\zzx\vue-pure-admin"
-$targetBranches = @("ota", "operation")
+$targetBranches = @("feat/ota", "feat/operation")
 $n = 5  # 要检查的最新提交记录数量
 $maxCommitsToSync = 1  # 最大处理的提交记录数量
 
@@ -43,7 +43,7 @@ if ($commitsToSync.Count -gt 0) {
         }
 
         # Push到远程分支
-        git push origin-github $branch
+        git push origin $branch
         Write-Output "Changes have been pushed to the remote branch $branch"
     }
 
