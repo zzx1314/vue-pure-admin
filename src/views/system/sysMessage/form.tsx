@@ -41,12 +41,12 @@ export function useSysMessageForm() {
       valueType: "select",
       options: [
         {
-          label: "已读",
-          value: "已读"
+          label: "已处置",
+          value: "已处置"
         },
         {
-          label: "未读",
-          value: "未读"
+          label: "待处置",
+          value: "待处置"
         }
       ],
       colProps: {

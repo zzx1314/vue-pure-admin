@@ -25,11 +25,5 @@ export const noticesData: TabItem[] = [
     name: $t("status.pureTodo"),
     list: [],
     emptyText: $t("status.pureNoMessage")
-  },
-  {
-    key: "2",
-    name: $t("status.alreadyDone"),
-    list: [],
-    emptyText: $t("status.pureNoTodo")
   }
 ];

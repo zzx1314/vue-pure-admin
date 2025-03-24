@@ -62,7 +62,7 @@ export function usePSysMessage() {
       cellRenderer: ({ row, props }) => (
         <el-tag
           size={props.size}
-          type={row.status === "已读" ? "success" : "warning"}
+          type={row.status === "已处置" ? "success" : "warning"}
         >
           {row.status}
         </el-tag>
