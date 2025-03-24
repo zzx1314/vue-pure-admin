@@ -45,14 +45,14 @@ const {
       @refresh="onSearch"
     >
       <template #buttons>
-        <el-button
+        <!--        <el-button
           v-if="hasAuth('menu_add')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="openDia('新增菜单', addFormRef)"
         >
           新增
-        </el-button>
+        </el-button>-->
       </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
