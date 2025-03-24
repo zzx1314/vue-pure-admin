@@ -189,6 +189,7 @@ const {
         >
           <el-input
             v-model="addForm.value.permission"
+            disabled
             placeholder="请输入权限标识"
           />
         </el-form-item>
