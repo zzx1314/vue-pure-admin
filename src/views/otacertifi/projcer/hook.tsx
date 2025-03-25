@@ -106,6 +106,11 @@ export function useProjCer() {
       minWidth: 100
     },
     {
+      label: "证书ID",
+      prop: "cerId",
+      minWidth: 100
+    },
+    {
       label: "证书类型",
       prop: "type",
       minWidth: 100,
