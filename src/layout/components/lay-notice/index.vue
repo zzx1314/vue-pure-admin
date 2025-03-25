@@ -52,10 +52,14 @@ function closeDia() {
 
 const messageStore = useMessageStoreHook();
 watch(
-  () => messageStore.deleteMessage,
-  newValue => {
+  [() => messageStore.deleteMessage, () => messageStore.handleMessage],
+  ([newValue, newHandleMessage]) => {
     if (newValue) {
       messageStore.deleteMessage = false;
+      getMessage();
+    }
+    if (newHandleMessage) {
+      messageStore.handleMessage = false;
       getMessage();
     }
   }

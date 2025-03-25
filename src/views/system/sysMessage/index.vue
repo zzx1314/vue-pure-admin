@@ -6,12 +6,31 @@ import PureTable from "@pureadmin/table";
 import { PlusSearch } from "plus-pro-components";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Delete from "@iconify-icons/ep/delete";
+import EditPen from "@iconify-icons/ep/edit-pen";
+import HandlerMessageForm from "@/views/system/sysMessage/HandlerMessageForm.vue";
+import { ref } from "vue";
+import { useMessageStoreHook } from "@/store/modules/message";
 
 defineOptions({
   name: "PSysMessage"
 });
 
 const { columnsQueryForm } = useSysMessageForm();
+const messageId = ref(null);
+const dialogFormVisible = ref(false);
+
+function closeDia() {
+  dialogFormVisible.value = false;
+  messageId.value = null;
+  useMessageStoreHook().handleMessage = true;
+  onSearch();
+}
+
+const handlerItem = item => {
+  console.log("Received item:", item);
+  dialogFormVisible.value = true;
+  messageId.value = item.id;
+};
 
 const {
   queryForm,
@@ -64,6 +83,16 @@ const {
           @page-current-change="handleCurrentChange"
         >
           <template #operation="{ row }">
+            <el-button
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
+              :icon="useRenderIcon(EditPen)"
+              @click="handlerItem(row)"
+            >
+              处置
+            </el-button>
             <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>
                 <el-button
@@ -81,6 +110,13 @@ const {
         </pure-table>
       </template>
     </PureTableBar>
+
+    <handler-message-form
+      :id="messageId"
+      :dialogFormVisible="dialogFormVisible"
+      title="消息处置"
+      @update:dialogFormVisible="closeDia"
+    />
   </div>
 </template>
 
