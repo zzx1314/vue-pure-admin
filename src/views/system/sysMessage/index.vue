@@ -10,6 +10,7 @@ import EditPen from "@iconify-icons/ep/edit-pen";
 import HandlerMessageForm from "@/views/system/sysMessage/HandlerMessageForm.vue";
 import { ref } from "vue";
 import { useMessageStoreHook } from "@/store/modules/message";
+import { hasAuth } from "@/router/utils";
 
 defineOptions({
   name: "PSysMessage"
@@ -84,6 +85,7 @@ const {
         >
           <template #operation="{ row }">
             <el-button
+              v-if="hasAuth('message_handler')"
               class="reset-margin"
               link
               type="primary"
@@ -96,6 +98,7 @@ const {
             <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>
                 <el-button
+                  v-if="hasAuth('message_delete')"
                   class="reset-margin"
                   link
                   type="primary"
