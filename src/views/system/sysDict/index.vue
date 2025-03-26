@@ -17,6 +17,7 @@ import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
 import ArrowUp from "@iconify-icons/ep/arrow-up-bold";
 import ArrowDown from "@iconify-icons/ri/arrow-down-s-line";
+import { hasAuth } from "@/router/utils";
 
 defineOptions({
   name: "sysDict"
@@ -255,7 +256,7 @@ const {
               配置项
             </el-button>
             <el-button
-              v-if="row.allowDeletion"
+              v-if="row.allowDeletion && hasAuth('dict_update')"
               class="reset-margin"
               link
               type="primary"
@@ -266,7 +267,7 @@ const {
               修改
             </el-button>
             <el-popconfirm
-              v-if="row.allowDeletion"
+              v-if="row.allowDeletion && hasAuth('dict_del')"
               title="是否确认删除?"
               @confirm="handleDelete(row)"
             >
@@ -309,7 +310,7 @@ const {
     >
       <div class="mb-1">
         <el-button
-          v-if="isShowItemAdd"
+          v-if="isShowItemAdd && hasAuth('dict_add')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
           @click="addEvent"
