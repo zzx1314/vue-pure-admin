@@ -3,7 +3,7 @@ import { ListItem } from "../data";
 import { ref, PropType, nextTick } from "vue";
 import { useNav } from "@/layout/hooks/useNav";
 import { deviceDetection } from "@pureadmin/utils";
-import { hasAuth } from "@/router/utils";
+import { hasPerms } from "@/utils/auth";
 
 defineProps({
   noticeItem: {
@@ -118,7 +118,7 @@ function handleHandle(noticeItem) {
       >
         <div>
           <el-button
-            v-if="hasAuth('message_handler')"
+            v-if="hasPerms('message_handler')"
             type="primary"
             size="small"
             @click="handleHandle(noticeItem)"

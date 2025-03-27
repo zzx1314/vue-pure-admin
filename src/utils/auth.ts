@@ -1,5 +1,9 @@
 import Cookies from "js-cookie";
-import { storageSession } from "@pureadmin/utils";
+import {
+  isIncludeAllChildren,
+  isString,
+  storageSession
+} from "@pureadmin/utils";
 import { useUserStoreHook } from "@/store/modules/user";
 
 export interface DataInfo<T> {
@@ -19,6 +23,8 @@ export interface DataInfo<T> {
   roles?: Array<string>;
   // 用户id
   user_id?: Number;
+  /** 当前登录用户的按钮级别权限 */
+  permissions?: Array<string>;
 }
 
 export const userKey = "user-info";
@@ -66,11 +72,19 @@ export function setToken(data: DataInfo<Date>) {
       : {}
   );
 
-  function setUserKey({ avatar, username, nickname, roles, user_id }) {
+  function setUserKey({
+    avatar,
+    username,
+    nickname,
+    roles,
+    user_id,
+    permissions
+  }) {
     useUserStoreHook().SET_AVATAR(avatar);
     useUserStoreHook().SET_USERNAME(username);
     useUserStoreHook().SET_NICKNAME(nickname);
     useUserStoreHook().SET_ROLES(roles);
+    useUserStoreHook().SET_PERMS(permissions);
     storageSession().setItem(userKey, {
       accessToken,
       refreshToken,
@@ -79,7 +93,8 @@ export function setToken(data: DataInfo<Date>) {
       username,
       nickname,
       roles,
-      user_id
+      user_id,
+      permissions
     });
   }
 
@@ -90,7 +105,8 @@ export function setToken(data: DataInfo<Date>) {
       username,
       nickname: data?.nickname ?? "",
       roles,
-      user_id: data?.user_id
+      user_id: data?.user_id,
+      permissions: data?.permissions ?? []
     });
   } else {
     const avatar =
@@ -103,12 +119,15 @@ export function setToken(data: DataInfo<Date>) {
       storageSession().getItem<DataInfo<number>>(userKey)?.roles ?? [];
     const user_id =
       storageSession().getItem<DataInfo<number>>(userKey)?.user_id ?? "";
+    const permissions =
+      storageSession().getItem<DataInfo<number>>(userKey)?.permissions ?? [];
     setUserKey({
       avatar,
       username,
       nickname,
       roles,
-      user_id
+      user_id,
+      permissions
     });
   }
 }
@@ -123,4 +142,17 @@ export function removeToken() {
 /** 格式化token（jwt格式） */
 export const formatToken = (token: string): string => {
   return "Bearer " + token;
+};
+
+/** 是否有按钮级别的权限（根据登录接口返回的`permissions`字段进行判断）*/
+export const hasPerms = (value: string | Array<string>): boolean => {
+  if (!value) return false;
+  const allPerms = "*:*:*";
+  const { permissions } = useUserStoreHook();
+  if (!permissions) return false;
+  if (permissions.length === 1 && permissions[0] === allPerms) return true;
+  const isAuths = isString(value)
+    ? permissions.includes(value)
+    : isIncludeAllChildren(value, permissions);
+  return isAuths ? true : false;
 };

@@ -41,6 +41,7 @@ export type userType = {
   avatar?: string;
   username?: string;
   nickname?: string;
+  permissions?: Array<string>;
   roles?: Array<string>;
   verifyCode?: string;
   currentPage?: number;
