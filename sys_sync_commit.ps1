@@ -1,6 +1,6 @@
 # 设置仓库路径和目标分支名称列表
 $repoPath = "D:\demo\zzx\vue-pure-admin"
-$targetBranches = @("feat/license", "feat/operation")
+$targetBranches = @("feat/license", "feat/ota")
 $n = 5  # 要检查的最新提交记录数量
 $maxCommitsToSync = 1  # 最大处理的提交记录数量
 
