@@ -24,8 +24,8 @@ const getLabel = computed(
 );
 
 function getMessage() {
-  notices.value[0].list = [];
   pSysMessageList().then(res => {
+    notices.value[0].list = [];
     console.log("消息列表:", res.data);
     if (res.code == SUCCESS && res.data) {
       for (let i = 0; i < res.data.length; i++) {
