@@ -49,9 +49,13 @@ export function sysAuth() {
       for (const val of sysMenuTitleVoData.value) {
         // 判断groupId
         if (val.id == id) {
-          val.useAuthList = val.isCheckAll
-            ? val.authList.map(item => item.id)
-            : [];
+          if (val.isCheckAll) {
+            val.useAuthList = val.authList.map(item => item.id);
+          } else {
+            val.useAuthList = val.authList
+              .filter(item => item.disabled)
+              .map(item => item.id);
+          }
         }
         allUse.push(...val.useAuthList);
       }
