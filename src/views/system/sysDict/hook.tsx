@@ -8,7 +8,8 @@ import {
   saveDict,
   updateDict,
   deleteDictItem,
-  deleteDict
+  deleteDict,
+  updateItem
 } from "@/api/system";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -327,15 +328,28 @@ export function useDictBus() {
   async function onSave(row) {
     row.dictId = editRow.value.id;
     try {
-      const res = await saveItem(row);
-      if (res.code === SUCCESS) {
-        message("保存成功！", { type: "success" });
-        const { data } = await getItemById(row.dictId);
-        dataListMode.value = data;
-        return true;
+      if (row.id) {
+        const res = await updateItem(row);
+        if (res.code === SUCCESS) {
+          message("保存成功！", { type: "success" });
+          const { data } = await getItemById(row.dictId);
+          dataListMode.value = data;
+          return true;
+        } else {
+          message(res.msg, { type: "error" });
+          return false;
+        }
       } else {
-        message(res.msg, { type: "error" });
-        return false;
+        const res = await saveItem(row);
+        if (res.code === SUCCESS) {
+          message("保存成功！", { type: "success" });
+          const { data } = await getItemById(row.dictId);
+          dataListMode.value = data;
+          return true;
+        } else {
+          message(res.msg, { type: "error" });
+          return false;
+        }
       }
     } catch (error) {
       message("保存失败！", { type: "error" });
