@@ -36,7 +36,7 @@ export function usePropertyBusFix() {
     }
   });
   const rules = reactive<FormRules>({
-    name: [{ required: true, message: "称必填", trigger: "blur" }]
+    name: [{ required: true, message: "名称必填", trigger: "blur" }]
   });
   const columns: TableColumnList = [
     {

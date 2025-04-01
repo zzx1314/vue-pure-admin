@@ -9,6 +9,8 @@ import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
+import {hasAuth} from "@/router/utils";
+import AddFill from "@iconify-icons/ri/add-circle-line";
 
 defineOptions({
   name: "PropertyBusOfficial"
@@ -51,7 +53,16 @@ const {
         @reset="cancel"
       />
     </el-card>
-    <PureTableBar title="业务列表" :columns="columns" @refresh="onSearch">
+    <PureTableBar title="办公用品列表" :columns="columns" @refresh="onSearch">
+      <template #buttons>
+        <el-button
+          type="primary"
+          :icon="useRenderIcon(AddFill)"
+          @click="openDia('新增', addFormRef)"
+        >
+          新增
+        </el-button>
+      </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
           border

@@ -30,13 +30,27 @@ export function usePropertyBusOfficial() {
     currentPage: 1,
     background: true
   });
-  const addForm = reactive({
-    value: {
-      id: null
-    }
+  const addForm = ref({
+    id: null,
+    name: "",
+    colour: "",
+    deptName: "",
+    buyNumber: "",
+    buyTime: "",
+    buyPrice: "",
+    sumMoney: "",
+    useNum: "",
+    useDept: "",
+    useTime: "",
+    useUser: "",
+    purpose: "",
+    actualSurplus: "",
+    remark: "",
+    socketNumber: "",
+    sign: "",
   });
   const rules = reactive<FormRules>({
-    name: [{ required: true, message: "称必填", trigger: "blur" }]
+    name: [{ required: true, message: "名称必填", trigger: "blur" }]
   });
   const columns: TableColumnList = [
     {
@@ -236,7 +250,7 @@ export function usePropertyBusOfficial() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
+    formEl.clearValidate();
   };
 
   const restartForm = formEl => {
@@ -247,7 +261,23 @@ export function usePropertyBusOfficial() {
   // 取消
   function cancel() {
     addForm.value = {
-      id: null
+      id: null,
+      name: "",
+      colour: "",
+      deptName: "",
+      buyNumber: "",
+      buyTime: "",
+      buyPrice: "",
+      sumMoney: "",
+      useNum: "",
+      useDept: "",
+      useTime: "",
+      useUser: "",
+      purpose: "",
+      actualSurplus: "",
+      remark: "",
+      socketNumber: "",
+      sign: "",
     };
     queryForm.value.name = "";
     queryForm.value.beginTime = "";
@@ -257,9 +287,10 @@ export function usePropertyBusOfficial() {
   }
   // 打开弹框
   function openDia(param, formEl) {
+    debugger;
     dialogFormVisible.value = true;
     title.value = param;
-    resetForm(formEl);
+    formEl.clearValidate();
   }
 
   onMounted(() => {
