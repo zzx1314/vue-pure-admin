@@ -1,4 +1,4 @@
-import { computed, onMounted, reactive, ref } from "vue";
+import {computed, nextTick, onMounted, reactive, ref} from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules } from "element-plus";
 import {
@@ -250,7 +250,10 @@ export function usePropertyBusOfficial() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    formEl.clearValidate();
+    nextTick(() => {
+      formEl.formInstance.clearValidate();
+      console.log("resetForm");
+    });
   };
 
   const restartForm = formEl => {
@@ -287,10 +290,9 @@ export function usePropertyBusOfficial() {
   }
   // 打开弹框
   function openDia(param, formEl) {
-    debugger;
     dialogFormVisible.value = true;
     title.value = param;
-    formEl.clearValidate();
+    resetForm(formEl);
   }
 
   onMounted(() => {

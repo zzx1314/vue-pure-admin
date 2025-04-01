@@ -122,7 +122,13 @@ const {
       :form="{
         columns: columnsForm,
         rules,
-        labelWidth: '100px'
+        labelWidth: '95px',
+        rowProps: {
+          gutter: 20
+        },
+        colProps: {
+          span: 12
+        }
       }"
       @cancel="cancel"
       @confirm-error="handleSubmitError"
