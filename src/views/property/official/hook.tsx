@@ -50,6 +50,91 @@ export function usePropertyBusOfficial() {
       width: 70
     },
     {
+      label: "名称",
+      prop: "name",
+      minWidth: 100
+    },
+    {
+      label: "颜色",
+      prop: "colour",
+      minWidth: 100
+    },
+    {
+      label: "单位名称",
+      prop: "deptName",
+      minWidth: 100
+    },
+    {
+      label: "采购数量",
+      prop: "buyNumber",
+      minWidth: 100
+    },
+    {
+      label: "采购时间",
+      prop: "buyTime",
+      minWidth: 100
+    },
+    {
+      label: "采购单价",
+      prop: "buyPrice",
+      minWidth: 100
+    },
+    {
+      label: "合计金额",
+      prop: "sumMoney",
+      minWidth: 100
+    },
+    {
+      label: "使用数量",
+      prop: "useNum",
+      minWidth: 100
+    },
+    {
+      label: "使用部门",
+      prop: "useDept",
+      minWidth: 100
+    },
+    {
+      label: "领用时间",
+      prop: "useTime",
+      minWidth: 100
+    },
+    {
+      label: "领用人",
+      prop: "useUser",
+      minWidth: 100
+    },
+    {
+      label: "用途",
+      prop: "purpose",
+      minWidth: 100
+    },
+    {
+      label: "实际剩余",
+      prop: "actualSurplus",
+      minWidth: 100
+    },
+    {
+      label: "备注",
+      prop: "remark",
+      minWidth: 100
+    },
+    {
+      label: "插座序号",
+      prop: "socketNumber",
+      minWidth: 100
+    },
+    {
+      label: "签字",
+      prop: "sign",
+      minWidth: 100
+    },
+    {
+      label: "创建时间",
+      prop: "createTime",
+      minWidth: 100
+    },
+    {
       label: "操作",
       fixed: "right",
       width: 180,

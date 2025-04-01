@@ -50,6 +50,101 @@ export function usePropertyBusFix() {
       width: 70
     },
     {
+      label: "名称",
+      prop: "name",
+      minWidth: 100
+    },
+    {
+      label: "型号",
+      prop: "model",
+      minWidth: 100
+    },
+    {
+      label: "序列号",
+      prop: "serialNumber",
+      minWidth: 100
+    },
+    {
+      label: "颜色",
+      prop: "colour",
+      minWidth: 100
+    },
+    {
+      label: "单位",
+      prop: "deptName",
+      minWidth: 100
+    },
+    {
+      label: "资产编码",
+      prop: "propertyNumber",
+      minWidth: 100
+    },
+    {
+      label: "采购时间",
+      prop: "buyTime",
+      minWidth: 100
+    },
+    {
+      label: "价格",
+      prop: "price",
+      minWidth: 100
+    },
+    {
+      label: "数量",
+      prop: "number",
+      minWidth: 100
+    },
+    {
+      label: "合计金额",
+      prop: "sumPrice",
+      minWidth: 100
+    },
+    {
+      label: "领用部门",
+      prop: "useDept",
+      minWidth: 100
+    },
+    {
+      label: "领用数量",
+      prop: "useNumber",
+      minWidth: 100
+    },
+    {
+      label: "领用时间",
+      prop: "useTime",
+      minWidth: 100
+    },
+    {
+      label: "领用人",
+      prop: "useUser",
+      minWidth: 100
+    },
+    {
+      label: "用途",
+      prop: "useWay",
+      minWidth: 100
+    },
+    {
+      label: "实际结余",
+      prop: "actualSurplus",
+      minWidth: 100
+    },
+    {
+      label: "备注",
+      prop: "remark",
+      minWidth: 100
+    },
+    {
+      label: "采购申请人",
+      prop: "buyApplicant",
+      minWidth: 100
+    },
+    {
+      label: "创建时间",
+      prop: "createTime",
+      minWidth: 100
+    },
+    {
       label: "操作",
       fixed: "right",
       width: 180,

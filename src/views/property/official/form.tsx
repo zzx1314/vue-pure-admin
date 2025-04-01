@@ -14,11 +14,161 @@ export function useCollectorBusDevForm() {
       }
     },
     {
+      label: "颜色",
+      prop: "colour",
+      valueType: "copy",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
+    {
+      label: "单位",
+      prop: "deptName",
+      valueType: "copy",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
+    {
+      label: "采购数量",
+      prop: "buyNumber",
+      valueType: "input-number",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
+    {
+      label: "采购时间",
+      prop: "buyTime",
+      valueType: "date-picker",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
+    {
+      label: "采购单价",
+      prop: "buyPrice",
+      valueType: "input-number",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
+    {
+      label: "合计金额",
+      prop: "sumMoney",
+      valueType: "input-number",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
+    {
+      label: "使用数量",
+      prop: "useNum",
+      valueType: "input-number",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
+    {
+      label: "使用部门",
+      prop: "useDept",
+      valueType: "copy",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
+    {
+      label: "领用时间",
+      prop: "useTime",
+      valueType: "date-picker",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
+    {
+      label: "领用人",
+      prop: "useUser",
+      valueType: "copy",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
+    {
+      label: "用途",
+      prop: "purpose",
+      valueType: "copy",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
+    {
+      label: "实际剩余",
+      prop: "actualSurplus",
+      valueType: "copy",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
+    {
       label: "备注",
       prop: "remark",
       width: "10px",
       valueType: "textarea"
-    }
+    },
+    {
+      label: "插座序号",
+      prop: "socketNumber",
+      valueType: "copy",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
+    {
+      label: "签字",
+      prop: "sign",
+      valueType: "copy",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
+    {
+      label: "创建时间",
+      prop: "createTime",
+      valueType: "date-picker",
+      formItemProps: {
+        style: {
+          width: "50%"
+        }
+      }
+    },
   ];
 
   const columnsQueryForm: PlusColumn[] = [
