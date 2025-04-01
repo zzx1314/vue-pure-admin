@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { FormInstance } from "element-plus";
-import { useOBusCommand } from "./hook";
+import { usePropertyBusFix } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Search from "@iconify-icons/ep/search";
 import Delete from "@iconify-icons/ep/delete";
@@ -9,31 +9,34 @@ import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
-import Refresh from "@iconify-icons/ep/refresh";
-import ArrowUp from "@iconify-icons/ep/arrow-up-bold";
-import ArrowDown from "@iconify-icons/ri/arrow-down-s-line";
 
 defineOptions({
-  name: "OBusCommand"
+  name: "PropertyBusFix"
 });
 
 const addFormRef = ref<FormInstance>();
-const { columnsQueryForm } = useCollectorBusDevForm();
+const { columnsForm, columnsQueryForm } = useCollectorBusDevForm();
 
 const {
   queryForm,
   dataList,
   loading,
+  dialogFormVisible,
+  title,
   pagination,
+  addForm,
+  rules,
   columns,
   onSearch,
   handleDelete,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
+  handleSubmitError,
+  handleSubmit,
   cancel,
   openDia
-} = useOBusCommand();
+} = usePropertyBusFix();
 </script>
 <template>
   <div class="main">
@@ -41,38 +44,12 @@ const {
       <PlusSearch
         v-model="queryForm"
         :columns="columnsQueryForm"
-        :show-number="3"
+        :show-number="2"
         label-width="80"
         label-position="right"
         @search="onSearch"
         @reset="cancel"
-      >
-        <template
-          #footer="{ handleReset, handleSearch, handleUnfold, isShowUnfold }"
-        >
-          <div style="display: flex">
-            <el-button
-              type="primary"
-              :icon="useRenderIcon(Search)"
-              @click="handleSearch"
-              >搜索</el-button
-            >
-            <el-button :icon="useRenderIcon(Refresh)" @click="handleReset"
-              >重置</el-button
-            >
-            <el-button
-              type="primary"
-              :icon="
-                isShowUnfold ? useRenderIcon(ArrowUp) : useRenderIcon(ArrowDown)
-              "
-              link
-              @click="handleUnfold"
-            >
-              {{ isShowUnfold ? "收起" : "展开" }}
-            </el-button>
-          </div>
-        </template>
-      </PlusSearch>
+      />
     </el-card>
     <PureTableBar title="业务列表" :columns="columns" @refresh="onSearch">
       <template v-slot="{ size, checkList, dynamicColumns }">
@@ -125,15 +102,26 @@ const {
         </pure-table>
       </template>
     </PureTableBar>
+
+    <PlusDialogForm
+      ref="addFormRef"
+      v-model:visible="dialogFormVisible"
+      v-model="addForm"
+      :dialog="{ title: title }"
+      :form="{
+        columns: columnsForm,
+        rules,
+        labelWidth: '100px'
+      }"
+      @cancel="cancel"
+      @confirm-error="handleSubmitError"
+      @confirm="handleSubmit"
+    />
   </div>
 </template>
 
 <style scoped lang="scss">
 :deep(.el-dropdown-menu__item i) {
   margin: 0;
-}
-
-:deep(.el-link) {
-  padding-left: 10px;
 }
 </style>

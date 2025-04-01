@@ -2,16 +2,16 @@ import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules } from "element-plus";
 import {
-  oBusCommandSave,
-  oBusCommandPage,
-  oBusCommandUpdate,
-  oBusCommandDelete
-} from "@/api/oBusCommand";
+  propertyBusFixSave,
+  propertyBusFixPage,
+  propertyBusFixUpdate,
+  propertyBusFixDelete
+} from "@/api/propertyBusFix";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import type { FieldValues } from "plus-pro-components";
 
-export function useOBusCommand() {
+export function usePropertyBusFix() {
   // ----变量定义-----
   const queryForm = ref({
     name: "",
@@ -40,60 +40,20 @@ export function useOBusCommand() {
   });
   const columns: TableColumnList = [
     {
-      label: "勾选列",
       type: "selection",
       width: 55,
-      align: "left",
-      fixed: "left"
+      align: "left"
     },
     {
       label: "序号",
       type: "index",
-      width: 70,
-      fixed: "left"
+      width: 70
     },
     {
-      label: "用户",
-      prop: "username",
-      minWidth: 100
-    },
-    {
-      label: "设备ID",
-      prop: "deviceId",
-      minWidth: 100
-    },
-    {
-      label: "指令内容",
-      prop: "content",
-      minWidth: 100
-    },
-    {
-      label: "执行状态",
-      prop: "status",
-      minWidth: 100,
-      cellRenderer: ({ row }) => (
-        <el-tag
-          type={
-            row.status === "执行成功"
-              ? "success"
-              : row.status === "执行失败"
-                ? "danger"
-                : "warning"
-          }
-        >
-          {row.status}
-        </el-tag>
-      )
-    },
-    {
-      label: "执行结果",
-      prop: "returnValue",
-      minWidth: 100
-    },
-    {
-      label: "创建时间",
-      prop: "createTime",
-      minWidth: 100
+      label: "操作",
+      fixed: "right",
+      width: 180,
+      slot: "operation"
     }
   ];
   const buttonClass = computed(() => {
@@ -110,7 +70,7 @@ export function useOBusCommand() {
   // 删除
   function handleDelete(row) {
     console.log(row);
-    oBusCommandDelete(row.id).then(res => {
+    propertyBusFixDelete(row.id).then(res => {
       if (res.code === SUCCESS) {
         message("删除成功！", { type: "success" });
         onSearch();
@@ -144,7 +104,7 @@ export function useOBusCommand() {
     if (addForm.value.id) {
       // 修改
       console.log("修改");
-      oBusCommandUpdate(addForm.value).then(res => {
+      propertyBusFixUpdate(addForm.value).then(res => {
         if (res.code === SUCCESS) {
           message("修改成功！", { type: "success" });
           cancel();
@@ -155,7 +115,7 @@ export function useOBusCommand() {
     } else {
       // 新增
       console.log("新增");
-      oBusCommandSave(addForm.value).then(res => {
+      propertyBusFixSave(addForm.value).then(res => {
         if (res.code === SUCCESS) {
           message("保存成功！", { type: "success" });
           cancel();
@@ -181,7 +141,7 @@ export function useOBusCommand() {
     if (query.endTime) {
       query.endTime = query.endTime + " 23:59:59";
     }
-    const { data } = await oBusCommandPage(query);
+    const { data } = await propertyBusFixPage(query);
     dataList.value = data.records;
     pagination.total = data.total;
     setTimeout(() => {
