@@ -1,4 +1,4 @@
-import { computed, onMounted, reactive, ref } from "vue";
+import {computed, nextTick, onMounted, reactive, ref} from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules } from "element-plus";
 import {
@@ -30,10 +30,24 @@ export function usePropertyBusFix() {
     currentPage: 1,
     background: true
   });
-  const addForm = reactive({
-    value: {
-      id: null
-    }
+  const addForm = ref({
+    id: null,
+    name: "",
+    colour: "",
+    deptName: "",
+    buyNumber: "",
+    buyTime: "",
+    buyPrice: "",
+    sumMoney: "",
+    number: "",
+    useNumber: "",
+    useDept: "",
+    useTime: "",
+    useUser: "",
+    useWay: "",
+    actualSurplus: "",
+    remark: "",
+    buyApplicant: "",
   });
   const rules = reactive<FormRules>({
     name: [{ required: true, message: "名称必填", trigger: "blur" }]
@@ -246,7 +260,10 @@ export function usePropertyBusFix() {
 
   const resetForm = formEl => {
     if (!formEl) return;
-    formEl.resetFields();
+    nextTick(() => {
+      formEl.formInstance.clearValidate();
+      console.log("resetForm");
+    });
   };
 
   const restartForm = formEl => {
@@ -257,7 +274,23 @@ export function usePropertyBusFix() {
   // 取消
   function cancel() {
     addForm.value = {
-      id: null
+      id: null,
+      name: "",
+      colour: "",
+      deptName: "",
+      buyNumber: "",
+      buyTime: "",
+      buyPrice: "",
+      sumMoney: "",
+      number: "",
+      useNumber: "",
+      useDept: "",
+      useTime: "",
+      useUser: "",
+      useWay: "",
+      actualSurplus: "",
+      remark: "",
+      buyApplicant: "",
     };
     queryForm.value.name = "";
     queryForm.value.beginTime = "";
