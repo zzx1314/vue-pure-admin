@@ -160,7 +160,7 @@ export function useProjCer() {
       cellRenderer: ({ row }) => (
         <el-tag
           type={
-            row.status === "已使用"
+            row.status === "已使用" || row.status === "设备使用"
               ? "success"
               : row.status === "未生效"
                 ? "warning"

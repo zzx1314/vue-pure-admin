@@ -147,41 +147,33 @@ const defaultProps = {
               v-model="queryForm.name"
               placeholder="请输入证书名称"
               clearable
-              class="!w-[150px]"
+              class="!w-[140px]"
             />
           </el-form-item>
           <el-form-item label="证书ID" prop="cerId">
             <el-input
               v-model="queryForm.cerId"
-              placeholder="请输入证书名称"
+              placeholder="请输入证书ID"
               clearable
-              class="!w-[150px]"
+              class="!w-[140px]"
             />
           </el-form-item>
           <el-form-item label="证书类型" prop="type">
             <el-select
               v-model="queryForm.type"
               placeholder="请选择证书类型"
-              class="!w-[150px]"
+              class="!w-[140px]"
             >
               <el-option label="CA证书" value="ca" />
               <el-option label="客户端证书" value="client" />
               <el-option label="服务器证书" value="server" />
             </el-select>
           </el-form-item>
-          <el-form-item label="域名" prop="name">
-            <el-input
-              v-model="queryForm.domain"
-              placeholder="请输入域名"
-              clearable
-              class="!w-[150px]"
-            />
-          </el-form-item>
           <el-form-item label="状态" prop="name">
             <el-select
               v-model="queryForm.status"
               placeholder="请输入证书状态"
-              class="!w-[150px]"
+              class="!w-[140px]"
             >
               <el-option label="未生效" value="未生效" />
               <el-option label="已使用" value="已使用" />
@@ -192,6 +184,14 @@ const defaultProps = {
 
           <el-collapse-transition>
             <div v-show="moreCondition">
+              <el-form-item label="域名" prop="name">
+                <el-input
+                  v-model="queryForm.domain"
+                  placeholder="请输入域名"
+                  clearable
+                  class="!w-[150px]"
+                />
+              </el-form-item>
               <el-form-item label="开始时间：" prop="beginTime">
                 <el-date-picker
                   v-model="queryForm.beginTime"
