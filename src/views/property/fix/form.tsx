@@ -154,6 +154,58 @@ export function useCollectorBusDevForm() {
       }
     },
     {
+      label: "采购时间",
+      prop: "buyTime",
+      valueType: 'date-picker',
+      fieldProps: {
+        type: "datetime",
+        valueFormat: "YYYY-MM-DD HH:mm:ss"
+      },
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "领用部门",
+      prop: "useDept",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "领用人",
+      prop: "useUser",
+      valueType: 'copy',
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "用途",
+      prop: "useWay",
+      valueType: 'copy',
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "备注",
+      prop: "remark",
+      width: "10px",
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "申请人",
+      prop: "buyApplicant",
+      valueType: 'copy',
+      colProps: {
+        span: 4
+      }
+    },
+    {
       label: "开始时间",
       prop: "beginTime",
       valueType: "date-picker",
