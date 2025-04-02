@@ -6,162 +6,90 @@ export function useCollectorBusDevForm() {
     {
       label: "名称",
       prop: "name",
-      valueType: "copy",
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: "copy"
     },
     {
       label: "型号",
       prop: "model",
-      valueType: "copy",
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: "copy"
     },
     {
       label: "序列号",
       prop: "serialNumber",
-      valueType: "copy",
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: "copy"
     },
     {
       label: "颜色",
       prop: "colour",
-      valueType: "copy",
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: "copy"
     },
     {
       label: "单位",
       prop: "deptName",
-      valueType: "copy",
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: "copy"
     },
     {
       label: "资产编码",
       prop: "propertyNumber",
-      valueType: "copy",
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: "copy"
     },
     {
       label: "采购时间",
       prop: "buyTime",
       valueType: 'date-picker',
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      fieldProps: {
+        type: "datetime",
+        valueFormat: "YYYY-MM-DD HH:mm:ss"
+      },
     },
     {
       label: "价格",
       prop: "price",
-      valueType: "copy",
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: "copy"
     },
     {
       label: "数量",
       prop: "number",
-      valueType: "input-number",
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: "input-number"
     },
     {
       label: "合计金额",
       prop: "sumPrice",
-      valueType: "copy",
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: "copy"
     },
     {
       label: "领用部门",
       prop: "useDept",
-      valueType: "copy",
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: "copy"
     },
     {
       label: "领用数量",
       prop: "useNumber",
-      valueType: "copy",
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: "copy"
     },
     {
       label: "领用时间",
       prop: "useTime",
       valueType: 'date-picker',
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      fieldProps: {
+        type: "datetime",
+        valueFormat: "YYYY-MM-DD HH:mm:ss"
+      },
     },
     {
       label: "领用人",
       prop: "useUser",
-      valueType: 'copy',
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: 'copy'
     },
     {
       label: "用途",
       prop: "useWay",
-      valueType: 'copy',
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: 'copy'
     },
     {
       label: "实际结余",
       prop: "actualSurplus",
-      valueType: 'copy',
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: 'copy'
     },
     {
       label: "备注",
@@ -172,12 +100,7 @@ export function useCollectorBusDevForm() {
     {
       label: "采购申请人",
       prop: "buyApplicant",
-      valueType: 'copy',
-      formItemProps: {
-        style: {
-          width: "50%"
-        }
-      }
+      valueType: 'copy'
     },
   ];
 

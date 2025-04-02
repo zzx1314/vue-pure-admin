@@ -56,37 +56,45 @@ export function usePropertyBusFix() {
     {
       type: "selection",
       width: 55,
-      align: "left"
+      align: "left",
+      fixed: "left",
+      label: "勾选列"
     },
     {
       label: "序号",
       type: "index",
-      width: 70
+      width: 70,
+      fixed: "left",
     },
     {
       label: "名称",
       prop: "name",
-      minWidth: 100
+      minWidth: 100,
+      fixed: "left",
     },
     {
       label: "型号",
       prop: "model",
-      minWidth: 100
+      minWidth: 100,
+      fixed: "left"
     },
     {
       label: "序列号",
       prop: "serialNumber",
-      minWidth: 100
+      minWidth: 100,
+      fixed: "left",
     },
     {
       label: "颜色",
       prop: "colour",
-      minWidth: 100
+      minWidth: 100,
+      fixed: "left",
     },
     {
       label: "单位",
       prop: "deptName",
-      minWidth: 100
+      minWidth: 100,
+      fixed: "left",
     },
     {
       label: "资产编码",

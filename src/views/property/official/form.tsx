@@ -26,7 +26,11 @@ export function useCollectorBusDevForm() {
     {
       label: "采购时间",
       prop: "buyTime",
-      valueType: "date-picker"
+      valueType: "date-picker",
+      fieldProps: {
+        type: "datetime",
+        valueFormat: "YYYY-MM-DD HH:mm:ss"
+      },
     },
     {
       label: "采购单价",
@@ -51,7 +55,11 @@ export function useCollectorBusDevForm() {
     {
       label: "领用时间",
       prop: "useTime",
-      valueType: "date-picker"
+      valueType: "date-picker",
+      fieldProps: {
+        type: "datetime",
+        valueFormat: "YYYY-MM-DD HH:mm:ss"
+      },
     },
     {
       label: "领用人",
