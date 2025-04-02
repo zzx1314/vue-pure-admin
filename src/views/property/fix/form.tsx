@@ -45,7 +45,7 @@ export function useCollectorBusDevForm() {
     {
       label: "价格",
       prop: "price",
-      valueType: "copy"
+      valueType: "input-number"
     },
     {
       label: "数量",
@@ -55,7 +55,7 @@ export function useCollectorBusDevForm() {
     {
       label: "合计金额",
       prop: "sumPrice",
-      valueType: "copy"
+      valueType: "input-number"
     },
     {
       label: "领用部门",
@@ -65,7 +65,7 @@ export function useCollectorBusDevForm() {
     {
       label: "领用数量",
       prop: "useNumber",
-      valueType: "copy"
+      valueType: "input-number"
     },
     {
       label: "领用时间",

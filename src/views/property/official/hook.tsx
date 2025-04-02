@@ -174,6 +174,12 @@ export function usePropertyBusOfficial() {
   });
 
   // -----方法定义---
+  function handleUpdate(row, formEl) {
+    console.log(row);
+    const data = JSON.stringify(row);
+    addForm.value = JSON.parse(data);
+    openDia("修改", formEl);
+  }
   // 删除
   function handleDelete(row) {
     console.log(row);
@@ -321,6 +327,7 @@ export function usePropertyBusOfficial() {
     moreCondition,
     onSearch,
     resetForm,
+    handleUpdate,
     handleDelete,
     handleSizeChange,
     handleCurrentChange,

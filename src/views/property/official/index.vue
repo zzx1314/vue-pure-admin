@@ -30,6 +30,7 @@ const {
   rules,
   columns,
   onSearch,
+  handleUpdate,
   handleDelete,
   handleSizeChange,
   handleCurrentChange,
@@ -92,7 +93,7 @@ const {
               type="primary"
               :size="size"
               :icon="useRenderIcon(EditPen)"
-              @click="openDia(row, addFormRef)"
+              @click="handleUpdate(row, addFormRef)"
             >
               修改
             </el-button>
