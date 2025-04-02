@@ -89,7 +89,7 @@ export function useCollectorBusDevForm() {
     {
       label: "实际结余",
       prop: "actualSurplus",
-      valueType: 'copy'
+      valueType: 'input-number'
     },
     {
       label: "备注",
