@@ -104,7 +104,7 @@ export function usePropertyBusFix() {
     {
       label: "采购时间",
       prop: "buyTime",
-      minWidth: 100
+      minWidth: 180
     },
     {
       label: "价格",
@@ -134,7 +134,7 @@ export function usePropertyBusFix() {
     {
       label: "领用时间",
       prop: "useTime",
-      minWidth: 100
+      minWidth: 180
     },
     {
       label: "领用人",
@@ -164,7 +164,7 @@ export function usePropertyBusFix() {
     {
       label: "创建时间",
       prop: "createTime",
-      minWidth: 100
+      minWidth: 180
     },
     {
       label: "操作",

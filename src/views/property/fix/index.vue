@@ -3,13 +3,13 @@ import { ref } from "vue";
 import { FormInstance } from "element-plus";
 import { usePropertyBusFix } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import Search from "@iconify-icons/ep/search";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
 import AddFill from "@iconify-icons/ri/add-circle-line";
+import EditPen from "@iconify-icons/ep/edit-pen";
 
 defineOptions({
   name: "PropertyBusFix"
@@ -90,7 +90,7 @@ const {
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(Search)"
+              :icon="useRenderIcon(EditPen)"
               @click="openDia(row, addFormRef)"
             >
               修改
