@@ -20,6 +20,7 @@ export function useProjCer() {
   const queryForm = reactive({
     projQueryId: null,
     name: "",
+    cerId: "",
     domain: "",
     type: "",
     status: "",
@@ -108,7 +109,7 @@ export function useProjCer() {
     {
       label: "证书ID",
       prop: "cerId",
-      minWidth: 100
+      minWidth: 180
     },
     {
       label: "证书类型",
@@ -337,11 +338,14 @@ export function useProjCer() {
     };
 
     queryForm.name = "";
+    queryForm.cerId = "";
     queryForm.domain = "";
     queryForm.type = "";
     queryForm.status = "";
     queryForm.projName = "";
     queryForm.type = "";
+    queryForm.beginTime = "";
+    queryForm.endTime = "";
     dialogFormVisible.value = false;
     isUpdateProj.value = false;
     isUpdate.value = false;

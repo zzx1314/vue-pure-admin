@@ -150,6 +150,14 @@ const defaultProps = {
               class="!w-[150px]"
             />
           </el-form-item>
+          <el-form-item label="证书ID" prop="cerId">
+            <el-input
+              v-model="queryForm.cerId"
+              placeholder="请输入证书名称"
+              clearable
+              class="!w-[150px]"
+            />
+          </el-form-item>
           <el-form-item label="证书类型" prop="type">
             <el-select
               v-model="queryForm.type"
@@ -177,6 +185,7 @@ const defaultProps = {
             >
               <el-option label="未生效" value="未生效" />
               <el-option label="已使用" value="已使用" />
+              <el-option label="设备使用" value="设备使用" />
               <el-option label="已废弃" value="已废弃" />
             </el-select>
           </el-form-item>
