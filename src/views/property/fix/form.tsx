@@ -110,7 +110,47 @@ export function useCollectorBusDevForm() {
       prop: "name",
       valueType: "copy",
       colProps: {
-        span: 5
+        span: 4
+      }
+    },
+    {
+      label: "型号",
+      prop: "model",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "序列号",
+      prop: "serialNumber",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "颜色",
+      prop: "colour",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "单位",
+      prop: "deptName",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "资产编码",
+      prop: "propertyNumber",
+      valueType: "copy",
+      colProps: {
+        span: 4
       }
     },
     {
@@ -128,7 +168,7 @@ export function useCollectorBusDevForm() {
         valueFormat: "YYYY-MM-DD HH:mm:ss"
       },
       colProps: {
-        span: 5
+        span: 4
       }
     },
     {
@@ -145,7 +185,7 @@ export function useCollectorBusDevForm() {
         valueFormat: "YYYY-MM-DD"
       },
       colProps: {
-        span: 5
+        span: 4
       }
     }
   ];

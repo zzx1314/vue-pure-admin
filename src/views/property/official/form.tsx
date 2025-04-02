@@ -100,7 +100,43 @@ export function useCollectorBusDevForm() {
       prop: "name",
       valueType: "copy",
       colProps: {
-        span: 5
+        span: 4
+      }
+    },
+    {
+      label: "颜色",
+      prop: "colour",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "单位",
+      prop: "deptName",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "采购数量",
+      prop: "buyNumber",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "采购时间",
+      prop: "buyTime",
+      valueType: "date-picker",
+      fieldProps: {
+        type: "datetime",
+        valueFormat: "YYYY-MM-DD HH:mm:ss"
+      },
+      colProps: {
+        span: 4
       }
     },
     {
@@ -135,7 +171,7 @@ export function useCollectorBusDevForm() {
         valueFormat: "YYYY-MM-DD"
       },
       colProps: {
-        span: 5
+        span: 4
       }
     }
   ];
