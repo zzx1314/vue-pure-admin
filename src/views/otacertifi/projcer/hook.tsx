@@ -109,7 +109,7 @@ export function useProjCer() {
     {
       label: "证书ID",
       prop: "cerId",
-      minWidth: 180
+      minWidth: 100
     },
     {
       label: "证书类型",
