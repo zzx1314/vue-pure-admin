@@ -140,6 +140,46 @@ export function useCollectorBusDevForm() {
       }
     },
     {
+      label: "使用部门",
+      prop: "useDept",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "领用人",
+      prop: "useUser",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "用途",
+      prop: "purpose",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "插座序号",
+      prop: "socketNumber",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      }
+    },
+    {
+      label: "签字",
+      prop: "sign",
+      valueType: "copy",
+      colProps: {
+        span: 4
+      }
+    },
+    {
       label: "开始时间",
       prop: "beginTime",
       valueType: "date-picker",
