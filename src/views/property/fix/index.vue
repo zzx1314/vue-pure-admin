@@ -16,7 +16,7 @@ defineOptions({
 });
 
 const addFormRef = ref<FormInstance>();
-const { columnsForm, columnsQueryForm } = useCollectorBusDevForm();
+const { columnsQueryForm } = useCollectorBusDevForm();
 
 const {
   queryForm,
@@ -26,6 +26,7 @@ const {
   title,
   pagination,
   addForm,
+  columnsForm,
   rules,
   columns,
   onSearch,
@@ -46,8 +47,8 @@ const {
       <PlusSearch
         v-model="queryForm"
         :columns="columnsQueryForm"
-        :show-number="5"
-        label-width="80"
+        :show-number="4"
+        label-width="60px"
         label-position="right"
         @search="onSearch"
         @reset="cancel"

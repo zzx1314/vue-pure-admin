@@ -9,7 +9,7 @@ import {
 } from "@/api/propertyBusFix";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
-import type { FieldValues } from "plus-pro-components";
+import type {FieldValues, PlusColumn} from "plus-pro-components";
 
 export function usePropertyBusFix() {
   // ----变量定义-----
@@ -62,6 +62,129 @@ export function usePropertyBusFix() {
     remark: "",
     buyApplicant: "",
   });
+  const countSum = (price: number, number: number) => {
+    if (!price || !number) {
+      return;
+    }
+    addForm.value.sumPrice = price * number;
+  };
+  const columnsForm: PlusColumn[] = [
+    {
+      label: "名称",
+      prop: "name",
+      valueType: "copy"
+    },
+    {
+      label: "型号",
+      prop: "model",
+      valueType: "copy"
+    },
+    {
+      label: "序列号",
+      prop: "serialNumber",
+      valueType: "copy"
+    },
+    {
+      label: "颜色",
+      prop: "colour",
+      valueType: "copy"
+    },
+    {
+      label: "单位",
+      prop: "deptName",
+      valueType: "copy"
+    },
+    {
+      label: "资产编码",
+      prop: "propertyNumber",
+      valueType: "copy"
+    },
+    {
+      label: "采购时间",
+      prop: "buyTime",
+      valueType: 'date-picker',
+      fieldProps: {
+        type: "datetime",
+        valueFormat: "YYYY-MM-DD HH:mm:ss"
+      },
+    },
+    {
+      label: "价格",
+      prop: "price",
+      valueType: "input-number",
+      fieldProps: {
+        min: 0,
+        precision: 2
+      }
+    },
+    {
+      label: "数量",
+      prop: "number",
+      valueType: "input-number",
+      fieldProps: {
+        min: 0,
+        onBlur: () => {
+          console.log('onBlur')
+          return countSum(addForm.value.price, addForm.value.number);
+        }
+      }
+    },
+    {
+      label: "合计金额",
+      prop: "sumPrice",
+      valueType: "input-number",
+      fieldProps: {
+        min: 0,
+        precision: 2
+      }
+    },
+    {
+      label: "领用部门",
+      prop: "useDept",
+      valueType: "copy"
+    },
+    {
+      label: "领用数量",
+      prop: "useNumber",
+      valueType: "input-number"
+    },
+    {
+      label: "领用时间",
+      prop: "useTime",
+      valueType: 'date-picker',
+      fieldProps: {
+        type: "datetime",
+        valueFormat: "YYYY-MM-DD HH:mm:ss"
+      },
+    },
+    {
+      label: "领用人",
+      prop: "useUser",
+      valueType: 'copy'
+    },
+    {
+      label: "用途",
+      prop: "useWay",
+      valueType: 'copy'
+    },
+    {
+      label: "实际结余",
+      prop: "actualSurplus",
+      valueType: 'input-number'
+    },
+    {
+      label: "备注",
+      prop: "remark",
+      width: "10px",
+      valueType: "textarea"
+    },
+    {
+      label: "采购申请人",
+      prop: "buyApplicant",
+      valueType: 'copy'
+    },
+  ];
+
   const rules = reactive<FormRules>({
     name: [{ required: true, message: "名称必填", trigger: "blur" }]
   });
@@ -359,6 +482,7 @@ export function usePropertyBusFix() {
     title,
     pagination,
     addForm,
+    columnsForm,
     rules,
     columns,
     buttonClass,
