@@ -1,7 +1,18 @@
 // form表单
 import type { PlusColumn } from "plus-pro-components";
+import {usePropertyBusOfficial} from "@/views/property/official/hook";
+
+const {
+  addForm,
+} = usePropertyBusOfficial()
 
 export function useCollectorBusDevForm() {
+  const countSum = (price: number, number: number) => {
+    if (!price || !number) {
+      return;
+    }
+    addForm.value.sumMoney = price * number;
+  };
   const columnsForm: PlusColumn[] = [
     {
       label: "名称",
@@ -19,9 +30,25 @@ export function useCollectorBusDevForm() {
       valueType: "copy"
     },
     {
+      label: "采购单价",
+      prop: "buyPrice",
+      valueType: "input-number",
+      fieldProps: {
+        min: 0,
+        precision: 2
+      }
+    },
+    {
       label: "采购数量",
       prop: "buyNumber",
-      valueType: "input-number"
+      valueType: "input-number",
+      fieldProps: {
+        min: 0,
+        onBlur: () => {
+          console.log('onBlur')
+          return countSum(addForm.value.buyPrice, addForm.value.buyNumber);
+        }
+      }
     },
     {
       label: "采购时间",
@@ -33,14 +60,13 @@ export function useCollectorBusDevForm() {
       },
     },
     {
-      label: "采购单价",
-      prop: "buyPrice",
-      valueType: "input-number"
-    },
-    {
       label: "合计金额",
       prop: "sumMoney",
-      valueType: "input-number"
+      valueType: "input-number",
+      fieldProps: {
+        min: 0,
+        precision: 2
+      }
     },
     {
       label: "使用数量",
@@ -114,14 +140,6 @@ export function useCollectorBusDevForm() {
     {
       label: "单位",
       prop: "deptName",
-      valueType: "copy",
-      colProps: {
-        span: 4
-      }
-    },
-    {
-      label: "采购数量",
-      prop: "buyNumber",
       valueType: "copy",
       colProps: {
         span: 4

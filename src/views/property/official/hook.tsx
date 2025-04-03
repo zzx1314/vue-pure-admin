@@ -15,6 +15,14 @@ export function usePropertyBusOfficial() {
   // ----变量定义-----
   const queryForm = ref({
     name: "",
+    colour: "",
+    deptName: "",
+    buyTime: "",
+    useDept: "",
+    useUser: "",
+    purpose: "",
+    socketNumber: "",
+    sign: "",
     beginTime: "",
     endTime: ""
   });
@@ -35,10 +43,10 @@ export function usePropertyBusOfficial() {
     name: "",
     colour: "",
     deptName: "",
-    buyNumber: "",
+    buyNumber: null,
     buyTime: "",
-    buyPrice: "",
-    sumMoney: "",
+    buyPrice: null,
+    sumMoney: null,
     useNum: "",
     useDept: "",
     useTime: "",
@@ -296,9 +304,19 @@ export function usePropertyBusOfficial() {
       socketNumber: "",
       sign: "",
     };
-    queryForm.value.name = "";
-    queryForm.value.beginTime = "";
-    queryForm.value.endTime = "";
+    queryForm.value = {
+      name: "",
+      colour: "",
+      deptName: "",
+      buyTime: "",
+      useDept: "",
+      useUser: "",
+      purpose: "",
+      socketNumber: "",
+      sign: "",
+      beginTime: "",
+      endTime: ""
+    }
     dialogFormVisible.value = false;
     onSearch();
   }

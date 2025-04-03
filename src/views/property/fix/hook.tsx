@@ -15,6 +15,17 @@ export function usePropertyBusFix() {
   // ----变量定义-----
   const queryForm = ref({
     name: "",
+    model: "",
+    serialNumber: "",
+    colour: "",
+    deptName: "",
+    propertyNumber: "",
+    buyTime: "",
+    useDept: "",
+    useUser: "",
+    useWay: "",
+    remark: "",
+    buyApplicant: "",
     beginTime: "",
     endTime: ""
   });
@@ -33,15 +44,17 @@ export function usePropertyBusFix() {
   const addForm = ref({
     id: null,
     name: "",
+    model: "",
+    serialNumber: "",
     colour: "",
     deptName: "",
-    buyNumber: "",
+    propertyNumber: "",
     buyTime: "",
-    buyPrice: "",
-    sumMoney: "",
-    number: "",
-    useNumber: "",
+    price: null,
+    number: null,
+    sumPrice: null,
     useDept: "",
+    useNumber: null,
     useTime: "",
     useUser: "",
     useWay: "",
@@ -290,15 +303,17 @@ export function usePropertyBusFix() {
     addForm.value = {
       id: null,
       name: "",
+      model: "",
+      serialNumber: "",
       colour: "",
       deptName: "",
-      buyNumber: "",
+      propertyNumber: "",
       buyTime: "",
-      buyPrice: "",
-      sumMoney: "",
-      number: "",
-      useNumber: "",
+      price: null,
+      number: null,
+      sumPrice: null,
       useDept: "",
+      useNumber: null,
       useTime: "",
       useUser: "",
       useWay: "",
@@ -306,9 +321,22 @@ export function usePropertyBusFix() {
       remark: "",
       buyApplicant: "",
     };
-    queryForm.value.name = "";
-    queryForm.value.beginTime = "";
-    queryForm.value.endTime = "";
+    queryForm.value = {
+      name: "",
+      model: "",
+      serialNumber: "",
+      colour: "",
+      deptName: "",
+      propertyNumber: "",
+      buyTime: "",
+      useDept: "",
+      useUser: "",
+      useWay: "",
+      remark: "",
+      buyApplicant: "",
+      beginTime: "",
+      endTime: ""
+    }
     dialogFormVisible.value = false;
     onSearch();
   }

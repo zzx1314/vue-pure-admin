@@ -1,7 +1,17 @@
 // form表单
 import type { PlusColumn } from "plus-pro-components";
+import {usePropertyBusFix} from "@/views/property/fix/hook";
+const {
+  addForm,
+} = usePropertyBusFix();
 
 export function useCollectorBusDevForm() {
+  const countSum = (price: number, number: number) => {
+    if (!price || !number) {
+      return;
+    }
+    addForm.value.sumPrice = price * number;
+  };
   const columnsForm: PlusColumn[] = [
     {
       label: "名称",
@@ -45,17 +55,32 @@ export function useCollectorBusDevForm() {
     {
       label: "价格",
       prop: "price",
-      valueType: "input-number"
+      valueType: "input-number",
+      fieldProps: {
+        min: 0,
+        precision: 2
+      }
     },
     {
       label: "数量",
       prop: "number",
-      valueType: "input-number"
+      valueType: "input-number",
+      fieldProps: {
+        min: 0,
+        onBlur: () => {
+          console.log('onBlur')
+          return countSum(addForm.value.price, addForm.value.number);
+        }
+      }
     },
     {
       label: "合计金额",
       prop: "sumPrice",
-      valueType: "input-number"
+      valueType: "input-number",
+      fieldProps: {
+        min: 0,
+        precision: 2
+      }
     },
     {
       label: "领用部门",
