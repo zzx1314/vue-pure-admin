@@ -126,7 +126,11 @@ export function useCollectorBusDevForm() {
       prop: "name",
       valueType: "copy",
       colProps: {
-        span: 4
+        span: 4,
+        style: {
+          "padding-left": "0px",
+          "padding-right": "0px"
+        }
       }
     },
     {
@@ -134,7 +138,11 @@ export function useCollectorBusDevForm() {
       prop: "colour",
       valueType: "copy",
       colProps: {
-        span: 4
+        span: 4,
+        style: {
+          "padding-left": "0px",
+          "padding-right": "0px"
+        }
       }
     },
     {
@@ -142,27 +150,46 @@ export function useCollectorBusDevForm() {
       prop: "deptName",
       valueType: "copy",
       colProps: {
-        span: 4
+        span: 4,
+        style: {
+          "padding-left": "0px",
+          "padding-right": "0px"
+        }
       }
     },
     {
       label: "采购时间",
       prop: "buyTime",
       valueType: "date-picker",
+      labelWidth: 80,
       fieldProps: {
         type: "datetime",
-        valueFormat: "YYYY-MM-DD HH:mm:ss"
+        valueFormat: "YYYY-MM-DD HH:mm:ss",
+      },
+      formItemProps: {
+        style: {
+          width: "250px"
+        }
       },
       colProps: {
-        span: 4
+        span: 5,
+        style: {
+          "padding-left": "0px",
+          "padding-right": "0px"
+        }
       }
     },
     {
       label: "使用部门",
       prop: "useDept",
       valueType: "copy",
+      labelWidth: 80,
       colProps: {
-        span: 4
+        span: 4,
+        style: {
+          "padding-left": "0px",
+          "padding-right": "0px"
+        }
       }
     },
     {
@@ -170,7 +197,11 @@ export function useCollectorBusDevForm() {
       prop: "useUser",
       valueType: "copy",
       colProps: {
-        span: 4
+        span: 4,
+        style: {
+          "padding-left": "0px",
+          "padding-right": "0px"
+        }
       }
     },
     {
@@ -178,15 +209,24 @@ export function useCollectorBusDevForm() {
       prop: "purpose",
       valueType: "copy",
       colProps: {
-        span: 4
+        span: 4,
+        style: {
+          "padding-left": "0px",
+          "padding-right": "0px"
+        }
       }
     },
     {
       label: "插座序号",
       prop: "socketNumber",
       valueType: "copy",
+      labelWidth: 80,
       colProps: {
-        span: 4
+        span: 4,
+        style: {
+          "padding-left": "0px",
+          "padding-right": "0px"
+        }
       }
     },
     {
@@ -194,13 +234,18 @@ export function useCollectorBusDevForm() {
       prop: "sign",
       valueType: "copy",
       colProps: {
-        span: 4
+        span: 4,
+        style: {
+          "padding-left": "0px",
+          "padding-right": "0px"
+        }
       }
     },
     {
       label: "开始时间",
       prop: "beginTime",
       valueType: "date-picker",
+      labelWidth: 80,
       type: "date",
       formItemProps: {
         style: {
@@ -212,12 +257,15 @@ export function useCollectorBusDevForm() {
         valueFormat: "YYYY-MM-DD HH:mm:ss"
       },
       colProps: {
-        span: 5
+        span: 4,
+        "padding-left": "0px",
+        "padding-right": "0px"
       }
     },
     {
       label: "结束时间",
       prop: "endTime",
+      labelWidth: 80,
       valueType: "date-picker",
       formItemProps: {
         style: {
@@ -229,7 +277,9 @@ export function useCollectorBusDevForm() {
         valueFormat: "YYYY-MM-DD"
       },
       colProps: {
-        span: 4
+        span: 4,
+        "padding-left": "0px",
+        "padding-right": "0px"
       }
     }
   ];

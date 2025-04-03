@@ -48,7 +48,7 @@ const {
         v-model="queryForm"
         :columns="columnsQueryForm"
         :show-number="4"
-        label-width="80"
+        label-width="60px"
         label-position="right"
         @search="onSearch"
         @reset="cancel"
