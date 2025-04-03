@@ -17,10 +17,11 @@ defineOptions({
 });
 
 const addFormRef = ref<FormInstance>();
-const { columnsForm, columnsQueryForm } = useCollectorBusDevForm();
+const { columnsQueryForm } = useCollectorBusDevForm();
 
 const {
   queryForm,
+  columnsForm,
   dataList,
   loading,
   dialogFormVisible,
