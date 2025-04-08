@@ -9,7 +9,7 @@ import Logger from '@/utils/Logger'
 
 import getBpmnIconType from '@/components/ReBpmn/bpmn-icons/getIconType'
 import bpmnIcons from '@/components/ReBpmn/bpmn-icons'
-import BpmnIcon from '@/components/common/BpmnIcon.vue'
+import BpmnIcon from '@/components/ReBpmn/common/BpmnIcon.vue'
 
 import { isAsynchronous } from '@/components/ReBpmn/bo-utils/asynchronousContinuationsUtil'
 import { isExecutable } from '@/components/ReBpmn/bo-utils/executionListenersUtil'

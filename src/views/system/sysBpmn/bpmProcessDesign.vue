@@ -42,29 +42,28 @@ onMounted(()=>{
 </script>
 
 <template>
-  <NConfigProvider
-    abstract
-    :componentOptions="{ DynamicInput: { buttonSize: 'small' } }"
-    :hljs="hljs"
-  >
-    <NDialogProvider>
-      <div :class="computedClasses" id="designer-container">
-        <NMessageProvider>
-          <Toolbar v-if="showToolbar" />
-          <div class="main-content">
-            <Palette v-if="customPalette" />
-            <Designer v-model:xml="processXml" />
-            <Panel v-if="customPenal" />
-            <div v-else class="camunda-penal" id="camunda-penal"></div>
-          </div>
-          <Setting v-model:settings="editorSettings" />
-          <ContextMenu />
-        </NMessageProvider>
-      </div>
-    </NDialogProvider>
-  </NConfigProvider>
+  <div class="main">
+    <NConfigProvider
+      abstract
+      :componentOptions="{ DynamicInput: { buttonSize: 'small' } }"
+      :hljs="hljs"
+    >
+      <NDialogProvider>
+        <div :class="computedClasses" id="designer-container">
+          <NMessageProvider>
+            <Toolbar v-if="showToolbar" />
+            <div class="main-content">
+              <Palette v-if="customPalette" />
+              <Designer v-model:xml="processXml" />
+              <Panel v-if="customPenal" />
+              <div v-else class="camunda-penal" id="camunda-penal"></div>
+            </div>
+            <Setting v-model:settings="editorSettings" />
+            <ContextMenu />
+          </NMessageProvider>
+        </div>
+      </NDialogProvider>
+    </NConfigProvider>
+  </div>
 </template>
 
-<style scoped lang="scss">
-
-</style>
