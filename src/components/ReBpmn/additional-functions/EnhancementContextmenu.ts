@@ -1,7 +1,7 @@
 // 右键扩展
 import editor from '@/store/editor'
-import EventEmitter from '@/utils/EventEmitter'
-import { isAppendAction } from '@/utils/BpmnDesignerUtils'
+import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
+import { isAppendAction } from '@/components/ReBpmn/utils/BpmnDesignerUtils'
 
 import type Modeler from 'bpmn-js/lib/Modeler'
 import type PopupMenu from 'diagram-js/lib/features/popup-menu/PopupMenu'

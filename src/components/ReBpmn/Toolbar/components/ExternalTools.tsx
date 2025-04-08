@@ -1,6 +1,6 @@
 import { computed, defineComponent, ref } from 'vue'
 import { NButton, NButtonGroup, NInput, NPopover, useDialog } from 'naive-ui'
-import LucideIcon from '@/components/common/LucideIcon.vue'
+import LucideIcon from '@/components/ReBpmn/common/LucideIcon.vue'
 import editor from '@/store/editor'
 import modeler from '@/store/modeler'
 import ToggleMode from 'bpmn-js-token-simulation/lib/features/toggle-mode/modeler/ToggleMode'

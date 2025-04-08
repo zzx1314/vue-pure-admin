@@ -1,6 +1,6 @@
 import { defineComponent, ref } from 'vue'
 import { NButton, NButtonGroup, NPopover } from 'naive-ui'
-import LucideIcon from '@/components/common/LucideIcon.vue'
+import LucideIcon from '@/components/ReBpmn/common/LucideIcon.vue'
 import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
 import type Modeler from 'bpmn-js/lib/Modeler'
 import type Canvas from 'diagram-js/lib/core/Canvas'

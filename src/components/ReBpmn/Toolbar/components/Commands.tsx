@@ -4,7 +4,7 @@ import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
 import type Modeler from 'bpmn-js/lib/Modeler'
 import type CommandStack from 'diagram-js/lib/command/CommandStack'
 import { createNewDiagram } from '@/components/ReBpmn/utils'
-import LucideIcon from '@/components/common/LucideIcon.vue'
+import LucideIcon from '@/components/ReBpmn/common/LucideIcon.vue'
 import { useI18n } from 'vue-i18n'
 
 const Commands = defineComponent({

@@ -13,9 +13,9 @@ import {
   NCard
 } from 'naive-ui'
 import { EditorSettings } from 'types/editor/settings'
-import { defaultSettings } from '@/config'
+import { defaultSettings } from '@/components/ReBpmn/config'
 import editor from '@/store/editor'
-import LucideIcon from '@/components/common/LucideIcon.vue'
+import LucideIcon from '@/components/ReBpmn/common/LucideIcon.vue'
 
 import { useI18n } from 'vue-i18n'
 

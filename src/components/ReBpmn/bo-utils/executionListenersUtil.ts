@@ -5,11 +5,11 @@ import {
   getExtensionElementsList,
   addExtensionElements,
   removeExtensionElements
-} from '@/utils/BpmnExtensionElementsUtil'
+} from '@/components/ReBpmn/utils/BpmnExtensionElementsUtil'
 import editor from '@/store/editor'
 import modeler from '@/store/modeler'
-import { createScript } from '@/bo-utils/scriptUtil'
-import { LISTENER_ALLOWED_TYPES } from '@/config/bpmnEnums'
+import { createScript } from '@/components/ReBpmn/bo-utils/scriptUtil'
+import { LISTENER_ALLOWED_TYPES } from '@/components/ReBpmn/config/bpmnEnums'
 
 export const EXECUTION_LISTENER_TYPE = {
   class: 'Java class',

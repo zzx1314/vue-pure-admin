@@ -1,5 +1,5 @@
 import RuleProvider from 'diagram-js/lib/features/rules/RuleProvider'
-import Logger from '@/utils/Logger'
+import Logger from '@/components/ReBpmn/utils/Logger'
 import { Element } from 'diagram-js/lib/model/Types'
 
 class CustomRules extends RuleProvider {

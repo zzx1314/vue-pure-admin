@@ -5,7 +5,7 @@ import debounce from 'lodash.debounce'
 
 import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
 import modelerStore from '@/store/modeler'
-import Logger from '@/utils/Logger'
+import Logger from '@/components/ReBpmn/utils/Logger'
 
 import getBpmnIconType from '@/components/ReBpmn/bpmn-icons/getIconType'
 import bpmnIcons from '@/components/ReBpmn/bpmn-icons'

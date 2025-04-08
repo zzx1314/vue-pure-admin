@@ -18,9 +18,7 @@
 @import "setting";
 @import "contextmenu";
 
-body,
-html,
-#app,
+
 .designer-container {
   height: 100vh;
   width: 100vw;
@@ -36,7 +34,6 @@ html,
   }
   &.designer-with-image > .main-content .designer {
     background-repeat: no-repeat !important;
-    background-image: url("/04.jpg") !important;
     background-size: cover;
   }
   .main-content {

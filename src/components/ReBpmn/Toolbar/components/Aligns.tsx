@@ -4,7 +4,7 @@ import Modeler from 'bpmn-js/lib/Modeler'
 import Selection from 'diagram-js/lib/features/selection/Selection'
 import Modeling from 'bpmn-js/lib/features/modeling/Modeling.js'
 import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
-import LucideIcon from '@/components/common/LucideIcon.vue'
+import LucideIcon from '@/components/ReBpmn/common/LucideIcon.vue'
 
 import { useI18n } from 'vue-i18n'
 

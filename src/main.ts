@@ -25,11 +25,12 @@ import "element-plus/dist/index.css";
 // 导入字体图标
 import "./assets/iconfont/iconfont.js";
 import "./assets/iconfont/iconfont.css";
-import './components/ReBpmn/styles/index.scss'
 
 import LucideIcon from '@/components/ReBpmn/common/LucideIcon.vue'
 import EditItem from '@/components/ReBpmn/common/EditItem.vue'
 import CollapseTitle from '@/components/ReBpmn/common/CollapseTitle.vue'
+
+import i18n from '@/components/ReBpmn/i18n'
 
 const app = createApp(App);
 
@@ -152,6 +153,7 @@ getPlatformConfig(app).then(async config => {
     .use(useVxeTable)
     .use(PureDescriptions)
     .use(naive)
+    .use(i18n)
     .use(useEcharts);
   app.mount("#app");
 });

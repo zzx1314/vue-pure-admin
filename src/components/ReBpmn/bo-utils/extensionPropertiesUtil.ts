@@ -1,7 +1,7 @@
 import { Element } from 'bpmn-js/lib/model/Types'
 import { ModdleElement } from 'bpmn-moddle'
 import { getBusinessObject, is } from 'bpmn-js/lib/util/ModelUtil'
-import { createModdleElement, getExtensionElementsList } from '@/utils/BpmnExtensionElementsUtil'
+import { createModdleElement, getExtensionElementsList } from '@/components/ReBpmn/utils/BpmnExtensionElementsUtil'
 import modelerStore from '@/store/modeler'
 import editorStore from '@/store/editor'
 import { without } from 'min-dash'
