@@ -25,8 +25,81 @@ import "element-plus/dist/index.css";
 // 导入字体图标
 import "./assets/iconfont/iconfont.js";
 import "./assets/iconfont/iconfont.css";
+import './components/ReBpmn/styles/index.scss'
+
+import LucideIcon from '@/components/ReBpmn/common/LucideIcon.vue'
+import EditItem from '@/components/ReBpmn/common/EditItem.vue'
+import CollapseTitle from '@/components/ReBpmn/common/CollapseTitle.vue'
 
 const app = createApp(App);
+
+import {
+  createDiscreteApi,
+  create,
+  NColorPicker,
+  NConfigProvider,
+  NMessageProvider,
+  NDialogProvider,
+  NButton,
+  NButtonGroup,
+  NTag,
+  NCollapse,
+  NCollapseItem,
+  NDataTable,
+  NPopover,
+  NDrawer,
+  NDrawerContent,
+  NModal,
+  NCode,
+  NForm,
+  NFormItem,
+  NInput,
+  NInputNumber,
+  NRadio,
+  NRadioGroup,
+  NCheckbox,
+  NCheckboxGroup,
+  NSelect,
+  NSwitch
+} from 'naive-ui'
+
+const naive = create({
+  components: [
+    NColorPicker,
+    NConfigProvider,
+    NMessageProvider,
+    NDialogProvider,
+    NButton,
+    NButtonGroup,
+    NTag,
+    NCollapse,
+    NCollapseItem,
+    NDataTable,
+    NPopover,
+    NDrawer,
+    NDrawerContent,
+    NModal,
+    NCode,
+    NForm,
+    NFormItem,
+    NInput,
+    NInputNumber,
+    NRadio,
+    NRadioGroup,
+    NCheckbox,
+    NCheckboxGroup,
+    NSelect,
+    NSwitch
+  ]
+})
+
+const { message, notification, dialog, loadingBar } = createDiscreteApi([
+  'message',
+  'dialog',
+  'notification',
+  'loadingBar'
+])
+window.__messageBox = message
 
 // 自定义指令
 import * as directives from "@/directives";
@@ -43,6 +116,10 @@ import {
 app.component("IconifyIconOffline", IconifyIconOffline);
 app.component("IconifyIconOnline", IconifyIconOnline);
 app.component("FontIcon", FontIcon);
+
+app.component('LucideIcon', LucideIcon)
+app.component('EditItem', EditItem)
+app.component('CollapseTitle', CollapseTitle)
 
 // 全局注册按钮级别权限组件
 import { Auth } from "@/components/ReAuth";
@@ -74,6 +151,7 @@ getPlatformConfig(app).then(async config => {
     .use(Table)
     .use(useVxeTable)
     .use(PureDescriptions)
+    .use(naive)
     .use(useEcharts);
   app.mount("#app");
 });
