@@ -14,12 +14,6 @@ importers:
       '@howdyjs/mouse-menu':
         specifier: ^2.1.3
         version: 2.1.3(vue@3.4.31(typescript@5.5.3))
-      '@iconify-icons/bi':
-        specifier: ^1.2.19
-        version: 1.2.19
-      '@iconify-icons/ph':
-        specifier: ^1.2.5
-        version: 1.2.5
       '@infectoone/vue-ganttastic':
         specifier: ^2.3.2
         version: 2.3.2(dayjs@1.11.11)(vue@3.4.31(typescript@5.5.3))
@@ -50,9 +44,6 @@ importers:
       '@vueuse/motion':
         specifier: ^2.2.3
         version: 2.2.3(rollup@4.18.0)(vue@3.4.31(typescript@5.5.3))
-      '@xterm/xterm':
-        specifier: ^5.5.0
-        version: 5.5.0
       '@zxcvbn-ts/core':
         specifier: ^3.0.4
         version: 3.0.4
@@ -77,9 +68,6 @@ importers:
       echarts:
         specifier: ^5.5.1
         version: 5.5.1
-      echarts-liquidfill:
-        specifier: ^3.1.0
-        version: 3.1.0(echarts@5.5.1)
       el-table-infinite-scroll:
         specifier: ^3.0.5
         version: 3.0.5(typescript@5.5.3)
@@ -983,17 +971,11 @@ packages:
     resolution: {integrity: sha512-d2CGZR2o7fS6sWB7DG/3a95bGKQyHMACZ5aW8qGkkqQpUoZV6C0X7Pc7l4ZNMZkfNBf4VWNe9E1jRsf0G146Ew==}
     engines: {node: '>=18.18'}
 
-  '@iconify-icons/bi@1.2.19':
-    resolution: {integrity: sha512-XXBRRsqgQqACKFVs8Caludf9w4EimplsCJ0rXmKDhqalzD9IvCqMae5TZDHPE1FkeqbxRGq6awxLSxnwdAIC+Q==}
-
   '@iconify-icons/ep@1.2.12':
     resolution: {integrity: sha512-8EJULn048sQq3fvytpQ5j40omnVOdBKpo+sXdYM35NRrqCe1BihxBesMcCOLWaocqkWia6uTQ3cnRHff4ZA11w==}
 
   '@iconify-icons/mdi@1.2.48':
     resolution: {integrity: sha512-51bfNoRLhYDfxSu0Nyi/uRVq6q/tP4TyEc0vvuNwImrXpxrRJUAWJF2A36CfBkXm3hO9IBlph/CD/XNDJKgG6w==}
-
-  '@iconify-icons/ph@1.2.5':
-    resolution: {integrity: sha512-Ox2VkJDoFowrf0e74LlLUuLMiN73PsCN28MUx9wCQfyZAFrL8ntfBnMpzukfi/0vN9qpJKAiKYZ3dQ5JjBqt/A==}
 
   '@iconify-icons/ri@1.2.10':
     resolution: {integrity: sha512-wNaXsQYK55WDUWCbcjvnwnODV4Jtsp+VC0duPanibEVu876TUYf6kdgTGtH7/GErBCNdJuJJbncG7vbOaeQi7w==}
@@ -1612,9 +1594,6 @@ packages:
     resolution: {integrity: sha512-TZS4CuIQ60Q5hmaglKP2+BC5/4Gc9exnRt5rMhDx9hY2f7DUMOpnfeVV70cevN0Ik+2T8hw38SP7sfNGUCmwgA==}
     peerDependencies:
       vue: ^3.2.0
-
-  '@xterm/xterm@5.5.0':
-    resolution: {integrity: sha512-hqJHYaQb5OptNunnyAnkHyM8aCjZ1MEIDTQu1iIbbTD/xops91NB5yq1ZK/dC2JDbVWtF23zUtl9JE2NqwT87A==}
 
   '@zougt/some-loader-utils@1.4.3':
     resolution: {integrity: sha512-0FsoqSTQ+qOyp6x5Q6LZQ7xVwquEgLYiIStG3L8p0Q2GsGGYKDkOZ0mIpMt67aNdr8XLsbxXjzTl/iHtTz5zcA==}
@@ -2331,11 +2310,6 @@ packages:
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
-
-  echarts-liquidfill@3.1.0:
-    resolution: {integrity: sha512-5Dlqs/jTsdTUAsd+K5LPLLTgrbbNORUSBQyk8PSy1Mg2zgHDWm83FmvA4s0ooNepCJojFYRITTQ4GU1UUSKYLw==}
-    peerDependencies:
-      echarts: ^5.0.1
 
   echarts@5.5.1:
     resolution: {integrity: sha512-Fce8upazaAXUVUVsjgV6mBnGuqgO+JNDlcgF79Dksy4+wgGpQB2lmYoO4TSweFg/mZITdpGHomw/cNBJZj1icA==}
@@ -5678,19 +5652,11 @@ snapshots:
 
   '@humanwhocodes/retry@0.3.0': {}
 
-  '@iconify-icons/bi@1.2.19':
-    dependencies:
-      '@iconify/types': 2.0.0
-
   '@iconify-icons/ep@1.2.12':
     dependencies:
       '@iconify/types': 2.0.0
 
   '@iconify-icons/mdi@1.2.48':
-    dependencies:
-      '@iconify/types': 2.0.0
-
-  '@iconify-icons/ph@1.2.5':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -6538,8 +6504,6 @@ snapshots:
       vue: 3.4.31(typescript@5.5.3)
       xe-utils: 3.7.2
 
-  '@xterm/xterm@5.5.0': {}
-
   '@zougt/some-loader-utils@1.4.3':
     dependencies:
       cac: 6.7.14
@@ -7350,10 +7314,6 @@ snapshots:
       stream-shift: 1.0.3
 
   eastasianwidth@0.2.0: {}
-
-  echarts-liquidfill@3.1.0(echarts@5.5.1):
-    dependencies:
-      echarts: 5.5.1
 
   echarts@5.5.1:
     dependencies:
