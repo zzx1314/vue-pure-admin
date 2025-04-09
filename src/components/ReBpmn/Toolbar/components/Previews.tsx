@@ -62,25 +62,27 @@ const Previews = defineComponent({
     }
 
     return () => (
-      <NPopover
-        v-slots={{
-          trigger: () => (
-            <NButton type="info" secondary>
-              {t('toolbar.previewAs')}
-            </NButton>
-          ),
-          default: () => (
-            <div class="button-list_column">
-              <NButton type="info" onClick={openXMLPreviewModel}>
-                {t('toolbar.previewAsXML')}
+      <div class="ml-2">
+        <NPopover
+          v-slots={{
+            trigger: () => (
+              <NButton type="info" secondary>
+                {t('toolbar.previewAs')}
               </NButton>
-              <NButton type="info" onClick={openJsonPreviewModel}>
-                {t('toolbar.previewAsJSON')}
-              </NButton>
-            </div>
-          )
-        }}
-      ></NPopover>
+            ),
+            default: () => (
+              <div class="button-list_column">
+                <NButton type="info" onClick={openXMLPreviewModel}>
+                  {t('toolbar.previewAsXML')}
+                </NButton>
+                <NButton type="info" onClick={openJsonPreviewModel}>
+                  {t('toolbar.previewAsJSON')}
+                </NButton>
+              </div>
+            )
+          }}
+        ></NPopover>
+      </div>
     )
   }
 })
