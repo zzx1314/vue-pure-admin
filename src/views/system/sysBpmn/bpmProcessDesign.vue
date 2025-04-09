@@ -4,7 +4,7 @@ import Palette from '@/components/ReBpmn/Palette'
 import Designer from '@/components/ReBpmn/Designer'
 import Panel from '@/components/ReBpmn/Panel'
 import Setting from '@/components/ReBpmn/Setting'
-import ContextMenu from '@/components/ContextMenu/index.vue'
+import ContextMenu from '@/components/ReBpmn/ContextMenu/index.vue'
 import { EditorSettings } from 'types/editor/settings'
 import { defaultSettings } from '@/components/ReBpmn/config'
 

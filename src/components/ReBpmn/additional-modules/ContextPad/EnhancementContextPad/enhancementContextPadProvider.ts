@@ -9,7 +9,8 @@ import Create from 'diagram-js/lib/features/create/Create'
 import PopupMenu from 'diagram-js/lib/features/popup-menu/PopupMenu'
 import Canvas from 'diagram-js/lib/core/Canvas'
 import Rules from 'diagram-js/lib/features/rules/Rules'
-import { Element, Shape } from 'diagram-js/lib/model/Types'
+import { Element, Shape } from 'bpmn-js/lib/model/Types'
+import { is } from 'bpmn-js/lib/util/ModelUtil'
 
 class EnhancementContextPadProvider extends ContextPadProvider {
   private _contextPad: ContextPad
@@ -89,7 +90,20 @@ class EnhancementContextPadProvider extends ContextPadProvider {
         click: append
       }
     }
-
+    // 添加删除选项
+    const businessObject = element.businessObject
+    if (is(businessObject, 'bpmn:StartEvent') || is(businessObject, 'bpmn:EndEvent')) {
+      actions['delete'] = {
+        group: 'edit',
+        className: 'bpmn-icon-trash',
+        title: '删除',
+        action: {
+          click: (event: Event, element: Element) => {
+            this._modeling.removeElements([element])
+          }
+        }
+      }
+    }
     return actions
   }
 }

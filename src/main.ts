@@ -29,6 +29,7 @@ import "./assets/iconfont/iconfont.css";
 import LucideIcon from '@/components/ReBpmn/common/LucideIcon.vue'
 import EditItem from '@/components/ReBpmn/common/EditItem.vue'
 import CollapseTitle from '@/components/ReBpmn/common/CollapseTitle.vue'
+import 'virtual:svg-icons-register'
 
 const app = createApp(App);
 
