@@ -30,8 +30,6 @@ import LucideIcon from '@/components/ReBpmn/common/LucideIcon.vue'
 import EditItem from '@/components/ReBpmn/common/EditItem.vue'
 import CollapseTitle from '@/components/ReBpmn/common/CollapseTitle.vue'
 
-import i18n from '@/components/ReBpmn/i18n'
-
 const app = createApp(App);
 
 import {
@@ -153,7 +151,6 @@ getPlatformConfig(app).then(async config => {
     .use(useVxeTable)
     .use(PureDescriptions)
     .use(naive)
-    .use(i18n)
     .use(useEcharts);
   app.mount("#app");
 });

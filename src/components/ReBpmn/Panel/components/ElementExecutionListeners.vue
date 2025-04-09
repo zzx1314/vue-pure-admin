@@ -114,7 +114,7 @@
   import { FormInst, FormRules, DataTableColumns, NButton } from 'naive-ui'
   import modeler from '@/store/modeler'
   import { ModdleElement } from 'bpmn-moddle'
-  import { Element } from 'diagram-js/lib/model/Types'
+  import { Element } from 'bpmn-js/lib/model/Types'
   import {
     addExecutionListener,
     getDefaultEvent,

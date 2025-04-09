@@ -7,7 +7,7 @@
     </template>
 
     <edit-item :label="$t('panel.id')">
-      <n-input v-model:value="elementId" maxlength="32" @change="updateElementId" />
+      <n-input v-model:value="elementId" maxlength="32" @change="updateElementId"  />
     </edit-item>
 
     <edit-item :label="$t('panel.name')">
@@ -30,7 +30,7 @@
   import { defineComponent } from 'vue'
   import { mapState } from 'pinia'
   import modelerStore from '@/store/modeler'
-  import { Element } from 'diagram-js/lib/model/Types'
+  import { Element } from 'bpmn-js/lib/model/Types'
   import { getNameValue, setNameValue } from '@/components/ReBpmn/bo-utils/nameUtil'
   import { setIdValue } from '@/components/ReBpmn/bo-utils/idUtil'
   import {
