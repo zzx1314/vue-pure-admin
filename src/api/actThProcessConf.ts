@@ -16,10 +16,10 @@ type ResultPage = {
 };
 
 const actThProcessConfUrls = {
-  page: `/api/act/actThProcessConf/page`,
-  save: "/api/act/actThProcessConf/save",
-  delete: `/api/act/actThProcessConf/`,
-  update: "/api/act/actThProcessConf/update"
+  page: `/api/act/activity/getProcessConfPage`,
+  save: "/api/act/activity/addProcessConf",
+  delete: `/api/act/activity/deleteProcessConf`,
+  update: "/api/act/activity/editProcessConf"
 };
 
 // 业务流程配置表分页
