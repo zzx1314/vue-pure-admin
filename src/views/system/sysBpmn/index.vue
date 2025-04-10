@@ -10,6 +10,8 @@ import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
 import AddFill from "@iconify-icons/ri/add-circle-line";
+import More from "@iconify-icons/ep/more-filled";
+import BpmProcessDesign from "@/views/system/sysBpmn/bpmProcessDesign.vue";
 
 defineOptions({
   name: "ActThProcessConf"
@@ -23,6 +25,7 @@ const {
   dataList,
   loading,
   dialogFormVisible,
+  dialogDesignVisible,
   title,
   pagination,
   addForm,
@@ -37,7 +40,8 @@ const {
   handleSubmitError,
   handleSubmit,
   cancel,
-  openDia
+  openDia,
+  setBpmn
 } = useActThProcessConf();
 </script>
 <template>
@@ -109,6 +113,30 @@ const {
                 </el-button>
               </template>
             </el-popconfirm>
+            <el-dropdown>
+              <el-button
+                class="ml-3 mt-[2px]"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(More)"
+              />
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>
+                    <el-button
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(EditPen)"
+                      @click="setBpmn(row)"
+                    >
+                      流程设计
+                    </el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </template>
         </pure-table>
       </template>
@@ -128,6 +156,7 @@ const {
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
     />
+    <bpm-process-design :dialog-design-visible="dialogDesignVisible" @update:dialogDesignVisible="!dialogDesignVisible"/>
   </div>
 </template>
 

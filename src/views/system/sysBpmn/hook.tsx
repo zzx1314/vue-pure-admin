@@ -23,6 +23,7 @@ export function useActThProcessConf() {
   const loading = ref(true);
   const dialogFormVisible = ref(false);
   const title = ref("");
+  const dialogDesignVisible = ref(false);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -53,37 +54,50 @@ export function useActThProcessConf() {
       {
         label: "配置名称",
         prop: "name",
-        width: 100
+        width: 200
       },
       {
         label: "流程id",
         prop: "processId",
-        width: 100
+        width: 180
       },
       {
         label: "业务类型",
         prop: "businessType",
-        width: 100
+        width: 120
       },
       {
         label: "状态",
         prop: "status",
-        width: 100
+        width: 100,
+        cellRenderer: ({ row }) => (
+          <el-tag
+            type={
+              row.status === "已生效"
+                ? "success"
+                : row.status === "已绑定"
+                  ? "warning"
+                  : "danger"
+            }
+          >
+            {row.status}
+          </el-tag>
+        )
       },
       {
         label: "备注",
         prop: "remark",
-        width: 100
+        width: 150
       },
       {
         label: "创建时间",
         prop: "createTime",
-        width: 100
+        minWidth: 150
       },
     {
       label: "操作",
       fixed: "right",
-      width: 180,
+      minWidth: 150,
       slot: "operation"
     }
   ];
@@ -217,6 +231,11 @@ export function useActThProcessConf() {
     resetForm(formEl);
   }
 
+  function setBpmn(row) {
+    console.log(row);
+    dialogDesignVisible.value = true;
+  }
+
   onMounted(() => {
     onSearch();
   });
@@ -233,6 +252,7 @@ export function useActThProcessConf() {
     columns,
     buttonClass,
     moreCondition,
+    dialogDesignVisible,
     onSearch,
     resetForm,
     handleUpdate,
@@ -244,6 +264,7 @@ export function useActThProcessConf() {
     handleSubmitError,
     cancel,
     restartForm,
-    openDia
+    openDia,
+    setBpmn
   };
 }
