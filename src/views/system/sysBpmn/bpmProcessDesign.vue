@@ -13,7 +13,7 @@ import hljs from 'highlight.js/lib/core'
 import xml from 'highlight.js/lib/languages/xml'
 import json from 'highlight.js/lib/languages/json'
 import { NConfigProvider, NDialogProvider, NMessageProvider } from 'naive-ui'
-import { computed, ref, onMounted } from "vue";
+import {computed, ref, onMounted, type PropType, watch} from "vue";
 import { getMenuList } from "@/api/system";
 import { SUCCESS } from "@/api/base";
 hljs.registerLanguage('xml', xml)
@@ -39,12 +39,33 @@ const computedClasses = computed(() => {
   return baseClass.join(' ')
 })
 
+const dialogDesignVisible = ref(false)
+const restart = ref(false)
+
+const props = defineProps({
+  dialogDesignVisible: {
+    type: Boolean,
+    default: false
+  }
+})
+const emit = defineEmits(['update:dialogDesignVisible'])
+
+dialogDesignVisible.value = props.dialogDesignVisible
+
 function getRoleList() {
   getMenuList().then((res)=>{
     if (res.code === SUCCESS) {
       roleList.value = res.data
     }
   })
+}
+
+watch(() => props.dialogDesignVisible, (val) => {
+  restart.value = val;
+})
+
+function cancel() {
+  emit('update:dialogDesignVisible', false)
 }
 
 onMounted(()=>{
@@ -57,26 +78,33 @@ onMounted(()=>{
 
 <template>
   <div class="main">
-    <NConfigProvider
-      abstract
-      :componentOptions="{ DynamicInput: { buttonSize: 'small' } }"
-      :hljs="hljs"
+    <el-dialog
+      v-model="dialogDesignVisible"
+      fullscreen
+      width="100%"
+      @close="cancel"
     >
-      <NDialogProvider>
-        <div :class="computedClasses" id="designer-container">
-          <NMessageProvider>
-            <Toolbar v-if="showToolbar" />
-            <div class="main-content">
-              <Palette v-if="customPalette" />
-              <Designer v-model:xml="processXml" />
-              <Panel v-if="customPenal" :roleList = roleList />
-              <div v-else class="camunda-penal" id="camunda-penal"></div>
-            </div>
-            <Setting v-model:settings="editorSettings" />
-            <ContextMenu />
-          </NMessageProvider>
-        </div>
-      </NDialogProvider>
-    </NConfigProvider>
+      <NConfigProvider
+        abstract
+        :componentOptions="{ DynamicInput: { buttonSize: 'small' } }"
+        :hljs="hljs"
+      >
+        <NDialogProvider>
+          <div :class="computedClasses" id="designer-container">
+            <NMessageProvider>
+              <Toolbar v-if="showToolbar" :is-restart="restart"/>
+              <div class="main-content">
+                <Palette v-if="customPalette" />
+                <Designer v-model:xml="processXml" />
+                <Panel v-if="customPenal" :roleList = roleList />
+                <div v-else class="camunda-penal" id="camunda-penal"></div>
+              </div>
+              <Setting v-model:settings="editorSettings" />
+              <ContextMenu />
+            </NMessageProvider>
+          </div>
+        </NDialogProvider>
+      </NConfigProvider>
+    </el-dialog>
   </div>
 </template>

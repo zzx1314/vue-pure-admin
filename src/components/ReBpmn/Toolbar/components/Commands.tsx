@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import {defineComponent, watch} from 'vue'
 import { NButton, NButtonGroup, NPopover } from 'naive-ui'
 import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
 import type Modeler from 'bpmn-js/lib/Modeler'
@@ -10,7 +10,13 @@ import { useI18n } from 'vue-i18n'
 const Commands = defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Commands',
-  setup() {
+  props: {
+    isRestart: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup(props) {
     const { t } = useI18n()
     let command: CommandStack | null = null
 
@@ -30,6 +36,12 @@ const Commands = defineComponent({
       command && command.clear()
       createNewDiagram()
     }
+
+    watch(() => props.isRestart, (val) => {
+      if (val) {
+        restart()
+      }
+    })
 
     return () => (
       <NButtonGroup>

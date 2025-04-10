@@ -10,7 +10,13 @@ import ExternalTools from '@/components/ReBpmn/Toolbar/components/ExternalTools'
 
 const Toolbar = defineComponent({
   name: 'ToolBar',
-  setup() {
+  props: {
+    isRestart: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup(props) {
     return () => (
       <div class="toolbar">
         <NButtonGroup>
@@ -20,7 +26,7 @@ const Toolbar = defineComponent({
         </NButtonGroup>
         <Aligns></Aligns>
         <Scales></Scales>
-        <Commands></Commands>
+        <Commands isRestart={props.isRestart}></Commands>
         <ExternalTools></ExternalTools>
       </div>
     )
