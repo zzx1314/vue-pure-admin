@@ -54,7 +54,6 @@ const Exports = defineComponent({
 
     return () => (
       <ElPopover
-        trigger="click"
         v-slots={{
           reference: () => (
             <ElButton type="primary">
@@ -64,13 +63,13 @@ const Exports = defineComponent({
         }}
       >
         <div class="button-list_column">
-          <ElButton type="primary"  onClick={downloadProcessAsBpmn}>
+          <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsBpmn}>
             {t('toolbar.exportAsBPMN')}
           </ElButton>
-          <ElButton type="primary"  onClick={downloadProcessAsXml}>
+          <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsXml}>
             {t('toolbar.exportAsXML')}
           </ElButton>
-          <ElButton type="primary" onClick={downloadProcessAsSvg}>
+          <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsSvg}>
             {t('toolbar.exportAsSVG')}
           </ElButton>
         </div>

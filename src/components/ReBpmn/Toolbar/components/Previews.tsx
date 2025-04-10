@@ -76,7 +76,6 @@ const Previews = defineComponent({
     return () => (
       <div class="ml-2">
         <ElPopover
-          trigger="click"
           v-slots={{
             reference: () => (
               <ElButton type="primary">
@@ -86,10 +85,10 @@ const Previews = defineComponent({
           }}
         >
           <div class="button-list_column">
-            <ElButton type="primary" onClick={openXMLPreviewModel}>
+            <ElButton type="primary" style={buttonStyle} onClick={openXMLPreviewModel}>
               {t('toolbar.previewAsXML')}
             </ElButton>
-            <ElButton type="primary" onClick={openJsonPreviewModel}>
+            <ElButton type="primary" style={buttonStyle} onClick={openJsonPreviewModel}>
               {t('toolbar.previewAsJSON')}
             </ElButton>
           </div>
