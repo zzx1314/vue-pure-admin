@@ -97,7 +97,7 @@ onMounted(() => {
                 <Panel v-if="customPenal" :roleList=roleList />
                 <div v-else class="camunda-penal" id="camunda-penal"></div>
               </div>
-              <Setting v-model:settings="editorSettings" />
+<!--              <Setting v-model:settings="editorSettings" />-->
               <ContextMenu />
             </NMessageProvider>
           </div>

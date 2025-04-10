@@ -24,10 +24,8 @@ const Toolbar = defineComponent({
           <Exports></Exports>
           <Previews></Previews>
         </NButtonGroup>
-        <Aligns></Aligns>
         <Scales></Scales>
         <Commands isRestart={props.isRestart}></Commands>
-        <ExternalTools></ExternalTools>
       </div>
     )
   }

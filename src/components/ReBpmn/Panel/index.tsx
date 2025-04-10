@@ -57,13 +57,13 @@ const Panel = defineComponent({
       // 清空
       renderComponents.splice(0, renderComponents.length)
       renderComponents.push(ElementGenerations)
-      renderComponents.push(ElementDocumentations)
-      isCanbeConditional(element) && renderComponents.push(ElementConditional)
-      isJobExecutable(element) && renderComponents.push(ElementJobExecution)
-      renderComponents.push(ElementExtensionProperties)
-      isExecutable(element) && renderComponents.push(ElementExecutionListeners)
-      isAsynchronous(element) && renderComponents.push(ElementAsyncContinuations)
-      isStartInitializable(element) && renderComponents.push(ElementStartInitiator)
+      // renderComponents.push(ElementDocumentations)
+      // isCanbeConditional(element) && renderComponents.push(ElementConditional)
+      // isJobExecutable(element) && renderComponents.push(ElementJobExecution)
+      // renderComponents.push(ElementExtensionProperties)
+      // isExecutable(element) && renderComponents.push(ElementExecutionListeners)
+      // isAsynchronous(element) && renderComponents.push(ElementAsyncContinuations)
+      // isStartInitializable(element) && renderComponents.push(ElementStartInitiator)
       isUserAssignmentSupported(element) && renderComponents.push(UserAssignment)
     }
 
