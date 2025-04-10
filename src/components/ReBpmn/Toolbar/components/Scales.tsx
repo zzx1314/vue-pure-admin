@@ -52,6 +52,7 @@ const Scales = defineComponent({
       <ElButtonGroup>
         <ElPopover
           trigger="hover"
+          popper-class="dynamic-popover-width"
           v-slots={{
             reference: () => (
               <ElButton onClick={() => zoomOut()}>
@@ -63,6 +64,7 @@ const Scales = defineComponent({
         ></ElPopover>
         <ElPopover
           trigger="hover"
+          popper-class="dynamic-popover-width"
           v-slots={{
             reference: () => (
               <ElButton onClick={() => zoomReset('fit-viewport')}>
@@ -76,6 +78,7 @@ const Scales = defineComponent({
         ></ElPopover>
         <ElPopover
           trigger="hover"
+          popper-class="dynamic-popover-width"
           v-slots={{
             reference: () => (
               <ElButton onClick={() => zoomIn()}>

@@ -46,7 +46,7 @@ const Commands = defineComponent({
     return () => (
       <ElButtonGroup>
         <ElPopover
-          trigger="hover"
+          popper-class="dynamic-popover-width" // 自定义样式类
           v-slots={{
             reference: () => (
               <ElButton onClick={undo}>
@@ -57,7 +57,7 @@ const Commands = defineComponent({
           }}
         ></ElPopover>
         <ElPopover
-          trigger="hover"
+          popper-class="dynamic-popover-width" // 自定义样式类
           v-slots={{
             reference: () => (
               <ElButton onClick={redo}>
@@ -68,7 +68,7 @@ const Commands = defineComponent({
           }}
         ></ElPopover>
         <ElPopover
-          trigger="hover"
+          popper-class="dynamic-popover-width" // 自定义样式类
           v-slots={{
             reference: () => (
               <ElButton onClick={restart}>

@@ -24,7 +24,7 @@ const Toolbar = defineComponent({
           <Exports></Exports>
           <Previews></Previews>
         </NButtonGroup>
-        <Scales></Scales>
+        <Scales style={{ marginLeft: '16px' }}></Scales>
         <Commands isRestart={props.isRestart}></Commands>
       </div>
     )
