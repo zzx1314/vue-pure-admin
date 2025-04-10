@@ -32,7 +32,16 @@ import { customTranslate } from '@/components/ReBpmn/additional-modules/Translat
 
 const Panel = defineComponent({
   name: 'PropertiesPanel',
-  setup() {
+  props: {
+    roleList: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    }
+  },
+  setup(props) {
+    console.log('Panel setup===', props.roleList)
     const modeler = modelerStore()
     const panel = ref<HTMLDivElement | null>(null)
     const currentElementId = ref<string | undefined>(undefined)
@@ -123,7 +132,11 @@ const Panel = defineComponent({
         </div>
         <NCollapse arrow-placement="right">
           {renderComponents.map((component) => (
-            <component is={component}></component>
+            component.name === 'UserAssignment' ? (
+              <component is={component} roleList={props.roleList}></component>
+            ) : (
+              <component is={component}></component>
+            )
           ))}
         </NCollapse>
       </div>

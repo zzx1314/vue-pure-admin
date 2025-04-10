@@ -60,7 +60,8 @@ import {
   NCheckbox,
   NCheckboxGroup,
   NSelect,
-  NSwitch
+  NSwitch,
+  NSpace
 } from 'naive-ui'
 
 const naive = create({
@@ -89,7 +90,8 @@ const naive = create({
     NCheckbox,
     NCheckboxGroup,
     NSelect,
-    NSwitch
+    NSwitch,
+    NSpace
   ]
 })
 

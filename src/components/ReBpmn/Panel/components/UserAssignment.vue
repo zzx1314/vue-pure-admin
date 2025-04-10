@@ -7,6 +7,9 @@
   import editor from '@/store/editor'
   import modeler from '@/store/modeler'
 
+  defineOptions({
+    name: "UserAssignment"
+  });
   function getExPropValue<T>(element: any, propKey: string): T {
     const exPropKey = `${editor().getProcessEngine}:${propKey}`
     return element && element.get ? element.get(exPropKey) : element ? element[exPropKey] : element
@@ -32,6 +35,12 @@
     labelWidth: {
       type: Number as PropType<number>,
       default: 100
+    },
+    roleList: {
+      type: Array,
+      default: function _default() {
+        return [{}];
+      }
     }
   })
 
@@ -55,21 +64,19 @@
     'priority'
   ]
 
-  const EmptyUAForm = PROP_KEYS.reduce((a, b) => (a[b] = '') || a, {})
-
-  const UAForm = ref(EmptyUAForm as Record<UserAssigneeProp, string>)
-
-  const updateUserAssignProp = (key: UserAssigneeProp, value: string) => {
+  const EmptyUAForm = PROP_KEYS.reduce((a, b) => (a[b] = b === 'assignee' ? null : '') || a, {})
+  const UAForm = ref(EmptyUAForm as Record<UserAssigneeProp, string | null>)
+  const updateUserAssignProp = (key: UserAssigneeProp, value: string | null) => {
     updateExModdleProp(scopedElement!, scopedBO!, key, value)
   }
-
+  console.log("userAssignment===", props.roleList)
   const reloadElementData = () =>
     catchUndefElement((element) => {
       console.log(element.id)
       scopedElement = element
       scopedBO = getBusinessObject(element)
       for (const key of PROP_KEYS) {
-        UAForm.value[key] = getExPropValue(scopedBO!, key) || ''
+        UAForm.value[key] = getExPropValue(scopedBO!, key) || (key === 'assignee' ? null : '')
       }
       console.log(UAForm.value)
     })
@@ -84,13 +91,10 @@
       </collapse-title>
     </template>
     <div>
-      <edit-item :label-width="labelWidth" :label="$t('panel.assignee')">
-        <n-input
-          v-model:value="UAForm.assignee"
-          @change="updateUserAssignProp('assignee', $event)"
-        />
+      <edit-item :label-width="labelWidth" label="处置角色">
+        <n-select v-model:value="UAForm.assignee" placeholder="请选择角色" :options="roleList" @update:value="updateUserAssignProp('assignee', $event)" />
       </edit-item>
-      <edit-item :label-width="labelWidth" :label="$t('panel.candidateUsers')">
+<!--      <edit-item :label-width="labelWidth" :label="$t('panel.candidateUsers')">
         <n-input
           v-model:value="UAForm.candidateUsers"
           @change="updateUserAssignProp('candidateUsers', $event)"
@@ -124,7 +128,7 @@
           v-model:value="UAForm.priority"
           @change="updateUserAssignProp('priority', $event)"
         />
-      </edit-item>
+      </edit-item>-->
     </div>
   </n-collapse-item>
 </template>

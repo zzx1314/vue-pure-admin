@@ -45,7 +45,8 @@ const roleUrls = {
   listAll: "/api/upms/sysRole/list",
   save: "/api/upms/sysRole",
   update: "/api/upms/sysRole",
-  deleteById: "/api/upms/sysRole/"
+  deleteById: "/api/upms/sysRole/",
+  listNoLog: `/api/upms/sysRole/listNoLog`,
 };
 
 const menuUrls = {
@@ -300,6 +301,11 @@ export const deleteRole = (param: object) => {
 /** 获取所有角色 */
 export const listAllRole = () => {
   return http.axiosGetRequest<Result>(roleUrls.listAll, {});
+};
+
+/** 获取所有角色下拉菜单 */
+export const getMenuList = () => {
+  return http.axiosGetRequest<Result>(roleUrls.listNoLog, {});
 };
 
 /** 菜单页面 */

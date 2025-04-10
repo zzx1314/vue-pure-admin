@@ -20,7 +20,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import { mapState } from 'pinia'
-  import { Element } from 'diagram-js/lib/model/Types'
+  import { Element } from 'bpmn-js/lib/model/Types'
   import modelerStore from '@/store/modeler'
   import {
     getACAfter,

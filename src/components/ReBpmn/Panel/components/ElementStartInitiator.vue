@@ -17,7 +17,7 @@
   import { computed, defineComponent, onMounted, ref } from 'vue'
   import { getInitiatorValue, setInitiatorValue } from '@/components/ReBpmn/bo-utils/initiatorUtil'
   import modeler from '@/store/modeler'
-  import { Element } from 'diagram-js/lib/model/Types'
+  import { Element } from 'bpmn-js/lib/model/Types'
   import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
 
   export default defineComponent({
