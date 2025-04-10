@@ -13,7 +13,7 @@ import hljs from 'highlight.js/lib/core'
 import xml from 'highlight.js/lib/languages/xml'
 import json from 'highlight.js/lib/languages/json'
 import { NConfigProvider, NDialogProvider, NMessageProvider } from 'naive-ui'
-import {computed, ref, onMounted, type PropType, watch} from "vue";
+import { computed, ref, onMounted, type PropType, watch } from "vue";
 import { getMenuList } from "@/api/system";
 import { SUCCESS } from "@/api/base";
 hljs.registerLanguage('xml', xml)
@@ -39,7 +39,6 @@ const computedClasses = computed(() => {
   return baseClass.join(' ')
 })
 
-const dialogDesignVisible = ref(false)
 const restart = ref(false)
 
 const props = defineProps({
@@ -49,8 +48,6 @@ const props = defineProps({
   }
 })
 const emit = defineEmits(['update:dialogDesignVisible'])
-
-dialogDesignVisible.value = props.dialogDesignVisible
 
 function getRoleList() {
   getMenuList().then((res)=>{
@@ -68,7 +65,7 @@ function cancel() {
   emit('update:dialogDesignVisible', false)
 }
 
-onMounted(()=>{
+onMounted(() => {
   document.body.addEventListener('contextmenu', function (ev) {
     ev.preventDefault()
   })
@@ -79,7 +76,7 @@ onMounted(()=>{
 <template>
   <div class="main">
     <el-dialog
-      v-model="dialogDesignVisible"
+      :model-value="dialogDesignVisible"
       fullscreen
       width="100%"
       @close="cancel"

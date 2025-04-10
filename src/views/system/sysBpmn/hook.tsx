@@ -234,6 +234,11 @@ export function useActThProcessConf() {
   function setBpmn(row) {
     console.log(row);
     dialogDesignVisible.value = true;
+    console.log(dialogDesignVisible.value);
+  }
+
+  function closeDesign() {
+    dialogDesignVisible.value = false;
   }
 
   onMounted(() => {
@@ -265,6 +270,7 @@ export function useActThProcessConf() {
     cancel,
     restartForm,
     openDia,
-    setBpmn
+    setBpmn,
+    closeDesign
   };
 }

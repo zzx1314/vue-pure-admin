@@ -41,7 +41,8 @@ const {
   handleSubmit,
   cancel,
   openDia,
-  setBpmn
+  setBpmn,
+  closeDesign
 } = useActThProcessConf();
 </script>
 <template>
@@ -156,7 +157,7 @@ const {
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
     />
-    <bpm-process-design :dialog-design-visible="dialogDesignVisible" @update:dialogDesignVisible="!dialogDesignVisible"/>
+    <bpm-process-design :dialog-design-visible="dialogDesignVisible" @update:dialogDesignVisible="closeDesign"/>
   </div>
 </template>
 
