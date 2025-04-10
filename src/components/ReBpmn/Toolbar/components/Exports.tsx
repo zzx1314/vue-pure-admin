@@ -64,13 +64,13 @@ const Exports = defineComponent({
         }}
       >
         <div class="button-list_column">
-          <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsBpmn}>
+          <ElButton type="primary"  onClick={downloadProcessAsBpmn}>
             {t('toolbar.exportAsBPMN')}
           </ElButton>
-          <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsXml}>
+          <ElButton type="primary"  onClick={downloadProcessAsXml}>
             {t('toolbar.exportAsXML')}
           </ElButton>
-          <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsSvg}>
+          <ElButton type="primary" onClick={downloadProcessAsSvg}>
             {t('toolbar.exportAsSVG')}
           </ElButton>
         </div>

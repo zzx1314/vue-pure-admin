@@ -1,5 +1,5 @@
-import {defineComponent, watch} from 'vue'
-import { NButton, NButtonGroup, NPopover } from 'naive-ui'
+import { defineComponent, watch } from 'vue'
+import { ElButton, ElButtonGroup, ElPopover } from 'element-plus'
 import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
 import type Modeler from 'bpmn-js/lib/Modeler'
 import type CommandStack from 'diagram-js/lib/command/CommandStack'
@@ -44,38 +44,41 @@ const Commands = defineComponent({
     })
 
     return () => (
-      <NButtonGroup>
-        <NPopover
+      <ElButtonGroup>
+        <ElPopover
+          trigger="hover"
           v-slots={{
-            default: () => t('toolbar.undo'),
-            trigger: () => (
-              <NButton onClick={undo}>
+            reference: () => (
+              <ElButton onClick={undo}>
                 <LucideIcon name="Undo2" size={16}></LucideIcon>
-              </NButton>
-            )
+              </ElButton>
+            ),
+            default: () => t('toolbar.undo'),
           }}
-        ></NPopover>
-        <NPopover
+        ></ElPopover>
+        <ElPopover
+          trigger="hover"
           v-slots={{
-            default: () => t('toolbar.redo'),
-            trigger: () => (
-              <NButton onClick={redo}>
+            reference: () => (
+              <ElButton onClick={redo}>
                 <LucideIcon name="Redo2" size={16}></LucideIcon>
-              </NButton>
-            )
+              </ElButton>
+            ),
+            default: () => t('toolbar.redo'),
           }}
-        ></NPopover>
-        <NPopover
+        ></ElPopover>
+        <ElPopover
+          trigger="hover"
           v-slots={{
-            default: () => t('toolbar.restart'),
-            trigger: () => (
-              <NButton onClick={restart}>
+            reference: () => (
+              <ElButton onClick={restart}>
                 <LucideIcon name="Eraser" size={16}></LucideIcon>
-              </NButton>
-            )
+              </ElButton>
+            ),
+            default: () => t('toolbar.restart'),
           }}
-        ></NPopover>
-      </NButtonGroup>
+        ></ElPopover>
+      </ElButtonGroup>
     )
   }
 })

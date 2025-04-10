@@ -1,5 +1,5 @@
 import { defineComponent, ref } from 'vue'
-import { NButton, NButtonGroup, NPopover } from 'naive-ui'
+import { ElButton, ElPopover, ElButtonGroup } from 'element-plus'
 import LucideIcon from '@/components/ReBpmn/common/LucideIcon.vue'
 import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
 import type Modeler from 'bpmn-js/lib/Modeler'
@@ -49,40 +49,43 @@ const Scales = defineComponent({
     }
 
     return () => (
-      <NButtonGroup>
-        <NPopover
+      <ElButtonGroup>
+        <ElPopover
+          trigger="hover"
           v-slots={{
-            default: () => t('toolbar.zoomOut'),
-            trigger: () => (
-              <NButton onClick={() => zoomOut()}>
+            reference: () => (
+              <ElButton onClick={() => zoomOut()}>
                 <LucideIcon name="ZoomOut" size={16}></LucideIcon>
-              </NButton>
-            )
+              </ElButton>
+            ),
+            default: () => t('toolbar.zoomOut'),
           }}
-        ></NPopover>
-        <NPopover
+        ></ElPopover>
+        <ElPopover
+          trigger="hover"
           v-slots={{
-            default: () => t('toolbar.zoomReset'),
-            trigger: () => (
-              <NButton onClick={() => zoomReset('fit-viewport')}>
+            reference: () => (
+              <ElButton onClick={() => zoomReset('fit-viewport')}>
                 <span style="text-align: center; display: inline-block; width: 40px">
                   {Math.floor(currentScale.value * 10) * 10 + '%'}
                 </span>
-              </NButton>
-            )
+              </ElButton>
+            ),
+            default: () => t('toolbar.zoomReset'),
           }}
-        ></NPopover>
-        <NPopover
+        ></ElPopover>
+        <ElPopover
+          trigger="hover"
           v-slots={{
-            default: () => t('toolbar.zoomIn'),
-            trigger: () => (
-              <NButton onClick={() => zoomIn()}>
+            reference: () => (
+              <ElButton onClick={() => zoomIn()}>
                 <LucideIcon name="ZoomIn" size={16}></LucideIcon>
-              </NButton>
-            )
+              </ElButton>
+            ),
+            default: () => t('toolbar.zoomIn'),
           }}
-        ></NPopover>
-      </NButtonGroup>
+        ></ElPopover>
+      </ElButtonGroup>
     )
   }
 })

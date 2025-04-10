@@ -86,10 +86,10 @@ const Previews = defineComponent({
           }}
         >
           <div class="button-list_column">
-            <ElButton type="primary" style={buttonStyle} onClick={openXMLPreviewModel}>
+            <ElButton type="primary" onClick={openXMLPreviewModel}>
               {t('toolbar.previewAsXML')}
             </ElButton>
-            <ElButton type="primary" style={buttonStyle} onClick={openJsonPreviewModel}>
+            <ElButton type="primary" onClick={openJsonPreviewModel}>
               {t('toolbar.previewAsJSON')}
             </ElButton>
           </div>
