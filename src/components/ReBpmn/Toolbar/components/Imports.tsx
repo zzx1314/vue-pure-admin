@@ -31,9 +31,9 @@ const Imports = defineComponent({
 
     return () => (
       <span class="mr-2">
-        <NButton type="info" secondary onClick={openImportWindow}>
+        <el-button type="primary" onClick={openImportWindow}>
           {t('toolbar.openFile')}
-        </NButton>
+        </el-button>
         <input
           type="file"
           ref={importRef}

@@ -80,6 +80,7 @@ onMounted(() => {
       fullscreen
       width="100%"
       @close="cancel"
+      append-to-body
     >
       <NConfigProvider
         abstract

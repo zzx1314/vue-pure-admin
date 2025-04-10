@@ -2,8 +2,14 @@ import { defineComponent } from 'vue'
 
 import BpmnModdle from 'bpmn-moddle'
 import modeler from '@/store/modeler'
-import { NButton, NPopover, NCode, useDialog } from 'naive-ui'
+import {  NCode, useDialog } from 'naive-ui'
 import { useI18n } from 'vue-i18n'
+import {ElButton, ElPopover} from "element-plus";
+
+const buttonStyle = {
+  width: '100%',
+  margin: '1px 0',
+}
 
 const Previews = defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -63,25 +69,25 @@ const Previews = defineComponent({
 
     return () => (
       <div class="ml-2">
-        <NPopover
+        <ElPopover
+          trigger="click"
           v-slots={{
-            trigger: () => (
-              <NButton type="info" secondary>
+            reference: () => (
+              <ElButton type="primary">
                 {t('toolbar.previewAs')}
-              </NButton>
+              </ElButton>
             ),
-            default: () => (
-              <div class="button-list_column">
-                <NButton type="info" onClick={openXMLPreviewModel}>
-                  {t('toolbar.previewAsXML')}
-                </NButton>
-                <NButton type="info" onClick={openJsonPreviewModel}>
-                  {t('toolbar.previewAsJSON')}
-                </NButton>
-              </div>
-            )
           }}
-        ></NPopover>
+        >
+          <div class="button-list_column">
+            <ElButton type="primary" style={buttonStyle} onClick={openXMLPreviewModel}>
+              {t('toolbar.previewAsXML')}
+            </ElButton>
+            <ElButton type="primary" style={buttonStyle} onClick={openJsonPreviewModel}>
+              {t('toolbar.previewAsJSON')}
+            </ElButton>
+          </div>
+        </ElPopover>
       </div>
     )
   }

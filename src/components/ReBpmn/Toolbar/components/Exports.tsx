@@ -1,8 +1,13 @@
 import { defineComponent } from 'vue'
-import { NButton, NPopover } from 'naive-ui'
+import { ElButton, ElPopover } from 'element-plus'
 import { downloadFile, setEncoded } from '@/components/ReBpmn/utils/files'
 import modeler from '@/store/modeler'
 import { useI18n } from 'vue-i18n'
+
+const buttonStyle = {
+  width: '100%',
+  margin: '1px 0',
+}
 
 const Exports = defineComponent({
   name: 'ExportTools',
@@ -48,28 +53,28 @@ const Exports = defineComponent({
     }
 
     return () => (
-      <NPopover
+      <ElPopover
+        trigger="click"
         v-slots={{
-          trigger: () => (
-            <NButton type="info" secondary>
+          reference: () => (
+            <ElButton type="primary">
               {t('toolbar.exportAs')}
-            </NButton>
+            </ElButton>
           ),
-          default: () => (
-            <div class="button-list_column">
-              <NButton type="info" onClick={downloadProcessAsBpmn}>
-                {t('toolbar.exportAsBPMN')}
-              </NButton>
-              <NButton type="info" onClick={downloadProcessAsXml}>
-                {t('toolbar.exportAsXML')}
-              </NButton>
-              <NButton type="info" onClick={downloadProcessAsSvg}>
-                {t('toolbar.exportAsSVG')}
-              </NButton>
-            </div>
-          )
         }}
-      ></NPopover>
+      >
+        <div class="button-list_column">
+          <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsBpmn}>
+            {t('toolbar.exportAsBPMN')}
+          </ElButton>
+          <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsXml}>
+            {t('toolbar.exportAsXML')}
+          </ElButton>
+          <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsSvg}>
+            {t('toolbar.exportAsSVG')}
+          </ElButton>
+        </div>
+      </ElPopover>
     )
   }
 })
