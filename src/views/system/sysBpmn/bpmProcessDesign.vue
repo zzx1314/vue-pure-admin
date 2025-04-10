@@ -59,6 +59,7 @@ function getRoleList() {
 
 watch(() => props.dialogDesignVisible, (val) => {
   restart.value = val;
+  getRoleList();
 })
 
 function cancel() {
@@ -69,7 +70,6 @@ onMounted(() => {
   document.body.addEventListener('contextmenu', function (ev) {
     ev.preventDefault()
   })
-  getRoleList()
 })
 </script>
 
@@ -93,7 +93,7 @@ onMounted(() => {
               <div class="main-content">
                 <Palette v-if="customPalette" />
                 <Designer v-model:xml="processXml" />
-                <Panel v-if="customPenal" :roleList = roleList />
+                <Panel v-if="customPenal" :roleList=roleList />
                 <div v-else class="camunda-penal" id="camunda-penal"></div>
               </div>
               <Setting v-model:settings="editorSettings" />

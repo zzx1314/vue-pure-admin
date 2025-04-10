@@ -37,9 +37,9 @@
       default: 100
     },
     roleList: {
-      type: Array,
+      type: Array<any>,
       default: function _default() {
-        return [{}];
+        return [];
       }
     }
   })
@@ -92,7 +92,19 @@
     </template>
     <div>
       <edit-item :label-width="labelWidth" label="处置角色">
-        <n-select v-model:value="UAForm.assignee" placeholder="请选择角色" :options="roleList" @update:value="updateUserAssignProp('assignee', $event)" />
+        <el-select
+          v-model="UAForm.assignee"
+          clearable
+          placeholder="请选择角色"
+          @change="updateUserAssignProp('assignee', $event)"
+        >
+          <el-option
+            v-for="item in props.roleList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
       </edit-item>
 <!--      <edit-item :label-width="labelWidth" :label="$t('panel.candidateUsers')">
         <n-input

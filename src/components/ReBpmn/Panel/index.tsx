@@ -1,4 +1,4 @@
-import { defineComponent, Component, markRaw, onMounted, ref } from 'vue'
+import {defineComponent, Component, markRaw, onMounted, ref, watch} from 'vue'
 import { NCollapse } from 'naive-ui'
 import { Element, Connection, Label, Shape } from 'diagram-js/lib/model/Types'
 import debounce from 'lodash.debounce'
@@ -119,6 +119,10 @@ const Panel = defineComponent({
       modeler.on('element.click', (event) => {
         Logger.prettyInfo('Element Click', event)
       })
+    })
+
+    watch(() => props.roleList, (val) => {
+      console.log('Panel watch===', val)
     })
 
     onMounted(() => !currentElementId.value && setCurrentElement(null))
