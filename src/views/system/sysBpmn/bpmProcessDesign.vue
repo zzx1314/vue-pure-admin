@@ -7,12 +7,15 @@ import Setting from '@/components/ReBpmn/Setting'
 import ContextMenu from '@/components/ReBpmn/ContextMenu/index.vue'
 import { EditorSettings } from 'types/editor/settings'
 import { defaultSettings } from '@/components/ReBpmn/config'
+import '@/components/ReBpmn/styles/index.scss'
 
 import hljs from 'highlight.js/lib/core'
 import xml from 'highlight.js/lib/languages/xml'
 import json from 'highlight.js/lib/languages/json'
 import { NConfigProvider, NDialogProvider, NMessageProvider } from 'naive-ui'
 import { computed, ref, onMounted } from "vue";
+import { getMenuList } from "@/api/system";
+import { SUCCESS } from "@/api/base";
 hljs.registerLanguage('xml', xml)
 hljs.registerLanguage('json', json)
 
@@ -24,6 +27,8 @@ const customPalette = computed(() => editorSettings.value.paletteMode === 'custo
 const customPenal = computed(() => editorSettings.value.penalMode === 'custom')
 const showToolbar = computed(() => editorSettings.value.toolbar)
 
+const roleList = ref<any>([])
+
 const computedClasses = computed(() => {
   const baseClass = ['designer-container']
   customPalette.value && baseClass.push('designer-with-palette')
@@ -34,10 +39,19 @@ const computedClasses = computed(() => {
   return baseClass.join(' ')
 })
 
+function getRoleList() {
+  getMenuList().then((res)=>{
+    if (res.code === SUCCESS) {
+      roleList.value = res.data
+    }
+  })
+}
+
 onMounted(()=>{
   document.body.addEventListener('contextmenu', function (ev) {
     ev.preventDefault()
   })
+  getRoleList()
 })
 </script>
 
@@ -55,7 +69,7 @@ onMounted(()=>{
             <div class="main-content">
               <Palette v-if="customPalette" />
               <Designer v-model:xml="processXml" />
-              <Panel v-if="customPenal" />
+              <Panel v-if="customPenal" :roleList = roleList />
               <div v-else class="camunda-penal" id="camunda-penal"></div>
             </div>
             <Setting v-model:settings="editorSettings" />
@@ -66,4 +80,3 @@ onMounted(()=>{
     </NConfigProvider>
   </div>
 </template>
-
