@@ -2,7 +2,7 @@ import { defineComponent } from 'vue'
 import modelerStore from '@/store/modeler'
 import ElementFactory from 'bpmn-js/lib/features/modeling/ElementFactory'
 import Create from 'diagram-js/lib/features/create/Create'
-import { NCollapse, NCollapseItem } from 'naive-ui'
+import { ElCollapse, ElCollapseItem } from 'element-plus'
 
 const Palette = defineComponent({
   name: 'BpmnPalette',
@@ -20,11 +20,11 @@ const Palette = defineComponent({
 
     return () => (
       <div class="palette">
-        <NCollapse>
-          <NCollapseItem title="工具" name="tools">
+        <ElCollapse>
+          <ElCollapseItem title="工具" name="tools">
             工具部分
-          </NCollapseItem>
-          <NCollapseItem title="事件" name="events">
+          </ElCollapseItem>
+          <ElCollapseItem title="事件" name="events">
             <div class="palette-el-list">
               <div
                 class="palette-el-item start-event"
@@ -34,14 +34,14 @@ const Palette = defineComponent({
                 <span>开始</span>
               </div>
             </div>
-          </NCollapseItem>
-          <NCollapseItem title="任务" name="tasks">
+          </ElCollapseItem>
+          <ElCollapseItem title="任务" name="tasks">
             任务部分
-          </NCollapseItem>
-          <NCollapseItem title="网关" name="gateways">
+          </ElCollapseItem>
+          <ElCollapseItem title="网关" name="gateways">
             网关部分
-          </NCollapseItem>
-        </NCollapse>
+          </ElCollapseItem>
+        </ElCollapse>
       </div>
     )
   }

@@ -1,5 +1,5 @@
 import { computed, ComputedRef, defineComponent } from 'vue'
-import { NButton, NButtonGroup, NPopover } from 'naive-ui'
+import { ElButton, ElPopover, ElButtonGroup, ElMessage } from 'element-plus'
 import Modeler from 'bpmn-js/lib/Modeler'
 import Selection from 'diagram-js/lib/features/selection/Selection'
 import Modeling from 'bpmn-js/lib/features/modeling/Modeling.js'
@@ -9,7 +9,6 @@ import LucideIcon from '@/components/ReBpmn/common/LucideIcon.vue'
 import { useI18n } from 'vue-i18n'
 
 const Aligns = defineComponent({
-  // eslint-disable-next-line vue/multi-word-component-names
   name: 'Aligns',
   setup() {
     const { t } = useI18n()
@@ -39,29 +38,31 @@ const Aligns = defineComponent({
       if (modeling && selection) {
         const SelectedElements = selection.get()
         if (!SelectedElements || SelectedElements.length <= 1) {
-          return window.__messageBox.warning('请按住 Shift 键选择多个元素对齐')
+          return ElMessage.warning('请按住 Shift 键选择多个元素对齐')
         }
         align.trigger(SelectedElements, tag)
       }
     }
 
     return () => (
-      <NButtonGroup>
+      <ElButtonGroup>
         {buttons.value.map((item) => {
           return (
-            <NPopover
-              v-slots={{
-                default: () => item.name,
-                trigger: () => (
-                  <NButton onClick={() => alignElements(item.key)}>
+            <ElPopover
+              content={item.name}
+              placement="top"
+            >
+              {{
+                default: () => (
+                  <ElButton onClick={() => alignElements(item.key)} size="small">
                     <LucideIcon name={item.icon} size={16}></LucideIcon>
-                  </NButton>
+                  </ElButton>
                 )
               }}
-            ></NPopover>
+            </ElPopover>
           )
         })}
-      </NButtonGroup>
+      </ElButtonGroup>
     )
   }
 })

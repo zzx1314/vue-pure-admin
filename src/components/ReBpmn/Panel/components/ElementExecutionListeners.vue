@@ -1,296 +1,283 @@
 <template>
-  <n-collapse-item name="element-execution-listeners">
-    <template #header>
+  <el-collapse-item name="element-execution-listeners">
+    <template #title>
       <collapse-title :title="$t('panel.executionListeners')">
         <lucide-icon name="Radio" />
       </collapse-title>
     </template>
-    <template #header-extra>
-      <n-tag type="primary" round>
+    <template #extra>
+      <el-tag type="primary" effect="dark">
         {{ listeners.length }}
-      </n-tag>
+      </el-tag>
     </template>
     <div class="element-extension-listeners">
-      <n-data-table size="small" max-height="20vh" :columns="columns" :data="listeners" />
+      <el-table :data="listeners" size="small" :height="'20vh'" style="width: 100%">
+        <el-table-column prop="index" :label="$t('panel.index')" width="60">
+          <template #default="{ $index }">
+            {{ $index + 1 }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="event" label="EventType"></el-table-column>
+        <el-table-column prop="type" label="ListenerType"></el-table-column>
+        <el-table-column :label="$t('panel.operations')" width="140" align="center">
+          <template #default="{ row, $index }">
+            <el-button size="small" type="info" @click="openListenerModel($index, row)">
+              {{ $t('panel.edit') }}
+            </el-button>
+            <el-button size="small" type="danger" @click="removeListener($index)">
+              {{ $t('panel.remove') }}
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
 
-      <n-button type="info" class="inline-large-button" secondary @click="openListenerModel(-1)">
+      <el-button size="small" type="primary" @click="openListenerModel(-1)">
         <lucide-icon :size="20" name="Plus" />
         <span>{{ $t('panel.addExecutionListener') }}</span>
-      </n-button>
+      </el-button>
     </div>
 
-    <n-modal
-      v-model:show="modelVisible"
-      preset="dialog"
-      :title="$t('panel.addExecutionListener')"
-      :style="{ width: '640px' }"
+    <el-dialog
+      v-model="modelVisible"
+      title="$t('panel.addExecutionListener')"
+      width="640px"
+      :append-to-body="true"
     >
-      <n-form
+      <el-form
         ref="formRef"
         :model="newListener"
         :rules="formRules"
+        label-width="120px"
         class="need-filled"
-        aria-modal="true"
       >
-        <n-form-item path="event" :label="$t('panel.executionListenerEventType')">
-          <n-select v-model:value="newListener.event" :options="listenerEventTypeOptions" />
-        </n-form-item>
-        <n-form-item path="type" :label="$t('panel.executionListenerType')">
-          <n-select
-            v-model:value="newListener.type"
+        <el-form-item :label="$t('panel.executionListenerEventType')" prop="event">
+          <el-select v-model="newListener.event" :options="listenerEventTypeOptions" />
+        </el-form-item>
+        <el-form-item :label="$t('panel.executionListenerType')" prop="type">
+          <el-select
+            v-model="newListener.type"
             :options="listenerTypeOptions"
-            @update:value="updateListenerType"
+            @change="updateListenerType"
           />
-        </n-form-item>
-        <n-form-item
+        </el-form-item>
+        <el-form-item
           v-if="formItemVisible.listenerType === 'class'"
-          path="class"
           :label="$t('panel.javaClass')"
+          prop="class"
         >
-          <n-input v-model:value="newListener.class" @keydown.enter.prevent />
-        </n-form-item>
-        <n-form-item
+          <el-input v-model="newListener.class" />
+        </el-form-item>
+        <el-form-item
           v-if="formItemVisible.listenerType === 'expression'"
-          path="expression"
           :label="$t('panel.expression')"
+          prop="expression"
         >
-          <n-input v-model:value="newListener.expression" @keydown.enter.prevent />
-        </n-form-item>
-        <n-form-item
+          <el-input v-model="newListener.expression" />
+        </el-form-item>
+        <el-form-item
           v-if="formItemVisible.listenerType === 'delegateExpression'"
-          path="delegateExpression"
           :label="$t('panel.delegateExpression')"
+          prop="delegateExpression"
         >
-          <n-input v-model:value="newListener.delegateExpression" @keydown.enter.prevent />
-        </n-form-item>
+          <el-input v-model="newListener.delegateExpression" />
+        </el-form-item>
         <template v-if="formItemVisible.listenerType === 'script' && newListener.script">
-          <n-form-item
-            key="scriptFormat"
-            path="script.scriptFormat"
+          <el-form-item
             :label="$t('panel.scriptFormat')"
+            prop="script.scriptFormat"
           >
-            <n-input v-model:value="newListener.script.scriptFormat" @keydown.enter.prevent />
-          </n-form-item>
-          <n-form-item key="scriptType" path="script.scriptType" :label="$t('panel.scriptType')">
-            <n-select
-              v-model:value="newListener.script.scriptType"
+            <el-input v-model="newListener.script.scriptFormat" />
+          </el-form-item>
+          <el-form-item :label="$t('panel.scriptType')" prop="script.scriptType">
+            <el-select
+              v-model="newListener.script.scriptType"
               :options="scriptTypeOptions"
-              @update:value="updateScriptType"
+              @change="updateScriptType"
             />
-          </n-form-item>
-          <n-form-item
+          </el-form-item>
+          <el-form-item
             v-if="formItemVisible.scriptType === 'inline'"
-            key="scriptContent"
-            path="script.value"
             :label="$t('panel.scriptBody')"
+            prop="script.value"
           >
-            <n-input
-              v-model:value="newListener.script.value"
-              type="textarea"
-              @keydown.enter.prevent
-            />
-          </n-form-item>
-          <n-form-item
+            <el-input v-model="newListener.script.value" type="textarea" />
+          </el-form-item>
+          <el-form-item
             v-if="formItemVisible.scriptType === 'external'"
-            key="scriptResource"
-            path="script.resource"
             :label="$t('panel.scriptResource')"
+            prop="script.resource"
           >
-            <n-input v-model:value="newListener.script.resource" @keydown.enter.prevent />
-          </n-form-item>
+            <el-input v-model="newListener.script.resource" />
+          </el-form-item>
         </template>
-      </n-form>
-      <template #action>
-        <n-button size="small" type="info" @click="saveExecutionListener">{{
-          $t('panel.confirm')
-        }}</n-button>
+      </el-form>
+      <template #footer>
+        <el-button size="small" type="primary" @click="saveExecutionListener">
+          {{ $t('panel.confirm') }}
+        </el-button>
       </template>
-    </n-modal>
-  </n-collapse-item>
+    </el-dialog>
+  </el-collapse-item>
 </template>
 
 <script lang="ts">
-  import { defineComponent, h, markRaw, ref, computed, nextTick, onMounted, ComputedRef } from 'vue'
-  import { FormInst, FormRules, DataTableColumns, NButton } from 'naive-ui'
-  import modeler from '@/store/modeler'
-  import { ModdleElement } from 'bpmn-moddle'
-  import { Element } from 'bpmn-js/lib/model/Types'
-  import {
-    addExecutionListener,
-    getDefaultEvent,
-    getExecutionListeners,
-    getExecutionListenerType,
-    getExecutionListenerTypes,
-    removeExecutionListener,
-    updateExecutionListener
-  } from '@/components/ReBpmn/bo-utils/executionListenersUtil'
-  import { getScriptType } from '@/components/ReBpmn/bo-utils/scriptUtil'
-  import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
-  import { useI18n } from 'vue-i18n'
+import { defineComponent, ref, computed, onMounted } from 'vue'
+import {
+  ElButton,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElSelect,
+  ElTable,
+  ElTableColumn,
+  ElDialog,
+  ElTag
+} from 'element-plus'
+import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
+import modeler from '@/store/modeler'
+import {
+  getExecutionListeners,
+  addExecutionListener,
+  updateExecutionListener,
+  removeExecutionListener,
+  getExecutionListenerTypes,
+  getExecutionListenerType
+} from '@/components/ReBpmn/bo-utils/executionListenersUtil'
+import { useI18n } from 'vue-i18n'
 
-  export default defineComponent({
-    name: 'ElementExecutionListeners',
-    setup() {
-      const { t } = useI18n()
-      const modelerStore = modeler()
-      const getActive = computed(() => modelerStore.getActive!)
-      const getActiveId = computed<string>(() => modelerStore.getActiveId!)
-      let listenersRaw = markRaw([])
-      let activeIndex = -1
-
-      const modelVisible = ref(false)
-      const listeners = ref<ExecutionListenerForm[]>([])
-      const newListener = ref<ExecutionListenerForm>({ event: '', type: 'class' })
-      const formRef = ref<FormInst | null>(null)
-      const formItemVisible = ref<FormItemVisible>({
-        listenerType: 'class',
-        scriptType: 'none'
-      })
-
-      const listenerEventTypeOptions = ref<Record<string, string>[]>([
-        { label: 'Start', value: 'start' },
-        { label: 'End', value: 'end' },
-        { label: 'Take', value: 'take' }
-      ])
-      const listenerTypeOptions = ref<Record<string, string>[]>([
-        { label: 'Java Class', value: 'class' },
-        { label: 'Expression', value: 'expression' },
-        { label: 'DelegateExpression', value: 'delegateExpression' },
-        { label: 'Script', value: 'script' }
-      ])
-      const scriptTypeOptions = ref<Record<string, string>[]>([
-        { label: 'External Resource', value: 'external' },
-        { label: 'Inline Script', value: 'inline' },
-        { label: 'None', value: 'none' }
-      ])
-      const formRules: FormRules = {
-        event: { required: true, trigger: ['blur', 'change'], message: '事件类型不能为空' },
-        type: { required: true, trigger: ['blur', 'change'], message: '监听器类型不能为空' }
+export default defineComponent({
+  name: 'ElementExecutionListeners',
+  setup() {
+    const { t } = useI18n()
+    const modelerStore = modeler()
+    const getActive = computed(() => modelerStore.getActive!)
+    const listeners = ref([])
+    const modelVisible = ref(false)
+    const newListener = ref({
+      event: '',
+      type: 'class',
+      class: '',
+      expression: '',
+      delegateExpression: '',
+      script: {
+        scriptFormat: '',
+        scriptType: '',
+        value: '',
+        resource: ''
       }
-      const columns: ComputedRef<DataTableColumns<ExecutionListenerForm>> = computed(() => [
-        { title: t('panel.index'), key: 'index', render: (a, index) => index + 1, width: 60 },
-        { title: 'EventType', key: 'event', ellipsis: { tooltip: true } },
-        { title: 'ListenerType', key: 'type', ellipsis: { tooltip: true } },
-        {
-          title: t('panel.operations'),
-          key: 'operation',
-          width: 140,
-          align: 'center',
-          render: (row, index) =>
-            h('span', {}, [
-              h(
-                NButton,
-                {
-                  quaternary: true,
-                  size: 'small',
-                  type: 'info',
-                  onClick: () => openListenerModel(index, row)
-                },
-                { default: () => t('panel.edit') }
-              ),
-              h(
-                NButton,
-                {
-                  quaternary: true,
-                  size: 'small',
-                  type: 'error',
-                  onClick: () => removeListener(index)
-                },
-                { default: () => t('panel.remove') }
-              )
-            ])
-        }
-      ])
+    })
+    const formItemVisible = ref({ listenerType: 'class', scriptType: 'none' })
+    const formRef = ref(null)
 
-      const updateListenerType = (value: string) => {
-        formItemVisible.value.listenerType = value
+    const listenerEventTypeOptions = ref([
+      { label: 'Start', value: 'start' },
+      { label: 'End', value: 'end' },
+      { label: 'Take', value: 'take' }
+    ])
+    const listenerTypeOptions = ref([
+      { label: 'Java Class', value: 'class' },
+      { label: 'Expression', value: 'expression' },
+      { label: 'DelegateExpression', value: 'delegateExpression' },
+      { label: 'Script', value: 'script' }
+    ])
+    const scriptTypeOptions = ref([
+      { label: 'External Resource', value: 'external' },
+      { label: 'Inline Script', value: 'inline' }
+    ])
+
+    const formRules = {
+      event: [
+        { required: true, message: t('panel.eventRequired'), trigger: ['blur', 'change'] }
+      ],
+      type: [
+        { required: true, message: t('panel.typeRequired'), trigger: ['blur', 'change'] }
+      ],
+      class: [
+        { required: true, message: t('panel.classRequired'), trigger: ['blur', 'change'] }
+      ]
+    }
+
+    const reloadListeners = () => {
+      modelVisible.value = false
+      listeners.value = getExecutionListeners(getActive.value)
+    }
+
+    const saveExecutionListener = () => {
+      formRef.value?.validate((valid: boolean) => {
+        if (valid) {
+          addExecutionListener(getActive.value, newListener.value)
+          reloadListeners()
+        }
+      })
+    }
+
+    const removeListener = (index: number) => {
+      const listener = listeners.value[index]
+      removeExecutionListener(getActive.value, listener)
+      reloadListeners()
+    }
+
+    const openListenerModel = (index: number, row?: any) => {
+      if (row) {
+        newListener.value = { ...row }
+      } else {
         newListener.value = {
-          ...newListener.value,
-          type: value,
-          ...(value === 'script' ? { script: newListener.value.script || {} } : {})
+          event: '',
+          type: 'class',
+          class: '',
+          expression: '',
+          delegateExpression: '',
+          script: {
+            scriptFormat: '',
+            scriptType: '',
+            value: '',
+            resource: ''
+          }
         }
       }
-      const updateScriptType = (value: string) => {
-        formItemVisible.value.scriptType = value
+      modelVisible.value = true
+    }
+
+    const updateListenerType = (value: string) => {
+      formItemVisible.value.listenerType = value
+      newListener.value.type = value
+      if (value === 'script') {
         newListener.value.script = {
-          scriptFormat: newListener.value.script?.scriptFormat,
-          scriptType: value
+          ...newListener.value.script,
+          scriptFormat: '',
+          scriptType: '',
+          value: '',
+          resource: ''
         }
-      }
-
-      const reloadExtensionListeners = () => {
-        modelVisible.value = false
-        updateListenerType('class')
-        newListener.value = { event: getDefaultEvent(getActive.value), type: 'class' }
-        listenerEventTypeOptions.value = getExecutionListenerTypes(getActive.value)
-        ;(listenersRaw as ModdleElement[]) = markRaw(
-          getExecutionListeners(getActive.value as Element)
-        )
-        const list = listenersRaw.map(
-          (item: ModdleElement & BpmnExecutionListener): ExecutionListenerForm => ({
-            ...item,
-            ...(item.script
-              ? {
-                  script: {
-                    ...item.script,
-                    scriptType: getScriptType(item.script as ModdleElement & BpmnScript)
-                  }
-                }
-              : {}),
-            type: getExecutionListenerType(item)
-          })
-        )
-        listeners.value = JSON.parse(JSON.stringify(list))
-      }
-
-      const removeListener = (index: number) => {
-        const listener: ModdleElement = listenersRaw[index]
-        removeExecutionListener(getActive.value, listener)
-        reloadExtensionListeners()
-      }
-
-      const saveExecutionListener = async () => {
-        await formRef.value!.validate()
-        activeIndex === -1
-          ? addExecutionListener(getActive.value, newListener.value)
-          : updateExecutionListener(getActive.value, newListener.value, listenersRaw[activeIndex])
-        reloadExtensionListeners()
-      }
-
-      const openListenerModel = async (index: number, listenerData?: ExecutionListenerForm) => {
-        activeIndex = index
-        console.log(JSON.stringify(listenerData))
-        listenerData && (newListener.value = JSON.parse(JSON.stringify(listenerData)))
-        updateListenerType(listenerData?.type || 'class')
-        modelVisible.value = true
-        await nextTick()
-        formRef.value && formRef.value.restoreValidation()
-      }
-
-      onMounted(() => {
-        reloadExtensionListeners()
-        EventEmitter.on('element-update', reloadExtensionListeners)
-      })
-
-      return {
-        modelVisible,
-        getActiveId,
-        getActive,
-        formRef,
-        listeners,
-        newListener,
-        formRules,
-        columns,
-        formItemVisible,
-        listenerEventTypeOptions,
-        listenerTypeOptions,
-        scriptTypeOptions,
-        removeListener,
-        saveExecutionListener,
-        openListenerModel,
-        updateListenerType,
-        updateScriptType
       }
     }
-  })
+
+    const updateScriptType = (value: string) => {
+      formItemVisible.value.scriptType = value
+      newListener.value.script.scriptType = value
+    }
+
+    onMounted(() => {
+      reloadListeners()
+    })
+
+    return {
+      modelVisible,
+      listeners,
+      newListener,
+      formRef,
+      formItemVisible,
+      listenerEventTypeOptions,
+      listenerTypeOptions,
+      scriptTypeOptions,
+      formRules,
+      reloadListeners,
+      saveExecutionListener,
+      removeListener,
+      openListenerModel,
+      updateListenerType,
+      updateScriptType
+    }
+  }
+})
 </script>
