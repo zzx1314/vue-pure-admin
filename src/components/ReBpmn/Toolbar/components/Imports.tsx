@@ -30,7 +30,7 @@ const Imports = defineComponent({
     }
 
     return () => (
-      <span class="mr-2">
+      <span class="ml-2">
         <el-button type="primary" onClick={openImportWindow}>
           {t('toolbar.openFile')}
         </el-button>

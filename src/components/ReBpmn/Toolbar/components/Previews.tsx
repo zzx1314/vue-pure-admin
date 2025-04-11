@@ -74,7 +74,7 @@ const Previews = defineComponent({
     }
 
     return () => (
-      <div class="ml-2">
+      <span class="ml-2">
         <ElPopover
           v-slots={{
             reference: () => (
@@ -119,7 +119,7 @@ const Previews = defineComponent({
             <code class={`language-${dialogLanguage.value}`}>{dialogContent.value}</code>
           </pre>
         </ElDialog>
-      </div>
+      </span>
     )
   }
 })

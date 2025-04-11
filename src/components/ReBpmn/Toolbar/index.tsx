@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { NButtonGroup } from 'naive-ui'
+import { ElButtonGroup } from 'element-plus'
 import Imports from '@/components/ReBpmn/Toolbar/components/Imports'
 import Exports from '@/components/ReBpmn/Toolbar/components/Exports'
 import Previews from '@/components/ReBpmn/Toolbar/components/Previews'
@@ -19,11 +19,11 @@ const Toolbar = defineComponent({
   setup(props) {
     return () => (
       <div class="toolbar">
-        <NButtonGroup>
+        <ElButtonGroup>
           <Imports></Imports>
           <Exports></Exports>
           <Previews></Previews>
-        </NButtonGroup>
+        </ElButtonGroup>
         <Scales style={{ marginLeft: '16px' }}></Scales>
         <Commands isRestart={props.isRestart}></Commands>
       </div>
