@@ -11,12 +11,11 @@ import '@/components/ReBpmn/styles/index.scss'
 import hljs from 'highlight.js/lib/core'
 import xml from 'highlight.js/lib/languages/xml'
 import json from 'highlight.js/lib/languages/json'
-import { NConfigProvider, NDialogProvider, NMessageProvider } from 'naive-ui'
 import { computed, ref, onMounted, type PropType, watch } from "vue";
 import { getRoleSelectList } from "@/api/system";
 import { SUCCESS } from "@/api/base";
 import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
-import {actThProcessConfDeployment, actThProcessConfGetProcess} from "@/api/actThProcessConf";
+import { actThProcessConfDeployment, actThProcessConfGetProcess } from "@/api/actThProcessConf";
 import { message } from "@/utils/message";
 import modeler from "@/store/modeler";
 
@@ -122,26 +121,16 @@ onMounted(() => {
       @close="cancel"
       append-to-body
     >
-      <NConfigProvider
-        abstract
-        :componentOptions="{ DynamicInput: { buttonSize: 'small' } }"
-        :hljs="hljs"
-      >
-        <NDialogProvider>
-          <div :class="computedClasses" id="designer-container">
-            <NMessageProvider>
-              <Toolbar v-if="showToolbar" :is-restart="restart"/>
-              <div class="main-content">
-                <Palette v-if="customPalette" />
-                <Designer v-model:xml="processXml" />
-                <Panel v-if="customPenal" :roleList=roleList />
-                <div v-else class="camunda-penal" id="camunda-penal"></div>
-              </div>
-              <ContextMenu />
-            </NMessageProvider>
-          </div>
-        </NDialogProvider>
-      </NConfigProvider>
+      <div :class="computedClasses" id="designer-container">
+        <Toolbar v-if="showToolbar" :is-restart="restart"/>
+        <div class="main-content">
+          <Palette v-if="customPalette" />
+          <Designer v-model:xml="processXml" />
+          <Panel v-if="customPenal" :roleList=roleList />
+          <div v-else class="camunda-penal" id="camunda-penal"></div>
+        </div>
+        <ContextMenu />
+      </div>
     </el-dialog>
   </div>
 </template>
