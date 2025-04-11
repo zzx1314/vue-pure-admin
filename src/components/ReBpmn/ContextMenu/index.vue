@@ -27,7 +27,7 @@
    */
   import { onBeforeUnmount, onMounted, ref } from 'vue'
   import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
-  import { Element } from 'diagram-js/lib/model/Types'
+  import { Element } from 'bpmn-js/lib/model/Types'
   import { customTranslate } from '@/components/ReBpmn/additional-modules/Translate'
   import BpmnReplaceOptions from '@/components/ReBpmn/utils/BpmnReplaceOptions'
   import { isAppendAction } from '@/components/ReBpmn/utils/BpmnDesignerUtils'

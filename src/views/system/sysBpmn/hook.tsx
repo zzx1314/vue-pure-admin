@@ -24,6 +24,7 @@ export function useActThProcessConf() {
   const dialogFormVisible = ref(false);
   const title = ref("");
   const dialogDesignVisible = ref(false);
+  const currentRow = ref();
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -235,6 +236,7 @@ export function useActThProcessConf() {
     console.log(row);
     dialogDesignVisible.value = true;
     console.log(dialogDesignVisible.value);
+    currentRow.value = row;
   }
 
   function closeDesign() {
@@ -258,6 +260,7 @@ export function useActThProcessConf() {
     buttonClass,
     moreCondition,
     dialogDesignVisible,
+    currentRow,
     onSearch,
     resetForm,
     handleUpdate,

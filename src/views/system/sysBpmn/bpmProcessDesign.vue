@@ -3,7 +3,6 @@ import Toolbar from '@/components/ReBpmn/Toolbar'
 import Palette from '@/components/ReBpmn/Palette'
 import Designer from '@/components/ReBpmn/Designer'
 import Panel from '@/components/ReBpmn/Panel'
-import Setting from '@/components/ReBpmn/Setting'
 import ContextMenu from '@/components/ReBpmn/ContextMenu/index.vue'
 import { EditorSettings } from 'types/editor/settings'
 import { defaultSettings } from '@/components/ReBpmn/config'
@@ -14,8 +13,12 @@ import xml from 'highlight.js/lib/languages/xml'
 import json from 'highlight.js/lib/languages/json'
 import { NConfigProvider, NDialogProvider, NMessageProvider } from 'naive-ui'
 import { computed, ref, onMounted, type PropType, watch } from "vue";
-import { getMenuList } from "@/api/system";
+import { getRoleSelectList } from "@/api/system";
 import { SUCCESS } from "@/api/base";
+import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
+import {actThProcessConfDeployment} from "@/api/actThProcessConf";
+import { message } from "@/utils/message";
+
 hljs.registerLanguage('xml', xml)
 hljs.registerLanguage('json', json)
 
@@ -45,17 +48,41 @@ const props = defineProps({
   dialogDesignVisible: {
     type: Boolean,
     default: false
+  },
+  configInfo: {
+    type: Object as PropType<any>,
+    default: () => {
+      return {}
+    }
   }
 })
 const emit = defineEmits(['update:dialogDesignVisible'])
 
 function getRoleList() {
-  getMenuList().then((res)=>{
+  getRoleSelectList().then((res)=>{
     if (res.code === SUCCESS) {
       roleList.value = res.data
     }
   })
 }
+
+EventEmitter.on('save-event', (xml:string) => {
+  console.log('save-event-XML:', xml)
+  let param = {
+    bpmnXml: xml,
+    businessType: props.configInfo.businessType,
+    configId: props.configInfo.id
+  }
+  console.log(param)
+  actThProcessConfDeployment(param).then(res => {
+    if (res.code === SUCCESS) {
+      message("部署成功！", { type: "success" });
+      cancel();
+    } else {
+      message(res.msg, { type: "error" });
+    }
+  })
+})
 
 watch(() => props.dialogDesignVisible, (val) => {
   restart.value = val;
@@ -97,7 +124,6 @@ onMounted(() => {
                 <Panel v-if="customPenal" :roleList=roleList />
                 <div v-else class="camunda-penal" id="camunda-penal"></div>
               </div>
-<!--              <Setting v-model:settings="editorSettings" />-->
               <ContextMenu />
             </NMessageProvider>
           </div>

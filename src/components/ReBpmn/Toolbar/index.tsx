@@ -1,12 +1,13 @@
 import { defineComponent } from 'vue'
-import { ElButtonGroup } from 'element-plus'
+import { ElButtonGroup, ElButton } from 'element-plus'
 import Imports from '@/components/ReBpmn/Toolbar/components/Imports'
 import Exports from '@/components/ReBpmn/Toolbar/components/Exports'
 import Previews from '@/components/ReBpmn/Toolbar/components/Previews'
-import Aligns from '@/components/ReBpmn/Toolbar/components/Aligns'
 import Scales from '@/components/ReBpmn/Toolbar/components/Scales'
 import Commands from '@/components/ReBpmn/Toolbar/components/Commands'
-import ExternalTools from '@/components/ReBpmn/Toolbar/components/ExternalTools'
+import modeler from '@/store/modeler'
+import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
+
 
 const Toolbar = defineComponent({
   name: 'ToolBar',
@@ -17,11 +18,23 @@ const Toolbar = defineComponent({
     }
   },
   setup(props) {
+    const modelerStore = modeler()
+    // 定义保存函数
+    const saveBpmnxml = async () => {
+      console.log('Save function triggered!')
+      const modeler = modelerStore.getModeler
+      const { error, xml } = await modeler!.saveXML({})
+      EventEmitter.emit('save-event', xml) // 发布事件
+    }
+
     return () => (
       <div class="toolbar">
         <ElButtonGroup>
-          <Imports></Imports>
+          <span>
+            <ElButton type="primary" onClick={saveBpmnxml} style={{marginRight: '8px'}}>部署</ElButton>
+          </span>
           <Exports></Exports>
+          <Imports></Imports>
           <Previews></Previews>
         </ElButtonGroup>
         <Scales style={{ marginLeft: '16px' }}></Scales>

@@ -53,27 +53,29 @@ const Exports = defineComponent({
     }
 
     return () => (
-      <ElPopover
-        v-slots={{
-          reference: () => (
-            <ElButton type="primary">
-              {t('toolbar.exportAs')}
+      <span>
+        <ElPopover
+          v-slots={{
+            reference: () => (
+              <ElButton type="primary">
+                {t('toolbar.exportAs')}
+              </ElButton>
+            ),
+          }}
+        >
+          <div class="button-list_column">
+            <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsBpmn}>
+              {t('toolbar.exportAsBPMN')}
             </ElButton>
-          ),
-        }}
-      >
-        <div class="button-list_column">
-          <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsBpmn}>
-            {t('toolbar.exportAsBPMN')}
-          </ElButton>
-          <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsXml}>
-            {t('toolbar.exportAsXML')}
-          </ElButton>
-          <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsSvg}>
-            {t('toolbar.exportAsSVG')}
-          </ElButton>
-        </div>
-      </ElPopover>
+            <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsXml}>
+              {t('toolbar.exportAsXML')}
+            </ElButton>
+            <ElButton type="primary" style={buttonStyle} onClick={downloadProcessAsSvg}>
+              {t('toolbar.exportAsSVG')}
+            </ElButton>
+          </div>
+        </ElPopover>
+      </span>
     )
   }
 })

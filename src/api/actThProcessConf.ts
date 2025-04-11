@@ -16,10 +16,11 @@ type ResultPage = {
 };
 
 const actThProcessConfUrls = {
-  page: `/api/act/activity/getProcessConfPage`,
-  save: "/api/act/activity/addProcessConf",
-  delete: `/api/act/activity/deleteProcessConf`,
-  update: "/api/act/activity/editProcessConf"
+  page: `/api/upms/activity/getProcessConfPage`,
+  save: "/api/upms/activity/addProcessConf",
+  delete: `/api/upms/activity/deleteProcessConf`,
+  update: "/api/upms/activity/editProcessConf",
+  deployment: `/api/upms/activity/deployment`,
 };
 
 // 业务流程配置表分页
@@ -37,4 +38,8 @@ export const actThProcessConfUpdate = (param?: object) => {
 // 业务流程配置表删除
 export const actThProcessConfDelete = (param?: object) => {
   return http.axiosDelete<Result>(actThProcessConfUrls.delete + param);
+};
+// 业务流程配置表部署
+export const actThProcessConfDeployment = (param?: object) => {
+  return http.axiosPostRequest<Result>(actThProcessConfUrls.deployment, param);
 };

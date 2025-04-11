@@ -304,7 +304,7 @@ export const listAllRole = () => {
 };
 
 /** 获取所有角色下拉菜单 */
-export const getMenuList = () => {
+export const getRoleSelectList = () => {
   return http.axiosGetRequest<Result>(roleUrls.listNoLog, {});
 };
 

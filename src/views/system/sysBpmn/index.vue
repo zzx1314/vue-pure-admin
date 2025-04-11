@@ -31,6 +31,7 @@ const {
   addForm,
   rules,
   columns,
+  currentRow,
   onSearch,
   handleUpdate,
   handleDelete,
@@ -157,7 +158,7 @@ const {
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
     />
-    <bpm-process-design :dialog-design-visible="dialogDesignVisible" @update:dialogDesignVisible="closeDesign"/>
+    <bpm-process-design :dialog-design-visible="dialogDesignVisible" :config-info="currentRow" @update:dialogDesignVisible="closeDesign"/>
   </div>
 </template>
 
