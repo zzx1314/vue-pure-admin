@@ -34,7 +34,6 @@ const Toolbar = defineComponent({
             <ElButton type="primary" onClick={saveBpmnxml} style={{marginRight: '8px'}}>部署</ElButton>
           </span>
           <Exports></Exports>
-          <Imports></Imports>
           <Previews></Previews>
         </ElButtonGroup>
         <Scales style={{ marginLeft: '16px' }}></Scales>

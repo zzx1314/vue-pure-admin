@@ -55,28 +55,28 @@ export function useActThProcessConf() {
       {
         label: "配置名称",
         prop: "name",
-        width: 200
+        width: 150
       },
       {
-        label: "流程id",
-        prop: "processId",
-        width: 180
+        label: "流程ID",
+        prop: "bpmnId",
+        width: 190
       },
       {
-        label: "业务类型",
-        prop: "businessType",
-        width: 120
+        label: "流程版本",
+        prop: "bpmnVersion",
+        width: 100
       },
       {
-        label: "状态",
+        label: "流程状态",
         prop: "status",
         width: 100,
         cellRenderer: ({ row }) => (
           <el-tag
             type={
-              row.status === "已生效"
+              row.status === "已激活"
                 ? "success"
-                : row.status === "已绑定"
+                : row.status === "待绑定"
                   ? "warning"
                   : "danger"
             }
@@ -86,6 +86,11 @@ export function useActThProcessConf() {
         )
       },
       {
+        label: "业务类型",
+        prop: "businessType",
+        width: 120
+      },
+      {
         label: "备注",
         prop: "remark",
         width: 150
@@ -93,14 +98,14 @@ export function useActThProcessConf() {
       {
         label: "创建时间",
         prop: "createTime",
-        minWidth: 150
+        width: 160
       },
-    {
-      label: "操作",
-      fixed: "right",
-      minWidth: 150,
-      slot: "operation"
-    }
+      {
+        label: "操作",
+        fixed: "right",
+        width: 180,
+        slot: "operation"
+      }
   ];
   const buttonClass = computed(() => {
     return [
@@ -241,6 +246,7 @@ export function useActThProcessConf() {
 
   function closeDesign() {
     dialogDesignVisible.value = false;
+    cancel();
   }
 
   onMounted(() => {

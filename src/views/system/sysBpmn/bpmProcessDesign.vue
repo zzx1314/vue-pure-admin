@@ -16,8 +16,9 @@ import { computed, ref, onMounted, type PropType, watch } from "vue";
 import { getRoleSelectList } from "@/api/system";
 import { SUCCESS } from "@/api/base";
 import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
-import {actThProcessConfDeployment} from "@/api/actThProcessConf";
+import {actThProcessConfDeployment, actThProcessConfGetProcess} from "@/api/actThProcessConf";
 import { message } from "@/utils/message";
+import modeler from "@/store/modeler";
 
 hljs.registerLanguage('xml', xml)
 hljs.registerLanguage('json', json)
@@ -31,6 +32,7 @@ const customPenal = computed(() => editorSettings.value.penalMode === 'custom')
 const showToolbar = computed(() => editorSettings.value.toolbar)
 
 const roleList = ref<any>([])
+const modelerStore = modeler()
 
 const computedClasses = computed(() => {
   const baseClass = ['designer-container']
@@ -66,6 +68,16 @@ function getRoleList() {
   })
 }
 
+function getXml() {
+  if (props.configInfo && props.configInfo.processId) {
+    actThProcessConfGetProcess(props.configInfo.processId).then((res)=>{
+      if (res.code === SUCCESS) {
+        modelerStore.getModeler!.importXML(res.data.xmlString)
+      }
+    })
+  }
+}
+
 EventEmitter.on('save-event', (xml:string) => {
   console.log('save-event-XML:', xml)
   let param = {
@@ -87,6 +99,7 @@ EventEmitter.on('save-event', (xml:string) => {
 watch(() => props.dialogDesignVisible, (val) => {
   restart.value = val;
   getRoleList();
+  getXml();
 })
 
 function cancel() {

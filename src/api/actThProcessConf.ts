@@ -3,7 +3,7 @@ import { http } from "@/utils/http";
 type Result = {
   code: number;
   msg: string;
-  data?: Array<any>;
+  data?: any;
 };
 
 type ResultPage = {
@@ -21,6 +21,7 @@ const actThProcessConfUrls = {
   delete: `/api/upms/activity/deleteProcessConf`,
   update: "/api/upms/activity/editProcessConf",
   deployment: `/api/upms/activity/deployment`,
+  getProcessOne: "/api/upms/activity/getProcessOne/"
 };
 
 // 业务流程配置表分页
@@ -42,4 +43,8 @@ export const actThProcessConfDelete = (param?: object) => {
 // 业务流程配置表部署
 export const actThProcessConfDeployment = (param?: object) => {
   return http.axiosPostRequest<Result>(actThProcessConfUrls.deployment, param);
+};
+// 业务流程配置表获取流程
+export const actThProcessConfGetProcess = (param?: object) => {
+  return http.axiosGetRequest<Result>(actThProcessConfUrls.getProcessOne + param, {});
 };
