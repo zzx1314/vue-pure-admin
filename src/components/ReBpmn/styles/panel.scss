@@ -9,9 +9,9 @@
   .el-collapse .el-collapse-item {
     border-top: none;
     margin: 0;
-    border-bottom: 1px solid var(--n-divider-color);
+    border-bottom: 1px solid var(--el-divider-color);
     &:first-child {
-      border-top: 1px solid var(--n-divider-color);
+      border-top: 1px solid var(--el-divider-color);
     }
 
     .el-collapse-item__header {
@@ -52,7 +52,7 @@
 }
 
 .need-filled {
-  &.n-form {
+  &.el-form {
     height: 520px;
   }
 }
