@@ -1,22 +1,18 @@
 <template>
-  <n-collapse-item name="base-info">
-    <template #header>
+  <el-collapse-item name="base-info">
+    <template #title>
       <collapse-title :title="$t('panel.general')">
         <lucide-icon name="Info" />
       </collapse-title>
     </template>
 
     <edit-item :label="$t('panel.id')">
-      <n-input
-        v-model:value="elementId"
-        maxlength="32"
-        @change="updateElementId"
-      />
+      <el-input v-model="elementId" maxlength="32" @change="updateElementId" />
     </edit-item>
 
     <edit-item :label="$t('panel.name')">
-      <n-input
-        v-model:value="elementName"
+      <el-input
+        v-model="elementName"
         maxlength="20"
         @change="updateElementName"
       />
@@ -24,21 +20,21 @@
 
     <template v-if="isProcess">
       <edit-item key="version" :label="$t('panel.version')">
-        <n-input
-          v-model:value="elementVersion"
+        <el-input
+          v-model="elementVersion"
           maxlength="20"
           @change="updateElementVersion"
         />
       </edit-item>
 
       <edit-item key="executable" :label="$t('panel.executable')">
-        <n-switch
-          v-model:value="elementExecutable"
-          @update:value="updateElementExecutable"
+        <el-switch
+          v-model="elementExecutable"
+          @change="updateElementExecutable"
         />
       </edit-item>
     </template>
-  </n-collapse-item>
+  </el-collapse-item>
 </template>
 
 <script lang="ts">

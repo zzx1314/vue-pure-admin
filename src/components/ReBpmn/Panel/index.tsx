@@ -6,7 +6,7 @@ import {
   ref,
   watch
 } from "vue";
-import { NCollapse } from "naive-ui";
+import { ElCollapse } from "element-plus";
 import type {
   Element,
   Connection,
@@ -144,7 +144,7 @@ const Panel = defineComponent({
           <p>{bpmnElementName.value}</p>
           <p>{customTranslate(currentElementType.value || "Process")}</p>
         </div>
-        <NCollapse arrow-placement="right">
+        <ElCollapse accordion>
           {renderComponents.map(component =>
             component.name === "UserAssignment" ? (
               <component is={component} roleList={props.roleList}></component>
@@ -152,7 +152,7 @@ const Panel = defineComponent({
               <component is={component}></component>
             )
           )}
-        </NCollapse>
+        </ElCollapse>
       </div>
     );
   }
