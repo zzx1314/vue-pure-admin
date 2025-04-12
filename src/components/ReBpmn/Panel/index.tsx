@@ -1,0 +1,161 @@
+import {
+  defineComponent,
+  type Component,
+  markRaw,
+  onMounted,
+  ref,
+  watch
+} from "vue";
+import { ElCollapse } from "element-plus";
+import type {
+  Element,
+  Connection,
+  Label,
+  Shape
+} from "diagram-js/lib/model/Types";
+import debounce from "lodash.debounce";
+
+import EventEmitter from "@/components/ReBpmn/utils/EventEmitter";
+import modelerStore from "@/store/modeler";
+import Logger from "@/components/ReBpmn/utils/Logger";
+
+import getBpmnIconType from "@/components/ReBpmn/bpmn-icons/getIconType";
+import bpmnIcons from "@/components/ReBpmn/bpmn-icons";
+import BpmnIcon from "@/components/ReBpmn/common/BpmnIcon.vue";
+
+import { isUserAssignmentSupported } from "@/components/ReBpmn/bo-utils/initiatorUtil";
+
+import ElementGenerations from "./components/ElementGenerations.vue";
+
+import UserAssignment from "./components/UserAssignment.vue";
+
+import { customTranslate } from "@/components/ReBpmn/additional-modules/Translate";
+
+const Panel = defineComponent({
+  name: "PropertiesPanel",
+  props: {
+    roleList: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    }
+  },
+  setup(props) {
+    console.log("Panel setup===", props.roleList);
+    const modeler = modelerStore();
+    const panel = ref<HTMLDivElement | null>(null);
+    const currentElementId = ref<string | undefined>(undefined);
+    const currentElementType = ref<string | undefined>(undefined);
+
+    const penalTitle = ref<string | undefined>("属性配置");
+    const bpmnIconName = ref<string>("Process");
+    const bpmnElementName = ref<string>("Process");
+
+    const renderComponents = markRaw<Component[]>([]);
+
+    const setCurrentComponents = (element: BpmnElement) => {
+      // 清空
+      renderComponents.splice(0, renderComponents.length);
+      renderComponents.push(ElementGenerations);
+      // renderComponents.push(ElementDocumentations)
+      // isCanbeConditional(element) && renderComponents.push(ElementConditional)
+      // isJobExecutable(element) && renderComponents.push(ElementJobExecution)
+      // renderComponents.push(ElementExtensionProperties)
+      // isExecutable(element) && renderComponents.push(ElementExecutionListeners)
+      // isAsynchronous(element) && renderComponents.push(ElementAsyncContinuations)
+      // isStartInitializable(element) && renderComponents.push(ElementStartInitiator)
+      isUserAssignmentSupported(element) &&
+        renderComponents.push(UserAssignment);
+    };
+
+    // 设置选中元素，更新 store
+    const setCurrentElement = debounce(
+      (element: Shape | Element | Connection | Label | null) => {
+        let activatedElement: BpmnElement | undefined = element;
+        let activatedElementTypeName = "";
+
+        if (!activatedElement) {
+          activatedElement =
+            modeler.getElRegistry?.find(el => el.type === "bpmn:Process") ||
+            modeler.getElRegistry?.find(el => el.type === "bpmn:Collaboration");
+
+          if (!activatedElement) {
+            return Logger.prettyError("No Element found!");
+          }
+        }
+        activatedElementTypeName = getBpmnIconType(activatedElement);
+
+        modeler.setElement(markRaw(activatedElement));
+        currentElementId.value = activatedElement.id;
+        currentElementType.value = activatedElement.type.split(":")[1];
+
+        penalTitle.value = modeler.getModeler?.get<any>("translate")(
+          currentElementType.value
+        );
+        bpmnIconName.value = bpmnIcons[activatedElementTypeName];
+        bpmnElementName.value = activatedElementTypeName;
+
+        setCurrentComponents(activatedElement);
+        EventEmitter.emit("element-update", activatedElement);
+
+        Logger.prettyPrimary(
+          "Selected element changed",
+          `ID: ${activatedElement.id} , type: ${activatedElement.type}`
+        );
+      },
+      100
+    );
+
+    EventEmitter.on("modeler-init", modeler => {
+      // 导入完成后默认选中 process 节点
+      modeler.on("import.done", () => {
+        setCurrentElement(null);
+      });
+      // 监听选择事件，修改当前激活的元素以及表单
+      modeler.on("selection.changed", ({ newSelection }) => {
+        setCurrentElement(newSelection[0] || null);
+      });
+      modeler.on("element.changed", ({ element }) => {
+        // 保证 修改 "默认流转路径" 等类似需要修改多个元素的事件发生的时候，更新表单的元素与原选中元素不一致。
+        if (element && element.id === currentElementId.value) {
+          setCurrentElement(element);
+        }
+      });
+
+      modeler.on("element.click", event => {
+        Logger.prettyInfo("Element Click", event);
+      });
+    });
+
+    watch(
+      () => props.roleList,
+      val => {
+        console.log("Panel watch===", val);
+      }
+    );
+
+    onMounted(() => !currentElementId.value && setCurrentElement(null));
+
+    return () => (
+      <div ref={panel} class="panel">
+        <div class="panel-header">
+          <BpmnIcon name={bpmnIconName.value}></BpmnIcon>
+          <p>{bpmnElementName.value}</p>
+          <p>{customTranslate(currentElementType.value || "Process")}</p>
+        </div>
+        <ElCollapse accordion>
+          {renderComponents.map(component =>
+            component.name === "UserAssignment" ? (
+              <component is={component} roleList={props.roleList}></component>
+            ) : (
+              <component is={component}></component>
+            )
+          )}
+        </ElCollapse>
+      </div>
+    );
+  }
+});
+
+export default Panel;

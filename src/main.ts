@@ -26,6 +26,11 @@ import "element-plus/dist/index.css";
 import "./assets/iconfont/iconfont.js";
 import "./assets/iconfont/iconfont.css";
 
+import LucideIcon from "@/components/ReBpmn/common/LucideIcon.vue";
+import EditItem from "@/components/ReBpmn/common/EditItem.vue";
+import CollapseTitle from "@/components/ReBpmn/common/CollapseTitle.vue";
+import "virtual:svg-icons-register";
+
 const app = createApp(App);
 
 // 自定义指令
@@ -43,6 +48,10 @@ import {
 app.component("IconifyIconOffline", IconifyIconOffline);
 app.component("IconifyIconOnline", IconifyIconOnline);
 app.component("FontIcon", FontIcon);
+
+app.component("LucideIcon", LucideIcon);
+app.component("EditItem", EditItem);
+app.component("CollapseTitle", CollapseTitle);
 
 // 全局注册按钮级别权限组件
 import { Auth } from "@/components/ReAuth";

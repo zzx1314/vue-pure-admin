@@ -43,7 +43,10 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "types/*.d.ts",
-    "vite.config.ts"
+    "vite.config.ts",
+    "types/editor/*.d.ts",
+    "types/bpmn-moddle/*.d.ts",
+    "types/declares/*.d.ts"
   ],
   "exclude": [
     "dist",

@@ -15,6 +15,8 @@ import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import { genScssMultipleScopeVars } from "../src/layout/theme";
 import { vitePluginFakeServer } from "vite-plugin-fake-server";
 import { lazyImport, VxeResolver } from "vite-plugin-lazy-import";
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import * as path from 'path'
 
 export function getPluginsList(
   VITE_CDN: boolean,
@@ -23,6 +25,13 @@ export function getPluginsList(
   const lifecycle = process.env.npm_lifecycle_event;
   return [
     vue(),
+    createSvgIconsPlugin({
+      // 指定需要缓存的图标文件夹
+      iconDirs: [path.resolve(process.cwd(), 'src/components/ReBpmn/bpmn-icons')],
+      // 指定symbolId格式
+      symbolId: '[name]',
+      customDomId: '__svg__icons__dom__'
+    }),
     lazyImport({
       resolvers: [
         VxeResolver({
