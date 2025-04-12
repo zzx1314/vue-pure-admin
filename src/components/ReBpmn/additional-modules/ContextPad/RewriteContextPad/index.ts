@@ -1,9 +1,9 @@
-import { ModuleDeclaration } from 'didi'
-import rewriteContextPadProvider from './rewriteContextPadProvider'
+import type { ModuleDeclaration } from "didi";
+import rewriteContextPadProvider from "./rewriteContextPadProvider";
 
 const rewriteContextPad: ModuleDeclaration = {
-  __init__: ['contextPadProvider'],
-  contextPadProvider: ['type', rewriteContextPadProvider]
-}
+  __init__: ["contextPadProvider"],
+  contextPadProvider: ["type", rewriteContextPadProvider]
+};
 
-export default rewriteContextPad
+export default rewriteContextPad;

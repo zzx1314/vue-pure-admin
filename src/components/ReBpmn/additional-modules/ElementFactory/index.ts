@@ -1,5 +1,5 @@
-import CustomElementFactory from './CustomElementFactory'
+import CustomElementFactory from "./CustomElementFactory";
 
 export default {
-  elementFactory: ['type', CustomElementFactory]
-}
+  elementFactory: ["type", CustomElementFactory]
+};

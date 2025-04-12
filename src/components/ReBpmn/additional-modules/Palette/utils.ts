@@ -1,4 +1,4 @@
-import { assign } from 'min-dash'
+import { assign } from "min-dash";
 
 export function createAction(
   elementFactory,
@@ -10,14 +10,16 @@ export function createAction(
   options?: Object
 ) {
   function createListener(event) {
-    const shape = elementFactory.createShape(assign({ type: type }, options))
+    const shape = elementFactory.createShape(assign({ type: type }, options));
 
     if (options) {
-      !shape.businessObject.di && (shape.businessObject.di = {})
-      shape.businessObject.di.isExpanded = (options as { [key: string]: any }).isExpanded
+      !shape.businessObject.di && (shape.businessObject.di = {});
+      shape.businessObject.di.isExpanded = (
+        options as { [key: string]: any }
+      ).isExpanded;
     }
 
-    create.start(event, shape)
+    create.start(event, shape);
   }
 
   return {
@@ -28,5 +30,5 @@ export function createAction(
       dragstart: createListener,
       click: createListener
     }
-  }
+  };
 }

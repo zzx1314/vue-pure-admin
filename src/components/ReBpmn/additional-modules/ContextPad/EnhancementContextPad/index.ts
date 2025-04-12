@@ -1,9 +1,9 @@
-import { ModuleDeclaration } from 'didi'
-import enhancementContextPadProvider from './enhancementContextPadProvider'
+import type { ModuleDeclaration } from "didi";
+import enhancementContextPadProvider from "./enhancementContextPadProvider";
 
 const enhancementContextPad: ModuleDeclaration = {
-  __init__: ['enhancementContextPadProvider'],
-  enhancementContextPadProvider: ['type', enhancementContextPadProvider]
-}
+  __init__: ["enhancementContextPadProvider"],
+  enhancementContextPadProvider: ["type", enhancementContextPadProvider]
+};
 
-export default enhancementContextPad
+export default enhancementContextPad;

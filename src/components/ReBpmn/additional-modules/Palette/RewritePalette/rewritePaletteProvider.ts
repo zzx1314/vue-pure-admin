@@ -1,27 +1,45 @@
-import PaletteProvider from 'bpmn-js/lib/features/palette/PaletteProvider'
-import ElementFactory from 'bpmn-js/lib/features/modeling/ElementFactory.js'
-import { assign } from 'min-dash'
-import { createAction } from '../utils'
+import PaletteProvider from "bpmn-js/lib/features/palette/PaletteProvider";
+import type ElementFactory from "bpmn-js/lib/features/modeling/ElementFactory.js";
+import { assign } from "min-dash";
+import { createAction } from "../utils";
 
 class RewritePaletteProvider extends PaletteProvider {
-  private readonly _palette: PaletteProvider
-  private readonly _create: any
-  private readonly _elementFactory: ElementFactory
-  private readonly _spaceTool: any
-  private readonly _lassoTool: any
-  private readonly _handTool: any
-  private readonly _globalConnect: any
-  private readonly _translate: any
-  private readonly _moddle: any
-  constructor(palette, create, elementFactory, spaceTool, lassoTool, handTool, globalConnect, translate) {
-    super(palette, create, elementFactory, spaceTool, lassoTool, handTool, globalConnect, translate)
-    this._palette = palette
-    this._create = create
-    this._elementFactory = elementFactory
-    this._spaceTool = spaceTool
-    this._lassoTool = lassoTool
-    this._handTool = handTool
-    this._globalConnect = globalConnect
+  private readonly _palette: PaletteProvider;
+  private readonly _create: any;
+  private readonly _elementFactory: ElementFactory;
+  private readonly _spaceTool: any;
+  private readonly _lassoTool: any;
+  private readonly _handTool: any;
+  private readonly _globalConnect: any;
+  private readonly _translate: any;
+  private readonly _moddle: any;
+  constructor(
+    palette,
+    create,
+    elementFactory,
+    spaceTool,
+    lassoTool,
+    handTool,
+    globalConnect,
+    translate
+  ) {
+    super(
+      palette,
+      create,
+      elementFactory,
+      spaceTool,
+      lassoTool,
+      handTool,
+      globalConnect,
+      translate
+    );
+    this._palette = palette;
+    this._create = create;
+    this._elementFactory = elementFactory;
+    this._spaceTool = spaceTool;
+    this._lassoTool = lassoTool;
+    this._handTool = handTool;
+    this._globalConnect = globalConnect;
   }
   getPaletteEntries() {
     const actions = {},
@@ -29,174 +47,174 @@ class RewritePaletteProvider extends PaletteProvider {
       elementFactory = this._elementFactory,
       lassoTool = this._lassoTool,
       handTool = this._handTool,
-      globalConnect = this._globalConnect
+      globalConnect = this._globalConnect;
 
     function createSqlTask(event) {
-      const sqlTask = elementFactory.createShape({ type: 'miyue:SqlTask' })
-      create.start(event, sqlTask)
+      const sqlTask = elementFactory.createShape({ type: "miyue:SqlTask" });
+      create.start(event, sqlTask);
     }
 
     function createSubprocess(event) {
       const subProcess = elementFactory.createShape({
-        type: 'bpmn:SubProcess',
+        type: "bpmn:SubProcess",
         x: 0,
         y: 0,
         isExpanded: true
-      })
+      });
 
       const startEvent = elementFactory.createShape({
-        type: 'bpmn:StartEvent',
+        type: "bpmn:StartEvent",
         x: 40,
         y: 82,
         parent: subProcess
-      })
+      });
 
       create.start(event, [subProcess, startEvent], {
         hints: {
           autoSelect: [startEvent]
         }
-      })
+      });
     }
 
     assign(actions, {
-      'hand-tool': {
-        group: 'tools',
-        className: 'bpmn-icon-hand-tool',
-        title: '手型工具',
+      "hand-tool": {
+        group: "tools",
+        className: "bpmn-icon-hand-tool",
+        title: "手型工具",
         action: {
           click: function (event) {
-            handTool.activateHand(event)
+            handTool.activateHand(event);
           }
         }
       },
-      'lasso-tool': {
-        group: 'tools',
-        className: 'bpmn-icon-lasso-tool',
-        title: '套索工具',
+      "lasso-tool": {
+        group: "tools",
+        className: "bpmn-icon-lasso-tool",
+        title: "套索工具",
         action: {
           click: function (event) {
-            lassoTool.activateSelection(event)
+            lassoTool.activateSelection(event);
           }
         }
       },
-      'global-connect-tool': {
-        group: 'tools',
-        className: 'bpmn-icon-connection-multi',
-        title: '全局连线',
+      "global-connect-tool": {
+        group: "tools",
+        className: "bpmn-icon-connection-multi",
+        title: "全局连线",
         action: {
           click: function (event) {
-            globalConnect.toggle(event)
+            globalConnect.toggle(event);
           }
         }
       },
-      'tool-separator': {
-        group: 'tools',
+      "tool-separator": {
+        group: "tools",
         separator: true
       },
-      'create.start-event': createAction(
+      "create.start-event": createAction(
         elementFactory,
         create,
-        'bpmn:StartEvent',
-        'events',
-        'bpmn-icon-start-event-none',
-        '开始事件'
+        "bpmn:StartEvent",
+        "events",
+        "bpmn-icon-start-event-none",
+        "开始事件"
       ),
-      'create.end-event': createAction(
+      "create.end-event": createAction(
         elementFactory,
         create,
-        'bpmn:EndEvent',
-        'events',
-        'bpmn-icon-end-event-none',
-        '结束事件'
+        "bpmn:EndEvent",
+        "events",
+        "bpmn-icon-end-event-none",
+        "结束事件"
       ),
-      'events-separator': {
-        group: 'events',
+      "events-separator": {
+        group: "events",
         separator: true
       },
-      'create.exclusive-gateway': createAction(
+      "create.exclusive-gateway": createAction(
         elementFactory,
         create,
-        'bpmn:ExclusiveGateway',
-        'gateway',
-        'bpmn-icon-gateway-none',
-        '网关'
+        "bpmn:ExclusiveGateway",
+        "gateway",
+        "bpmn-icon-gateway-none",
+        "网关"
       ),
-      'create.parallel-gateway': createAction(
+      "create.parallel-gateway": createAction(
         elementFactory,
         create,
-        'bpmn:ParallelGateway',
-        'gateway',
-        'bpmn-icon-gateway-parallel',
-        '并行网关'
+        "bpmn:ParallelGateway",
+        "gateway",
+        "bpmn-icon-gateway-parallel",
+        "并行网关"
       ),
-      'create.event-base-gateway': createAction(
+      "create.event-base-gateway": createAction(
         elementFactory,
         create,
-        'bpmn:EventBasedGateway',
-        'gateway',
-        'bpmn-icon-gateway-eventbased',
-        '事件网关'
+        "bpmn:EventBasedGateway",
+        "gateway",
+        "bpmn-icon-gateway-eventbased",
+        "事件网关"
       ),
-      'gateway-separator': {
-        group: 'gateway',
+      "gateway-separator": {
+        group: "gateway",
         separator: true
       },
-      'create.user-task': createAction(
+      "create.user-task": createAction(
         elementFactory,
         create,
-        'bpmn:UserTask',
-        'activity',
-        'bpmn-icon-user-task',
-        '用户任务'
+        "bpmn:UserTask",
+        "activity",
+        "bpmn-icon-user-task",
+        "用户任务"
       ),
-      'create.script-task': createAction(
+      "create.script-task": createAction(
         elementFactory,
         create,
-        'bpmn:ScriptTask',
-        'activity',
-        'bpmn-icon-script-task',
-        '脚本任务'
+        "bpmn:ScriptTask",
+        "activity",
+        "bpmn-icon-script-task",
+        "脚本任务"
       ),
-      'create.service-task': createAction(
+      "create.service-task": createAction(
         elementFactory,
         create,
-        'bpmn:ServiceTask',
-        'activity',
-        'bpmn-icon-service-task',
-        '服务任务'
+        "bpmn:ServiceTask",
+        "activity",
+        "bpmn-icon-service-task",
+        "服务任务"
       ),
-      'create.sql-task': {
-        group: 'activity',
-        className: 'miyue-sql-task',
-        title: '数据库任务',
+      "create.sql-task": {
+        group: "activity",
+        className: "miyue-sql-task",
+        title: "数据库任务",
         action: {
           click: createSqlTask,
           dragstart: createSqlTask
         }
       },
-      'create.subprocess-expanded': {
-        group: 'activity',
-        className: 'bpmn-icon-subprocess-expanded',
-        title: '子流程',
+      "create.subprocess-expanded": {
+        group: "activity",
+        className: "bpmn-icon-subprocess-expanded",
+        title: "子流程",
         action: {
           dragstart: createSubprocess,
           click: createSubprocess
         }
       }
-    })
+    });
 
-    return actions
+    return actions;
   }
 }
 
 RewritePaletteProvider.$inject = [
-  'palette',
-  'create',
-  'elementFactory',
-  'spaceTool',
-  'lassoTool',
-  'handTool',
-  'globalConnect'
-]
+  "palette",
+  "create",
+  "elementFactory",
+  "spaceTool",
+  "lassoTool",
+  "handTool",
+  "globalConnect"
+];
 
-export default RewritePaletteProvider
+export default RewritePaletteProvider;

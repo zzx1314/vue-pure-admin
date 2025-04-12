@@ -1,14 +1,14 @@
 <template>
-  <div class="bpmn-script"></div>
+  <div class="bpmn-script" />
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 
-  export default defineComponent({
-    name: 'BpmnScript',
-    setup() {
-      return {}
-    }
-  })
+export default defineComponent({
+  name: "BpmnScript",
+  setup() {
+    return {};
+  }
+});
 </script>

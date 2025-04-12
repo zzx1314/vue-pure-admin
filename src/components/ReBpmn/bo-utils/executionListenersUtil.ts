@@ -1,50 +1,56 @@
-import { getBusinessObject, is, isAny } from 'bpmn-js/lib/util/ModelUtil'
-import { Element } from 'bpmn-js/lib/model/Types'
-import { ModdleElement } from 'bpmn-moddle'
+import { getBusinessObject, is, isAny } from "bpmn-js/lib/util/ModelUtil";
+import type { Element } from "bpmn-js/lib/model/Types";
+import type { ModdleElement } from "bpmn-moddle";
 import {
   getExtensionElementsList,
   addExtensionElements,
   removeExtensionElements
-} from '@/components/ReBpmn/utils/BpmnExtensionElementsUtil'
-import editor from '@/store/editor'
-import modeler from '@/store/modeler'
-import { createScript } from '@/components/ReBpmn/bo-utils/scriptUtil'
-import { LISTENER_ALLOWED_TYPES } from '@/components/ReBpmn/config/bpmnEnums'
+} from "@/components/ReBpmn/utils/BpmnExtensionElementsUtil";
+import editor from "@/store/editor";
+import modeler from "@/store/modeler";
+import { createScript } from "@/components/ReBpmn/bo-utils/scriptUtil";
+import { LISTENER_ALLOWED_TYPES } from "@/components/ReBpmn/config/bpmnEnums";
 
 export const EXECUTION_LISTENER_TYPE = {
-  class: 'Java class',
-  expression: 'Expression',
-  delegateExpression: 'Delegate expression',
-  script: 'Script'
-}
+  class: "Java class",
+  expression: "Expression",
+  delegateExpression: "Delegate expression",
+  script: "Script"
+};
 
 // execution listener list
 export function getExecutionListeners(element: Element): ModdleElement[] {
-  const prefix = editor().getProcessEngine
-  const businessObject = getListenersContainer(element)
-  return getExtensionElementsList(businessObject, `${prefix}:ExecutionListener`)
+  const prefix = editor().getProcessEngine;
+  const businessObject = getListenersContainer(element);
+  return getExtensionElementsList(
+    businessObject,
+    `${prefix}:ExecutionListener`
+  );
 }
 
 // create an empty execution listener and update element's businessObject
 export function addEmptyExtensionListener(element: Element) {
-  const prefix = editor().getProcessEngine
-  const moddle = modeler().getModdle
+  const prefix = editor().getProcessEngine;
+  const moddle = modeler().getModdle;
   const listener = moddle!.create(`${prefix}:ExecutionListener`, {
     event: getDefaultEvent(element),
-    class: ''
-  })
-  const businessObject = getListenersContainer(element)
-  addExtensionElements(element, businessObject, listener)
+    class: ""
+  });
+  const businessObject = getListenersContainer(element);
+  addExtensionElements(element, businessObject, listener);
 }
 
 // create an execution listener with props
-export function addExecutionListener(element: Element, props: ExecutionListenerForm) {
-  const prefix = editor().getProcessEngine
-  const moddle = modeler().getModdle
-  const businessObject = getListenersContainer(element)
-  const listener = moddle!.create(`${prefix}:ExecutionListener`, {})
-  updateListenerProperty(element, listener, props)
-  addExtensionElements(element, businessObject, listener)
+export function addExecutionListener(
+  element: Element,
+  props: ExecutionListenerForm
+) {
+  const prefix = editor().getProcessEngine;
+  const moddle = modeler().getModdle;
+  const businessObject = getListenersContainer(element);
+  const listener = moddle!.create(`${prefix}:ExecutionListener`, {});
+  updateListenerProperty(element, listener, props);
+  addExtensionElements(element, businessObject, listener);
 }
 
 // update execution listener's property
@@ -53,52 +59,56 @@ export function updateExecutionListener(
   props: ExecutionListenerForm,
   listener: ModdleElement
 ) {
-  removeExtensionElements(element, getListenersContainer(element), listener)
-  addExecutionListener(element, props)
+  removeExtensionElements(element, getListenersContainer(element), listener);
+  addExecutionListener(element, props);
 }
 
 // remove an execution listener
-export function removeExecutionListener(element: Element, listener: ModdleElement) {
-  removeExtensionElements(element, getListenersContainer(element), listener)
+export function removeExecutionListener(
+  element: Element,
+  listener: ModdleElement
+) {
+  removeExtensionElements(element, getListenersContainer(element), listener);
 }
 
 ////////////// helpers
 export function isExecutable(element: BpmnElement): boolean {
-  if (isAny(element, LISTENER_ALLOWED_TYPES)) return true
-  if (is(element, 'bpmn:Participant')) {
-    return !!element.businessObject.processRef
+  if (isAny(element, LISTENER_ALLOWED_TYPES)) return true;
+  if (is(element, "bpmn:Participant")) {
+    return !!element.businessObject.processRef;
   }
-  return false
+  return false;
 }
 
 export function getExecutionListenerType(listener: ModdleElement): string {
-  const prefix = editor().getProcessEngine
+  const prefix = editor().getProcessEngine;
   if (isAny(listener, [`${prefix}:ExecutionListener`])) {
-    if (listener.get(`${prefix}:class`)) return 'class'
-    if (listener.get(`${prefix}:expression`)) return 'expression'
-    if (listener.get(`${prefix}:delegateExpression`)) return 'delegateExpression'
-    if (listener.get('script')) return 'script'
+    if (listener.get(`${prefix}:class`)) return "class";
+    if (listener.get(`${prefix}:expression`)) return "expression";
+    if (listener.get(`${prefix}:delegateExpression`))
+      return "delegateExpression";
+    if (listener.get("script")) return "script";
   }
-  return ''
+  return "";
 }
 
 export function getListenersContainer(element: Element): ModdleElement {
-  const businessObject = getBusinessObject(element)
-  return businessObject?.get('processRef') || businessObject
+  const businessObject = getBusinessObject(element);
+  return businessObject?.get("processRef") || businessObject;
 }
 
 export function getDefaultEvent(element: Element) {
-  return is(element, 'bpmn:SequenceFlow') ? 'take' : 'start'
+  return is(element, "bpmn:SequenceFlow") ? "take" : "start";
 }
 
 export function getExecutionListenerTypes(element: Element) {
-  if (is(element, 'bpmn:SequenceFlow')) {
-    return [{ label: 'Take', value: 'take' }]
+  if (is(element, "bpmn:SequenceFlow")) {
+    return [{ label: "Take", value: "take" }];
   }
   return [
-    { label: 'Start', value: 'start' },
-    { label: 'End', value: 'end' }
-  ]
+    { label: "Start", value: "start" },
+    { label: "End", value: "end" }
+  ];
 }
 
 function updateListenerProperty(
@@ -106,8 +116,8 @@ function updateListenerProperty(
   listener: ModdleElement,
   props: ExecutionListenerForm
 ) {
-  const modeling = modeler().getModeling
-  const prefix = editor().getProcessEngine
+  const modeling = modeler().getModeling;
+  const prefix = editor().getProcessEngine;
   const {
     event,
     class: listenerClass,
@@ -116,19 +126,22 @@ function updateListenerProperty(
     script,
     type,
     fields
-  } = props
+  } = props;
 
   const updateProperty = (key, value) =>
-    modeling?.updateModdleProperties(element, listener, { [`${prefix}:${key}`]: value })
+    modeling?.updateModdleProperties(element, listener, {
+      [`${prefix}:${key}`]: value
+    });
 
-  event && updateProperty('event', event)
-  listenerClass && updateProperty('class', listenerClass)
-  expression && updateProperty('expression', expression)
-  delegateExpression && updateProperty('delegateExpression', delegateExpression)
-  console.log(props)
+  event && updateProperty("event", event);
+  listenerClass && updateProperty("class", listenerClass);
+  expression && updateProperty("expression", expression);
+  delegateExpression &&
+    updateProperty("delegateExpression", delegateExpression);
+  console.log(props);
 
   if (script) {
-    const bpmnScript = createScript(script)
-    modeling?.updateModdleProperties(element, listener, { script: bpmnScript })
+    const bpmnScript = createScript(script);
+    modeling?.updateModdleProperties(element, listener, { script: bpmnScript });
   }
 }

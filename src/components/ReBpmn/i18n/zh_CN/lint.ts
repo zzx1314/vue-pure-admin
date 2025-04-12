@@ -1,4 +1,4 @@
 export default {
-  Errors: '错误',
-  Warnings: '警告'
-}
+  Errors: "错误",
+  Warnings: "警告"
+};

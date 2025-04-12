@@ -1,8 +1,8 @@
-import { createI18n } from 'vue-i18n'
-import zh_CN from './zh_CN'
-import en_US from './en_US'
+import { createI18n } from "vue-i18n";
+import zh_CN from "./zh_CN";
+import en_US from "./en_US";
 
-export const defaultLang = 'zh_CN'
+export const defaultLang = "zh_CN";
 
 const i18n = createI18n({
   legacy: false,
@@ -12,6 +12,6 @@ const i18n = createI18n({
     zh_CN,
     en_US
   }
-})
+});
 
-export default i18n
+export default i18n;

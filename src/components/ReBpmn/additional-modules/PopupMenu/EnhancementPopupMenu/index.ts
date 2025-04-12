@@ -1,9 +1,9 @@
-import { ModuleDeclaration } from 'didi'
-import enhancementPopupMenuProvider from './enhancementPopupMenuProvider'
+import type { ModuleDeclaration } from "didi";
+import enhancementPopupMenuProvider from "./enhancementPopupMenuProvider";
 
 const enhancementPopupMenu: ModuleDeclaration = {
-  __init__: ['enhancementPopupMenuProvider'],
-  enhancementPopupMenuProvider: ['type', enhancementPopupMenuProvider]
-}
+  __init__: ["enhancementPopupMenuProvider"],
+  enhancementPopupMenuProvider: ["type", enhancementPopupMenuProvider]
+};
 
-export default enhancementPopupMenu
+export default enhancementPopupMenu;

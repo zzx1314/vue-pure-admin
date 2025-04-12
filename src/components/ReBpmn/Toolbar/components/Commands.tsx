@@ -1,15 +1,15 @@
-import { defineComponent, watch } from 'vue'
-import { ElButton, ElButtonGroup, ElPopover } from 'element-plus'
-import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
-import type Modeler from 'bpmn-js/lib/Modeler'
-import type CommandStack from 'diagram-js/lib/command/CommandStack'
-import { createNewDiagram } from '@/components/ReBpmn/utils'
-import LucideIcon from '@/components/ReBpmn/common/LucideIcon.vue'
-import { useI18n } from 'vue-i18n'
+import { defineComponent, watch } from "vue";
+import { ElButton, ElButtonGroup, ElPopover } from "element-plus";
+import EventEmitter from "@/components/ReBpmn/utils/EventEmitter";
+import type Modeler from "bpmn-js/lib/Modeler";
+import type CommandStack from "diagram-js/lib/command/CommandStack";
+import { createNewDiagram } from "@/components/ReBpmn/utils";
+import LucideIcon from "@/components/ReBpmn/common/LucideIcon.vue";
+import { useI18n } from "vue-i18n";
 
 const Commands = defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Commands',
+  name: "Commands",
   props: {
     isRestart: {
       type: Boolean,
@@ -17,31 +17,34 @@ const Commands = defineComponent({
     }
   },
   setup(props) {
-    const { t } = useI18n()
-    let command: CommandStack | null = null
+    const { t } = useI18n();
+    let command: CommandStack | null = null;
 
-    EventEmitter.on('modeler-init', (modeler: Modeler) => {
-      command = modeler.get<CommandStack>('commandStack')
-    })
+    EventEmitter.on("modeler-init", (modeler: Modeler) => {
+      command = modeler.get<CommandStack>("commandStack");
+    });
 
     const undo = () => {
-      command && command.canUndo() && command.undo()
-    }
+      command && command.canUndo() && command.undo();
+    };
 
     const redo = () => {
-      command && command.canRedo() && command.redo()
-    }
+      command && command.canRedo() && command.redo();
+    };
 
     const restart = () => {
-      command && command.clear()
-      createNewDiagram()
-    }
+      command && command.clear();
+      createNewDiagram();
+    };
 
-    watch(() => props.isRestart, (val) => {
-      if (val) {
-        restart()
+    watch(
+      () => props.isRestart,
+      val => {
+        if (val) {
+          restart();
+        }
       }
-    })
+    );
 
     return () => (
       <ElButtonGroup>
@@ -53,7 +56,7 @@ const Commands = defineComponent({
                 <LucideIcon name="Undo2" size={16}></LucideIcon>
               </ElButton>
             ),
-            default: () => t('toolbar.undo'),
+            default: () => t("toolbar.undo")
           }}
         ></ElPopover>
         <ElPopover
@@ -64,7 +67,7 @@ const Commands = defineComponent({
                 <LucideIcon name="Redo2" size={16}></LucideIcon>
               </ElButton>
             ),
-            default: () => t('toolbar.redo'),
+            default: () => t("toolbar.redo")
           }}
         ></ElPopover>
         <ElPopover
@@ -75,12 +78,12 @@ const Commands = defineComponent({
                 <LucideIcon name="Eraser" size={16}></LucideIcon>
               </ElButton>
             ),
-            default: () => t('toolbar.restart'),
+            default: () => t("toolbar.restart")
           }}
         ></ElPopover>
       </ElButtonGroup>
-    )
+    );
   }
-})
+});
 
-export default Commands
+export default Commands;

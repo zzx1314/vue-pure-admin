@@ -1,79 +1,84 @@
-import { is } from 'bpmn-js/lib/util/ModelUtil'
-import { getMid, asTRBL, getOrientation } from 'diagram-js/lib/layout/LayoutUtil'
+import { is } from "bpmn-js/lib/util/ModelUtil";
+import {
+  getMid,
+  asTRBL,
+  getOrientation
+} from "diagram-js/lib/layout/LayoutUtil";
 import {
   findFreePosition,
   generateGetNextPosition,
   getConnectedDistance
-} from 'diagram-js/lib/features/auto-place/AutoPlaceUtil'
+} from "diagram-js/lib/features/auto-place/AutoPlaceUtil";
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 class CustomAutoPlace {
   constructor(config, eventBus) {
-    const { minDistance = 100 } = config || {}
+    const { minDistance = 100 } = config || {};
 
-    eventBus.on('autoPlace', 3000, function (context) {
+    eventBus.on("autoPlace", 3000, function (context) {
       const shape = context.shape,
-        source = context.source
+        source = context.source;
 
-      return getNewShapePosition(source, shape, minDistance)
-    })
+      return getNewShapePosition(source, shape, minDistance);
+    });
   }
 }
 
 function getVerticalDistance(orientation, minDistance) {
-  if (orientation.indexOf('top') != -1) {
-    return -1 * minDistance
-  } else if (orientation.indexOf('bottom') != -1) {
-    return minDistance
+  if (orientation.indexOf("top") != -1) {
+    return -1 * minDistance;
+  } else if (orientation.indexOf("bottom") != -1) {
+    return minDistance;
   } else {
-    return 0
+    return 0;
   }
 }
 
 function getNewShapePosition(source, element, minDistance) {
-  if (is(element, 'bpmn:FlowNode')) {
-    const sourceTrbl = asTRBL(source)
-    const sourceMid = getMid(source)
+  if (is(element, "bpmn:FlowNode")) {
+    const sourceTrbl = asTRBL(source);
+    const sourceMid = getMid(source);
 
     const horizontalDistance = getConnectedDistance(source, {
       defaultDistance: minDistance,
       filter: function (connection) {
-        return is(connection, 'bpmn:SequenceFlow')
+        return is(connection, "bpmn:SequenceFlow");
       }
-    })
+    });
 
     let margin = 30,
-      orientation = 'left'
+      orientation = "left";
 
-    if (is(source, 'bpmn:BoundaryEvent')) {
-      orientation = getOrientation(source, source.host, -25)
+    if (is(source, "bpmn:BoundaryEvent")) {
+      orientation = getOrientation(source, source.host, -25);
 
-      if (orientation.indexOf('top') !== -1) {
-        margin *= -1
+      if (orientation.indexOf("top") !== -1) {
+        margin *= -1;
       }
     }
 
     const position = {
       x: sourceTrbl.right + horizontalDistance + element.width / 2,
       y: sourceMid.y + getVerticalDistance(orientation, minDistance)
-    }
+    };
 
     const nextPositionDirection = {
       y: {
         margin: margin,
         minDistance: minDistance
       }
-    }
+    };
 
     return findFreePosition(
       source,
       element,
       position,
       generateGetNextPosition(nextPositionDirection)
-    )
+    );
   }
 }
 
 // @ts-ignore
-CustomAutoPlace.$inject = ['config.autoPlace', 'eventBus']
+CustomAutoPlace.$inject = ["config.autoPlace", "eventBus"];
 
-export default CustomAutoPlace
+export default CustomAutoPlace;

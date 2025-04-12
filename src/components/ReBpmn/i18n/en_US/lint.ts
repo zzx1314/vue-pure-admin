@@ -1,4 +1,4 @@
 export default {
-  Errors: 'Errors',
-  Warnings: 'Warnings'
-}
+  Errors: "Errors",
+  Warnings: "Warnings"
+};

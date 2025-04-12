@@ -6,69 +6,79 @@
       </collapse-title>
     </template>
     <edit-item :label="$t('panel.asyncBefore')" :label-width="120">
-      <n-switch v-model:value="acBefore" @update:value="updateElementACBefore" />
+      <n-switch
+        v-model:value="acBefore"
+        @update:value="updateElementACBefore"
+      />
     </edit-item>
     <edit-item :label="$t('panel.asyncAfter')" :label-width="120">
       <n-switch v-model:value="acAfter" @update:value="updateElementACAfter" />
     </edit-item>
-    <edit-item v-if="showExclusive" :label="$t('panel.asyncExclusive')" :label-width="120">
-      <n-switch v-model:value="acExclusive" @update:value="updateElementACExclusive" />
+    <edit-item
+      v-if="showExclusive"
+      :label="$t('panel.asyncExclusive')"
+      :label-width="120"
+    >
+      <n-switch
+        v-model:value="acExclusive"
+        @update:value="updateElementACExclusive"
+      />
     </edit-item>
   </n-collapse-item>
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue'
-  import { mapState } from 'pinia'
-  import { Element } from 'bpmn-js/lib/model/Types'
-  import modelerStore from '@/store/modeler'
-  import {
-    getACAfter,
-    getACBefore,
-    getACExclusive,
-    setACAfter,
-    setACBefore,
-    setACExclusive
-  } from '@/components/ReBpmn/bo-utils/asynchronousContinuationsUtil'
-  import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
+import { defineComponent } from "vue";
+import { mapState } from "pinia";
+import { Element } from "bpmn-js/lib/model/Types";
+import modelerStore from "@/store/modeler";
+import {
+  getACAfter,
+  getACBefore,
+  getACExclusive,
+  setACAfter,
+  setACBefore,
+  setACExclusive
+} from "@/components/ReBpmn/bo-utils/asynchronousContinuationsUtil";
+import EventEmitter from "@/components/ReBpmn/utils/EventEmitter";
 
-  export default defineComponent({
-    name: 'ElementAsyncContinuations',
-    data() {
-      return {
-        acBefore: false,
-        acAfter: false,
-        acExclusive: false
-      }
-    },
-    computed: {
-      ...mapState(modelerStore, ['getActive', 'getActiveId']),
-      showExclusive() {
-        return this.acBefore || this.acAfter
-      }
-    },
-    mounted() {
-      this.reloadACStatus()
-      EventEmitter.on('element-update', this.reloadACStatus)
-    },
-    methods: {
-      reloadACStatus() {
-        this.acBefore = getACBefore(this.getActive as Element)
-        this.acAfter = getACAfter(this.getActive as Element)
-        this.acExclusive = getACExclusive(this.getActive as Element)
-      },
-      updateElementACBefore(value: boolean) {
-        setACBefore(this.getActive as Element, value)
-        this.reloadACStatus()
-      },
-      updateElementACAfter(value: boolean) {
-        setACAfter(this.getActive as Element, value)
-        this.reloadACStatus()
-      },
-      updateElementACExclusive(value: boolean) {
-        setACExclusive(this.getActive as Element, value)
-        this.reloadACStatus()
-      }
+export default defineComponent({
+  name: "ElementAsyncContinuations",
+  data() {
+    return {
+      acBefore: false,
+      acAfter: false,
+      acExclusive: false
+    };
+  },
+  computed: {
+    ...mapState(modelerStore, ["getActive", "getActiveId"]),
+    showExclusive() {
+      return this.acBefore || this.acAfter;
     }
-  })
+  },
+  mounted() {
+    this.reloadACStatus();
+    EventEmitter.on("element-update", this.reloadACStatus);
+  },
+  methods: {
+    reloadACStatus() {
+      this.acBefore = getACBefore(this.getActive as Element);
+      this.acAfter = getACAfter(this.getActive as Element);
+      this.acExclusive = getACExclusive(this.getActive as Element);
+    },
+    updateElementACBefore(value: boolean) {
+      setACBefore(this.getActive as Element, value);
+      this.reloadACStatus();
+    },
+    updateElementACAfter(value: boolean) {
+      setACAfter(this.getActive as Element, value);
+      this.reloadACStatus();
+    },
+    updateElementACExclusive(value: boolean) {
+      setACExclusive(this.getActive as Element, value);
+      this.reloadACStatus();
+    }
+  }
+});
 </script>

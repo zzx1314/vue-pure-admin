@@ -1,22 +1,26 @@
-import { defineComponent } from 'vue'
-import modelerStore from '@/store/modeler'
-import ElementFactory from 'bpmn-js/lib/features/modeling/ElementFactory'
-import Create from 'diagram-js/lib/features/create/Create'
-import { ElCollapse, ElCollapseItem } from 'element-plus'
+import { defineComponent } from "vue";
+import modelerStore from "@/store/modeler";
+import type ElementFactory from "bpmn-js/lib/features/modeling/ElementFactory";
+import type Create from "diagram-js/lib/features/create/Create";
+import { ElCollapse, ElCollapseItem } from "element-plus";
 
 const Palette = defineComponent({
-  name: 'BpmnPalette',
+  name: "BpmnPalette",
   setup() {
-    const store = modelerStore()
+    const store = modelerStore();
     const createElement = (ev: Event, type: string, options?: any) => {
-      const ElementFactory: ElementFactory = store.getModeler!.get('elementFactory')
-      const create: Create = store.getModeler!.get('create')
-      const shape = ElementFactory.createShape({ type: `bpmn:${type}`, ...(options || {}) })
+      const ElementFactory: ElementFactory =
+        store.getModeler!.get("elementFactory");
+      const create: Create = store.getModeler!.get("create");
+      const shape = ElementFactory.createShape({
+        type: `bpmn:${type}`,
+        ...(options || {})
+      });
       if (options) {
-        shape.businessObject.di.isExpanded = options.isExpanded
+        shape.businessObject.di.isExpanded = options.isExpanded;
       }
-      create.start(ev, shape, {})
-    }
+      create.start(ev, shape, {});
+    };
 
     return () => (
       <div class="palette">
@@ -28,7 +32,7 @@ const Palette = defineComponent({
             <div class="palette-el-list">
               <div
                 class="palette-el-item start-event"
-                onClick={(e) => createElement(e, 'StartEvent')}
+                onClick={e => createElement(e, "StartEvent")}
               >
                 <i class="bpmn-icon-start-event-none"></i>
                 <span>开始</span>
@@ -43,8 +47,8 @@ const Palette = defineComponent({
           </ElCollapseItem>
         </ElCollapse>
       </div>
-    )
+    );
   }
-})
+});
 
-export default Palette
+export default Palette;

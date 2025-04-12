@@ -14,36 +14,39 @@
 </template>
 
 <script lang="ts">
-  import { computed, defineComponent, onMounted, ref } from 'vue'
-  import { getInitiatorValue, setInitiatorValue } from '@/components/ReBpmn/bo-utils/initiatorUtil'
-  import modeler from '@/store/modeler'
-  import { Element } from 'bpmn-js/lib/model/Types'
-  import EventEmitter from '@/components/ReBpmn/utils/EventEmitter'
+import { computed, defineComponent, onMounted, ref } from "vue";
+import {
+  getInitiatorValue,
+  setInitiatorValue
+} from "@/components/ReBpmn/bo-utils/initiatorUtil";
+import modeler from "@/store/modeler";
+import { Element } from "bpmn-js/lib/model/Types";
+import EventEmitter from "@/components/ReBpmn/utils/EventEmitter";
 
-  export default defineComponent({
-    name: 'ElementStartInitiator',
-    setup() {
-      const modelerStore = modeler()
-      const getActive = computed<Element | null>(() => modelerStore.getActive!)
-      const initiator = ref<string | undefined>('')
+export default defineComponent({
+  name: "ElementStartInitiator",
+  setup() {
+    const modelerStore = modeler();
+    const getActive = computed<Element | null>(() => modelerStore.getActive!);
+    const initiator = ref<string | undefined>("");
 
-      const getElementInitiator = () => {
-        initiator.value = getInitiatorValue(getActive.value!)
-      }
-      const setElementInitiator = (value: string | undefined) => {
-        setInitiatorValue(getActive.value!, value)
-      }
+    const getElementInitiator = () => {
+      initiator.value = getInitiatorValue(getActive.value!);
+    };
+    const setElementInitiator = (value: string | undefined) => {
+      setInitiatorValue(getActive.value!, value);
+    };
 
-      onMounted(() => {
-        getElementInitiator()
+    onMounted(() => {
+      getElementInitiator();
 
-        EventEmitter.on('element-update', getElementInitiator)
-      })
+      EventEmitter.on("element-update", getElementInitiator);
+    });
 
-      return {
-        initiator,
-        setElementInitiator
-      }
-    }
-  })
+    return {
+      initiator,
+      setElementInitiator
+    };
+  }
+});
 </script>
