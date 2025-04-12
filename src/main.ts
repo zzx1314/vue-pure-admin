@@ -33,76 +33,6 @@ import "virtual:svg-icons-register";
 
 const app = createApp(App);
 
-import {
-  createDiscreteApi,
-  create,
-  NColorPicker,
-  NConfigProvider,
-  NMessageProvider,
-  NDialogProvider,
-  NButton,
-  NButtonGroup,
-  NTag,
-  NCollapse,
-  NCollapseItem,
-  NDataTable,
-  NPopover,
-  NDrawer,
-  NDrawerContent,
-  NModal,
-  NCode,
-  NForm,
-  NFormItem,
-  NInput,
-  NInputNumber,
-  NRadio,
-  NRadioGroup,
-  NCheckbox,
-  NCheckboxGroup,
-  NSelect,
-  NSwitch,
-  NSpace
-} from "naive-ui";
-
-const naive = create({
-  components: [
-    NColorPicker,
-    NConfigProvider,
-    NMessageProvider,
-    NDialogProvider,
-    NButton,
-    NButtonGroup,
-    NTag,
-    NCollapse,
-    NCollapseItem,
-    NDataTable,
-    NPopover,
-    NDrawer,
-    NDrawerContent,
-    NModal,
-    NCode,
-    NForm,
-    NFormItem,
-    NInput,
-    NInputNumber,
-    NRadio,
-    NRadioGroup,
-    NCheckbox,
-    NCheckboxGroup,
-    NSelect,
-    NSwitch,
-    NSpace
-  ]
-});
-
-const { message } = createDiscreteApi([
-  "message",
-  "dialog",
-  "notification",
-  "loadingBar"
-]);
-window.__messageBox = message;
-
 // 自定义指令
 import * as directives from "@/directives";
 Object.keys(directives).forEach(key => {
@@ -153,7 +83,6 @@ getPlatformConfig(app).then(async config => {
     .use(Table)
     .use(useVxeTable)
     .use(PureDescriptions)
-    .use(naive)
     .use(useEcharts);
   app.mount("#app");
 });
