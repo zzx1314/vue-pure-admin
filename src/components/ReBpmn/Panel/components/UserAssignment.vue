@@ -95,7 +95,7 @@ useElementUpdateListener(reloadElementData);
 </script>
 
 <template>
-  <n-collapse-item name="element-user-assignment">
+  <el-collapse-item name="element-user-assignment">
     <template #header>
       <collapse-title title="用户分配">
         <lucide-icon name="Contact" />
@@ -153,5 +153,5 @@ useElementUpdateListener(reloadElementData);
         />
       </edit-item>-->
     </div>
-  </n-collapse-item>
+  </el-collapse-item>
 </template>
