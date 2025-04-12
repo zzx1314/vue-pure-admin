@@ -12,10 +12,10 @@ import {
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 class CustomAutoPlace {
-  constructor(config, eventBus) {
+  constructor(config: any, eventBus: any) {
     const { minDistance = 100 } = config || {};
 
-    eventBus.on("autoPlace", 3000, function (context) {
+    eventBus.on("autoPlace", 3000, (context: any) => {
       const shape = context.shape,
         source = context.source;
 
@@ -24,26 +24,28 @@ class CustomAutoPlace {
   }
 }
 
-function getVerticalDistance(orientation, minDistance) {
-  if (orientation.indexOf("top") != -1) {
+function getVerticalDistance(orientation: string, minDistance: number): number {
+  if (orientation.indexOf("top") !== -1) {
     return -1 * minDistance;
-  } else if (orientation.indexOf("bottom") != -1) {
+  } else if (orientation.indexOf("bottom") !== -1) {
     return minDistance;
   } else {
     return 0;
   }
 }
 
-function getNewShapePosition(source, element, minDistance) {
+function getNewShapePosition(
+  source: any,
+  element: any,
+  minDistance: number
+): any {
   if (is(element, "bpmn:FlowNode")) {
     const sourceTrbl = asTRBL(source);
     const sourceMid = getMid(source);
 
     const horizontalDistance = getConnectedDistance(source, {
       defaultDistance: minDistance,
-      filter: function (connection) {
-        return is(connection, "bpmn:SequenceFlow");
-      }
+      filter: (connection: any) => is(connection, "bpmn:SequenceFlow")
     });
 
     let margin = 30,
@@ -69,11 +71,16 @@ function getNewShapePosition(source, element, minDistance) {
       }
     };
 
+    const getNextPositionWrapper = (element: any, position: any, connectedAtPosition: any): any => {
+      const point = generateGetNextPosition(nextPositionDirection)(element, position, connectedAtPosition);
+      return { ...point };
+    };
+
     return findFreePosition(
       source,
       element,
       position,
-      generateGetNextPosition(nextPositionDirection)
+      getNextPositionWrapper
     );
   }
 }
