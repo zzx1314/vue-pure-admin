@@ -71,17 +71,20 @@ function getNewShapePosition(
       }
     };
 
-    const getNextPositionWrapper = (element: any, position: any, connectedAtPosition: any): any => {
-      const point = generateGetNextPosition(nextPositionDirection)(element, position, connectedAtPosition);
+    const getNextPositionWrapper = (
+      element: any,
+      position: any,
+      connectedAtPosition: any
+    ): any => {
+      const point = generateGetNextPosition(nextPositionDirection)(
+        element,
+        position,
+        connectedAtPosition
+      );
       return { ...point };
     };
 
-    return findFreePosition(
-      source,
-      element,
-      position,
-      getNextPositionWrapper
-    );
+    return findFreePosition(source, element, position, getNextPositionWrapper);
   }
 }
 
