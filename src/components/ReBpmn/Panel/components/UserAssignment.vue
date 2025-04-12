@@ -96,7 +96,7 @@ useElementUpdateListener(reloadElementData);
 
 <template>
   <el-collapse-item name="element-user-assignment">
-    <template #header>
+    <template #title>
       <collapse-title title="用户分配">
         <lucide-icon name="Contact" />
       </collapse-title>
