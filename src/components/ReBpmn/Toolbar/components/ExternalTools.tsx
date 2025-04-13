@@ -10,7 +10,6 @@ import LucideIcon from "@/components/ReBpmn/common/LucideIcon.vue";
 import editor from "@/store/editor";
 import modeler from "@/store/modeler";
 import type ToggleMode from "bpmn-js-token-simulation/lib/features/toggle-mode/modeler/ToggleMode";
-import type EventBus from "diagram-js/lib/core/EventBus";
 import { useI18n } from "vue-i18n";
 
 const ExternalTools = defineComponent({
@@ -88,7 +87,7 @@ const ExternalTools = defineComponent({
     );
 
     const openEventsDialog = () => {
-      const eventBus = moduleStore.getModeler!.get<EventBus>("eventBus");
+      //const eventBus = moduleStore.getModeler!.get<EventBus>("eventBus");
       listenerFilter.value = "";
       // listeners.value = Object.keys(eventBus._listeners).sort()
       eventsDialogVisible.value = true;
