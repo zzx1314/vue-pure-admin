@@ -50,9 +50,6 @@ class RewritePaletteProvider extends PaletteProvider {
     this._keyboard = keyboard;
     this._modeling = modeling;
     this._selection = selection;
-
-    // 注册键盘事件
-    this.registerKeyboardEvents();
   }
 
   getPaletteEntries() {
@@ -218,29 +215,6 @@ class RewritePaletteProvider extends PaletteProvider {
     });
 
     return actions;
-  }
-
-  private registerKeyboardEvents() {
-    this._keyboard.addListener("keydown", event => {
-      if (event.key === "Delete") {
-        this.deleteSelectedElements();
-      }
-    });
-  }
-
-  private deleteSelectedElements() {
-    const modeling = this._modeling;
-    const selection = this._selection;
-    const selectedElements = selection.get();
-
-    selectedElements.forEach(element => {
-      if (
-        element.type === "bpmn:StartEvent" ||
-        element.type === "bpmn:EndEvent"
-      ) {
-        modeling.removeElements([element]);
-      }
-    });
   }
 }
 
