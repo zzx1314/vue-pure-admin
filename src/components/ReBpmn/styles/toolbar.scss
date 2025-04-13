@@ -21,6 +21,11 @@
   text-align: center;
 }
 
+.el-popover.el-popper {
+  min-width: unset!important;
+  width: unset!important;
+}
+
 .preview-model {
   width: 64vw;
   height: 64vh;
