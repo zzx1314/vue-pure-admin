@@ -1,14 +1,15 @@
-declare module '@/utils/Logger' {
+declare module "@/utils/Logger" {
+  // eslint-disable-next-line @typescript-eslint/no-extraneous-class
   export class Logger {
-    constructor()
-    static print(type: string, text: any, back?: boolean): void
-    static printBack(type: string, text: any): void
-    static pretty(type: any, title: string, ...text: any[]): void
-    static prettyPrimary(title: string, ...text: any[]): void
-    static prettySuccess(title: string, ...text: any[]): void
-    static prettyWarn(title: string, ...text: any[]): void
-    static prettyError(title: string, ...text: any[]): void
-    static prettyInfo(title: string, ...text: any[]): void
+    constructor();
+    static print(type: string, text: any, back?: boolean): void;
+    static printBack(type: string, text: any): void;
+    static pretty(type: any, title: string, ...text: any[]): void;
+    static prettyPrimary(title: string, ...text: any[]): void;
+    static prettySuccess(title: string, ...text: any[]): void;
+    static prettyWarn(title: string, ...text: any[]): void;
+    static prettyError(title: string, ...text: any[]): void;
+    static prettyInfo(title: string, ...text: any[]): void;
   }
-  export default Logger
+  export default Logger;
 }
