@@ -1,22 +1,22 @@
-import editor from '@/store/editor'
-import { find } from 'min-dash'
-import { getBusinessObject, is, isAny } from 'bpmn-js/lib/util/ModelUtil'
-import { Element } from 'diagram-js/lib/model/Types'
-import { ModdleElement } from 'bpmn-moddle'
-import { getExtensionElementsList } from '@/components/ReBpmn/utils/BpmnExtensionElementsUtil'
+import editor from "@/store/editor";
+import { find } from "min-dash";
+import { getBusinessObject, is, isAny } from "bpmn-js/lib/util/ModelUtil";
+import type { Element } from "diagram-js/lib/model/Types";
+import type { ModdleElement } from "bpmn-moddle";
+import { getExtensionElementsList } from "@/components/ReBpmn/utils/BpmnExtensionElementsUtil";
 
 function getProcessPrefix() {
-  return editor().getProcessEngine
+  return editor().getProcessEngine;
 }
 type ImplementationType =
-  | 'dmn'
-  | 'connector'
-  | 'external'
-  | 'class'
-  | 'expression'
-  | 'delegateExpression'
-  | 'script'
-  | undefined
+  | "dmn"
+  | "connector"
+  | "external"
+  | "class"
+  | "expression"
+  | "delegateExpression"
+  | "script"
+  | undefined;
 
 ///////////////////////////////////////////// bpmn 基础类方法
 
@@ -25,35 +25,37 @@ export function getEventDefinition(
   element: Element | ModdleElement,
   eventType: string
 ): ModdleElement | undefined {
-  const businessObject = getBusinessObject(element)
-  const eventDefinitions = businessObject.get('eventDefinitions') || []
+  const businessObject = getBusinessObject(element);
+  const eventDefinitions = businessObject.get("eventDefinitions") || [];
   return find(eventDefinitions, function (definition) {
-    return is(definition, eventType)
-  })
+    return is(definition, eventType);
+  });
 }
 // 获取节点消息事件
-export function getMessageEventDefinition(element: Element): ModdleElement | undefined {
-  if (is(element, 'bpmn:ReceiveTask')) {
-    return getBusinessObject(element)
+export function getMessageEventDefinition(
+  element: Element
+): ModdleElement | undefined {
+  if (is(element, "bpmn:ReceiveTask")) {
+    return getBusinessObject(element);
   }
-  return getEventDefinition(element, 'bpmn:MessageEventDefinition')
+  return getEventDefinition(element, "bpmn:MessageEventDefinition");
 }
 
 /////////////////////////////////////////// bpmn 根据流程引擎的扩展方法
 
 // Check whether an element is ServiceTaskLike 检查元素是否为 'ServiceTaskLike'
 export function isServiceTaskLike(element: Element | ModdleElement): boolean {
-  return is(element, `${getProcessPrefix}:ServiceTaskLike`)
+  return is(element, `${getProcessPrefix}:ServiceTaskLike`);
 }
 
 // Returns 'true' if the given element is 'DmnCapable'
 export function isDmnCapable(element: Element | ModdleElement): boolean {
-  return is(element, `${getProcessPrefix}:DmnCapable`)
+  return is(element, `${getProcessPrefix}:DmnCapable`);
 }
 
 // Returns 'true' if the given element is 'ExternalCapable'
 export function isExternalCapable(element: Element | ModdleElement): boolean {
-  return is(element, `${getProcessPrefix}:ExternalCapable`)
+  return is(element, `${getProcessPrefix}:ExternalCapable`);
 }
 
 /**
@@ -61,14 +63,19 @@ export function isExternalCapable(element: Element | ModdleElement): boolean {
  * 获取一个 'ServiceTaskLike' 业务对象。
  * 如果给定的元素不是 'servicetasklike '，则返回 'false'
  */
-export function getServiceTaskLikeBusinessObject(element): ModdleElement | false {
-  if (is(element, 'bpmn:IntermediateThrowEvent') || is(element, 'bpmn:EndEvent')) {
-    const messageEventDefinition = getMessageEventDefinition(element)
+export function getServiceTaskLikeBusinessObject(
+  element
+): ModdleElement | false {
+  if (
+    is(element, "bpmn:IntermediateThrowEvent") ||
+    is(element, "bpmn:EndEvent")
+  ) {
+    const messageEventDefinition = getMessageEventDefinition(element);
     if (messageEventDefinition) {
-      element = messageEventDefinition
+      element = messageEventDefinition;
     }
   }
-  return isServiceTaskLike(element) && getBusinessObject(element)
+  return isServiceTaskLike(element) && getBusinessObject(element);
 }
 
 /**
@@ -84,61 +91,70 @@ export function getServiceTaskLikeBusinessObject(element): ModdleElement | false
  * - or undefined, when no matching implementation type is found
  */
 export function getImplementationType(element: Element): ImplementationType {
-  const prefix = getProcessPrefix()
+  const prefix = getProcessPrefix();
   const businessObject =
-    getListenerBusinessObject(element) || getServiceTaskLikeBusinessObject(element)
+    getListenerBusinessObject(element) ||
+    getServiceTaskLikeBusinessObject(element);
 
   if (!businessObject) {
-    return
+    return;
   }
 
   if (isDmnCapable(businessObject)) {
-    const decisionRef = businessObject.get(`${prefix}:decisionRef`)
-    if (typeof decisionRef !== 'undefined') {
-      return 'dmn'
+    const decisionRef = businessObject.get(`${prefix}:decisionRef`);
+    if (typeof decisionRef !== "undefined") {
+      return "dmn";
     }
   }
 
   if (isServiceTaskLike(businessObject)) {
-    const connectors = getExtensionElementsList(businessObject, `${prefix}:Connector`)
+    const connectors = getExtensionElementsList(
+      businessObject,
+      `${prefix}:Connector`
+    );
     if (connectors.length) {
-      return 'connector'
+      return "connector";
     }
   }
 
   if (isExternalCapable(businessObject)) {
-    const type = businessObject.get(`${prefix}:type`)
-    if (type === 'external') {
-      return 'external'
+    const type = businessObject.get(`${prefix}:type`);
+    if (type === "external") {
+      return "external";
     }
   }
 
-  const cls = businessObject.get(`${prefix}:class`)
-  if (typeof cls !== 'undefined') {
-    return 'class'
+  const cls = businessObject.get(`${prefix}:class`);
+  if (typeof cls !== "undefined") {
+    return "class";
   }
 
-  const expression = businessObject.get(`${prefix}:expression`)
-  if (typeof expression !== 'undefined') {
-    return 'expression'
+  const expression = businessObject.get(`${prefix}:expression`);
+  if (typeof expression !== "undefined") {
+    return "expression";
   }
 
-  const delegateExpression = businessObject.get(`${prefix}:delegateExpression`)
-  if (typeof delegateExpression !== 'undefined') {
-    return 'delegateExpression'
+  const delegateExpression = businessObject.get(`${prefix}:delegateExpression`);
+  if (typeof delegateExpression !== "undefined") {
+    return "delegateExpression";
   }
 
-  const script = businessObject.get('script')
-  if (typeof script !== 'undefined') {
-    return 'script'
+  const script = businessObject.get("script");
+  if (typeof script !== "undefined") {
+    return "script";
   }
 }
 
 function getListenerBusinessObject(
   businessObject: Element | ModdleElement
 ): ModdleElement | undefined {
-  const prefix = getProcessPrefix()
-  if (isAny(businessObject, [`${prefix}:ExecutionListener`, `${prefix}:TaskListener`])) {
-    return businessObject as ModdleElement
+  const prefix = getProcessPrefix();
+  if (
+    isAny(businessObject, [
+      `${prefix}:ExecutionListener`,
+      `${prefix}:TaskListener`
+    ])
+  ) {
+    return businessObject as ModdleElement;
   }
 }

@@ -1,8 +1,8 @@
-import { is } from 'bpmn-js/lib/util/ModelUtil'
-import { Element } from 'bpmn-js/lib/model/Types'
-import { ModdleElement } from 'bpmn-moddle'
-import { isArray } from 'min-dash'
-import modeler from '@/store/modeler'
+import { is } from "bpmn-js/lib/util/ModelUtil";
+import type { Element } from "bpmn-js/lib/model/Types";
+import type { ModdleElement } from "bpmn-moddle";
+import { isArray } from "min-dash";
+import modeler from "@/store/modeler";
 
 /**
  * Get extension elements of business object. Optionally filter by type.
@@ -11,15 +11,15 @@ export function getExtensionElementsList(
   businessObject: ModdleElement,
   type?: string
 ): ModdleElement[] {
-  const extensionElements = businessObject?.get('extensionElements')
-  if (!extensionElements) return []
+  const extensionElements = businessObject?.get("extensionElements");
+  if (!extensionElements) return [];
 
-  const values = extensionElements.get('values')
-  if (!values || !values.length) return []
+  const values = extensionElements.get("values");
+  if (!values || !values.length) return [];
 
-  if (type) return values.filter((value) => is(value, type))
+  if (type) return values.filter(value => is(value, type));
 
-  return values
+  return values;
 }
 
 /**
@@ -30,24 +30,26 @@ export function addExtensionElements(
   businessObject: ModdleElement,
   extensionElementToAdd: ModdleElement
 ) {
-  const modeling = modeler().getModeling
-  let extensionElements = businessObject.get('extensionElements')
+  const modeling = modeler().getModeling;
+  let extensionElements = businessObject.get("extensionElements");
 
   // (1) create bpmn:ExtensionElements if it doesn't exist
   if (!extensionElements) {
     extensionElements = createModdleElement(
-      'bpmn:ExtensionElements',
+      "bpmn:ExtensionElements",
       { values: [] },
       businessObject
-    )
-    modeling.updateModdleProperties(element, businessObject, { extensionElements })
+    );
+    modeling.updateModdleProperties(element, businessObject, {
+      extensionElements
+    });
   }
-  extensionElementToAdd.$parent = extensionElements
+  extensionElementToAdd.$parent = extensionElements;
 
   // (2) add extension element to list
   modeling.updateModdleProperties(element, extensionElements, {
-    values: [...extensionElements.get('values'), extensionElementToAdd]
-  })
+    values: [...extensionElements.get("values"), extensionElementToAdd]
+  });
 }
 
 /**
@@ -59,16 +61,16 @@ export function removeExtensionElements(
   extensionElementsToRemove: ModdleElement | ModdleElement[]
 ) {
   if (!isArray(extensionElementsToRemove)) {
-    extensionElementsToRemove = [extensionElementsToRemove]
+    extensionElementsToRemove = [extensionElementsToRemove];
   }
 
-  const extensionElements = businessObject.get('extensionElements'),
+  const extensionElements = businessObject.get("extensionElements"),
     values = extensionElements
-      .get('values')
-      .filter((value) => !extensionElementsToRemove.includes(value))
+      .get("values")
+      .filter(value => !extensionElementsToRemove.includes(value));
 
-  const modeling = modeler().getModeling
-  modeling.updateModdleProperties(element, extensionElements, { values })
+  const modeling = modeler().getModeling;
+  modeling.updateModdleProperties(element, extensionElements, { values });
 }
 
 /////////////
@@ -77,8 +79,8 @@ export function createModdleElement(
   properties: Record<string, any>,
   parent?: Element | ModdleElement
 ): ModdleElement {
-  const moddle = modeler().getModdle!
-  const element = moddle.create(elementType, properties)
-  parent && (element.$parent = parent)
-  return element
+  const moddle = modeler().getModdle!;
+  const element = moddle.create(elementType, properties);
+  parent && (element.$parent = parent);
+  return element;
 }
