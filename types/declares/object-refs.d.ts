@@ -1,17 +1,17 @@
-declare module 'object-refs' {
+declare module "object-refs" {
   // 要使用的属性描述符在  Refs 实例中指定属性
   type AttributeDescriptor = {
-    name: string
-    collection: boolean
-    enumerable: boolean
-    inverse?: AttributeDescriptor
-  }
+    name: string;
+    collection: boolean;
+    enumerable: boolean;
+    inverse?: AttributeDescriptor;
+  };
   type RefsCollection = Array<Object> & {
-    remove(element: unknown): unknown
-    contains(element: unknown): boolean
-    add(element: unknown, idx?: number): unknown
-    __refs_collection: true
-  }
+    remove(element: unknown): unknown;
+    contains(element: unknown): boolean;
+    add(element: unknown, idx?: number): unknown;
+    __refs_collection: true;
+  };
 
   /**
    * @example
@@ -35,19 +35,27 @@ declare module 'object-refs' {
    * wheels[0].car // undefined
    */
   export class Refs {
-    constructor(a: AttributeDescriptor, b: AttributeDescriptor)
-    private props: Record<string, AttributeDescriptor>
+    constructor(a: AttributeDescriptor, b: AttributeDescriptor);
+    private props: Record<string, AttributeDescriptor>;
 
     //将双向引用的一侧绑定到目标对象。
-    bind(target: Object, property: string | AttributeDescriptor): void
-    ensureRefsCollection(target: Object, property: AttributeDescriptor): RefsCollection
-    ensureBound(target: Object, property: AttributeDescriptor): void
-    unset(target, property, value): void
-    set(target, property, value): void
+    bind(target: Object, property: string | AttributeDescriptor): void;
+    ensureRefsCollection(
+      target: Object,
+      property: AttributeDescriptor
+    ): RefsCollection;
+    ensureBound(target: Object, property: AttributeDescriptor): void;
+    unset(target, property, value): void;
+    set(target, property, value): void;
   }
 
   export type Collection = {
-    extend(collection: Object[], refs: Refs, property: Object, target: Object): RefsCollection
-    isExtended(collection: Object[] | RefsCollection): boolean
-  }
+    extend(
+      collection: Object[],
+      refs: Refs,
+      property: Object,
+      target: Object
+    ): RefsCollection;
+    isExtended(collection: Object[] | RefsCollection): boolean;
+  };
 }

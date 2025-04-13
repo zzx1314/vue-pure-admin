@@ -1,48 +1,48 @@
 //
-declare module 'diagram-js-direct-editing' {
-  import { ModuleDefinition } from 'didi'
-  const directEditingModule: ModuleDefinition
-  export default directEditingModule
+declare module "diagram-js-direct-editing" {
+  import type { ModuleDefinition } from "didi";
+  const directEditingModule: ModuleDefinition;
+  export default directEditingModule;
 }
 //
-declare module 'diagram-js-direct-editing/lib/DirectEditing' {
-  import EventBus from 'diagram-js/lib/core/EventBus'
-  import Canvas from 'diagram-js/lib/core/Canvas'
-  import TextBox from 'diagram-js-direct-editing/lib/TextBox'
+declare module "diagram-js-direct-editing/lib/DirectEditing" {
+  import type EventBus from "diagram-js/lib/core/EventBus";
+  import type Canvas from "diagram-js/lib/core/Canvas";
+  import type TextBox from "diagram-js-direct-editing/lib/TextBox";
 
-  type DirectEditingProvider = {}
+  type DirectEditingProvider = {};
 
-  type ElementDescriptor = {}
+  type ElementDescriptor = {};
 
   export default class DirectEditing {
-    constructor(eventBus: EventBus, canvas: Canvas)
+    constructor(eventBus: EventBus, canvas: Canvas);
 
-    protected _textbox: TextBox
-    protected _eventBus: EventBus
-    protected _providers: DirectEditingProvider[]
+    protected _textbox: TextBox;
+    protected _eventBus: EventBus;
+    protected _providers: DirectEditingProvider[];
 
-    registerProvider(provider: DirectEditingProvider): void
+    registerProvider(provider: DirectEditingProvider): void;
 
-    isActive(): boolean
+    isActive(): boolean;
 
     /**
      * 触发 directEditing. + event 事件
      * @param event
      * @param args
      */
-    _fire(event: string, ...args: any[]): void
+    _fire(event: string, ...args: any[]): void;
 
     /**
      * 触发 directEditing.deactivate 事件
      */
-    close(): void
+    close(): void;
 
     /**
      * 触发 directEditing.complete 事件，并调用 close 关闭
      */
-    complete(): void
+    complete(): void;
 
-    getValue(): string
+    getValue(): string;
 
     /**
      * Activate direct editing on the given element
@@ -50,43 +50,43 @@ declare module 'diagram-js-direct-editing/lib/DirectEditing' {
      * @param {HTMLElement} element the descriptor for a shape or connection
      * @return {Boolean} true if the activation was possible
      */
-    activate(element: HTMLElement): boolean
+    activate(element: HTMLElement): boolean;
   }
 }
 //
-declare module 'diagram-js-direct-editing/lib/TextBox' {
+declare module "diagram-js-direct-editing/lib/TextBox" {
   type TextBoxOptions = {
-    container: HTMLElement
-    keyHandler: Function
-    resizeHandler: Function
-  }
+    container: HTMLElement;
+    keyHandler: Function;
+    resizeHandler: Function;
+  };
 
   type TextBoxBounds = {
-    x: number
-    y: number
-    width?: number
-    height?: number
-    maxWidth?: number
-    minWidth?: number
-    maxHeight?: number
-    minHeight?: number
-  }
+    x: number;
+    y: number;
+    width?: number;
+    height?: number;
+    maxWidth?: number;
+    minWidth?: number;
+    maxHeight?: number;
+    minHeight?: number;
+  };
 
   type Style = {
-    fontSize?: number
-    maxWidth?: number
-    minWidth?: number
-    maxHeight?: number
-    minHeight?: number
-  }
+    fontSize?: number;
+    maxWidth?: number;
+    minWidth?: number;
+    maxHeight?: number;
+    minHeight?: number;
+  };
 
   export default class TextBox {
-    constructor(options: TextBoxOptions)
-    protected container: HTMLElement
-    protected parent: HTMLElement
-    protected content: HTMLElement
-    protected keyHandler: Function
-    protected resizeHandler: Function
+    constructor(options: TextBoxOptions);
+    protected container: HTMLElement;
+    protected parent: HTMLElement;
+    protected content: HTMLElement;
+    protected keyHandler: Function;
+    protected resizeHandler: Function;
     // protected autoResize: Function
     // protected handlePaste: Function
 
@@ -102,24 +102,24 @@ declare module 'diagram-js-direct-editing/lib/TextBox' {
       style: Style | string,
       value?: string | Object,
       options?: Object
-    ): HTMLElement
+    ): HTMLElement;
 
-    handlePaste(e: Event): void
+    handlePaste(e: Event): void;
 
-    insertText(text: string): void
+    insertText(text: string): void;
 
-    _insertTextIE(text: string): void
+    _insertTextIE(text: string): void;
 
-    autoResize(): void
+    autoResize(): void;
 
-    resizable(): void
+    resizable(): void;
 
-    destroy(): void
+    destroy(): void;
 
-    getValue(): string
+    getValue(): string;
 
-    getSelection(): Range
+    getSelection(): Range;
 
-    setSelection(container: HTMLElement | number, offset?: number): void
+    setSelection(container: HTMLElement | number, offset?: number): void;
   }
 }
