@@ -12,7 +12,10 @@ class RewritePaletteProvider extends PaletteProvider {
   private readonly _handTool: any;
   private readonly _globalConnect: any;
   private readonly _translate: any;
-  private readonly _moddle: any;
+  private readonly _keyboard: any;
+  private readonly _modeling: any;
+  private readonly _selection: any;
+
   constructor(
     palette,
     create,
@@ -21,7 +24,10 @@ class RewritePaletteProvider extends PaletteProvider {
     lassoTool,
     handTool,
     globalConnect,
-    translate
+    translate,
+    keyboard,
+    modeling,
+    selection
   ) {
     super(
       palette,
@@ -40,7 +46,15 @@ class RewritePaletteProvider extends PaletteProvider {
     this._lassoTool = lassoTool;
     this._handTool = handTool;
     this._globalConnect = globalConnect;
+    this._translate = translate;
+    this._keyboard = keyboard;
+    this._modeling = modeling;
+    this._selection = selection;
+
+    // 注册键盘事件
+    this.registerKeyboardEvents();
   }
+
   getPaletteEntries() {
     const actions = {},
       create = this._create,
@@ -205,6 +219,29 @@ class RewritePaletteProvider extends PaletteProvider {
 
     return actions;
   }
+
+  private registerKeyboardEvents() {
+    this._keyboard.addListener("keydown", event => {
+      if (event.key === "Delete") {
+        this.deleteSelectedElements();
+      }
+    });
+  }
+
+  private deleteSelectedElements() {
+    const modeling = this._modeling;
+    const selection = this._selection;
+    const selectedElements = selection.get();
+
+    selectedElements.forEach(element => {
+      if (
+        element.type === "bpmn:StartEvent" ||
+        element.type === "bpmn:EndEvent"
+      ) {
+        modeling.removeElements([element]);
+      }
+    });
+  }
 }
 
 RewritePaletteProvider.$inject = [
@@ -214,7 +251,11 @@ RewritePaletteProvider.$inject = [
   "spaceTool",
   "lassoTool",
   "handTool",
-  "globalConnect"
+  "globalConnect",
+  "translate",
+  "keyboard",
+  "modeling",
+  "selection"
 ];
 
 export default RewritePaletteProvider;
