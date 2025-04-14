@@ -23,21 +23,30 @@ const { columnsForm, columnsQueryForm } = useCollectorBusDevForm();
 const {
   queryForm,
   dataList,
+  dataListHistory,
   loading,
   dialogFormVisible,
   dialogDesignVisible,
+  dialogViewHistory,
   title,
   pagination,
+  paginationHistory,
   addForm,
   rules,
   columns,
+  historyColumns,
   currentRow,
   onSearch,
+  onSearchHistory,
   handleUpdate,
   handleDelete,
+  handleDeleteHistory,
   handleSizeChange,
+  handleSizeChangeHistory,
   handleCurrentChange,
+  handleCurrentChangeHistory,
   handleSelectionChange,
+  handleSelectionChangeHistory,
   handleSubmitError,
   handleSubmit,
   cancel,
@@ -62,9 +71,9 @@ const {
     <PureTableBar title="流程列表" :columns="columns" @refresh="onSearch">
       <template #buttons>
         <el-button
-                type="primary"
-                :icon="useRenderIcon(AddFill)"
-                @click="openDia('新增', addFormRef)"
+          type="primary"
+          :icon="useRenderIcon(AddFill)"
+          @click="openDia('新增', addFormRef)"
         >
           新增
         </el-button>
@@ -158,7 +167,76 @@ const {
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
     />
-    <bpm-process-design :dialog-design-visible="dialogDesignVisible" :config-info="currentRow" @update:dialogDesignVisible="closeDesign"/>
+    <bpm-process-design
+      :dialog-design-visible="dialogDesignVisible"
+      :config-info="currentRow"
+      @update:dialogDesignVisible="closeDesign"
+    />
+    <el-dialog
+      v-model="dialogViewHistory"
+      append-to-body
+      title="历史流程图"
+      width="75%"
+      @close="cancel"
+    >
+      <PureTableBar
+        title="历史流程列表"
+        :columns="historyColumns"
+        @refresh="onSearchHistory"
+      >
+        <template v-slot="{ size, checkList, dynamicColumns }">
+          <pure-table
+            border
+            adaptive
+            align-whole="center"
+            showOverflowTooltip
+            table-layout="auto"
+            :loading="loading"
+            :size="size"
+            :data="dataListHistory"
+            :columns="dynamicColumns"
+            :checkList="checkList"
+            :pagination="paginationHistory"
+            :paginationSmall="size === 'small'"
+            :header-cell-style="{
+              background: 'var(--el-table-row-hover-bg-color)',
+              color: 'var(--el-text-color-primary)'
+            }"
+            @selection-change="handleSelectionChangeHistory"
+            @page-size-change="handleSizeChangeHistory"
+            @page-current-change="handleCurrentChangeHistory"
+          >
+            <template #operation="{ row }">
+              <el-popconfirm
+                title="是否确认删除?"
+                @confirm="handleDeleteHistory(row)"
+              >
+                <template #reference>
+                  <el-button
+                    class="reset-margin"
+                    link
+                    type="primary"
+                    :size="size"
+                    :icon="useRenderIcon(Delete)"
+                  >
+                    删除
+                  </el-button>
+                </template>
+              </el-popconfirm>
+              <el-button
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(EditPen)"
+                @click="setBpmn(row)"
+              >
+                流程设计
+              </el-button>
+            </template>
+          </pure-table>
+        </template>
+      </PureTableBar>
+    </el-dialog>
   </div>
 </template>
 

@@ -17,16 +17,25 @@ type ResultPage = {
 
 const actThProcessConfUrls = {
   page: `/api/upms/activity/getProcessConfPage`,
+  getProcessPage: `/api/upms/activity/getProcessPage`,
   save: "/api/upms/activity/addProcessConf",
   delete: `/api/upms/activity/deleteProcessConf`,
   update: "/api/upms/activity/editProcessConf",
   deployment: `/api/upms/activity/deployment`,
-  getProcessOne: "/api/upms/activity/getProcessOne/"
+  getProcessOne: "/api/upms/activity/getProcessOne/",
+  deleteProcess: "/api/upms/activity/deleteProcess/"
 };
 
 // 业务流程配置表分页
 export const actThProcessConfPage = (query?: object) => {
   return http.axiosGetRequest<ResultPage>(actThProcessConfUrls.page, query);
+};
+// 业务流程模型分页
+export const actThProcessConfGetProcessPage = (query?: object) => {
+  return http.axiosGetRequest<ResultPage>(
+    actThProcessConfUrls.getProcessPage,
+    query
+  );
 };
 // 业务流程配置表保存
 export const actThProcessConfSave = (param?: object) => {
@@ -40,11 +49,18 @@ export const actThProcessConfUpdate = (param?: object) => {
 export const actThProcessConfDelete = (param?: object) => {
   return http.axiosDelete<Result>(actThProcessConfUrls.delete + param);
 };
+// 业务流程删除
+export const actThProcessDeleteProcess = (param?: object) => {
+  return http.axiosDelete<Result>(actThProcessConfUrls.deleteProcess + param);
+};
 // 业务流程配置表部署
 export const actThProcessConfDeployment = (param?: object) => {
   return http.axiosPostRequest<Result>(actThProcessConfUrls.deployment, param);
 };
 // 业务流程配置表获取流程
 export const actThProcessConfGetProcess = (param?: object) => {
-  return http.axiosGetRequest<Result>(actThProcessConfUrls.getProcessOne + param, {});
+  return http.axiosGetRequest<Result>(
+    actThProcessConfUrls.getProcessOne + param,
+    {}
+  );
 };
