@@ -7,7 +7,8 @@ import {
   actThProcessConfUpdate,
   actThProcessConfDelete,
   actThProcessConfGetProcessPage,
-  actThProcessDeleteProcess
+  actThProcessDeleteProcess,
+  actThProcessConfRefreshProcessConf
 } from "@/api/actThProcessConf";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -30,7 +31,7 @@ export function useActThProcessConf() {
   const dialogViewHistory = ref(false);
   const isShowDeploy = ref(true);
   const currentRow = ref();
-  const currentBpnmId = ref();
+  const currentBpnmId = ref(null);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -385,6 +386,15 @@ export function useActThProcessConf() {
     dialogDesignVisible.value = false;
     cancel();
   }
+  function refeshBpmn(row) {
+    console.log("refeshBpmn");
+    actThProcessConfRefreshProcessConf(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        message("更新成功！", { type: "success" });
+        cancel();
+      }
+    });
+  }
 
   onMounted(() => {
     onSearch();
@@ -429,6 +439,7 @@ export function useActThProcessConf() {
     openDia,
     setBpmn,
     setBpmnHistory,
-    closeDesign
+    closeDesign,
+    refeshBpmn
   };
 }

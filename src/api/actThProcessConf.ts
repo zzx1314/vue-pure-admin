@@ -23,7 +23,8 @@ const actThProcessConfUrls = {
   update: "/api/upms/activity/editProcessConf",
   deployment: `/api/upms/activity/deployment`,
   getProcessOne: "/api/upms/activity/getProcessOne/",
-  deleteProcess: "/api/upms/activity/deleteProcess/"
+  deleteProcess: "/api/upms/activity/deleteProcess/",
+  refreshProcessConf: "/api/upms/activity/refreshProcessConf/"
 };
 
 // 业务流程配置表分页
@@ -44,6 +45,13 @@ export const actThProcessConfSave = (param?: object) => {
 // 业务流程配置表修改
 export const actThProcessConfUpdate = (param?: object) => {
   return http.axiosPut<Result>(actThProcessConfUrls.update, param);
+};
+// 业务流程配置表刷新
+export const actThProcessConfRefreshProcessConf = (param?: object) => {
+  return http.axiosGetRequest<Result>(
+    actThProcessConfUrls.refreshProcessConf + param,
+    {}
+  );
 };
 // 业务流程配置表删除
 export const actThProcessConfDelete = (param?: object) => {

@@ -65,7 +65,7 @@ const props = defineProps({
   processId: {
     type: Object as PropType<any>,
     default: () => {
-      return {};
+      return null;
     }
   },
   isShowDeploy: {
@@ -84,7 +84,7 @@ function getRoleList() {
 }
 
 function getXml() {
-  if (props.processId) {
+  if (props.processId !== null) {
     actThProcessConfGetProcess(props.processId).then(res => {
       if (res.code === SUCCESS) {
         modelerStore.getModeler!.importXML(res.data.xmlString);

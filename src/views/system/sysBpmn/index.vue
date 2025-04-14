@@ -56,7 +56,8 @@ const {
   openDia,
   setBpmn,
   setBpmnHistory,
-  closeDesign
+  closeDesign,
+  refeshBpmn
 } = useActThProcessConf();
 </script>
 <template>
@@ -155,7 +156,7 @@ const {
                       type="primary"
                       :size="size"
                       :icon="useRenderIcon(Refresh)"
-                      @click="setBpmn(row)"
+                      @click="refeshBpmn(row)"
                     >
                       流程更新
                     </el-button>
