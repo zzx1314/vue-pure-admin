@@ -5,6 +5,7 @@ import { useActThProcessConf } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Delete from "@iconify-icons/ep/delete";
+import Refresh from "@iconify-icons/ep/Refresh";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
@@ -145,6 +146,17 @@ const {
                       @click="setBpmn(row)"
                     >
                       流程设计
+                    </el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(Refresh)"
+                      @click="setBpmn(row)"
+                    >
+                      流程更新
                     </el-button>
                   </el-dropdown-item>
                 </el-dropdown-menu>

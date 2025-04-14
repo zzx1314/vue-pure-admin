@@ -169,7 +169,7 @@ export function useActThProcessConf() {
       width: 100,
       cellRenderer: ({ row }) => (
         <el-tag type={row.isExpire === 0 ? "success" : "danger"}>
-          {row.isExpire === 0 ? "已激活" : "已过期"}
+          {row.isExpire === 0 ? "最新版本" : "已过期"}
         </el-tag>
       )
     },
@@ -354,6 +354,8 @@ export function useActThProcessConf() {
     queryForm.value.endTime = "";
     dialogFormVisible.value = false;
     dialogViewHistory.value = false;
+    currentRow.value = {};
+    currentBpnmId.value = null;
     onSearch();
   }
   // 打开弹框

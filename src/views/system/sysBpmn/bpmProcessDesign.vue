@@ -80,15 +80,14 @@ function getRoleList() {
 }
 
 function getXml() {
-  if (props.configInfo && props.configInfo.processId) {
-    actThProcessConfGetProcess(props.configInfo.processId).then(res => {
+  if (props.processId) {
+    actThProcessConfGetProcess(props.processId).then(res => {
       if (res.code === SUCCESS) {
         modelerStore.getModeler!.importXML(res.data.xmlString);
       }
     });
-  }
-  if (props.processId) {
-    actThProcessConfGetProcess(props.processId).then(res => {
+  } else if (props.configInfo && props.configInfo.processId) {
+    actThProcessConfGetProcess(props.configInfo.processId).then(res => {
       if (res.code === SUCCESS) {
         modelerStore.getModeler!.importXML(res.data.xmlString);
       }
