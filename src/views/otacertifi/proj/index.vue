@@ -6,6 +6,7 @@ import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
+import mindMap from "@iconify-icons/ri/mind-map";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
@@ -23,18 +24,22 @@ const {
   dataList,
   pagination,
   dialogFormVisible,
+  dialogFormVisibleApprove,
   title,
   addForm,
   rules,
   moreCondition,
   customerList,
   featureList,
+  approverOptions,
   cancel,
   restartForm,
   submitForm,
+  submitFormApprover,
   openDia,
   onSearch,
   handleUpdate,
+  handleUpdateApprove,
   handleDelete,
   handleSizeChange,
   handleCurrentChange,
@@ -160,7 +165,18 @@ defineOptions({
           </template>
           <template #operation="{ row }">
             <el-button
-              v-if="hasAuth('proj_update')"
+              v-if="row.useLicNum > 0"
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
+              :icon="useRenderIcon(mindMap)"
+              @click="handleUpdateApprove(row, addFormRef)"
+            >
+              变更审批
+            </el-button>
+            <el-button
+              v-if="hasAuth('proj_update') && row.useLicNum === 0"
               class="reset-margin"
               link
               type="primary"
@@ -267,8 +283,20 @@ defineOptions({
           />
         </el-form-item>
 
+        <el-form-item label="审批人" prop="remark">
+          <el-select v-model="addForm.value.approverId" style="width: 200px" placeholder="请选择审批人">
+            <el-option
+              v-for="item in approverOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="备注" prop="remark">
           <el-input
+            type="textarea"
             v-model="addForm.value.remark"
             style="width: 200px"
             placeholder="请输入备注"
@@ -278,7 +306,10 @@ defineOptions({
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="cancel()">取消</el-button>
-          <el-button type="primary" @click="submitForm(addFormRef)"
+          <el-button type="primary" v-if="dialogFormVisibleApprove" @click="submitFormApprover(addFormRef)"
+          >发起审批</el-button
+          >
+          <el-button type="primary" v-else @click="submitForm(addFormRef)"
             >确认</el-button
           >
         </span>

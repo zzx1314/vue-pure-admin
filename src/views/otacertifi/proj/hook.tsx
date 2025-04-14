@@ -6,6 +6,7 @@ import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import { getUserByRoleIdNoPage } from "@/api/user";
 import { getFeatureSelect } from "@/api/cerFeatures";
+import {actThProcessConfGetFirstNode} from "@/api/actThProcessConf";
 
 export function useProj() {
   // ----变量定义-----
@@ -22,6 +23,8 @@ export function useProj() {
   const title = ref("");
   const customerList = ref([]);
   const featureList = ref([]);
+  const dialogFormVisibleApprove = ref(false);
+  const approverOptions = ref([]);
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,
@@ -40,7 +43,8 @@ export function useProj() {
       liceTime: "",
       liceTimeArray: [],
       liceMode: "",
-      remark: ""
+      remark: "",
+      approverId: ""
     }
   });
   const rules = reactive<FormRules>({
@@ -151,7 +155,7 @@ export function useProj() {
     {
       label: "操作",
       fixed: "right",
-      width: 180,
+      minWidth: 170,
       slot: "operation"
     }
   ];
@@ -174,6 +178,22 @@ export function useProj() {
     addForm.value.featuresIdArray = row.featuresId.split(",").map(Number);
     addForm.value.liceTimeArray = row.liceTime.split(",");
     openDia("修改", formEl);
+  }
+  function handleUpdateApprove(row, formEl) {
+    console.log(row);
+    const rowData = JSON.stringify(row);
+    addForm.value = JSON.parse(rowData);
+    addForm.value.featuresIdArray = row.featuresId.split(",").map(Number);
+    addForm.value.liceTimeArray = row.liceTime.split(",");
+    dialogFormVisibleApprove.value = true;
+    actThProcessConfGetFirstNode("授权项目变更").then(res => {
+      if (res.code === SUCCESS) {
+        approverOptions.value = res.data;
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    })
+    openDia("变更审批", formEl);
   }
   // 删除
   function handleDelete(row) {
@@ -250,7 +270,8 @@ export function useProj() {
       liceTime: "",
       liceTimeArray: [],
       liceMode: "",
-      remark: ""
+      remark: "",
+      approverId: ""
     };
 
     queryForm.projName = "";
@@ -259,6 +280,7 @@ export function useProj() {
     queryForm.beginTime = "";
     queryForm.endTime = "";
     dialogFormVisible.value = false;
+    dialogFormVisibleApprove.value = false;
     customerList.value = [];
     console.log(addForm.value);
     onSearch();
@@ -299,6 +321,18 @@ export function useProj() {
       }
     });
   };
+  const submitFormApprover = async (formEl: FormInstance | undefined) => {
+    if (!formEl) return;
+    await formEl.validate((valid, fields) => {
+      if (valid) {
+        addForm.value.featuresId = addForm.value.featuresIdArray.join(",");
+        addForm.value.liceTime = addForm.value.liceTimeArray.join(",");
+        console.log(addForm.value);
+      } else {
+        console.log("error submit!", fields);
+      }
+    });
+  };
   // 打开弹框
   function openDia(param, formEl?) {
     dialogFormVisible.value = true;
@@ -330,6 +364,7 @@ export function useProj() {
     dataList,
     loading,
     dialogFormVisible,
+    dialogFormVisibleApprove,
     title,
     pagination,
     addForm,
@@ -340,9 +375,11 @@ export function useProj() {
     buttonClass,
     customerList,
     featureList,
+    approverOptions,
     onSearch,
     resetForm,
     handleUpdate,
+    handleUpdateApprove,
     handleDelete,
     handleSizeChange,
     handleCurrentChange,
@@ -350,6 +387,7 @@ export function useProj() {
     cancel,
     restartForm,
     submitForm,
+    submitFormApprover,
     openDia
   };
 }
