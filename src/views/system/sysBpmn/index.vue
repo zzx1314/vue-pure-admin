@@ -6,6 +6,7 @@ import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Delete from "@iconify-icons/ep/delete";
 import Refresh from "@iconify-icons/ep/Refresh";
+import ReStart from "@iconify-icons/ri/restart-line"
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
@@ -57,7 +58,8 @@ const {
   setBpmn,
   setBpmnHistory,
   closeDesign,
-  refeshBpmn
+  refeshBpmn,
+  activateBpmn
 } = useActThProcessConf();
 </script>
 <template>
@@ -161,6 +163,17 @@ const {
                       流程更新
                     </el-button>
                   </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(ReStart)"
+                      @click="activateBpmn(row)"
+                    >
+                      流程激活
+                    </el-button>
+                  </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -232,7 +245,7 @@ const {
                 :icon="useRenderIcon(EditPen)"
                 @click="setBpmnHistory(row)"
               >
-                流程设计
+                查看流程
               </el-button>
               <el-popconfirm
                 title="是否确认删除?"

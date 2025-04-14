@@ -8,7 +8,8 @@ import {
   actThProcessConfDelete,
   actThProcessConfGetProcessPage,
   actThProcessDeleteProcess,
-  actThProcessConfRefreshProcessConf
+  actThProcessConfRefreshProcessConf,
+  actThProcessConfActivateProcessConf
 } from "@/api/actThProcessConf";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -395,6 +396,15 @@ export function useActThProcessConf() {
       }
     });
   }
+  function activateBpmn(row) {
+    console.log("activateBpmn");
+    actThProcessConfActivateProcessConf(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        message("激活成功！", { type: "success" });
+        cancel();
+      }
+    });
+  }
 
   onMounted(() => {
     onSearch();
@@ -440,6 +450,7 @@ export function useActThProcessConf() {
     setBpmn,
     setBpmnHistory,
     closeDesign,
-    refeshBpmn
+    refeshBpmn,
+    activateBpmn
   };
 }
