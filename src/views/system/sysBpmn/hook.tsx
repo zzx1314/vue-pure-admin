@@ -29,6 +29,7 @@ export function useActThProcessConf() {
   const dialogDesignVisible = ref(false);
   const dialogViewHistory = ref(false);
   const currentRow = ref();
+  const currentBpnmId = ref();
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -369,6 +370,13 @@ export function useActThProcessConf() {
     currentRow.value = row;
   }
 
+  function setBpmnHistory(row) {
+    console.log(row);
+    dialogDesignVisible.value = true;
+    console.log(dialogDesignVisible.value);
+    currentBpnmId.value = row.id;
+  }
+
   function closeDesign() {
     dialogDesignVisible.value = false;
     cancel();
@@ -396,6 +404,7 @@ export function useActThProcessConf() {
     dialogDesignVisible,
     dialogViewHistory,
     currentRow,
+    currentBpnmId,
     onSearch,
     onSearchHistory,
     resetForm,
@@ -414,6 +423,7 @@ export function useActThProcessConf() {
     restartForm,
     openDia,
     setBpmn,
+    setBpmnHistory,
     closeDesign
   };
 }

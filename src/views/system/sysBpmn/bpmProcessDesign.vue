@@ -61,6 +61,12 @@ const props = defineProps({
     default: () => {
       return {};
     }
+  },
+  processId: {
+    type: Object as PropType<any>,
+    default: () => {
+      return {};
+    }
   }
 });
 const emit = defineEmits(["update:dialogDesignVisible"]);
@@ -76,6 +82,13 @@ function getRoleList() {
 function getXml() {
   if (props.configInfo && props.configInfo.processId) {
     actThProcessConfGetProcess(props.configInfo.processId).then(res => {
+      if (res.code === SUCCESS) {
+        modelerStore.getModeler!.importXML(res.data.xmlString);
+      }
+    });
+  }
+  if (props.processId) {
+    actThProcessConfGetProcess(props.processId).then(res => {
       if (res.code === SUCCESS) {
         modelerStore.getModeler!.importXML(res.data.xmlString);
       }

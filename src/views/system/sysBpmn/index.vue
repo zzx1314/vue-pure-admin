@@ -36,6 +36,7 @@ const {
   columns,
   historyColumns,
   currentRow,
+  currentBpnmId,
   onSearch,
   onSearchHistory,
   handleUpdate,
@@ -52,6 +53,7 @@ const {
   cancel,
   openDia,
   setBpmn,
+  setBpmnHistory,
   closeDesign
 } = useActThProcessConf();
 </script>
@@ -170,6 +172,7 @@ const {
     <bpm-process-design
       :dialog-design-visible="dialogDesignVisible"
       :config-info="currentRow"
+      :process-id="currentBpnmId"
       @update:dialogDesignVisible="closeDesign"
     />
     <el-dialog
@@ -207,6 +210,15 @@ const {
             @page-current-change="handleCurrentChangeHistory"
           >
             <template #operation="{ row }">
+              <el-button
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(EditPen)"
+                @click="setBpmnHistory(row)"
+              >
+                流程设计
+              </el-button>
               <el-popconfirm
                 title="是否确认删除?"
                 @confirm="handleDeleteHistory(row)"
@@ -223,15 +235,6 @@ const {
                   </el-button>
                 </template>
               </el-popconfirm>
-              <el-button
-                link
-                type="primary"
-                :size="size"
-                :icon="useRenderIcon(EditPen)"
-                @click="setBpmn(row)"
-              >
-                流程设计
-              </el-button>
             </template>
           </pure-table>
         </template>
