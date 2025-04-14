@@ -13,6 +13,10 @@ const Toolbar = defineComponent({
     isRestart: {
       type: Boolean,
       default: false
+    },
+    isShowDeploy: {
+      type: Boolean,
+      default: true
     }
   },
   setup(props) {
@@ -33,13 +37,15 @@ const Toolbar = defineComponent({
       <div class="toolbar">
         <ElButtonGroup>
           <span>
-            <ElButton
-              type="primary"
-              onClick={saveBpmnxml}
-              style={{ marginRight: "8px" }}
-            >
-              部署
-            </ElButton>
+            {props.isShowDeploy && (
+              <ElButton
+                type="primary"
+                onClick={saveBpmnxml}
+                style={{ marginRight: "8px" }}
+              >
+                部署
+              </ElButton>
+            )}
           </span>
           <Exports></Exports>
           <Previews></Previews>

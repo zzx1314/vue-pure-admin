@@ -67,6 +67,10 @@ const props = defineProps({
     default: () => {
       return {};
     }
+  },
+  isShowDeploy: {
+    type: Boolean,
+    default: true
   }
 });
 const emit = defineEmits(["update:dialogDesignVisible"]);
@@ -143,7 +147,11 @@ onMounted(() => {
       @close="cancel"
     >
       <div id="designer-container" :class="computedClasses">
-        <Toolbar v-if="showToolbar" :is-restart="restart" />
+        <Toolbar
+          v-if="showToolbar"
+          :is-restart="restart"
+          :is-show-deploy="isShowDeploy"
+        />
         <div class="main-content">
           <Palette v-if="customPalette" />
           <Designer v-model:xml="processXml" />

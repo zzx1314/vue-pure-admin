@@ -28,6 +28,7 @@ export function useActThProcessConf() {
   const title = ref("");
   const dialogDesignVisible = ref(false);
   const dialogViewHistory = ref(false);
+  const isShowDeploy = ref(true);
   const currentRow = ref();
   const currentBpnmId = ref();
 
@@ -377,6 +378,7 @@ export function useActThProcessConf() {
     dialogDesignVisible.value = true;
     console.log(dialogDesignVisible.value);
     currentBpnmId.value = row.id;
+    isShowDeploy.value = false;
   }
 
   function closeDesign() {
@@ -407,6 +409,7 @@ export function useActThProcessConf() {
     dialogViewHistory,
     currentRow,
     currentBpnmId,
+    isShowDeploy,
     onSearch,
     onSearchHistory,
     resetForm,

@@ -38,6 +38,7 @@ const {
   historyColumns,
   currentRow,
   currentBpnmId,
+  isShowDeploy,
   onSearch,
   onSearchHistory,
   handleUpdate,
@@ -185,6 +186,7 @@ const {
       :dialog-design-visible="dialogDesignVisible"
       :config-info="currentRow"
       :process-id="currentBpnmId"
+      :isShowDeploy="isShowDeploy"
       @update:dialogDesignVisible="closeDesign"
     />
     <el-dialog
