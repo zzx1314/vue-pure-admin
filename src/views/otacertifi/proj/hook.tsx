@@ -1,12 +1,15 @@
 import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormInstance, FormRules } from "element-plus";
-import { projPage, projSave, projUpdate, projDelete } from "@/api/cerProj";
+import {projPage, projSave, projUpdate, projDelete, projUpdateCheck} from "@/api/cerProj";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import { getUserByRoleIdNoPage } from "@/api/user";
 import { getFeatureSelect } from "@/api/cerFeatures";
-import {actThProcessConfApplyBuniessTask, actThProcessConfGetFirstNode} from "@/api/actThProcessConf";
+import {
+  actThProcessConfApplyBuniessTask,
+  actThProcessConfGetFirstNode
+} from "@/api/actThProcessConf";
 
 export function useProj() {
   // ----变量定义-----
@@ -29,10 +32,8 @@ export function useProj() {
     businessId: null,
     businessType: "",
     approverId: null,
-    businessServiceChange: {
-      changeService: "LicenseBusProjService",
-      filed: null
-    }
+    businessServiceChange: "",
+    businessServiceEx: ""
   });
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -336,19 +337,37 @@ export function useProj() {
       if (valid) {
         addForm.value.featuresId = addForm.value.featuresIdArray.join(",");
         addForm.value.liceTime = addForm.value.liceTimeArray.join(",");
-        console.log(addForm.value);
-        applyForm.value.businessId = addForm.value.id;
-        applyForm.value.businessType = "授权项目变更";
-        applyForm.value.approverId = addForm.value.approverId;
-        applyForm.value.businessServiceChange.filed = JSON.stringify(
-          addForm.value
-        );
-        actThProcessConfApplyBuniessTask(applyForm.value).then(res => {
-          if (res.code === SUCCESS) {
-            message("提交成功！", { type: "success" });
-            cancel();
-          } else {
+        projUpdateCheck(addForm.value).then(res => {
+          if (res.code !== SUCCESS) {
             message(res.msg, { type: "error" });
+          } else {
+            console.log(addForm.value);
+            applyForm.value.businessId = addForm.value.id;
+            applyForm.value.businessType = "授权项目变更";
+            applyForm.value.approverId = addForm.value.approverId;
+            const param = {
+              changeService: "licenseBusProjService",
+              filed: addForm.value
+            };
+            applyForm.value.businessServiceChange = JSON.stringify(param);
+            const paramEx = {
+              service: "licenseBusDeviceService",
+              updateQueryFiled: "projId",
+              updateQueryValue: addForm.value.id,
+              filed: {
+                cerStatus: "待更新授权证书",
+                cerFailureTime: addForm.value.liceTime
+              }
+            };
+            applyForm.value.businessServiceEx = JSON.stringify(paramEx);
+            actThProcessConfApplyBuniessTask(applyForm.value).then(res => {
+              if (res.code === SUCCESS) {
+                message("提交成功！", { type: "success" });
+                cancel();
+              } else {
+                message(res.msg, { type: "error" });
+              }
+            });
           }
         });
       } else {

@@ -20,7 +20,8 @@ const cerProjUrls = {
   save: "/api/cer/licenseBusProj/save",
   delete: `/api/cer/licenseBusProj/`,
   update: "/api/cer/licenseBusProj/update",
-  getProjSelect: "/api/cer/licenseBusProj/getProjSelect"
+  getProjSelect: "/api/cer/licenseBusProj/getProjSelect",
+  updateCheck: "/api/cer/licenseBusProj/updateCheck"
 };
 
 // 项目管理分页
@@ -34,6 +35,10 @@ export const projSave = (param?: object) => {
 // 项目管理修改
 export const projUpdate = (param?: object) => {
   return http.axiosPut<Result>(cerProjUrls.update, param);
+};
+// 项目管理修改
+export const projUpdateCheck = (param?: object) => {
+  return http.axiosPut<Result>(cerProjUrls.updateCheck, param);
 };
 // 项目管理删除
 export const projDelete = (param?: object) => {

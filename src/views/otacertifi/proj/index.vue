@@ -283,7 +283,11 @@ defineOptions({
           />
         </el-form-item>
 
-        <el-form-item label="审批人" prop="remark">
+        <el-form-item
+          v-if="dialogFormVisibleApprove"
+          label="审批人"
+          prop="approverId"
+        >
           <el-select
             v-model="addForm.value.approverId"
             style="width: 200px"
