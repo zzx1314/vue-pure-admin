@@ -284,7 +284,11 @@ defineOptions({
         </el-form-item>
 
         <el-form-item label="审批人" prop="remark">
-          <el-select v-model="addForm.value.approverId" style="width: 200px" placeholder="请选择审批人">
+          <el-select
+            v-model="addForm.value.approverId"
+            style="width: 200px"
+            placeholder="请选择审批人"
+          >
             <el-option
               v-for="item in approverOptions"
               :key="item.value"
@@ -296,8 +300,8 @@ defineOptions({
 
         <el-form-item label="备注" prop="remark">
           <el-input
-            type="textarea"
             v-model="addForm.value.remark"
+            type="textarea"
             style="width: 200px"
             placeholder="请输入备注"
           />
@@ -306,10 +310,13 @@ defineOptions({
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="cancel()">取消</el-button>
-          <el-button type="primary" v-if="dialogFormVisibleApprove" @click="submitFormApprover(addFormRef)"
-          >发起审批</el-button
+          <el-button
+            v-if="dialogFormVisibleApprove"
+            type="primary"
+            @click="submitFormApprover(addFormRef)"
+            >发起审批</el-button
           >
-          <el-button type="primary" v-else @click="submitForm(addFormRef)"
+          <el-button v-else type="primary" @click="submitForm(addFormRef)"
             >确认</el-button
           >
         </span>
