@@ -1,7 +1,13 @@
 import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormInstance, FormRules } from "element-plus";
-import {projPage, projSave, projUpdate, projDelete, projUpdateCheck} from "@/api/cerProj";
+import {
+  projPage,
+  projSave,
+  projUpdate,
+  projDelete,
+  projUpdateCheck
+} from "@/api/cerProj";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import { getUserByRoleIdNoPage } from "@/api/user";
@@ -331,6 +337,7 @@ export function useProj() {
       }
     });
   };
+  // 发起审批
   const submitFormApprover = async (formEl: FormInstance | undefined) => {
     if (!formEl) return;
     await formEl.validate((valid, fields) => {
@@ -341,13 +348,25 @@ export function useProj() {
           if (res.code !== SUCCESS) {
             message(res.msg, { type: "error" });
           } else {
+            const updateApproverForm = {
+              id: addForm.value.id,
+              projName: addForm.value.projName,
+              projCode: addForm.value.projCode,
+              customerId: addForm.value.customerId,
+              featuresId: addForm.value.featuresId,
+              featuresIdArray: addForm.value.featuresIdArray,
+              liceNum: addForm.value.liceNum,
+              liceTime: addForm.value.liceTime,
+              liceTimeArray: addForm.value.liceTimeArray,
+              remark: addForm.value.remark
+            };
             console.log(addForm.value);
             applyForm.value.businessId = addForm.value.id;
             applyForm.value.businessType = "授权项目变更";
             applyForm.value.approverId = addForm.value.approverId;
             const param = {
               changeService: "licenseBusProjService",
-              filed: addForm.value
+              filed: updateApproverForm
             };
             applyForm.value.businessServiceChange = JSON.stringify(param);
             const paramEx = {
