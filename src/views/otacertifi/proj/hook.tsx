@@ -6,7 +6,7 @@ import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import { getUserByRoleIdNoPage } from "@/api/user";
 import { getFeatureSelect } from "@/api/cerFeatures";
-import {actThProcessConfGetFirstNode} from "@/api/actThProcessConf";
+import {actThProcessConfApplyBuniessTask, actThProcessConfGetFirstNode} from "@/api/actThProcessConf";
 
 export function useProj() {
   // ----变量定义-----
@@ -25,6 +25,15 @@ export function useProj() {
   const featureList = ref([]);
   const dialogFormVisibleApprove = ref(false);
   const approverOptions = ref([]);
+  const applyForm = ref({
+    businessId: null,
+    businessType: "",
+    approverId: null,
+    businessServiceChange: {
+      changeService: "LicenseBusProjService",
+      filed: null
+    }
+  });
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,
@@ -192,7 +201,7 @@ export function useProj() {
       } else {
         message(res.msg, { type: "error" });
       }
-    })
+    });
     openDia("变更审批", formEl);
   }
   // 删除
@@ -328,6 +337,20 @@ export function useProj() {
         addForm.value.featuresId = addForm.value.featuresIdArray.join(",");
         addForm.value.liceTime = addForm.value.liceTimeArray.join(",");
         console.log(addForm.value);
+        applyForm.value.businessId = addForm.value.id;
+        applyForm.value.businessType = "授权项目变更";
+        applyForm.value.approverId = addForm.value.approverId;
+        applyForm.value.businessServiceChange.filed = JSON.stringify(
+          addForm.value
+        );
+        actThProcessConfApplyBuniessTask(applyForm.value).then(res => {
+          if (res.code === SUCCESS) {
+            message("提交成功！", { type: "success" });
+            cancel();
+          } else {
+            message(res.msg, { type: "error" });
+          }
+        });
       } else {
         console.log("error submit!", fields);
       }

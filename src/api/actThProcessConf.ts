@@ -26,7 +26,8 @@ const actThProcessConfUrls = {
   deleteProcess: "/api/upms/activity/deleteProcess/",
   refreshProcessConf: "/api/upms/activity/refreshProcessConf/",
   activateProcessConf: "/api/upms/activity/activateProcessConf/",
-  getFirstNode: "/api/upms/activity/getNextNode/"
+  getFirstNode: "/api/upms/activity/getNextNode/",
+  applyBuniessTask: "/api/upms/activity/applyBuniessTask"
 };
 
 // 业务流程配置表分页
@@ -86,5 +87,12 @@ export const actThProcessConfGetFirstNode = (param?: string) => {
   return http.axiosGetRequest<Result>(
     actThProcessConfUrls.getFirstNode + param,
     {}
+  );
+};
+// 发起审批
+export const actThProcessConfApplyBuniessTask = (param?: object) => {
+  return http.axiosPostRequest<Result>(
+    actThProcessConfUrls.applyBuniessTask,
+    param
   );
 };
