@@ -10,6 +10,92 @@ export function useCollectorBusDevForm() {
     }
   ];
 
+  const columnsApproyForm: PlusColumn[] = [
+    {
+      label: '审批意见',
+      width: 120,
+      prop: 'content',
+      valueType: 'textarea'
+    },
+    {
+      label: '审批状态',
+      width: 120,
+      prop: 'status',
+      valueType: 'select',
+      options: [
+        {
+          label: '驳回',
+          value: '驳回',
+          color: 'red'
+        },
+        {
+          label: '通过',
+          value: '通过',
+          color: 'blue'
+        }
+      ]
+    }
+  ]
+
+  const licenseProject: PlusColumn[] = [
+    {
+      label: "项目名称",
+      prop: "projName",
+      valueType: "copy",
+      fieldProps: {
+        disabled: true
+      }
+    },
+    {
+      label: "项目编码",
+      prop: "projCode",
+      valueType: "copy",
+      fieldProps: {
+        disabled: true
+      }
+    },
+    {
+      label: "客户账号",
+      prop: "customerId",
+      valueType: "copy",
+      fieldProps: {
+        disabled: true
+      }
+    },
+    {
+      label: "特性名称",
+      prop: "featuresIdArray",
+      valueType: "copy",
+      fieldProps: {
+        disabled: true
+      }
+    },
+    {
+      label: "授权数量",
+      prop: "liceNum",
+      valueType: "copy",
+      fieldProps: {
+        disabled: true
+      }
+    },
+    {
+      label: "授权时间",
+      prop: "liceTimeArray",
+      valueType: "copy",
+      fieldProps: {
+        disabled: true
+      }
+    },
+    {
+      label: "备注",
+      prop: "remark",
+      valueType: "textarea",
+      fieldProps: {
+        disabled: true
+      }
+    }
+  ];
+
   const columnsQueryForm: PlusColumn[] = [
     {
       label: "业务类型",
@@ -57,6 +143,8 @@ export function useCollectorBusDevForm() {
   ];
   return {
     columnsForm,
-    columnsQueryForm
+    columnsQueryForm,
+    columnsApproyForm,
+    licenseProject
   };
 }

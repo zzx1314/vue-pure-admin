@@ -63,12 +63,12 @@ export function useActThTaskHis() {
     {
       label: "创建时间",
       prop: "createTime",
-      width: 100
+      width: 150
     },
     {
       label: "备注",
       prop: "remark",
-      width: 100
+      width: 150
     },
     {
       label: "任务状态",
@@ -78,7 +78,7 @@ export function useActThTaskHis() {
     {
       label: "操作",
       fixed: "right",
-      width: 180,
+      minWidth: 180,
       slot: "operation"
     }
   ];

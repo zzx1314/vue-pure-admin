@@ -8,7 +8,7 @@ import search from "@iconify-icons/ep/search";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
-import { PlusDialogForm, PlusSearch } from "plus-pro-components";
+import {PlusDialogForm, PlusForm, PlusSearch} from "plus-pro-components";
 import BpmnProcess from "@/views/system/sysBpmn/bpmnProcess.vue";
 
 defineOptions({
@@ -16,29 +16,27 @@ defineOptions({
 });
 
 const addFormRef = ref<FormInstance>();
-const { columnsForm, columnsQueryForm } = useCollectorBusDevForm();
+const { licenseProject, columnsQueryForm, columnsApproyForm } = useCollectorBusDevForm();
 
 const {
   queryForm,
   dataList,
   loading,
-  dialogFormVisible,
   dialogViewBpmn,
   dialogViewBpmnApprove,
-  title,
   pagination,
-  addForm,
-  rules,
   columns,
   bpmnXmlStr,
   historyNodeIds,
   currentNodeIds,
+  historyApproyColumns,
+  historyApproyData,
+  approyData,
+  submitApproy,
   onSearch,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
-  handleSubmitError,
-  handleSubmit,
   handleSelectBpmn,
   handleApprover,
   cancel
@@ -106,21 +104,6 @@ const {
       </template>
     </PureTableBar>
 
-    <PlusDialogForm
-      ref="addFormRef"
-      v-model:visible="dialogFormVisible"
-      v-model="addForm"
-      :dialog="{ title: title }"
-      :form="{
-        columns: columnsForm,
-        rules,
-        labelWidth: '100px'
-      }"
-      @cancel="cancel"
-      @confirm-error="handleSubmitError"
-      @confirm="handleSubmit"
-    />
-
     <el-dialog v-model="dialogViewBpmn" title="流程图" @close="cancel">
       <bpmn-process
         :bpmn-xml-str="bpmnXmlStr"
@@ -129,11 +112,25 @@ const {
       />
     </el-dialog>
 
-    <el-dialog v-model="dialogViewBpmnApprove" title="流程审批" @close="cancel">
+    <el-dialog v-model="dialogViewBpmnApprove" title="流程审批" @close="cancel" width="70%">
       <div class="common-layout">
         <el-container>
-          <el-aside width="200px">Aside</el-aside>
-          <el-main>Main</el-main>
+          <el-aside width="350px">
+            <el-card>
+              <PlusForm :columns="licenseProject" :hasFooter="false"/>
+            </el-card>
+          </el-aside>
+          <el-main>
+            <div class="mb-2">
+              <el-card>
+                <pure-table align-whole="center" showOverflowTooltip :data="historyApproyData" :columns="historyApproyColumns" border />
+              </el-card>
+            </div>
+            <el-card>
+              <PlusForm v-model="approyData" :columns="columnsApproyForm"  @submit="submitApproy">
+              </PlusForm>
+            </el-card>
+          </el-main>
         </el-container>
       </div>
     </el-dialog>

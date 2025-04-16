@@ -16,7 +16,7 @@ type ResultPage = {
 };
 
 const actThTaskHisUrls = {
-  page: `/api/upms/activity/page`,
+  page: `/api/upms/activity/getMyHisTaskPage`,
   save: "/api/upms/activity/save",
   delete: `/api/upms/activity/`,
   update: "/api/upms/activity/update"

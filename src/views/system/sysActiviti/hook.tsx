@@ -29,6 +29,8 @@ export function useActThTask() {
   const bpmnXmlStr = ref("");
   const historyNodeIds = ref([]);
   const currentNodeIds = ref([]);
+  const approyData = ref({});
+
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -42,6 +44,36 @@ export function useActThTask() {
   const rules = reactive<FormRules>({
     name: [{ required: true, message: "名称必填", trigger: "blur" }]
   });
+
+  const historyApproyColumns : TableColumnList = [
+    {
+      label: "序号",
+      type: "index",
+      fixed: "left",
+      width: 70
+    },
+    {
+      label: "审批人",
+      prop: "approverName",
+      width: 100
+    },
+    {
+      label: "审批时间",
+      prop: "approveTime",
+      width: 180
+    },
+    {
+      label: "审批结果",
+      prop: "approveResult",
+      width: 100
+    },
+    {
+      label: "审批意见",
+      prop: "approveOpinion",
+      width: 200
+    }
+   ];
+  const historyApproyData = ref([]);
   const columns: TableColumnList = [
     {
       type: "selection",
@@ -155,6 +187,10 @@ export function useActThTask() {
       }
     });
   };
+
+  const submitApproy = () => {
+    console.log(approyData.value);
+  };
   function handleApprover(row) {
     console.log(row);
     dialogViewBpmnApprove.value = true;
@@ -265,6 +301,9 @@ export function useActThTask() {
     bpmnXmlStr,
     historyNodeIds,
     currentNodeIds,
+    historyApproyColumns,
+    historyApproyData,
+    approyData,
     onSearch,
     resetForm,
     handleUpdate,
@@ -278,6 +317,7 @@ export function useActThTask() {
     handleApprover,
     cancel,
     restartForm,
-    openDia
+    openDia,
+    submitApproy
   };
 }
