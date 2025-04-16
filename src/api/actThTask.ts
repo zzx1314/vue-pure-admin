@@ -3,7 +3,7 @@ import { http } from "@/utils/http";
 type Result = {
   code: number;
   msg: string;
-  data?: Array<any>;
+  data?: any;
 };
 
 type ResultPage = {

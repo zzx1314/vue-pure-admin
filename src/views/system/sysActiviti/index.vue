@@ -9,6 +9,7 @@ import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
+import BpmnProcess from "@/views/system/sysBpmn/bpmnProcess.vue";
 
 defineOptions({
   name: "ActThTask"
@@ -22,21 +23,24 @@ const {
   dataList,
   loading,
   dialogFormVisible,
+  dialogViewBpmn,
   title,
   pagination,
   addForm,
   rules,
   columns,
+  bpmnXmlStr,
+  historyNodeIds,
+  currentNodeIds,
   onSearch,
   handleUpdate,
-  handleDelete,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
   handleSubmitError,
   handleSubmit,
-  cancel,
-  openDia
+  handleSelectBpmn,
+  cancel
 } = useActThTask();
 </script>
 <template>
@@ -92,7 +96,7 @@ const {
               type="primary"
               :size="size"
               :icon="useRenderIcon(search)"
-              @click="handleUpdate(row, addFormRef)"
+              @click="handleSelectBpmn(row)"
             >
               查看流程图
             </el-button>
@@ -115,6 +119,14 @@ const {
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
     />
+
+    <el-dialog v-model="dialogViewBpmn" title="流程图" @close="cancel">
+      <bpmn-process
+        :bpmn-xml-str="bpmnXmlStr"
+        :current-node-ids="currentNodeIds"
+        :history-node-ids="historyNodeIds"
+      />
+    </el-dialog>
   </div>
 </template>
 

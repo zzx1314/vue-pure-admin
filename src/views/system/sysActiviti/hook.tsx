@@ -5,7 +5,8 @@ import {
   actThTaskSave,
   actThTaskPage,
   actThTaskUpdate,
-  actThTaskDelete
+  actThTaskDelete,
+  actThTaskGetProcessInstanceId
 } from "@/api/actThTask";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -22,7 +23,11 @@ export function useActThTask() {
   const dataList = ref([]);
   const loading = ref(true);
   const dialogFormVisible = ref(false);
+  const dialogViewBpmn = ref(false);
   const title = ref("");
+  const bpmnXmlStr = ref("");
+  const historyNodeIds = ref([]);
+  const currentNodeIds = ref([]);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -135,6 +140,21 @@ export function useActThTask() {
     console.log(err, "err");
   };
 
+  const handleSelectBpmn = row => {
+    console.log(row);
+    actThTaskGetProcessInstanceId(row.processInstanceId).then(res => {
+      if (res.code === SUCCESS) {
+        console.log(res.data);
+        bpmnXmlStr.value = res.data.xmlString;
+        historyNodeIds.value = res.data.hisId;
+        currentNodeIds.value = res.data.currentTaskId;
+        dialogViewBpmn.value = true;
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
+  };
+
   // 保存
   const handleSubmit = (values: FieldValues) => {
     console.log(values, "Submit");
@@ -208,6 +228,7 @@ export function useActThTask() {
     queryForm.value.beginTime = "";
     queryForm.value.endTime = "";
     dialogFormVisible.value = false;
+    dialogViewBpmn.value = false;
     onSearch();
   }
   // 打开弹框
@@ -226,6 +247,7 @@ export function useActThTask() {
     dataList,
     loading,
     dialogFormVisible,
+    dialogViewBpmn,
     title,
     pagination,
     addForm,
@@ -233,6 +255,9 @@ export function useActThTask() {
     columns,
     buttonClass,
     moreCondition,
+    bpmnXmlStr,
+    historyNodeIds,
+    currentNodeIds,
     onSearch,
     resetForm,
     handleUpdate,
@@ -242,6 +267,7 @@ export function useActThTask() {
     handleSelectionChange,
     handleSubmit,
     handleSubmitError,
+    handleSelectBpmn,
     cancel,
     restartForm,
     openDia
