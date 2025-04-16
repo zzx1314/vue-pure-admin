@@ -26,7 +26,7 @@ const actThProcessConfUrls = {
   deleteProcess: "/api/upms/activity/deleteProcess/",
   refreshProcessConf: "/api/upms/activity/refreshProcessConf/",
   activateProcessConf: "/api/upms/activity/activateProcessConf/",
-  getFirstNode: "/api/upms/activity/getNextNode/",
+  getFirstNode: "/api/upms/activity/getApproPer/",
   applyBuniessTask: "/api/upms/activity/applyBuniessTask"
 };
 

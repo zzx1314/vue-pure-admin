@@ -46,7 +46,7 @@ const roleUrls = {
   save: "/api/upms/sysRole",
   update: "/api/upms/sysRole",
   deleteById: "/api/upms/sysRole/",
-  listNoLog: `/api/upms/sysRole/listNoLog`,
+  listNoLog: `/api/upms/sysRole/listNoLog`
 };
 
 const menuUrls = {
