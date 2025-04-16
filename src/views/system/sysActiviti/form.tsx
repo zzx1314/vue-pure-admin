@@ -1,5 +1,7 @@
 // form表单
 import type { PlusColumn } from "plus-pro-components";
+import {getUserByRoleIdNoPage} from "@/api/user";
+import {getFeatureSelect} from "@/api/cerFeatures";
 
 export function useCollectorBusDevForm() {
   const columnsForm: PlusColumn[] = [
@@ -57,7 +59,18 @@ export function useCollectorBusDevForm() {
     {
       label: "客户账号",
       prop: "customerId",
-      valueType: "copy",
+      valueType: "select",
+      options: async () => {
+        const { data } = await getUserByRoleIdNoPage({ role: 1044 });
+        let customerList = [];
+        for (let i = 0; i < data.length; i++) {
+          customerList.push({
+            value: data[i].id,
+            label: data[i].username
+          });
+        }
+        return customerList;
+      },
       fieldProps: {
         disabled: true
       }
@@ -65,8 +78,13 @@ export function useCollectorBusDevForm() {
     {
       label: "特性名称",
       prop: "featuresIdArray",
-      valueType: "copy",
+      valueType: "select",
+      options: async () => {
+        const { data } = await getFeatureSelect();
+        return data;
+      },
       fieldProps: {
+        multiple: true,
         disabled: true
       }
     },
@@ -81,8 +99,10 @@ export function useCollectorBusDevForm() {
     {
       label: "授权时间",
       prop: "liceTimeArray",
-      valueType: "copy",
+      valueType: "date-picker",
       fieldProps: {
+        type: "datetimerange",
+        format: "YYYY-MM-DD",
         disabled: true
       }
     },

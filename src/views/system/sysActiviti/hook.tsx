@@ -30,6 +30,7 @@ export function useActThTask() {
   const historyNodeIds = ref([]);
   const currentNodeIds = ref([]);
   const approyData = ref({});
+  const licenseProjectData = ref(null);
 
 
   const pagination = reactive<PaginationProps>({
@@ -194,6 +195,10 @@ export function useActThTask() {
   function handleApprover(row) {
     console.log(row);
     dialogViewBpmnApprove.value = true;
+    if (row.businessServiceChange) {
+      let data = JSON.parse(row.businessServiceChange);
+      licenseProjectData.value = data.filed;
+    }
   }
 
   // 保存
@@ -304,6 +309,7 @@ export function useActThTask() {
     historyApproyColumns,
     historyApproyData,
     approyData,
+    licenseProjectData,
     onSearch,
     resetForm,
     handleUpdate,

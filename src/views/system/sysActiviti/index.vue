@@ -8,7 +8,7 @@ import search from "@iconify-icons/ep/search";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
-import {PlusDialogForm, PlusForm, PlusSearch} from "plus-pro-components";
+import { PlusDialogForm, PlusForm, PlusSearch } from "plus-pro-components";
 import BpmnProcess from "@/views/system/sysBpmn/bpmnProcess.vue";
 
 defineOptions({
@@ -16,7 +16,8 @@ defineOptions({
 });
 
 const addFormRef = ref<FormInstance>();
-const { licenseProject, columnsQueryForm, columnsApproyForm } = useCollectorBusDevForm();
+const { licenseProject, columnsQueryForm, columnsApproyForm } =
+  useCollectorBusDevForm();
 
 const {
   queryForm,
@@ -32,6 +33,7 @@ const {
   historyApproyColumns,
   historyApproyData,
   approyData,
+  licenseProjectData,
   submitApproy,
   onSearch,
   handleSizeChange,
@@ -112,23 +114,37 @@ const {
       />
     </el-dialog>
 
-    <el-dialog v-model="dialogViewBpmnApprove" title="流程审批" @close="cancel" width="70%">
+    <el-dialog
+      v-model="dialogViewBpmnApprove"
+      title="流程审批"
+      width="70%"
+      @close="cancel"
+    >
       <div class="common-layout">
         <el-container>
           <el-aside width="350px">
             <el-card>
-              <PlusForm :columns="licenseProject" :hasFooter="false"/>
+              <PlusForm v-model="licenseProjectData" :columns="licenseProject" :hasFooter="false" />
             </el-card>
           </el-aside>
           <el-main>
             <div class="mb-2">
               <el-card>
-                <pure-table align-whole="center" showOverflowTooltip :data="historyApproyData" :columns="historyApproyColumns" border />
+                <pure-table
+                  align-whole="center"
+                  showOverflowTooltip
+                  :data="historyApproyData"
+                  :columns="historyApproyColumns"
+                  border
+                />
               </el-card>
             </div>
             <el-card>
-              <PlusForm v-model="approyData" :columns="columnsApproyForm"  @submit="submitApproy">
-              </PlusForm>
+              <PlusForm
+                v-model="approyData"
+                :columns="columnsApproyForm"
+                @submit="submitApproy"
+              />
             </el-card>
           </el-main>
         </el-container>
