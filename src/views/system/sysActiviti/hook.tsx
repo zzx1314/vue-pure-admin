@@ -24,6 +24,7 @@ export function useActThTask() {
   const loading = ref(true);
   const dialogFormVisible = ref(false);
   const dialogViewBpmn = ref(false);
+  const dialogViewBpmnApprove = ref(false);
   const title = ref("");
   const bpmnXmlStr = ref("");
   const historyNodeIds = ref([]);
@@ -154,6 +155,10 @@ export function useActThTask() {
       }
     });
   };
+  function handleApprover(row) {
+    console.log(row);
+    dialogViewBpmnApprove.value = true;
+  }
 
   // 保存
   const handleSubmit = (values: FieldValues) => {
@@ -229,6 +234,7 @@ export function useActThTask() {
     queryForm.value.endTime = "";
     dialogFormVisible.value = false;
     dialogViewBpmn.value = false;
+    dialogViewBpmnApprove.value = false;
     onSearch();
   }
   // 打开弹框
@@ -248,6 +254,7 @@ export function useActThTask() {
     loading,
     dialogFormVisible,
     dialogViewBpmn,
+    dialogViewBpmnApprove,
     title,
     pagination,
     addForm,
@@ -268,6 +275,7 @@ export function useActThTask() {
     handleSubmit,
     handleSubmitError,
     handleSelectBpmn,
+    handleApprover,
     cancel,
     restartForm,
     openDia

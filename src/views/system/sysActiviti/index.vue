@@ -24,6 +24,7 @@ const {
   loading,
   dialogFormVisible,
   dialogViewBpmn,
+  dialogViewBpmnApprove,
   title,
   pagination,
   addForm,
@@ -33,13 +34,13 @@ const {
   historyNodeIds,
   currentNodeIds,
   onSearch,
-  handleUpdate,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
   handleSubmitError,
   handleSubmit,
   handleSelectBpmn,
+  handleApprover,
   cancel
 } = useActThTask();
 </script>
@@ -86,7 +87,7 @@ const {
               type="primary"
               :size="size"
               :icon="useRenderIcon(EditPen)"
-              @click="handleUpdate(row, addFormRef)"
+              @click="handleApprover(row)"
             >
               流程审批
             </el-button>
@@ -126,6 +127,15 @@ const {
         :current-node-ids="currentNodeIds"
         :history-node-ids="historyNodeIds"
       />
+    </el-dialog>
+
+    <el-dialog v-model="dialogViewBpmnApprove" title="流程审批" @close="cancel">
+      <div class="common-layout">
+        <el-container>
+          <el-aside width="200px">Aside</el-aside>
+          <el-main>Main</el-main>
+        </el-container>
+      </div>
     </el-dialog>
   </div>
 </template>
