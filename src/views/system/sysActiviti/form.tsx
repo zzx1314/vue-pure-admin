@@ -1,7 +1,7 @@
 // form表单
 import type { PlusColumn } from "plus-pro-components";
-import {getUserByRoleIdNoPage} from "@/api/user";
-import {getFeatureSelect} from "@/api/cerFeatures";
+import { getUserByRoleIdNoPage } from "@/api/user";
+import { getFeatureSelect } from "@/api/cerFeatures";
 
 export function useCollectorBusDevForm() {
   const columnsForm: PlusColumn[] = [
@@ -11,33 +11,6 @@ export function useCollectorBusDevForm() {
       valueType: "copy"
     }
   ];
-
-  const columnsApproyForm: PlusColumn[] = [
-    {
-      label: '审批意见',
-      width: 120,
-      prop: 'content',
-      valueType: 'textarea'
-    },
-    {
-      label: '审批状态',
-      width: 120,
-      prop: 'status',
-      valueType: 'select',
-      options: [
-        {
-          label: '驳回',
-          value: '驳回',
-          color: 'red'
-        },
-        {
-          label: '通过',
-          value: '通过',
-          color: 'blue'
-        }
-      ]
-    }
-  ]
 
   const licenseProject: PlusColumn[] = [
     {
@@ -164,7 +137,6 @@ export function useCollectorBusDevForm() {
   return {
     columnsForm,
     columnsQueryForm,
-    columnsApproyForm,
-    licenseProject
+    licenseProject,
   };
 }

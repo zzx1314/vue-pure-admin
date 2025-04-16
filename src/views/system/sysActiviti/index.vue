@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { FormInstance } from "element-plus";
 import { useActThTask } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import EditPen from "@iconify-icons/ep/edit-pen";
@@ -8,16 +6,14 @@ import search from "@iconify-icons/ep/search";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
-import { PlusDialogForm, PlusForm, PlusSearch } from "plus-pro-components";
+import { PlusForm, PlusSearch } from "plus-pro-components";
 import BpmnProcess from "@/views/system/sysBpmn/bpmnProcess.vue";
 
 defineOptions({
   name: "ActThTask"
 });
 
-const addFormRef = ref<FormInstance>();
-const { licenseProject, columnsQueryForm, columnsApproyForm } =
-  useCollectorBusDevForm();
+const { licenseProject, columnsQueryForm } = useCollectorBusDevForm();
 
 const {
   queryForm,
@@ -34,6 +30,7 @@ const {
   historyApproyData,
   approyData,
   licenseProjectData,
+  columnsApproyForm,
   submitApproy,
   onSearch,
   handleSizeChange,
@@ -124,7 +121,11 @@ const {
         <el-container>
           <el-aside width="350px">
             <el-card>
-              <PlusForm v-model="licenseProjectData" :columns="licenseProject" :hasFooter="false" />
+              <PlusForm
+                v-model="licenseProjectData"
+                :columns="licenseProject"
+                :hasFooter="false"
+              />
             </el-card>
           </el-aside>
           <el-main>

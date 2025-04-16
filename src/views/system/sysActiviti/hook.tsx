@@ -1,4 +1,5 @@
 import { computed, nextTick, onMounted, reactive, ref } from "vue";
+import type { Ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules } from "element-plus";
 import {
@@ -6,12 +7,13 @@ import {
   actThTaskPage,
   actThTaskUpdate,
   actThTaskDelete,
-  actThTaskGetProcessInstanceId, actThTaskGetHistoryApprovalOpinion
+  actThTaskGetProcessInstanceId,
+  actThTaskGetHistoryApprovalOpinion,
+  actThTaskGetNextNode
 } from "@/api/actThTask";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
-import type { FieldValues } from "plus-pro-components";
-
+import type { FieldValues, OptionsRow, PlusColumn } from "plus-pro-components";
 export function useActThTask() {
   // ----变量定义-----
   const queryForm = ref({
@@ -31,7 +33,46 @@ export function useActThTask() {
   const currentNodeIds = ref([]);
   const approyData = ref({});
   const licenseProjectData = ref(null);
+  const isShowApproy = ref(false);
 
+  const columnsApproyForm: PlusColumn[] = [
+    {
+      label: "审批人",
+      width: 120,
+      prop: "approverId",
+      hideInForm: computed(() => {
+        return !isShowApproy.value;
+      }),
+      valueType: "select",
+      options: computed(() => {
+        return options.value;
+      })
+    },
+    {
+      label: "审批意见",
+      width: 120,
+      prop: "content",
+      valueType: "textarea"
+    },
+    {
+      label: "审批状态",
+      width: 120,
+      prop: "status",
+      valueType: "select",
+      options: [
+        {
+          label: "驳回",
+          value: "驳回",
+          color: "red"
+        },
+        {
+          label: "通过",
+          value: "通过",
+          color: "blue"
+        }
+      ]
+    }
+  ];
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -46,7 +87,9 @@ export function useActThTask() {
     name: [{ required: true, message: "名称必填", trigger: "blur" }]
   });
 
-  const historyApproyColumns : TableColumnList = [
+  const options: Ref<OptionsRow[]> = ref([]);
+
+  const historyApproyColumns: TableColumnList = [
     {
       label: "序号",
       type: "index",
@@ -68,8 +111,12 @@ export function useActThTask() {
       prop: "operatorStep",
       width: 100,
       cellRenderer: ({ row }) => (
-        <el-tag type={row.operatorStep === 4 ? "danger" :"success"}>
-          {row.operatorStep === 4 ? "驳回" : row.operatorStep === 1 ? "提交" : "通过"}
+        <el-tag type={row.operatorStep === 4 ? "danger" : "success"}>
+          {row.operatorStep === 4
+            ? "驳回"
+            : row.operatorStep === 1
+              ? "提交"
+              : "通过"}
         </el-tag>
       )
     },
@@ -78,7 +125,7 @@ export function useActThTask() {
       prop: "remark",
       width: 200
     }
-   ];
+  ];
   const historyApproyData = ref([]);
   const columns: TableColumnList = [
     {
@@ -199,19 +246,29 @@ export function useActThTask() {
   };
   function handleApprover(row) {
     console.log(row);
-    dialogViewBpmnApprove.value = true;
     if (row.businessServiceChange) {
       let data = JSON.parse(row.businessServiceChange);
       licenseProjectData.value = data.filed;
     }
-    actThTaskGetHistoryApprovalOpinion(row.businessId, row.businessType).then(res => {
-      if (res.code === SUCCESS) {
-        console.log(res.data);
-        historyApproyData.value = res.data;
-      } else {
-        message(res.msg, { type: "error" });
+    actThTaskGetHistoryApprovalOpinion(row.businessId, row.businessType).then(
+      res => {
+        if (res.code === SUCCESS) {
+          console.log(res.data);
+          historyApproyData.value = res.data;
+        } else {
+          message(res.msg, { type: "error" });
+        }
       }
-    })
+    );
+    actThTaskGetNextNode(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        if (res.data.useInfo && res.data.useInfo.length > 0) {
+          options.value = res.data.useInfo;
+          isShowApproy.value = true;
+        }
+      }
+    });
+    dialogViewBpmnApprove.value = true;
   }
 
   // 保存
@@ -323,6 +380,7 @@ export function useActThTask() {
     historyApproyData,
     approyData,
     licenseProjectData,
+    columnsApproyForm,
     onSearch,
     resetForm,
     handleUpdate,
