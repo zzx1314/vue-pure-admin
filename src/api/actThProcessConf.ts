@@ -27,7 +27,8 @@ const actThProcessConfUrls = {
   refreshProcessConf: "/api/upms/activity/refreshProcessConf/",
   activateProcessConf: "/api/upms/activity/activateProcessConf/",
   getFirstNode: "/api/upms/activity/getApproPer/",
-  applyBuniessTask: "/api/upms/activity/applyBuniessTask"
+  applyBuniessTask: "/api/upms/activity/applyBuniessTask",
+  approvalBuniess: "/api/upms/activity/approvalBuniess"
 };
 
 // 业务流程配置表分页
@@ -93,6 +94,14 @@ export const actThProcessConfGetFirstNode = (param?: string) => {
 export const actThProcessConfApplyBuniessTask = (param?: object) => {
   return http.axiosPostRequest<Result>(
     actThProcessConfUrls.applyBuniessTask,
+    param
+  );
+};
+
+// 审批
+export const actThProcessConfApprovalBuniess = (param?: object) => {
+  return http.axiosPostRequest<Result>(
+    actThProcessConfUrls.approvalBuniess,
     param
   );
 };

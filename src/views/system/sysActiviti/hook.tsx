@@ -14,6 +14,7 @@ import {
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import type { FieldValues, OptionsRow, PlusColumn } from "plus-pro-components";
+import { actThProcessConfApprovalBuniess } from "@/api/actThProcessConf";
 export function useActThTask() {
   // ----变量定义-----
   const queryForm = ref({
@@ -31,7 +32,15 @@ export function useActThTask() {
   const bpmnXmlStr = ref("");
   const historyNodeIds = ref([]);
   const currentNodeIds = ref([]);
-  const approyData = ref({});
+  const approyData = ref({
+    businessId: null,
+    businessType: null,
+    currentFlowNodeId: null,
+    beforeFlowNodeId: null,
+    processId: null,
+    nodeType: null,
+    roleId: null
+  });
   const licenseProjectData = ref(null);
   const isShowApproy = ref(false);
 
@@ -51,23 +60,23 @@ export function useActThTask() {
     {
       label: "审批意见",
       width: 120,
-      prop: "content",
+      prop: "remark",
       valueType: "textarea"
     },
     {
       label: "审批状态",
       width: 120,
-      prop: "status",
+      prop: "operatorStep",
       valueType: "select",
       options: [
         {
           label: "驳回",
-          value: "驳回",
+          value: 4,
           color: "red"
         },
         {
           label: "通过",
-          value: "通过",
+          value: 3,
           color: "blue"
         }
       ]
@@ -144,7 +153,7 @@ export function useActThTask() {
     {
       label: "业务类型",
       prop: "businessType",
-      width: 150
+      width: 180
     },
     {
       label: "申请人",
@@ -165,11 +174,6 @@ export function useActThTask() {
           {row.taskState}
         </el-tag>
       )
-    },
-    {
-      label: "备注",
-      prop: "remark",
-      width: 200
     },
     {
       label: "操作",
@@ -242,7 +246,16 @@ export function useActThTask() {
   };
 
   const submitApproy = () => {
-    console.log(approyData.value);
+    console.log("submitApproy", approyData.value);
+    actThProcessConfApprovalBuniess(approyData.value).then(res => {
+      if (res.code === SUCCESS) {
+        message("审批成功！", { type: "success" });
+        dialogViewBpmnApprove.value = false;
+        onSearch();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
   };
   function handleApprover(row) {
     console.log(row);
@@ -261,7 +274,14 @@ export function useActThTask() {
       }
     );
     actThTaskGetNextNode(row.id).then(res => {
+      console.log("actThTaskGetNextNode", res);
       if (res.code === SUCCESS) {
+        approyData.value.businessId = row.businessId;
+        approyData.value.businessType = row.businessType;
+        approyData.value.currentFlowNodeId = res.data.currentFlowNodeId;
+        approyData.value.beforeFlowNodeId = res.data.beforeFlowNodeId;
+        approyData.value.nodeType = res.data.nodeType;
+        approyData.value.processId = res.data.processId;
         if (res.data.useInfo && res.data.useInfo.length > 0) {
           options.value = res.data.useInfo;
           isShowApproy.value = true;
