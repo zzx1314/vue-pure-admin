@@ -117,7 +117,7 @@ const {
     <el-dialog
       v-model="dialogViewBpmnApprove"
       title="流程审批"
-      width="70%"
+      width="75%"
       @close="cancel"
     >
       <div class="common-layout">

@@ -6,7 +6,7 @@ import {
   actThTaskPage,
   actThTaskUpdate,
   actThTaskDelete,
-  actThTaskGetProcessInstanceId
+  actThTaskGetProcessInstanceId, actThTaskGetHistoryApprovalOpinion
 } from "@/api/actThTask";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -55,22 +55,27 @@ export function useActThTask() {
     },
     {
       label: "审批人",
-      prop: "approverName",
+      prop: "operator",
       width: 100
     },
     {
       label: "审批时间",
-      prop: "approveTime",
-      width: 180
+      prop: "createTime",
+      minWidth: 160
     },
     {
       label: "审批结果",
-      prop: "approveResult",
-      width: 100
+      prop: "operatorStep",
+      width: 100,
+      cellRenderer: ({ row }) => (
+        <el-tag type={row.operatorStep === 4 ? "danger" :"success"}>
+          {row.operatorStep === 4 ? "驳回" : row.operatorStep === 1 ? "提交" : "通过"}
+        </el-tag>
+      )
     },
     {
-      label: "审批意见",
-      prop: "approveOpinion",
+      label: "备注",
+      prop: "remark",
       width: 200
     }
    ];
@@ -199,6 +204,14 @@ export function useActThTask() {
       let data = JSON.parse(row.businessServiceChange);
       licenseProjectData.value = data.filed;
     }
+    actThTaskGetHistoryApprovalOpinion(row.businessId, row.businessType).then(res => {
+      if (res.code === SUCCESS) {
+        console.log(res.data);
+        historyApproyData.value = res.data;
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    })
   }
 
   // 保存

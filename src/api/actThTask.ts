@@ -18,6 +18,7 @@ type ResultPage = {
 const actThTaskUrls = {
   page: `/api/upms/activity/getMyTaskPage`,
   getProcessInstanceId: `/api/upms/activity/getProcessInstanceId/`,
+  getHistoryApprovalOpinion: `/api/upms/activity/getHistoryApprovalOpinion/`,
   save: "/api/upms/activity/save",
   delete: `/api/upms/activity/`,
   update: "/api/upms/activity/update"
@@ -47,4 +48,11 @@ export const actThTaskUpdate = (param?: object) => {
 // 审批任务表删除
 export const actThTaskDelete = (param?: object) => {
   return http.axiosDelete<Result>(actThTaskUrls.delete + param);
+};
+// 获取审批意见
+export const actThTaskGetHistoryApprovalOpinion = (businessId?: string, businessType?: string) => {
+  return http.axiosGetRequest<Result>(
+    actThTaskUrls.getHistoryApprovalOpinion + businessId + "/" + businessType,
+    {}
+  );
 };
