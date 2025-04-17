@@ -353,10 +353,10 @@ export function useProj() {
               projName: addForm.value.projName,
               projCode: addForm.value.projCode,
               customerId: addForm.value.customerId,
-              featuresId: addForm.value.featuresId,
+              featuresId: addForm.value.featuresIdArray.join(","),
               featuresIdArray: addForm.value.featuresIdArray,
               liceNum: addForm.value.liceNum,
-              liceTime: addForm.value.liceTime,
+              liceTime: addForm.value.liceTimeArray.join(","),
               liceTimeArray: addForm.value.liceTimeArray,
               remark: addForm.value.remark
             };
@@ -371,7 +371,7 @@ export function useProj() {
             applyForm.value.businessServiceChange = JSON.stringify(param);
             const paramEx = {
               service: "licenseBusDeviceService",
-              updateQueryFiled: "projId",
+              updateQueryFiled: "proj_id",
               updateQueryValue: addForm.value.id,
               filed: {
                 cerStatus: "待更新授权证书",

@@ -39,7 +39,8 @@ export function useActThTask() {
     beforeFlowNodeId: null,
     processId: null,
     nodeType: null,
-    roleId: null
+    roleId: null,
+    processInstanceId: ""
   });
   const licenseProjectData = ref(null);
   const isShowApproy = ref(false);
@@ -263,21 +264,20 @@ export function useActThTask() {
       let data = JSON.parse(row.businessServiceChange);
       licenseProjectData.value = data.filed;
     }
-    actThTaskGetHistoryApprovalOpinion(row.businessId, row.businessType).then(
-      res => {
-        if (res.code === SUCCESS) {
-          console.log(res.data);
-          historyApproyData.value = res.data;
-        } else {
-          message(res.msg, { type: "error" });
-        }
+    actThTaskGetHistoryApprovalOpinion(row.processInstanceId).then(res => {
+      if (res.code === SUCCESS) {
+        console.log(res.data);
+        historyApproyData.value = res.data;
+      } else {
+        message(res.msg, { type: "error" });
       }
-    );
+    });
     actThTaskGetNextNode(row.id).then(res => {
       console.log("actThTaskGetNextNode", res);
       if (res.code === SUCCESS) {
         approyData.value.businessId = row.businessId;
         approyData.value.businessType = row.businessType;
+        approyData.value.processInstanceId = row.processInstanceId;
         approyData.value.currentFlowNodeId = res.data.currentFlowNodeId;
         approyData.value.beforeFlowNodeId = res.data.beforeFlowNodeId;
         approyData.value.nodeType = res.data.nodeType;

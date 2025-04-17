@@ -52,11 +52,10 @@ export const actThTaskDelete = (param?: object) => {
 };
 // 获取审批意见
 export const actThTaskGetHistoryApprovalOpinion = (
-  businessId?: string,
-  businessType?: string
+  processInstanceId?: number
 ) => {
   return http.axiosGetRequest<Result>(
-    actThTaskUrls.getHistoryApprovalOpinion + businessId + "/" + businessType,
+    actThTaskUrls.getHistoryApprovalOpinion + processInstanceId,
     {}
   );
 };
