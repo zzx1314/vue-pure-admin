@@ -10,6 +10,8 @@ import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
 import AddFill from "@iconify-icons/ri/add-circle-line";
+import search from "@iconify-icons/ep/search";
+import BpmnProcess from "@/views/system/sysBpmn/bpmnProcess.vue";
 
 defineOptions({
   name: "ActThTaskHis"
@@ -22,22 +24,18 @@ const {
   queryForm,
   dataList,
   loading,
-  dialogFormVisible,
-  title,
   pagination,
-  addForm,
-  rules,
   columns,
+  bpmnXmlStr,
+  historyNodeIds,
+  currentNodeIds,
+  dialogViewBpmn,
   onSearch,
-  handleUpdate,
-  handleDelete,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
-  handleSubmitError,
-  handleSubmit,
   cancel,
-  openDia
+  handleSelectBpmn
 } = useActThTaskHis();
 </script>
 <template>
@@ -53,16 +51,7 @@ const {
         @reset="cancel"
       />
     </el-card>
-    <PureTableBar title="业务列表" :columns="columns" @refresh="onSearch">
-      <template #buttons>
-        <el-button
-          type="primary"
-          :icon="useRenderIcon(AddFill)"
-          @click="openDia('新增', addFormRef)"
-        >
-          新增
-        </el-button>
-      </template>
+    <PureTableBar title="历史流程列表" :columns="columns" @refresh="onSearch">
       <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
           border
@@ -91,43 +80,23 @@ const {
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(EditPen)"
-              @click="handleUpdate(row, addFormRef)"
+              :icon="useRenderIcon(search)"
+              @click="handleSelectBpmn(row)"
             >
-              修改
+              查看流程图
             </el-button>
-            <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
-              <template #reference>
-                <el-button
-                  class="reset-margin"
-                  link
-                  type="primary"
-                  :size="size"
-                  :icon="useRenderIcon(Delete)"
-                >
-                  删除
-                </el-button>
-              </template>
-            </el-popconfirm>
           </template>
         </pure-table>
       </template>
     </PureTableBar>
 
-    <PlusDialogForm
-      ref="addFormRef"
-      v-model:visible="dialogFormVisible"
-      v-model="addForm"
-      :dialog="{ title: title }"
-      :form="{
-        columns: columnsForm,
-        rules,
-        labelWidth: '100px'
-      }"
-      @cancel="cancel"
-      @confirm-error="handleSubmitError"
-      @confirm="handleSubmit"
-    />
+    <el-dialog v-model="dialogViewBpmn" title="流程图" @close="cancel">
+      <bpmn-process
+        :bpmn-xml-str="bpmnXmlStr"
+        :current-node-ids="currentNodeIds"
+        :history-node-ids="historyNodeIds"
+      />
+    </el-dialog>
   </div>
 </template>
 

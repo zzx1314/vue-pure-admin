@@ -10,6 +10,7 @@ import {
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import type { FieldValues } from "plus-pro-components";
+import { actThTaskGetProcessInstanceId } from "@/api/actThTask";
 
 export function useActThTaskHis() {
   // ----变量定义-----
@@ -23,6 +24,11 @@ export function useActThTaskHis() {
   const loading = ref(true);
   const dialogFormVisible = ref(false);
   const title = ref("");
+
+  const bpmnXmlStr = ref("");
+  const historyNodeIds = ref([]);
+  const currentNodeIds = ref([]);
+  const dialogViewBpmn = ref(false);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -53,7 +59,7 @@ export function useActThTaskHis() {
     {
       label: "业务类型",
       prop: "businessType",
-      width: 100
+      width: 150
     },
     {
       label: "申请人",
@@ -63,17 +69,17 @@ export function useActThTaskHis() {
     {
       label: "创建时间",
       prop: "createTime",
-      width: 150
-    },
-    {
-      label: "备注",
-      prop: "remark",
-      width: 150
+      width: 170
     },
     {
       label: "任务状态",
       prop: "taskState",
-      width: 100
+      width: 100,
+      cellRenderer: ({ row }) => (
+        <el-tag type={row.taskState === "结束" ? "success" : "danger"}>
+          {row.taskState}
+        </el-tag>
+      )
     },
     {
       label: "操作",
@@ -202,6 +208,7 @@ export function useActThTaskHis() {
     queryForm.value.beginTime = "";
     queryForm.value.endTime = "";
     dialogFormVisible.value = false;
+    dialogViewBpmn.value = false;
     onSearch();
   }
   // 打开弹框
@@ -210,6 +217,21 @@ export function useActThTaskHis() {
     title.value = param;
     resetForm(formEl);
   }
+
+  const handleSelectBpmn = row => {
+    console.log(row);
+    actThTaskGetProcessInstanceId(row.processInstanceId).then(res => {
+      if (res.code === SUCCESS) {
+        console.log(res.data);
+        bpmnXmlStr.value = res.data.xmlString;
+        historyNodeIds.value = res.data.hisId;
+        currentNodeIds.value = res.data.currentTaskId;
+        dialogViewBpmn.value = true;
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
+  };
 
   onMounted(() => {
     onSearch();
@@ -227,6 +249,10 @@ export function useActThTaskHis() {
     columns,
     buttonClass,
     moreCondition,
+    bpmnXmlStr,
+    historyNodeIds,
+    currentNodeIds,
+    dialogViewBpmn,
     onSearch,
     resetForm,
     handleUpdate,
@@ -236,6 +262,7 @@ export function useActThTaskHis() {
     handleSelectionChange,
     handleSubmit,
     handleSubmitError,
+    handleSelectBpmn,
     cancel,
     restartForm,
     openDia
