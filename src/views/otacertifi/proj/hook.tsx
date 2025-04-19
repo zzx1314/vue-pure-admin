@@ -36,6 +36,7 @@ export function useProj() {
   const approverOptions = ref([]);
   const applyForm = ref({
     businessId: null,
+    businessName: "",
     businessType: "",
     approverId: null,
     businessServiceChange: "",
@@ -140,7 +141,7 @@ export function useProj() {
     {
       label: "特性信息",
       prop: "featuresName",
-      minWidth: 200,
+      minWidth: 100,
       slot: "content"
     },
     {
@@ -167,6 +168,16 @@ export function useProj() {
       label: "备注",
       prop: "remark",
       minWidth: 150
+    },
+    {
+      label: "审批状态",
+      prop: "approvalStatus",
+      minWidth: 100,
+      cellRenderer: ({ row }) => (
+        <el-tag type={row.approvalStatus === 4 ? "danger" : "success"}>
+          {row.taskState === 4 ? "驳回" : row.taskState === 1 ? "提交" : "通过"}
+        </el-tag>
+      )
     },
     {
       label: "操作",
@@ -362,6 +373,7 @@ export function useProj() {
             };
             console.log(addForm.value);
             applyForm.value.businessId = addForm.value.id;
+            applyForm.value.businessName = addForm.value.projName;
             applyForm.value.businessType = "授权项目变更";
             applyForm.value.approverId = addForm.value.approverId;
             const param = {

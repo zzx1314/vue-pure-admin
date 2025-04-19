@@ -10,7 +10,10 @@ import {
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import type { FieldValues } from "plus-pro-components";
-import { actThTaskGetProcessInstanceId } from "@/api/actThTask";
+import {
+  actThTaskGetHistoryApprovalOpinion,
+  actThTaskGetProcessInstanceId
+} from "@/api/actThTask";
 
 export function useActThTaskHis() {
   // ----变量定义-----
@@ -29,6 +32,9 @@ export function useActThTaskHis() {
   const historyNodeIds = ref([]);
   const currentNodeIds = ref([]);
   const dialogViewBpmn = ref(false);
+  const licenseProjectData = ref(null);
+  const historyApproyData = ref([]);
+  const dialogViewBpmnApprove = ref(false);
 
   const pagination = reactive<PaginationProps>({
     total: 0,
@@ -62,8 +68,13 @@ export function useActThTaskHis() {
       width: 150
     },
     {
+      label: "业务名称",
+      prop: "businessName",
+      width: 150
+    },
+    {
       label: "申请人",
-      prop: "applyPerId",
+      prop: "applyPerName",
       width: 100
     },
     {
@@ -86,6 +97,43 @@ export function useActThTaskHis() {
       fixed: "right",
       minWidth: 180,
       slot: "operation"
+    }
+  ];
+  const historyApproyColumns: TableColumnList = [
+    {
+      label: "序号",
+      type: "index",
+      fixed: "left",
+      width: 70
+    },
+    {
+      label: "审批人",
+      prop: "operator",
+      width: 100
+    },
+    {
+      label: "审批时间",
+      prop: "createTime",
+      minWidth: 160
+    },
+    {
+      label: "审批结果",
+      prop: "operatorStep",
+      width: 100,
+      cellRenderer: ({ row }) => (
+        <el-tag type={row.operatorStep === 4 ? "danger" : "success"}>
+          {row.operatorStep === 4
+            ? "驳回"
+            : row.operatorStep === 1
+              ? "提交"
+              : "通过"}
+        </el-tag>
+      )
+    },
+    {
+      label: "备注",
+      prop: "remark",
+      width: 200
     }
   ];
   const buttonClass = computed(() => {
@@ -209,6 +257,7 @@ export function useActThTaskHis() {
     queryForm.value.endTime = "";
     dialogFormVisible.value = false;
     dialogViewBpmn.value = false;
+    dialogViewBpmnApprove.value = false;
     onSearch();
   }
   // 打开弹框
@@ -216,6 +265,23 @@ export function useActThTaskHis() {
     dialogFormVisible.value = true;
     title.value = param;
     resetForm(formEl);
+  }
+
+  function handleApprover(row) {
+    console.log(row);
+    if (row.businessServiceChange) {
+      let data = JSON.parse(row.businessServiceChange);
+      licenseProjectData.value = data.filed;
+    }
+    actThTaskGetHistoryApprovalOpinion(row.processInstanceId).then(res => {
+      if (res.code === SUCCESS) {
+        console.log(res.data);
+        historyApproyData.value = res.data;
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
+    dialogViewBpmnApprove.value = true;
   }
 
   const handleSelectBpmn = row => {
@@ -253,6 +319,11 @@ export function useActThTaskHis() {
     historyNodeIds,
     currentNodeIds,
     dialogViewBpmn,
+    dialogViewBpmnApprove,
+    licenseProjectData,
+    historyApproyData,
+    historyApproyColumns,
+    handleApprover,
     onSearch,
     resetForm,
     handleUpdate,

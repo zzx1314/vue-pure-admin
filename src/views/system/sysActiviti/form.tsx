@@ -137,6 +137,6 @@ export function useCollectorBusDevForm() {
   return {
     columnsForm,
     columnsQueryForm,
-    licenseProject,
+    licenseProject
   };
 }

@@ -1,15 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { FormInstance } from "element-plus";
 import { useActThTaskHis } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import EditPen from "@iconify-icons/ep/edit-pen";
-import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
-import { PlusDialogForm, PlusSearch } from "plus-pro-components";
-import AddFill from "@iconify-icons/ri/add-circle-line";
+import { PlusForm, PlusSearch } from "plus-pro-components";
 import search from "@iconify-icons/ep/search";
 import BpmnProcess from "@/views/system/sysBpmn/bpmnProcess.vue";
 
@@ -17,8 +13,7 @@ defineOptions({
   name: "ActThTaskHis"
 });
 
-const addFormRef = ref<FormInstance>();
-const { columnsForm, columnsQueryForm } = useCollectorBusDevForm();
+const { columnsQueryForm, licenseProject } = useCollectorBusDevForm();
 
 const {
   queryForm,
@@ -30,11 +25,16 @@ const {
   historyNodeIds,
   currentNodeIds,
   dialogViewBpmn,
+  dialogViewBpmnApprove,
+  licenseProjectData,
+  historyApproyData,
+  historyApproyColumns,
   onSearch,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
   cancel,
+  handleApprover,
   handleSelectBpmn
 } = useActThTaskHis();
 </script>
@@ -80,6 +80,16 @@ const {
               link
               type="primary"
               :size="size"
+              :icon="useRenderIcon(EditPen)"
+              @click="handleApprover(row)"
+            >
+              审批过程
+            </el-button>
+            <el-button
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
               :icon="useRenderIcon(search)"
               @click="handleSelectBpmn(row)"
             >
@@ -96,6 +106,40 @@ const {
         :current-node-ids="currentNodeIds"
         :history-node-ids="historyNodeIds"
       />
+    </el-dialog>
+
+    <el-dialog
+      v-model="dialogViewBpmnApprove"
+      title="流程审批"
+      width="75%"
+      @close="cancel"
+    >
+      <div class="common-layout">
+        <el-container>
+          <el-aside width="350px">
+            <el-card>
+              <PlusForm
+                v-model="licenseProjectData"
+                :columns="licenseProject"
+                :hasFooter="false"
+              />
+            </el-card>
+          </el-aside>
+          <el-main>
+            <div class="mb-2">
+              <el-card>
+                <pure-table
+                  align-whole="center"
+                  showOverflowTooltip
+                  :data="historyApproyData"
+                  :columns="historyApproyColumns"
+                  border
+                />
+              </el-card>
+            </div>
+          </el-main>
+        </el-container>
+      </div>
     </el-dialog>
   </div>
 </template>

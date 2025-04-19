@@ -157,6 +157,11 @@ export function useActThTask() {
       width: 180
     },
     {
+      label: "业务名称",
+      prop: "businessName",
+      width: 150
+    },
+    {
       label: "申请人",
       prop: "applyPerName",
       width: 100
