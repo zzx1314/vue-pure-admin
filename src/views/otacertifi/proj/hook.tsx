@@ -39,6 +39,7 @@ export function useProj() {
     businessName: "",
     businessType: "",
     approverId: null,
+    businessService: "licenseBusProjService",
     businessServiceChange: "",
     businessServiceEx: ""
   });
@@ -175,7 +176,13 @@ export function useProj() {
       minWidth: 100,
       cellRenderer: ({ row }) => (
         <el-tag type={row.approvalStatus === 4 ? "danger" : "success"}>
-          {row.taskState === 4 ? "驳回" : row.taskState === 1 ? "提交" : "通过"}
+          {row.approvalStatus === 4
+            ? "驳回"
+            : row.approvalStatus === 1
+              ? "提交"
+              : row.approvalStatus === 2
+                ? "通过"
+                : "未审批"}
         </el-tag>
       )
     },

@@ -34,6 +34,7 @@ export function useActThTask() {
   const currentNodeIds = ref([]);
   const approyData = ref({
     businessId: null,
+    businessName: null,
     businessType: null,
     currentFlowNodeId: null,
     beforeFlowNodeId: null,
@@ -71,14 +72,14 @@ export function useActThTask() {
       valueType: "select",
       options: [
         {
-          label: "驳回",
-          value: 4,
-          color: "red"
-        },
-        {
           label: "通过",
           value: 3,
           color: "blue"
+        },
+        {
+          label: "驳回",
+          value: 4,
+          color: "red"
         }
       ]
     }
@@ -281,6 +282,7 @@ export function useActThTask() {
       console.log("actThTaskGetNextNode", res);
       if (res.code === SUCCESS) {
         approyData.value.businessId = row.businessId;
+        approyData.value.businessName = row.businessName;
         approyData.value.businessType = row.businessType;
         approyData.value.processInstanceId = row.processInstanceId;
         approyData.value.currentFlowNodeId = res.data.currentFlowNodeId;
