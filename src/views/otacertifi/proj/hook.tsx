@@ -41,7 +41,8 @@ export function useProj() {
     approverId: null,
     businessService: "licenseBusProjService",
     businessServiceChange: "",
-    businessServiceEx: ""
+    businessServiceEx: "",
+    businessServiceReject: ""
   });
   const pagination = reactive<PaginationProps>({
     total: 0,
