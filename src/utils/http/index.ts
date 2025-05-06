@@ -265,7 +265,7 @@ class PureHttp {
               avatar: "", // 需要填充实际值
               accessToken: response.access_token,
               refreshToken: response.refresh_token,
-              expires: response.expires,
+              expires: response.exp,
               username: response.username, // 需要填充实际值
               nickname: response.username, // 需要填充实际值
               roles: response.roles,
