@@ -73,7 +73,7 @@ function filterChildrenTree(data: RouteComponent[]) {
 }
 
 /** 判断两个数组彼此是否存在相同值 */
-function isOneOfArray(a: Array<string>, b: Array<string>) {
+function isOneOfArray(a: Array<any>, b: Array<any>) {
   return Array.isArray(a) && Array.isArray(b)
     ? intersection(a, b).length > 0
       ? true
@@ -170,8 +170,10 @@ function handleAsyncRoutes(routeList) {
           // 最终路由进行升序
           // ascending(router.options.routes[0].children);
           // if (!router.hasRoute(v?.name)) router.addRoute(v);
-          const flattenRouters: any = router.getRoutes().find(n => n.path === "/");
-          flattenRouters.children.push(v)
+          const flattenRouters: any = router
+            .getRoutes()
+            .find(n => n.path === "/");
+          flattenRouters.children.push(v);
           router.addRoute(flattenRouters);
         }
       }

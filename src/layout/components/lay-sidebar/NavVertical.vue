@@ -79,7 +79,7 @@ onMounted(() => {
   if (tokenCheckIn === null) {
     const tokenCheckInterval = setInterval(() => {
       checkToken();
-    }, 20000);
+    }, 60000);
     usePermissionStoreHook().setCheckTokenTimeId(tokenCheckInterval);
   }
   emitter.on("logoChange", key => {

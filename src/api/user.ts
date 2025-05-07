@@ -107,7 +107,7 @@ export const getLogin = (data?: object): Promise<UserResult> => {
 };
 
 export const userLogout = (): Promise<UserResult> => {
-  return http.axiosPostRequest(urls.logout);
+  return http.axiosDelete(urls.logout);
 };
 
 /** 刷新`token` */
