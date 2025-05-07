@@ -245,6 +245,13 @@ class PureHttp {
         });
     });
   }
+
+  /**
+   * 登录请求
+   * @param url
+   * @param params
+   * @param heads
+   */
   public axiosPostFromLogin(
     url: string,
     params: any,

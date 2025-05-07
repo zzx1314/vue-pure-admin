@@ -1,4 +1,5 @@
 import { http } from "@/utils/http";
+const FORM_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
 export type UserResult = {
   success: boolean;
@@ -23,15 +24,12 @@ export type UserResult = {
 };
 
 export type RefreshTokenResult = {
-  success: boolean;
-  data: {
-    /** `token` */
-    accessToken: string;
-    /** 用于调用刷新`accessToken`的接口时所需的`token` */
-    refreshToken: string;
-    /** `accessToken`的过期时间（格式'xxxx/xx/xx xx:xx:xx'） */
-    expires: Date;
-  };
+  /** `token` */
+  access_token: string;
+  /** 用于调用刷新`accessToken`的接口时所需的`token` */
+  refresh_token: string;
+  /** `accessToken`的过期时间（格式'xxxx/xx/xx xx:xx:xx'） */
+  expires_in: string;
 };
 
 export type UserInfo = {
@@ -69,9 +67,8 @@ type ResultTable = {
 };
 
 const urls = {
-  token: `/api/auth/oauth/token`,
-  logout: `/api/auth/oauth/logout`,
-  refreshToken: `/api/auth/oauth/refreshToken`,
+  token: `/api/upms/oauth2/token`,
+  logout: `/api/upms/token/logout`,
   getInfo: `/api/upms/sysUser/info`,
   checkToken: `/api/upms/checkToken/isExpire`,
   updatePassword: `/api/upms/sysUser/edit`,
@@ -87,8 +84,10 @@ export const checkToken = () => {
 
 /** 登录 */
 export const getLogin = (data?: object): Promise<UserResult> => {
+  const basicAuth =
+    "Basic " + window.btoa(import.meta.env.VITE_OAUTH2_PASSWORD_CLIENT);
   const headers = {
-    Authorization: "Basic dGhfY2xpZW50OnRo"
+    Authorization: basicAuth
   };
   return http.axiosPostFromLogin(urls.token, data, headers);
 };
@@ -98,12 +97,20 @@ export const userLogout = (): Promise<UserResult> => {
 };
 
 /** 刷新`token` */
-export const refreshTokenApi = (data?: object) => {
-  return http.request<RefreshTokenResult>(
-    "post",
-    "/api/auth/oauth/refreshToken",
-    { data }
-  );
+export const refreshTokenApi = (refresh_token?: object) => {
+  const basicAuth =
+    "Basic " + window.btoa(import.meta.env.VITE_OAUTH2_PASSWORD_CLIENT);
+  const grant_type = "refresh_token";
+  const scope = "server";
+  const dataParam = {
+    headers: {
+      skipToken: true,
+      Authorization: basicAuth,
+      "Content-Type": FORM_CONTENT_TYPE
+    },
+    data: { refresh_token, grant_type, scope }
+  };
+  return http.request<RefreshTokenResult>("post", urls.token, dataParam);
 };
 
 /** 账户设置-个人信息 */

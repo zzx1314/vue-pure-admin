@@ -10,8 +10,8 @@ import {
 } from "../utils";
 import {
   type UserResult,
-  type RefreshTokenResult,
   getLogin,
+  type RefreshTokenResult,
   refreshTokenApi
 } from "@/api/user";
 import { type DataInfo, removeToken, setToken, userKey } from "@/utils/auth";
@@ -79,7 +79,7 @@ export const useUserStore = defineStore({
     async loginByUsername(data) {
       data.password = aesUtils.encode(data.password, "");
       data.grant_type = "password";
-      data.scope = "select";
+      data.scope = "server";
       return new Promise<UserResult>((resolve, reject) => {
         getLogin(data)
           .then(data => {
@@ -151,7 +151,11 @@ export const useUserStore = defineStore({
         refreshTokenApi(data)
           .then(data => {
             if (data) {
-              setToken(data.data);
+              const userInfo =
+                storageSession().getItem<DataInfo<number>>(userKey);
+              userInfo.accessToken = data.access_token;
+              userInfo.refreshToken = data.refresh_token;
+              storageSession().setItem(userKey, userInfo);
               resolve(data);
             }
           })
