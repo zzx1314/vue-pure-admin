@@ -1,4 +1,5 @@
 import { http } from "@/utils/http";
+import {getToken} from "@/utils/auth";
 const FORM_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
 export type UserResult = {
@@ -70,7 +71,7 @@ const urls = {
   token: `/api/upms/oauth2/token`,
   logout: `/api/upms/token/logout`,
   getInfo: `/api/upms/sysUser/info`,
-  checkToken: `/api/upms/checkToken/isExpire`,
+  checkToken: `/api/upms/token/check_token`,
   updatePassword: `/api/upms/sysUser/edit`,
   getUserByRoleIdNoPage: `/api/upms/sysUser/getUserByRoleIdNoPage`
 };
@@ -79,7 +80,20 @@ const urls = {
  * 检查token
  */
 export const checkToken = () => {
-  return http.request<Result>("get", urls.checkToken);
+  const token = getToken();
+  const basicAuth =
+    "Basic " + window.btoa(import.meta.env.VITE_OAUTH2_PASSWORD_CLIENT);
+  const param = {
+    headers: {
+      skipToken: true,
+      Authorization: basicAuth,
+      "Content-Type": FORM_CONTENT_TYPE
+    },
+    params: {
+      token: token.accessToken
+    }
+  };
+  return http.request<Result>("get", urls.checkToken, param);
 };
 
 /** 登录 */
