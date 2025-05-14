@@ -473,6 +473,7 @@ const defaultProps = {
             v-model="addForm.value.commonExpireDta"
             :disabled="isUpdateProj"
             type="date"
+            value-format="YYYY-MM-DD"
             placeholder="请输入失效时间"
             class="!w-[200px]"
           />
