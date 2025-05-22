@@ -134,6 +134,10 @@ export function useResource() {
     {
       value: "3576",
       label: "3576"
+    },
+    {
+      value: "RK3588",
+      label: "RK3588"
     }
   ];
   const typeOption = [
