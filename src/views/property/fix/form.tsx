@@ -79,7 +79,7 @@ export function useCollectorBusDevForm() {
     {
       label: "采购时间",
       prop: "buyTime",
-      valueType: "date-picker",
+      valueType: 'date-picker',
       fieldProps: {
         type: "datetime",
         valueFormat: "YYYY-MM-DD HH:mm:ss"
@@ -107,7 +107,7 @@ export function useCollectorBusDevForm() {
     {
       label: "领用人",
       prop: "useUser",
-      valueType: "copy",
+      valueType: 'copy',
       colProps: {
         span: 4,
         style: {
@@ -119,7 +119,7 @@ export function useCollectorBusDevForm() {
     {
       label: "用途",
       prop: "useWay",
-      valueType: "copy",
+      valueType: 'copy',
       colProps: {
         span: 4,
         style: {
@@ -143,7 +143,7 @@ export function useCollectorBusDevForm() {
     {
       label: "申请人",
       prop: "buyApplicant",
-      valueType: "copy",
+      valueType: 'copy',
       colProps: {
         span: 4,
         style: {
