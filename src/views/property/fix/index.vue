@@ -10,6 +10,8 @@ import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import EditPen from "@iconify-icons/ep/edit-pen";
+import Download from "@iconify-icons/ep/download";
+import Upload from "@iconify-icons/ep/upload";
 
 defineOptions({
   name: "PropertyBusFix"
@@ -17,6 +19,11 @@ defineOptions({
 
 const addFormRef = ref<FormInstance>();
 const { columnsQueryForm } = useCollectorBusDevForm();
+
+const onUpload = async option => {
+  const file = option.file;
+  handlerImportExcel(file);
+};
 
 const {
   queryForm,
@@ -37,6 +44,8 @@ const {
   handleSelectionChange,
   handleSubmitError,
   handleSubmit,
+  handlerDownloadTemplate,
+  handlerImportExcel,
   cancel,
   openDia
 } = usePropertyBusFix();
@@ -63,6 +72,24 @@ const {
         >
           新增
         </el-button>
+        <el-button
+          type="primary"
+          :icon="useRenderIcon(Download)"
+          @click="handlerDownloadTemplate"
+        >
+          下载模板
+        </el-button>
+        <div class="ml-3">
+          <el-upload
+            :http-request="onUpload"
+            :show-file-list="false"
+            :limit="1"
+          >
+            <el-button :icon="useRenderIcon(Upload)" type="primary"
+              >导入数据</el-button
+            >
+          </el-upload>
+        </div>
       </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table

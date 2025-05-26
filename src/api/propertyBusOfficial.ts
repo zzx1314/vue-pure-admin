@@ -17,12 +17,12 @@ type ResultPage = {
 };
 
 const propertyBusOfficialUrls = {
-  page: `/api/property/propertyBusOfficial/page`,
-  save: "/api/property/propertyBusOfficial/save",
-  delete: `/api/property/propertyBusOfficial/`,
-  update: "/api/property/propertyBusOfficial/update",
-  downloadImportTemplate: "/api/property/propertyBusFix/downloadImportTemplate",
-  importExcel: "/api/property/propertyBusOfficial/importExcel"
+  page: `/api/upms/propertyBusOfficial/page`,
+  save: "/api/upms/propertyBusOfficial/save",
+  delete: `/api/upms/propertyBusOfficial/`,
+  update: "/api/upms/propertyBusOfficial/update",
+  downloadImportTemplate: "/api/upms/propertyBusFix/downloadImportTemplate",
+  importExcel: "/api/upms/propertyBusOfficial/importExcel"
 };
 
 // 办公资产分页

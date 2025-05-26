@@ -1,4 +1,5 @@
 import { http } from "@/utils/http";
+import qs from "qs";
 
 type Result = {
   code: number;
@@ -16,10 +17,12 @@ type ResultPage = {
 };
 
 const propertyBusFixUrls = {
-  page: `/api/property/propertyBusFix/page`,
-  save: "/api/property/propertyBusFix/save",
-  delete: `/api/property/propertyBusFix/`,
-  update: "/api/property/propertyBusFix/update"
+  page: `/api/upms/propertyBusFix/page`,
+  save: "/api/upms/propertyBusFix/save",
+  delete: `/api/upms/propertyBusFix/`,
+  update: "/api/upms/propertyBusFix/update",
+  downloadImportTemplate: "/api/upms/propertyBusFix/downloadImportTemplate",
+  importExcel: "/api/upms/propertyBusFix/importExcel"
 };
 
 // 固定资产分页
@@ -37,4 +40,24 @@ export const propertyBusFixUpdate = (param?: object) => {
 // 固定资产删除
 export const propertyBusFixDelete = (param?: object) => {
   return http.axiosDelete<Result>(propertyBusFixUrls.delete + param);
+};
+
+// 下载模板
+export const downloadTemplate = () => {
+  let param = {
+    templateName: "办公用品台账"
+  };
+  return http.downloadUrlMode(
+    propertyBusFixUrls.downloadImportTemplate + "?" + qs.stringify(param),
+    "get",
+    "固定资产台账.xlsx",
+    null
+  );
+};
+
+// 导入数据
+export const importExcel = (param?: any) => {
+  const formData = new FormData();
+  formData.append("file", param);
+  return http.uploadFile(propertyBusFixUrls.importExcel, formData);
 };

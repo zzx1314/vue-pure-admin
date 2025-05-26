@@ -1,15 +1,17 @@
-import {computed, nextTick, onMounted, reactive, ref} from "vue";
+import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules } from "element-plus";
 import {
   propertyBusFixSave,
   propertyBusFixPage,
   propertyBusFixUpdate,
-  propertyBusFixDelete
+  propertyBusFixDelete,
+  downloadTemplate
 } from "@/api/propertyBusFix";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
-import type {FieldValues, PlusColumn} from "plus-pro-components";
+import type { FieldValues, PlusColumn } from "plus-pro-components";
+import { importExcel } from "@/api/propertyBusOfficial";
 
 export function usePropertyBusFix() {
   // ----变量定义-----
@@ -60,7 +62,7 @@ export function usePropertyBusFix() {
     useWay: "",
     actualSurplus: "",
     remark: "",
-    buyApplicant: "",
+    buyApplicant: ""
   });
   const countSum = (price: number, number: number) => {
     if (!price || !number) {
@@ -102,11 +104,11 @@ export function usePropertyBusFix() {
     {
       label: "采购时间",
       prop: "buyTime",
-      valueType: 'date-picker',
+      valueType: "date-picker",
       fieldProps: {
         type: "datetime",
         valueFormat: "YYYY-MM-DD HH:mm:ss"
-      },
+      }
     },
     {
       label: "价格",
@@ -124,7 +126,7 @@ export function usePropertyBusFix() {
       fieldProps: {
         min: 0,
         onBlur: () => {
-          console.log('onBlur')
+          console.log("onBlur");
           return countSum(addForm.value.price, addForm.value.number);
         }
       }
@@ -151,26 +153,26 @@ export function usePropertyBusFix() {
     {
       label: "领用时间",
       prop: "useTime",
-      valueType: 'date-picker',
+      valueType: "date-picker",
       fieldProps: {
         type: "datetime",
         valueFormat: "YYYY-MM-DD HH:mm:ss"
-      },
+      }
     },
     {
       label: "领用人",
       prop: "useUser",
-      valueType: 'copy'
+      valueType: "copy"
     },
     {
       label: "用途",
       prop: "useWay",
-      valueType: 'copy'
+      valueType: "copy"
     },
     {
       label: "实际结余",
       prop: "actualSurplus",
-      valueType: 'input-number'
+      valueType: "input-number"
     },
     {
       label: "备注",
@@ -181,8 +183,8 @@ export function usePropertyBusFix() {
     {
       label: "采购申请人",
       prop: "buyApplicant",
-      valueType: 'copy'
-    },
+      valueType: "copy"
+    }
   ];
 
   const rules = reactive<FormRules>({
@@ -200,13 +202,13 @@ export function usePropertyBusFix() {
       label: "序号",
       type: "index",
       width: 70,
-      fixed: "left",
+      fixed: "left"
     },
     {
       label: "名称",
       prop: "name",
       minWidth: 100,
-      fixed: "left",
+      fixed: "left"
     },
     {
       label: "型号",
@@ -218,19 +220,19 @@ export function usePropertyBusFix() {
       label: "序列号",
       prop: "serialNumber",
       minWidth: 100,
-      fixed: "left",
+      fixed: "left"
     },
     {
       label: "颜色",
       prop: "colour",
       minWidth: 100,
-      fixed: "left",
+      fixed: "left"
     },
     {
       label: "单位",
       prop: "deptName",
       minWidth: 100,
-      fixed: "left",
+      fixed: "left"
     },
     {
       label: "资产编码",
@@ -442,7 +444,7 @@ export function usePropertyBusFix() {
       useWay: "",
       actualSurplus: "",
       remark: "",
-      buyApplicant: "",
+      buyApplicant: ""
     };
     queryForm.value = {
       name: "",
@@ -459,7 +461,7 @@ export function usePropertyBusFix() {
       buyApplicant: "",
       beginTime: "",
       endTime: ""
-    }
+    };
     dialogFormVisible.value = false;
     onSearch();
   }
@@ -468,6 +470,21 @@ export function usePropertyBusFix() {
     dialogFormVisible.value = true;
     title.value = param;
     resetForm(formEl);
+  }
+  // 下载模板
+  function handlerDownloadTemplate() {
+    downloadTemplate();
+  }
+  // 导入数据
+  function handlerImportExcel(file) {
+    importExcel(file).then(res => {
+      if (res.data?.code === SUCCESS) {
+        message("导入成功！", { type: "success" });
+        cancel();
+      } else {
+        message(res.data?.msg, { type: "error" });
+      }
+    });
   }
 
   onMounted(() => {
@@ -496,6 +513,8 @@ export function usePropertyBusFix() {
     handleSelectionChange,
     handleSubmit,
     handleSubmitError,
+    handlerDownloadTemplate,
+    handlerImportExcel,
     cancel,
     restartForm,
     openDia
