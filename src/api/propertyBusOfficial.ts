@@ -21,7 +21,8 @@ const propertyBusOfficialUrls = {
   save: "/api/property/propertyBusOfficial/save",
   delete: `/api/property/propertyBusOfficial/`,
   update: "/api/property/propertyBusOfficial/update",
-  downloadImportTemplate: "/api/property/propertyBusFix/downloadImportTemplate"
+  downloadImportTemplate: "/api/property/propertyBusFix/downloadImportTemplate",
+  importExcel: "/api/property/propertyBusOfficial/importExcel"
 };
 
 // 办公资产分页
@@ -51,4 +52,11 @@ export const downloadTemplate = () => {
     "办公用品台账.xlsx",
     null
   );
+};
+
+// 导入数据
+export const importExcel = (param?: any) => {
+  const formData = new FormData();
+  formData.append("file", param);
+  return http.uploadFile(propertyBusOfficialUrls.importExcel, formData);
 };

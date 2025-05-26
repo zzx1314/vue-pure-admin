@@ -1,12 +1,13 @@
 import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
-import type { FormRules } from "element-plus";
+import type {FormRules, UploadUserFile} from "element-plus";
 import {
   propertyBusOfficialSave,
   propertyBusOfficialPage,
   propertyBusOfficialUpdate,
   propertyBusOfficialDelete,
-  downloadTemplate
+  downloadTemplate,
+  importExcel
 } from "@/api/propertyBusOfficial";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -58,6 +59,8 @@ export function usePropertyBusOfficial() {
     socketNumber: "",
     sign: ""
   });
+
+  const fileList = ref<UploadUserFile[]>([]);
 
   const countSum = (price: number, number: number) => {
     if (!price || !number) {
@@ -445,6 +448,17 @@ export function usePropertyBusOfficial() {
     downloadTemplate();
   }
 
+  function handlerImportExcel(file) {
+    importExcel(file).then(res => {
+      if (res.data?.code === SUCCESS) {
+        message("导入成功！", { type: "success" });
+        cancel();
+      } else {
+        message(res.data?.msg, { type: "error" });
+      }
+    });
+  }
+
   onMounted(() => {
     onSearch();
   });
@@ -462,6 +476,7 @@ export function usePropertyBusOfficial() {
     columns,
     buttonClass,
     moreCondition,
+    fileList,
     onSearch,
     resetForm,
     handleUpdate,
@@ -472,6 +487,7 @@ export function usePropertyBusOfficial() {
     handleSubmit,
     handleSubmitError,
     handlerDownloadTemplate,
+    handlerImportExcel,
     cancel,
     restartForm,
     openDia

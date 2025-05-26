@@ -11,6 +11,7 @@ import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import Download from "@iconify-icons/ep/download";
+import Upload from "@iconify-icons/ep/upload";
 
 defineOptions({
   name: "PropertyBusOfficial"
@@ -39,9 +40,15 @@ const {
   handleSubmitError,
   handleSubmit,
   handlerDownloadTemplate,
+  handlerImportExcel,
   cancel,
   openDia
 } = usePropertyBusOfficial();
+
+const onUpload = async option => {
+  const file = option.file;
+  handlerImportExcel(file);
+};
 </script>
 <template>
   <div class="main">
@@ -72,6 +79,17 @@ const {
         >
           下载模板
         </el-button>
+        <div class="ml-3">
+          <el-upload
+            :http-request="onUpload"
+            :show-file-list="false"
+            :limit="1"
+          >
+            <el-button :icon="useRenderIcon(Upload)" type="primary"
+              >导入数据</el-button
+            >
+          </el-upload>
+        </div>
       </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
