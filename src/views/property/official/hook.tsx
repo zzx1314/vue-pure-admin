@@ -1,15 +1,16 @@
-import {computed, nextTick, onMounted, reactive, ref} from "vue";
+import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormRules } from "element-plus";
 import {
   propertyBusOfficialSave,
   propertyBusOfficialPage,
   propertyBusOfficialUpdate,
-  propertyBusOfficialDelete
+  propertyBusOfficialDelete,
+  downloadTemplate
 } from "@/api/propertyBusOfficial";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
-import type {FieldValues, PlusColumn} from "plus-pro-components";
+import type { FieldValues, PlusColumn } from "plus-pro-components";
 
 export function usePropertyBusOfficial() {
   // ----变量定义-----
@@ -55,7 +56,7 @@ export function usePropertyBusOfficial() {
     actualSurplus: "",
     remark: "",
     socketNumber: "",
-    sign: "",
+    sign: ""
   });
 
   const countSum = (price: number, number: number) => {
@@ -96,7 +97,7 @@ export function usePropertyBusOfficial() {
       fieldProps: {
         min: 0,
         onBlur: () => {
-          console.log('onBlur')
+          console.log("onBlur");
           return countSum(addForm.value.buyPrice, addForm.value.buyNumber);
         }
       }
@@ -108,7 +109,7 @@ export function usePropertyBusOfficial() {
       fieldProps: {
         type: "datetime",
         valueFormat: "YYYY-MM-DD HH:mm:ss"
-      },
+      }
     },
     {
       label: "合计金额",
@@ -136,7 +137,7 @@ export function usePropertyBusOfficial() {
       fieldProps: {
         type: "datetime",
         valueFormat: "YYYY-MM-DD HH:mm:ss"
-      },
+      }
     },
     {
       label: "领用人",
@@ -151,7 +152,7 @@ export function usePropertyBusOfficial() {
     {
       label: "实际剩余",
       prop: "actualSurplus",
-      valueType: 'input-number'
+      valueType: "input-number"
     },
     {
       label: "备注",
@@ -185,37 +186,37 @@ export function usePropertyBusOfficial() {
       label: "序号",
       type: "index",
       width: 70,
-      fixed: "left",
+      fixed: "left"
     },
     {
       label: "名称",
       prop: "name",
       minWidth: 100,
-      fixed: "left",
+      fixed: "left"
     },
     {
       label: "颜色",
       prop: "colour",
       minWidth: 100,
-      fixed: "left",
+      fixed: "left"
     },
     {
       label: "单位",
       prop: "deptName",
       minWidth: 100,
-      fixed: "left",
+      fixed: "left"
     },
     {
       label: "采购数量",
       prop: "buyNumber",
       minWidth: 100,
-      fixed: "left",
+      fixed: "left"
     },
     {
       label: "采购时间",
       prop: "buyTime",
       minWidth: 180,
-      fixed: "left",
+      fixed: "left"
     },
     {
       label: "采购单价",
@@ -415,7 +416,7 @@ export function usePropertyBusOfficial() {
       actualSurplus: "",
       remark: "",
       socketNumber: "",
-      sign: "",
+      sign: ""
     };
     queryForm.value = {
       name: "",
@@ -429,7 +430,7 @@ export function usePropertyBusOfficial() {
       sign: "",
       beginTime: "",
       endTime: ""
-    }
+    };
     dialogFormVisible.value = false;
     onSearch();
   }
@@ -438,6 +439,10 @@ export function usePropertyBusOfficial() {
     dialogFormVisible.value = true;
     title.value = param;
     resetForm(formEl);
+  }
+  // 下载模板
+  function handlerDownloadTemplate() {
+    downloadTemplate();
   }
 
   onMounted(() => {
@@ -466,6 +471,7 @@ export function usePropertyBusOfficial() {
     handleSelectionChange,
     handleSubmit,
     handleSubmitError,
+    handlerDownloadTemplate,
     cancel,
     restartForm,
     openDia

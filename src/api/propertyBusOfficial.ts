@@ -1,4 +1,5 @@
 import { http } from "@/utils/http";
+import qs from "qs";
 
 type Result = {
   code: number;
@@ -19,7 +20,8 @@ const propertyBusOfficialUrls = {
   page: `/api/property/propertyBusOfficial/page`,
   save: "/api/property/propertyBusOfficial/save",
   delete: `/api/property/propertyBusOfficial/`,
-  update: "/api/property/propertyBusOfficial/update"
+  update: "/api/property/propertyBusOfficial/update",
+  downloadImportTemplate: "/api/property/propertyBusFix/downloadImportTemplate"
 };
 
 // 办公资产分页
@@ -37,4 +39,16 @@ export const propertyBusOfficialUpdate = (param?: object) => {
 // 办公资产删除
 export const propertyBusOfficialDelete = (param?: object) => {
   return http.axiosDelete<Result>(propertyBusOfficialUrls.delete + param);
+};
+// 下载模板
+export const downloadTemplate = () => {
+  let param = {
+    templateName: "办公用品台账"
+  };
+  return http.downloadUrlMode(
+    propertyBusOfficialUrls.downloadImportTemplate + "?" + qs.stringify(param),
+    "get",
+    "办公用品台账.xlsx",
+    null
+  );
 };

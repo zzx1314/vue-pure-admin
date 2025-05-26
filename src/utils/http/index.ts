@@ -444,7 +444,7 @@ class PureHttp {
   }
 
   /**
-   *
+   * 下载文件
    * @param URL 下载地址
    * @param mode 下载方式 get post
    * @param name 下载文件名

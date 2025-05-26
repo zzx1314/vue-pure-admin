@@ -27,7 +27,7 @@ function getMessage() {
   pSysMessageList().then(res => {
     notices.value[0].list = [];
     console.log("消息列表:", res.data);
-    if (res.code == SUCCESS && res.data) {
+    /* if (res.code == SUCCESS && res.data) {
       for (let i = 0; i < res.data.length; i++) {
         if (res.data[i].extra === "待处置") {
           notices.value[0].list.push(res.data[i]);
@@ -35,7 +35,7 @@ function getMessage() {
       }
       noticesNum.value = notices.value[0].list.length;
       console.log("notices.value:", notices.value);
-    }
+    }*/
   });
 }
 

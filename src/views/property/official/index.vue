@@ -9,8 +9,8 @@ import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
-import {hasAuth} from "@/router/utils";
 import AddFill from "@iconify-icons/ri/add-circle-line";
+import Download from "@iconify-icons/ep/download";
 
 defineOptions({
   name: "PropertyBusOfficial"
@@ -38,6 +38,7 @@ const {
   handleSelectionChange,
   handleSubmitError,
   handleSubmit,
+  handlerDownloadTemplate,
   cancel,
   openDia
 } = usePropertyBusOfficial();
@@ -63,6 +64,13 @@ const {
           @click="openDia('新增', addFormRef)"
         >
           新增
+        </el-button>
+        <el-button
+          type="primary"
+          :icon="useRenderIcon(Download)"
+          @click="handlerDownloadTemplate"
+        >
+          下载模板
         </el-button>
       </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
