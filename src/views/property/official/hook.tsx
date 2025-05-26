@@ -1,6 +1,6 @@
 import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
-import type {FormRules, UploadUserFile} from "element-plus";
+import type { FormRules, UploadUserFile } from "element-plus";
 import {
   propertyBusOfficialSave,
   propertyBusOfficialPage,

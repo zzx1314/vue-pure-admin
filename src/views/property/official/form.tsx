@@ -45,7 +45,7 @@ export function useCollectorBusDevForm() {
       labelWidth: 80,
       fieldProps: {
         type: "datetime",
-        valueFormat: "YYYY-MM-DD HH:mm:ss",
+        valueFormat: "YYYY-MM-DD HH:mm:ss"
       },
       formItemProps: {
         style: {
