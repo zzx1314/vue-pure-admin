@@ -232,12 +232,12 @@ export function usePropertyBusOfficial() {
       width: 100
     },
     {
-      label: "使用数量",
+      label: "领用数量",
       prop: "useNum",
       width: 100
     },
     {
-      label: "使用部门",
+      label: "领用部门",
       prop: "useDept",
       width: 100
     },
@@ -257,7 +257,7 @@ export function usePropertyBusOfficial() {
       width: 100
     },
     {
-      label: "实际剩余",
+      label: "实际结余",
       prop: "actualSurplus",
       width: 100
     },

@@ -16,7 +16,6 @@ import Setting from "@iconify-icons/ri/settings-3-line";
 import Check from "@iconify-icons/ep/check";
 import { checkToken } from "@/api/user";
 import UserInfoForm from "@/layout/components/lay-sidebar/UserInfoForm.vue";
-import SysDate from "@/layout/components/lay-sidebar/SysDate.vue";
 
 const menuRef = ref();
 
@@ -82,7 +81,6 @@ nextTick(() => {
       />
     </el-menu>
     <div class="horizontal-header-right">
-      <SysDate />
       <!-- 菜单搜索 -->
       <LaySearch id="header-search" />
       <!-- 全屏 -->
