@@ -6,9 +6,6 @@ import TypeIt from "@/components/ReTypeit";
 import { useWindowSize } from "@vueuse/core";
 import { ref, getCurrentInstance, onMounted } from "vue";
 import Github from "./components/Github.vue";
-import { devStatistics } from "@/api/otaDev";
-import { resStatistics } from "@/api/otaRes";
-import { taskStatistics } from "@/api/otaTask";
 
 defineOptions({
   name: "Welcome"
