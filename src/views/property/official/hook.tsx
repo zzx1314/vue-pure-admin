@@ -272,7 +272,7 @@ export function usePropertyBusOfficial() {
       width: 100
     },
     {
-      label: "签字",
+      label: "签字确认",
       prop: "sign",
       width: 100
     },
@@ -447,14 +447,14 @@ export function usePropertyBusOfficial() {
   function handlerDownloadTemplate() {
     downloadTemplate();
   }
-
+  // 导入数据
   function handlerImportExcel(file) {
     importExcel(file).then(res => {
-      if (res.data?.code === SUCCESS) {
+      if (res.code === SUCCESS) {
         message("导入成功！", { type: "success" });
         cancel();
       } else {
-        message(res.data?.msg, { type: "error" });
+        message(res.msg, { type: "error" });
       }
     });
   }

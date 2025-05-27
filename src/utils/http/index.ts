@@ -550,7 +550,7 @@ class PureHttp {
    * @param URL
    * @param formData
    */
-  public uploadFile(URL, formData) {
+  public uploadFile<T>(URL, formData): Promise<T> {
     const url = URL;
     const headers = {
       Authentication: sessionStorage.getItem("token"),

@@ -58,5 +58,5 @@ export const downloadTemplate = () => {
 export const importExcel = (param?: any) => {
   const formData = new FormData();
   formData.append("file", param);
-  return http.uploadFile(propertyBusOfficialUrls.importExcel, formData);
+  return http.uploadFile<Result>(propertyBusOfficialUrls.importExcel, formData);
 };

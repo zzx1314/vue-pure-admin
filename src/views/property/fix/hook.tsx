@@ -478,11 +478,11 @@ export function usePropertyBusFix() {
   // 导入数据
   function handlerImportExcel(file) {
     importExcel(file).then(res => {
-      if (res.data?.code === SUCCESS) {
+      if (res.code === SUCCESS) {
         message("导入成功！", { type: "success" });
         cancel();
       } else {
-        message(res.data?.msg, { type: "error" });
+        message(res.msg, { type: "error" });
       }
     });
   }
