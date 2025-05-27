@@ -141,11 +141,12 @@ class PureHttp {
           message("权限失效，自动退出！", { type: "error" });
           useUserStoreHook().logOut();
         } else if (
-          error.response.status === 400 &&
+          error.response.status === 424 &&
           error.response.data &&
-          error.response.data.error_description
+          error.response.data.msg
         ) {
           message(error.response.data.error_description, { type: "error" });
+          useUserStoreHook().logOut();
         } else {
           message("系统错误", { type: "error" });
           useUserStoreHook().logOut();
