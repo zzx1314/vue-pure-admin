@@ -207,25 +207,25 @@ export function usePropertyBusFix() {
     {
       label: "名称",
       prop: "name",
-      minWidth: 100,
+      width: 100,
       fixed: "left"
     },
     {
       label: "型号",
       prop: "model",
-      minWidth: 100,
+      width: 100,
       fixed: "left"
     },
     {
       label: "序列号",
       prop: "serialNumber",
-      minWidth: 100,
+      width: 100,
       fixed: "left"
     },
     {
       label: "颜色",
       prop: "colour",
-      minWidth: 100,
+      width: 100,
       fixed: "left"
     },
     {
