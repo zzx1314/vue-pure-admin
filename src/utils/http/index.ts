@@ -137,15 +137,15 @@ class PureHttp {
         if (error.response.status === 500) {
           message("服务器错误", { type: "error" });
           useUserStoreHook().logOut();
-        } else if (error.response.status === 401) {
-          message("权限失效，自动退出！", { type: "error" });
+        } else if (error.response.status === 401 && error.response.data.msg) {
+          message(error.response.data.msg, { type: "error" });
           useUserStoreHook().logOut();
         } else if (
           error.response.status === 424 &&
           error.response.data &&
           error.response.data.msg
         ) {
-          message(error.response.data.error_description, { type: "error" });
+          message(error.response.data.msg, { type: "error" });
           useUserStoreHook().logOut();
         } else {
           message("系统错误", { type: "error" });
