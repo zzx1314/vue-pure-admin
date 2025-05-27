@@ -45,9 +45,15 @@ const {
   openDia
 } = usePropertyBusOfficial();
 
+const uploadRef = ref();
+
 const onUpload = async option => {
   const file = option.file;
   handlerImportExcel(file);
+  // 上传完成后清除文件列表
+  if (uploadRef.value) {
+    uploadRef.value.clearFiles();
+  }
 };
 </script>
 <template>
@@ -81,6 +87,7 @@ const onUpload = async option => {
         </el-button>
         <div class="ml-3">
           <el-upload
+            ref="uploadRef"
             :http-request="onUpload"
             :show-file-list="false"
             :limit="1"

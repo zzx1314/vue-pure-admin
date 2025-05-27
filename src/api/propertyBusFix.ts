@@ -45,7 +45,7 @@ export const propertyBusFixDelete = (param?: object) => {
 // 下载模板
 export const downloadTemplate = () => {
   let param = {
-    templateName: "办公用品台账"
+    templateName: "固定资产台账"
   };
   return http.downloadUrlMode(
     propertyBusFixUrls.downloadImportTemplate + "?" + qs.stringify(param),
@@ -59,5 +59,5 @@ export const downloadTemplate = () => {
 export const importExcel = (param?: any) => {
   const formData = new FormData();
   formData.append("file", param);
-  return http.uploadFile(propertyBusFixUrls.importExcel, formData);
+  return http.uploadFile<Result>(propertyBusFixUrls.importExcel, formData);
 };

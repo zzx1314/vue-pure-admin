@@ -6,12 +6,12 @@ import {
   propertyBusFixPage,
   propertyBusFixUpdate,
   propertyBusFixDelete,
-  downloadTemplate
+  downloadTemplate,
+  importExcel
 } from "@/api/propertyBusFix";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import type { FieldValues, PlusColumn } from "plus-pro-components";
-import { importExcel } from "@/api/propertyBusOfficial";
 
 export function usePropertyBusFix() {
   // ----变量定义-----
