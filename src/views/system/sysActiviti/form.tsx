@@ -1,7 +1,6 @@
 // form表单
 import type { PlusColumn } from "plus-pro-components";
 import { getUserByRoleIdNoPage } from "@/api/user";
-import { getFeatureSelect } from "@/api/cerFeatures";
 
 export function useCollectorBusDevForm() {
   const columnsForm: PlusColumn[] = [
@@ -52,10 +51,6 @@ export function useCollectorBusDevForm() {
       label: "特性名称",
       prop: "featuresIdArray",
       valueType: "select",
-      options: async () => {
-        const { data } = await getFeatureSelect();
-        return data;
-      },
       fieldProps: {
         multiple: true,
         disabled: true
