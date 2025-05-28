@@ -22,7 +22,8 @@ const propertyBusFixUrls = {
   delete: `/api/upms/propertyBusFix/`,
   update: "/api/upms/propertyBusFix/update",
   downloadImportTemplate: "/api/upms/propertyBusFix/downloadImportTemplate",
-  importExcel: "/api/upms/propertyBusFix/importExcel"
+  importExcel: "/api/upms/propertyBusFix/importExcel",
+  exportExcel: "/api/upms/propertyBusFix/exportExcel"
 };
 
 // 固定资产分页
@@ -60,4 +61,14 @@ export const importExcel = (param?: any) => {
   const formData = new FormData();
   formData.append("file", param);
   return http.uploadFile<Result>(propertyBusFixUrls.importExcel, formData);
+};
+
+// 导出数据
+export const exportExcel = (param?: object) => {
+  return http.downloadUrlMode(
+    propertyBusFixUrls.exportExcel + "?" + qs.stringify(param),
+    "get",
+    "固定资产台账.xlsx",
+    null
+  );
 };

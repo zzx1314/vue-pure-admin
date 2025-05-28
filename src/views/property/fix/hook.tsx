@@ -7,7 +7,8 @@ import {
   propertyBusFixUpdate,
   propertyBusFixDelete,
   downloadTemplate,
-  importExcel
+  importExcel,
+  exportExcel
 } from "@/api/propertyBusFix";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -486,6 +487,10 @@ export function usePropertyBusFix() {
       }
     });
   }
+  // 导出数据
+  function handlerDownloadData() {
+    exportExcel();
+  }
 
   onMounted(() => {
     onSearch();
@@ -515,6 +520,7 @@ export function usePropertyBusFix() {
     handleSubmitError,
     handlerDownloadTemplate,
     handlerImportExcel,
+    handlerDownloadData,
     cancel,
     restartForm,
     openDia

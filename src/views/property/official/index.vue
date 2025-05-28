@@ -41,6 +41,7 @@ const {
   handleSubmit,
   handlerDownloadTemplate,
   handlerImportExcel,
+  handlerDownloadData,
   cancel,
   openDia
 } = usePropertyBusOfficial();
@@ -84,6 +85,13 @@ const onUpload = async option => {
           @click="handlerDownloadTemplate"
         >
           下载模板
+        </el-button>
+        <el-button
+          type="primary"
+          :icon="useRenderIcon(Download)"
+          @click="handlerDownloadData"
+        >
+          导出数据
         </el-button>
         <div class="ml-3">
           <el-upload

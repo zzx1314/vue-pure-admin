@@ -7,7 +7,8 @@ import {
   propertyBusOfficialUpdate,
   propertyBusOfficialDelete,
   downloadTemplate,
-  importExcel
+  importExcel,
+  exportExcel
 } from "@/api/propertyBusOfficial";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -459,6 +460,11 @@ export function usePropertyBusOfficial() {
     });
   }
 
+  // 导出数据
+  function handlerDownloadData() {
+    exportExcel();
+  }
+
   onMounted(() => {
     onSearch();
   });
@@ -488,6 +494,7 @@ export function usePropertyBusOfficial() {
     handleSubmitError,
     handlerDownloadTemplate,
     handlerImportExcel,
+    handlerDownloadData,
     cancel,
     restartForm,
     openDia

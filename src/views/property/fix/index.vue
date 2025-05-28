@@ -51,6 +51,7 @@ const {
   handleSubmit,
   handlerDownloadTemplate,
   handlerImportExcel,
+  handlerDownloadData,
   cancel,
   openDia
 } = usePropertyBusFix();
@@ -83,6 +84,13 @@ const {
           @click="handlerDownloadTemplate"
         >
           下载模板
+        </el-button>
+        <el-button
+          type="primary"
+          :icon="useRenderIcon(Download)"
+          @click="handlerDownloadData"
+        >
+          导出数据
         </el-button>
         <div class="ml-3">
           <el-upload
