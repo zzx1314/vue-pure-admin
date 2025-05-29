@@ -3,6 +3,7 @@ import { ListItem } from "../data";
 import { ref, PropType, nextTick } from "vue";
 import { useNav } from "@/layout/hooks/useNav";
 import { deviceDetection } from "@pureadmin/utils";
+import { hasPerms } from "@/utils/auth";
 
 defineProps({
   noticeItem: {
@@ -44,6 +45,14 @@ function hoverDescription(event, description) {
   currentWidth > 2 * cellWidth
     ? (descriptionTooltip.value = true)
     : (descriptionTooltip.value = false);
+}
+
+const emit = defineEmits<{
+  (e: "item-clicked", item: ListItem): void;
+}>();
+
+function handleHandle(noticeItem) {
+  emit("item-clicked", noticeItem);
 }
 </script>
 
@@ -102,6 +111,20 @@ function hoverDescription(event, description) {
       </el-tooltip>
       <div class="notice-text-datetime text-[#00000073] dark:text-white">
         {{ noticeItem.datetime }}
+      </div>
+      <div
+        v-if="noticeItem.isShowHandle"
+        style="display: flex; justify-content: flex-end"
+      >
+        <div>
+          <el-button
+            v-if="hasPerms('message_handler')"
+            type="primary"
+            size="small"
+            @click="handleHandle(noticeItem)"
+            >处置</el-button
+          >
+        </div>
       </div>
     </div>
   </div>
