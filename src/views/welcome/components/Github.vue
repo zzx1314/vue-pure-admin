@@ -17,9 +17,9 @@ const getData = () => {
   getUserInfo().then(res => {
     console.log("getUserInfo", res);
     param.value = {
-      orgName: res.data.sysUser.orgName,
-      userName: res.data.sysUser.username,
-      user: res.data.sysUser.realName,
+      orgName: res.data.orgName,
+      userName: res.data.username,
+      user: res.data.realName,
       role: res.data.roleName,
       desc: res.data.roleDesc
     };
