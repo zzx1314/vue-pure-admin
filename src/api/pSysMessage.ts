@@ -16,12 +16,12 @@ type ResultPage = {
 };
 
 const pSysMessageUrls = {
-  page: `/api/message/pSysMessage/page`,
-  save: "/api/message/pSysMessage/save",
-  delete: `/api/message/pSysMessage/`,
-  update: "/api/message/pSysMessage/update",
-  list: "/api/message/pSysMessage/list",
-  readMessage: "/api/message/pSysMessage/readMessage/"
+  page: `/api/upms/pSysMessage/page`,
+  save: "/api/upms/pSysMessage/save",
+  delete: `/api/upms/pSysMessage/`,
+  update: "/api/upms/pSysMessage/update",
+  list: "/api/upms/pSysMessage/list",
+  readMessage: "/api/upms/pSysMessage/readMessage/"
 };
 
 // 系统消息分页
