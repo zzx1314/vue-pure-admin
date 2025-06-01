@@ -199,6 +199,20 @@ export function usePropertyBusOfficial() {
       fixed: "left"
     },
     {
+      label: "状态",
+      prop: "status",
+      width: 100,
+      fixed: "left",
+      cellRenderer: ({ row, props }) => (
+        <el-tag
+          size={props.size}
+          type={row.status === "已分配" ? "success" : "warning"}
+        >
+          {row.status ? row.status : "未分配"}
+        </el-tag>
+      )
+    },
+    {
       label: "颜色",
       prop: "colour",
       width: 100,
@@ -250,6 +264,11 @@ export function usePropertyBusOfficial() {
     {
       label: "领用人",
       prop: "useUser",
+      width: 100
+    },
+    {
+      label: "账号",
+      prop: "ownerName",
       width: 100
     },
     {

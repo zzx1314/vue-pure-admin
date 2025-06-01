@@ -222,6 +222,20 @@ export function usePropertyBusFix() {
       fixed: "left"
     },
     {
+      label: "状态",
+      prop: "status",
+      width: 100,
+      fixed: "left",
+      cellRenderer: ({ row, props }) => (
+        <el-tag
+          size={props.size}
+          type={row.status === "已分配" ? "success" : "warning"}
+        >
+          {row.status ? row.status : "未分配"}
+        </el-tag>
+      )
+    },
+    {
       label: "型号",
       prop: "model",
       width: 100,
@@ -291,6 +305,11 @@ export function usePropertyBusFix() {
       minWidth: 100
     },
     {
+      label: "账号",
+      prop: "ownerName",
+      width: 100
+    },
+    {
       label: "用途",
       prop: "useWay",
       minWidth: 100
@@ -308,6 +327,11 @@ export function usePropertyBusFix() {
     {
       label: "采购申请人",
       prop: "buyApplicant",
+      minWidth: 100
+    },
+    {
+      label: "签字确认",
+      prop: "sign",
       minWidth: 100
     },
     {
