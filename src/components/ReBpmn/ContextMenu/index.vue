@@ -1,11 +1,10 @@
 <template>
-  <n-popover
-    :show="showPopover"
-    :x="x"
-    :y="y"
+  <el-popover
+    v-model:visible="showPopover"
+    :placement="'right-start'"
     :show-arrow="false"
-    trigger="manual"
-    placement="right-start"
+    :fallback-placements="['right', 'left']"
+    :popper-style="{ position: 'fixed', left: x + 'px', top: y + 'px' }"
   >
     <div class="bpmn-context-menu">
       <div class="context-menu_header">{{ contextMenuTitle }}</div>
@@ -22,7 +21,7 @@
         </div>
       </div>
     </div>
-  </n-popover>
+  </el-popover>
 </template>
 
 <script lang="ts" setup>
