@@ -19,7 +19,7 @@ const actThProcessConfUrls = {
   page: `/api/upms/activity/getProcessConfPage`,
   getProcessPage: `/api/upms/activity/getProcessPage`,
   save: "/api/upms/activity/addProcessConf",
-  delete: `/api/upms/activity/deleteProcessConf`,
+  delete: `/api/upms/activity/deleteProcessConf/`,
   update: "/api/upms/activity/editProcessConf",
   deployment: `/api/upms/activity/deployment`,
   getProcessOne: "/api/upms/activity/getProcessOne/",

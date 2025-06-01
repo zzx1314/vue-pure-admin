@@ -369,10 +369,10 @@ export function useActThProcessConf() {
   }
 
   function setBpmn(row) {
-    console.log(row);
     dialogDesignVisible.value = true;
     console.log(dialogDesignVisible.value);
     currentRow.value = row;
+    console.log("currentRow", currentRow.value);
   }
 
   function setBpmnHistory(row) {
