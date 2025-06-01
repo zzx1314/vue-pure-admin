@@ -24,7 +24,7 @@ const propertyBusOfficialUrls = {
   downloadImportTemplate: "/api/upms/propertyBusFix/downloadImportTemplate",
   importExcel: "/api/upms/propertyBusOfficial/importExcel",
   exportExcel: "/api/upms/propertyBusOfficial/exportExcel",
-  distribute: "/api/upms/propertyBusOfficial/distribute"
+  distribute: "/api/upms/propertyBusOfficial/distribute/"
 };
 
 // 办公资产分页

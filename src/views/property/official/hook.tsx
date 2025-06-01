@@ -8,7 +8,7 @@ import {
   propertyBusOfficialDelete,
   downloadTemplate,
   importExcel,
-  exportExcel
+  exportExcel, distribute
 } from "@/api/propertyBusOfficial";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -33,6 +33,7 @@ export function usePropertyBusOfficial() {
   const dataList = ref([]);
   const loading = ref(true);
   const dialogFormVisible = ref(false);
+  const userDialogFormVisible = ref(false);
   const title = ref("");
 
   const pagination = reactive<PaginationProps>({
@@ -59,6 +60,10 @@ export function usePropertyBusOfficial() {
     remark: "",
     socketNumber: "",
     sign: ""
+  });
+  const distributeForm = ref({
+    userId: null,
+    propertyId: null
   });
 
   const fileList = ref<UploadUserFile[]>([]);
@@ -175,8 +180,8 @@ export function usePropertyBusOfficial() {
       valueType: "copy"
     }
   ];
-  const rules = reactive<FormRules>({
-    name: [{ required: true, message: "名称必填", trigger: "blur" }]
+  const rulesDistribute = reactive<FormRules>({
+    name: [{ required: true, message: "用户名必填", trigger: "change" }]
   });
   const columns: TableColumnList = [
     {
@@ -454,6 +459,11 @@ export function usePropertyBusOfficial() {
       beginTime: "",
       endTime: ""
     };
+    distributeForm.value = {
+      userId: null,
+      propertyId: null
+    };
+    userDialogFormVisible.value = false;
     dialogFormVisible.value = false;
     onSearch();
   }
@@ -483,6 +493,28 @@ export function usePropertyBusOfficial() {
   function handlerDownloadData() {
     exportExcel();
   }
+  // 分配资产
+  function handlerDistributeProperty(row, addUserFormRef) {
+    console.log(row);
+    userDialogFormVisible.value = true;
+    distributeForm.value.propertyId = row.id;
+    resetForm(addUserFormRef);
+  }
+
+  const handleSubmitUser = (values: FieldValues) => {
+    console.log(values, "Submit");
+    distribute(
+      distributeForm.value.userId,
+      distributeForm.value.propertyId
+    ).then(res => {
+      if (res.code === SUCCESS) {
+        message("分配成功！", { type: "success" });
+        cancel();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
+  };
 
   onMounted(() => {
     onSearch();
@@ -491,13 +523,15 @@ export function usePropertyBusOfficial() {
   return {
     queryForm,
     columnsForm,
+    distributeForm,
     dataList,
     loading,
     dialogFormVisible,
+    userDialogFormVisible,
     title,
     pagination,
     addForm,
-    rules,
+    rulesDistribute,
     columns,
     buttonClass,
     moreCondition,
@@ -514,6 +548,8 @@ export function usePropertyBusOfficial() {
     handlerDownloadTemplate,
     handlerImportExcel,
     handlerDownloadData,
+    handlerDistributeProperty,
+    handleSubmitUser,
     cancel,
     restartForm,
     openDia

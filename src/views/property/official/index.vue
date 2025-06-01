@@ -12,24 +12,28 @@ import { PlusDialogForm, PlusSearch } from "plus-pro-components";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import Download from "@iconify-icons/ep/download";
 import Upload from "@iconify-icons/ep/upload";
+import More from "@iconify-icons/ep/more-filled";
 
 defineOptions({
   name: "PropertyBusOfficial"
 });
 
 const addFormRef = ref<FormInstance>();
-const { columnsQueryForm } = useCollectorBusDevForm();
+const addUserFormRef = ref<FormInstance>();
+const { columnsQueryForm, columnsDialogUser } = useCollectorBusDevForm();
 
 const {
   queryForm,
   columnsForm,
+  distributeForm,
   dataList,
   loading,
   dialogFormVisible,
+  userDialogFormVisible,
   title,
   pagination,
   addForm,
-  rules,
+  rulesDistribute,
   columns,
   onSearch,
   handleUpdate,
@@ -42,6 +46,8 @@ const {
   handlerDownloadTemplate,
   handlerImportExcel,
   handlerDownloadData,
+  handlerDistributeProperty,
+  handleSubmitUser,
   cancel,
   openDia
 } = usePropertyBusOfficial();
@@ -152,6 +158,30 @@ const onUpload = async option => {
                 </el-button>
               </template>
             </el-popconfirm>
+            <el-dropdown>
+              <el-button
+                class="ml-3 mt-[2px]"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(More)"
+              />
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>
+                    <el-button
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(EditPen)"
+                      @click="handlerDistributeProperty(row, addUserFormRef)"
+                    >
+                      资产分配
+                    </el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </template>
         </pure-table>
       </template>
@@ -176,6 +206,20 @@ const onUpload = async option => {
       @cancel="cancel"
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
+    />
+
+    <PlusDialogForm
+      ref="addUserFormRef"
+      v-model:visible="userDialogFormVisible"
+      v-model="distributeForm"
+      :dialog="{ title: '选择分配用户' }"
+      :form="{
+        columns: columnsDialogUser,
+        rules: rulesDistribute,
+        labelWidth: '95px'
+      }"
+      @cancel="cancel"
+      @confirm="handleSubmitUser"
     />
   </div>
 </template>
