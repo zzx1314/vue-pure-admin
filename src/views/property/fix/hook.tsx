@@ -8,7 +8,8 @@ import {
   propertyBusFixDelete,
   downloadTemplate,
   importExcel,
-  exportExcel
+  exportExcel,
+  distribute
 } from "@/api/propertyBusFix";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -491,6 +492,18 @@ export function usePropertyBusFix() {
   function handlerDownloadData() {
     exportExcel();
   }
+  // 分配
+  function handlerDistributeProperty(row) {
+    console.log(row);
+    distribute(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        message("分配成功！", { type: "success" });
+        cancel();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
+  }
 
   onMounted(() => {
     onSearch();
@@ -521,6 +534,7 @@ export function usePropertyBusFix() {
     handlerDownloadTemplate,
     handlerImportExcel,
     handlerDownloadData,
+    handlerDistributeProperty,
     cancel,
     restartForm,
     openDia

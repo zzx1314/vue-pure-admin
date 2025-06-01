@@ -2,6 +2,13 @@
 import type { PlusColumn } from "plus-pro-components";
 
 export function useCollectorBusDevForm() {
+  const columnsDialogUser: PlusColumn[] = [
+    {
+      label: "用户名",
+      prop: "name",
+      valueType: "input"
+    }
+  ];
   const columnsQueryForm: PlusColumn[] = [
     {
       label: "名称",
@@ -197,6 +204,7 @@ export function useCollectorBusDevForm() {
     }
   ];
   return {
-    columnsQueryForm
+    columnsQueryForm,
+    columnsDialogUser
   };
 }

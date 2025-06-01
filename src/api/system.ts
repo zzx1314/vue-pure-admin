@@ -37,7 +37,8 @@ const userUrls = {
   update: "/api/upms/sysUser",
   resetPwd: "/api/upms/sysUser/resetPwd",
   userInfo: `/api/upms/sysUser/info`,
-  enable: `/api/upms/sysUser/enable`
+  enable: `/api/upms/sysUser/enable`,
+  getUserByRoleId: `/api/upms/sysUser/getUserByRoleId/`
 };
 
 const roleUrls = {
@@ -276,6 +277,16 @@ export const saveUser = (param?: object) => {
  */
 export const getUserInfo = () => {
   return http.axiosGetRequest<any>(userUrls.userInfo, {});
+};
+
+/**
+ * 根据角色id获取用户
+ */
+export const getUserByRoleId = (roleId?: object) => {
+  return http.axiosGetRequest<ResultPage>(
+    userUrls.getUserByRoleId + roleId,
+    null
+  );
 };
 
 /** 获取角色管理列表 */

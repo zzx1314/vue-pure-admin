@@ -23,7 +23,8 @@ const propertyBusFixUrls = {
   update: "/api/upms/propertyBusFix/update",
   downloadImportTemplate: "/api/upms/propertyBusFix/downloadImportTemplate",
   importExcel: "/api/upms/propertyBusFix/importExcel",
-  exportExcel: "/api/upms/propertyBusFix/exportExcel"
+  exportExcel: "/api/upms/propertyBusFix/exportExcel",
+  distribute: "/api/upms/propertyBusFix/distribute/"
 };
 
 // 固定资产分页
@@ -69,6 +70,14 @@ export const exportExcel = (param?: object) => {
     propertyBusFixUrls.exportExcel + "?" + qs.stringify(param),
     "get",
     "固定资产台账.xlsx",
+    null
+  );
+};
+
+// 资产分配
+export const distribute = (id?: object, fixid?: object) => {
+  return http.axiosGetRequest<Result>(
+    propertyBusFixUrls.distribute + id + "/" + fixid,
     null
   );
 };

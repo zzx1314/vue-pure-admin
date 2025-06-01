@@ -68,12 +68,12 @@ export function usePropertyPerson() {
     {
       label: "序列号",
       prop: "serialNumber",
-      width: 100
+      width: 150
     },
     {
       label: "资产编码",
       prop: "propertyNumber",
-      width: 100
+      width: 150
     },
     {
       label: "拥有者",
@@ -83,17 +83,12 @@ export function usePropertyPerson() {
     {
       label: "创建时间",
       prop: "createTime",
-      width: 100
-    },
-    {
-      label: "修改时间",
-      prop: "updateTime",
-      width: 100
+      width: 150
     },
     {
       label: "操作",
       fixed: "right",
-      width: 180,
+      minWidth: 180,
       slot: "operation"
     }
   ];

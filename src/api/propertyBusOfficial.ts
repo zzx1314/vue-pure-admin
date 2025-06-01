@@ -23,7 +23,8 @@ const propertyBusOfficialUrls = {
   update: "/api/upms/propertyBusOfficial/update",
   downloadImportTemplate: "/api/upms/propertyBusFix/downloadImportTemplate",
   importExcel: "/api/upms/propertyBusOfficial/importExcel",
-  exportExcel: "/api/upms/propertyBusOfficial/exportExcel"
+  exportExcel: "/api/upms/propertyBusOfficial/exportExcel",
+  distribute: "/api/upms/propertyBusOfficial/distribute"
 };
 
 // 办公资产分页
@@ -68,6 +69,14 @@ export const exportExcel = (param?: any) => {
     propertyBusOfficialUrls.exportExcel + "?" + qs.stringify(param),
     "get",
     "办公用品台账.xlsx",
+    null
+  );
+};
+
+// 资产分配
+export const distribute = (id?: object, fixid?: object) => {
+  return http.axiosGetRequest<Result>(
+    propertyBusOfficialUrls.distribute + id + "/" + fixid,
     null
   );
 };

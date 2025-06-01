@@ -16,10 +16,10 @@ type ResultPage = {
 };
 
 const propertyPersonUrls = {
-  page: `/api/property/propertyBusPerson/page`,
-  save: "/api/property/propertyBusPerson/save",
-  delete: `/api/property/propertyBusPerson/`,
-  update: "/api/property/propertyBusPerson/update"
+  page: `/api/upms/propertyBusPerson/page`,
+  save: "/api/upms/propertyBusPerson/save",
+  delete: `/api/upms/propertyBusPerson/`,
+  update: "/api/upms/propertyBusPerson/update"
 };
 
 // 个人资产分页

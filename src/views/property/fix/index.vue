@@ -12,6 +12,8 @@ import AddFill from "@iconify-icons/ri/add-circle-line";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Download from "@iconify-icons/ep/download";
 import Upload from "@iconify-icons/ep/upload";
+import More from "@iconify-icons/ep/more-filled";
+import {distribute} from "@/api/propertyBusFix";
 
 defineOptions({
   name: "PropertyBusFix"
@@ -52,6 +54,7 @@ const {
   handlerDownloadTemplate,
   handlerImportExcel,
   handlerDownloadData,
+  handlerDistributeProperty,
   cancel,
   openDia
 } = usePropertyBusFix();
@@ -151,6 +154,30 @@ const {
                 </el-button>
               </template>
             </el-popconfirm>
+            <el-dropdown>
+              <el-button
+                class="ml-3 mt-[2px]"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(More)"
+              />
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>
+                    <el-button
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(EditPen)"
+                      @click="handlerDistributeProperty(row)"
+                    >
+                      资产分配
+                    </el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </template>
         </pure-table>
       </template>
