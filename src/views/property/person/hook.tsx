@@ -31,10 +31,11 @@ export function usePropertyPerson() {
     background: true
   });
   const addForm = ref({
-    id: null
+    id: null,
+    sign: ""
   });
   const rules = reactive<FormRules>({
-    name: [{ required: true, message: "名称必填", trigger: "blur" }]
+    sign: [{ required: true, message: "签名必填", trigger: "blur" }]
   });
   const columns: TableColumnList = [
     {
@@ -63,7 +64,15 @@ export function usePropertyPerson() {
     {
       label: "状态",
       prop: "status",
-      width: 100
+      width: 90,
+      cellRenderer: ({ row, props }) => (
+        <el-tag
+          size={props.size}
+          type={row.status === "已确认" ? "success" : "warning"}
+        >
+          {row.status}
+        </el-tag>
+      )
     },
     {
       label: "序列号",
@@ -76,14 +85,9 @@ export function usePropertyPerson() {
       width: 150
     },
     {
-      label: "拥有者",
-      prop: "owner",
-      width: 100
-    },
-    {
       label: "创建时间",
       prop: "createTime",
-      width: 150
+      width: 180
     },
     {
       label: "操作",
@@ -107,7 +111,7 @@ export function usePropertyPerson() {
     console.log(row);
     const data = JSON.stringify(row);
     addForm.value = JSON.parse(data);
-    openDia("修改配置", formEl);
+    openDia("确认资产信息", formEl);
   }
 
   // 删除
@@ -149,10 +153,10 @@ export function usePropertyPerson() {
       console.log("修改");
       propertyPersonUpdate(addForm.value).then(res => {
         if (res.code === SUCCESS) {
-          message("修改成功！", { type: "success" });
+          message("确认资产成功！", { type: "success" });
           cancel();
         } else {
-          message("修改失败！", { type: "error" });
+          message("确认资产失败！", { type: "error" });
         }
       });
     } else {
@@ -209,7 +213,8 @@ export function usePropertyPerson() {
   // 取消
   function cancel() {
     addForm.value = {
-      id: null
+      id: null,
+      sign: ""
     };
     queryForm.value.name = "";
     queryForm.value.beginTime = "";

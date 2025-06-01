@@ -6,42 +6,47 @@ export function useCollectorBusDevForm() {
     {
       label: "名称",
       prop: "name",
-      valueType: "copy"
+      valueType: "copy",
+      fieldProps: {
+        disabled: true
+      }
     },
     {
       label: "型号",
       prop: "model",
-      valueType: "copy"
-    },
-    {
-      label: "状态",
-      prop: "status",
-      valueType: "copy"
+      valueType: "copy",
+      fieldProps: {
+        disabled: true
+      }
     },
     {
       label: "序列号",
       prop: "serialNumber",
-      valueType: "copy"
+      valueType: "copy",
+      fieldProps: {
+        disabled: true
+      }
     },
     {
       label: "资产编码",
       prop: "propertyNumber",
-      valueType: "copy"
+      valueType: "copy",
+      fieldProps: {
+        disabled: true
+      }
     },
     {
       label: "拥有者",
-      prop: "owner",
-      valueType: "copy"
+      prop: "username",
+      valueType: "copy",
+      fieldProps: {
+        disabled: true
+      }
     },
     {
-      label: "修改时间",
-      prop: "updateTime",
+      label: "签名",
+      prop: "sign",
       valueType: "copy"
-    },
-    {
-      label: "备注",
-      prop: "remark",
-      valueType: "textarea"
     }
   ];
 

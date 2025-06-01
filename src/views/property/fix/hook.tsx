@@ -37,6 +37,7 @@ export function usePropertyBusFix() {
   const dataList = ref([]);
   const loading = ref(true);
   const dialogFormVisible = ref(false);
+  const userDialogFormVisible = ref(false);
   const title = ref("");
 
   const pagination = reactive<PaginationProps>({
@@ -65,6 +66,10 @@ export function usePropertyBusFix() {
     actualSurplus: "",
     remark: "",
     buyApplicant: ""
+  });
+  const distributeForm = ref({
+    userId: null,
+    propertyId: null
   });
   const countSum = (price: number, number: number) => {
     if (!price || !number) {
@@ -191,6 +196,10 @@ export function usePropertyBusFix() {
 
   const rules = reactive<FormRules>({
     name: [{ required: true, message: "名称必填", trigger: "blur" }]
+  });
+
+  const rulesDistribute = reactive<FormRules>({
+    name: [{ required: true, message: "用户名必填", trigger: "change" }]
   });
   const columns: TableColumnList = [
     {
@@ -389,6 +398,21 @@ export function usePropertyBusFix() {
     }
   };
 
+  const handleSubmitUser = (values: FieldValues) => {
+    console.log(values, "Submit");
+    distribute(
+      distributeForm.value.userId,
+      distributeForm.value.propertyId
+    ).then(res => {
+      if (res.code === SUCCESS) {
+        message("分配成功！", { type: "success" });
+        cancel();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
+  };
+
   // 查询
   async function onSearch() {
     loading.value = true;
@@ -418,12 +442,6 @@ export function usePropertyBusFix() {
       formEl.formInstance.clearValidate();
       console.log("resetForm");
     });
-  };
-
-  const restartForm = formEl => {
-    if (!formEl) return;
-    formEl.resetFields();
-    cancel();
   };
   // 取消
   function cancel() {
@@ -464,6 +482,11 @@ export function usePropertyBusFix() {
       beginTime: "",
       endTime: ""
     };
+    distributeForm.value = {
+      userId: null,
+      propertyId: null
+    };
+    userDialogFormVisible.value = false;
     dialogFormVisible.value = false;
     onSearch();
   }
@@ -492,17 +515,12 @@ export function usePropertyBusFix() {
   function handlerDownloadData() {
     exportExcel();
   }
-  // 分配
-  function handlerDistributeProperty(row) {
+  // 分配资产
+  function handlerDistributeProperty(row, addUserFormRef) {
     console.log(row);
-    distribute(row.id).then(res => {
-      if (res.code === SUCCESS) {
-        message("分配成功！", { type: "success" });
-        cancel();
-      } else {
-        message(res.msg, { type: "error" });
-      }
-    });
+    userDialogFormVisible.value = true;
+    distributeForm.value.propertyId = row.id;
+    resetForm(addUserFormRef);
   }
 
   onMounted(() => {
@@ -514,11 +532,14 @@ export function usePropertyBusFix() {
     dataList,
     loading,
     dialogFormVisible,
+    userDialogFormVisible,
     title,
     pagination,
     addForm,
+    distributeForm,
     columnsForm,
     rules,
+    rulesDistribute,
     columns,
     buttonClass,
     moreCondition,
@@ -530,13 +551,13 @@ export function usePropertyBusFix() {
     handleCurrentChange,
     handleSelectionChange,
     handleSubmit,
+    handleSubmitUser,
     handleSubmitError,
     handlerDownloadTemplate,
     handlerImportExcel,
     handlerDownloadData,
     handlerDistributeProperty,
     cancel,
-    restartForm,
     openDia
   };
 }

@@ -13,14 +13,14 @@ import EditPen from "@iconify-icons/ep/edit-pen";
 import Download from "@iconify-icons/ep/download";
 import Upload from "@iconify-icons/ep/upload";
 import More from "@iconify-icons/ep/more-filled";
-import {distribute} from "@/api/propertyBusFix";
 
 defineOptions({
   name: "PropertyBusFix"
 });
 
 const addFormRef = ref<FormInstance>();
-const { columnsQueryForm } = useCollectorBusDevForm();
+const addUserFormRef = ref<FormInstance>();
+const { columnsQueryForm, columnsDialogUser } = useCollectorBusDevForm();
 
 const uploadRef = ref();
 
@@ -37,11 +37,14 @@ const {
   dataList,
   loading,
   dialogFormVisible,
+  userDialogFormVisible,
   title,
   pagination,
   addForm,
+  distributeForm,
   columnsForm,
   rules,
+  rulesDistribute,
   columns,
   onSearch,
   handleUpdate,
@@ -51,6 +54,7 @@ const {
   handleSelectionChange,
   handleSubmitError,
   handleSubmit,
+  handleSubmitUser,
   handlerDownloadTemplate,
   handlerImportExcel,
   handlerDownloadData,
@@ -170,7 +174,7 @@ const {
                       type="primary"
                       :size="size"
                       :icon="useRenderIcon(EditPen)"
-                      @click="handlerDistributeProperty(row)"
+                      @click="handlerDistributeProperty(row, addUserFormRef)"
                     >
                       资产分配
                     </el-button>
@@ -202,6 +206,20 @@ const {
       @cancel="cancel"
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
+    />
+
+    <PlusDialogForm
+      ref="addUserFormRef"
+      v-model:visible="userDialogFormVisible"
+      v-model="distributeForm"
+      :dialog="{ title: '选择分配用户' }"
+      :form="{
+        columns: columnsDialogUser,
+        rules: rulesDistribute,
+        labelWidth: '95px'
+      }"
+      @cancel="cancel"
+      @confirm="handleSubmitUser"
     />
   </div>
 </template>

@@ -30,14 +30,12 @@ const {
   columns,
   onSearch,
   handleUpdate,
-  handleDelete,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
   handleSubmitError,
   handleSubmit,
-  cancel,
-  openDia
+  cancel
 } = usePropertyPerson();
 </script>
 <template>
@@ -54,15 +52,6 @@ const {
       />
     </el-card>
     <PureTableBar title="个人资产列表" :columns="columns" @refresh="onSearch">
-      <template #buttons>
-        <el-button
-          type="primary"
-          :icon="useRenderIcon(AddFill)"
-          @click="openDia('新增', addFormRef)"
-        >
-          新增
-        </el-button>
-      </template>
       <template v-slot="{ size, checkList, dynamicColumns }">
         <pure-table
           border
@@ -94,21 +83,18 @@ const {
               :icon="useRenderIcon(EditPen)"
               @click="handleUpdate(row, addFormRef)"
             >
-              修改
+              确认资产
             </el-button>
-            <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
-              <template #reference>
-                <el-button
-                  class="reset-margin"
-                  link
-                  type="primary"
-                  :size="size"
-                  :icon="useRenderIcon(Delete)"
-                >
-                  删除
-                </el-button>
-              </template>
-            </el-popconfirm>
+            <el-button
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
+              :icon="useRenderIcon(EditPen)"
+              @click="handleUpdate(row, addFormRef)"
+            >
+              资产变更
+            </el-button>
           </template>
         </pure-table>
       </template>
