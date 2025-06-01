@@ -75,6 +75,16 @@ export function usePropertyPerson() {
       )
     },
     {
+      label: "类型",
+      prop: "propertyType",
+      width: 100,
+      cellRenderer: ({ row, props }) => (
+        <el-tag size={props.size}>
+          {row.propertyType === "fix" ? "固定资产" : "办公资产"}
+        </el-tag>
+      )
+    },
+    {
       label: "序列号",
       prop: "serialNumber",
       width: 150
