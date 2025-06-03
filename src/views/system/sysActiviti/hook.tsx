@@ -18,7 +18,6 @@ import { actThProcessConfApprovalBuniess } from "@/api/actThProcessConf";
 export function useActThTask() {
   // ----变量定义-----
   const queryForm = ref({
-    name: "",
     beginTime: "",
     endTime: ""
   });
@@ -372,7 +371,6 @@ export function useActThTask() {
     addForm.value = {
       id: null
     };
-    queryForm.value.name = "";
     queryForm.value.beginTime = "";
     queryForm.value.endTime = "";
     dialogFormVisible.value = false;

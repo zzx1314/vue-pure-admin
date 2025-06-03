@@ -20,6 +20,14 @@ export function useCollectorBusDevForm() {
       }
     },
     {
+      label: "业务名称",
+      prop: "businessName",
+      valueType: "copy",
+      colProps: {
+        span: 5
+      }
+    },
+    {
       label: "开始时间",
       prop: "beginTime",
       valueType: "date-picker",
