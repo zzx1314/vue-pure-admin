@@ -10,6 +10,7 @@ import {
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import type { FieldValues } from "plus-pro-components";
+import { actThProcessConfApplyBuniessTask } from "@/api/actThProcessConf";
 
 export function usePropertyPerson() {
   // ----变量定义-----
@@ -18,10 +19,22 @@ export function usePropertyPerson() {
     beginTime: "",
     endTime: ""
   });
+  // 变更申请
+  const applyForm = ref({
+    businessId: null,
+    businessName: "",
+    businessType: "",
+    approverId: null,
+    businessService: "",
+    businessServiceChange: "",
+    businessServiceEx: "",
+    businessServiceReject: ""
+  });
   const moreCondition = ref(false);
   const dataList = ref([]);
   const loading = ref(true);
   const dialogFormVisible = ref(false);
+  const userDialogFormVisible = ref(false);
   const title = ref("");
 
   const pagination = reactive<PaginationProps>({
@@ -34,8 +47,18 @@ export function usePropertyPerson() {
     id: null,
     sign: ""
   });
+  const distributeForm = ref({
+    id: null,
+    userId: null,
+    propertyId: null,
+    type: "",
+    name: ""
+  });
   const rules = reactive<FormRules>({
     sign: [{ required: true, message: "签名必填", trigger: "blur" }]
+  });
+  const rulesDistribute = reactive<FormRules>({
+    name: [{ required: true, message: "用户名必填", trigger: "change" }]
   });
   const columns: TableColumnList = [
     {
@@ -124,6 +147,16 @@ export function usePropertyPerson() {
     openDia("确认资产信息", formEl);
   }
 
+  function handlePersonUpdate(row, addUserFormRef) {
+    console.log(row);
+    userDialogFormVisible.value = true;
+    distributeForm.value.propertyId = row.propertyId;
+    distributeForm.value.type = row.propertyType;
+    distributeForm.value.id = row.id;
+    distributeForm.value.name = row.name;
+    resetForm(addUserFormRef);
+  }
+
   // 删除
   function handleDelete(row) {
     console.log(row);
@@ -183,6 +216,46 @@ export function usePropertyPerson() {
     }
   };
 
+  // 资产变更
+  const handleSubmitUser = (values: FieldValues) => {
+    console.log(values, "发起资产变更");
+    const updateApproverForm = {
+      id: distributeForm.value.propertyId,
+      owner: distributeForm.value.userId
+    };
+    applyForm.value.businessId = distributeForm.value.id;
+    applyForm.value.businessType = "资产变更";
+    applyForm.value.approverId = distributeForm.value.userId;
+    applyForm.value.businessName = distributeForm.value.name;
+    applyForm.value.businessService = "propertyBusPersonService";
+    console.log(updateApproverForm);
+    const param = {
+      changeService:
+        distributeForm.value.type === "fix"
+          ? "propertyBusFixService"
+          : "propertyBusOfficialService",
+      filed: updateApproverForm
+    };
+    applyForm.value.businessServiceChange = JSON.stringify(param);
+    const paramEx = {
+      service: "propertyBusPersonService",
+      updateQueryFiled: "id",
+      updateQueryValue: distributeForm.value.id,
+      filed: {
+        status: "待审批"
+      }
+    };
+    applyForm.value.businessServiceEx = JSON.stringify(paramEx);
+    actThProcessConfApplyBuniessTask(applyForm.value).then(res => {
+      if (res.code === SUCCESS) {
+        message("提交成功！", { type: "success" });
+        cancel();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
+  };
+
   // 查询
   async function onSearch() {
     loading.value = true;
@@ -230,6 +303,14 @@ export function usePropertyPerson() {
     queryForm.value.beginTime = "";
     queryForm.value.endTime = "";
     dialogFormVisible.value = false;
+    distributeForm.value = {
+      id: null,
+      userId: null,
+      propertyId: null,
+      type: "",
+      name: ""
+    };
+    userDialogFormVisible.value = false;
     onSearch();
   }
 
@@ -249,21 +330,26 @@ export function usePropertyPerson() {
     dataList,
     loading,
     dialogFormVisible,
+    userDialogFormVisible,
     title,
     pagination,
     addForm,
+    distributeForm,
     rules,
+    rulesDistribute,
     columns,
     buttonClass,
     moreCondition,
     onSearch,
     resetForm,
     handleUpdate,
+    handlePersonUpdate,
     handleDelete,
     handleSizeChange,
     handleCurrentChange,
     handleSelectionChange,
     handleSubmit,
+    handleSubmitUser,
     handleSubmitError,
     cancel,
     restartForm,

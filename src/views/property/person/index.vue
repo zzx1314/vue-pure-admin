@@ -16,25 +16,32 @@ defineOptions({
 });
 
 const addFormRef = ref<FormInstance>();
-const { columnsForm, columnsQueryForm } = useCollectorBusDevForm();
+const addUserFormRef = ref<FormInstance>();
+const { columnsForm, columnsQueryForm, columnsDialogUser } =
+  useCollectorBusDevForm();
 
 const {
   queryForm,
   dataList,
   loading,
   dialogFormVisible,
+  userDialogFormVisible,
   title,
   pagination,
   addForm,
+  distributeForm,
   rules,
+  rulesDistribute,
   columns,
   onSearch,
   handleUpdate,
+  handlePersonUpdate,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
   handleSubmitError,
   handleSubmit,
+  handleSubmitUser,
   cancel
 } = usePropertyPerson();
 </script>
@@ -91,7 +98,7 @@ const {
               type="primary"
               :size="size"
               :icon="useRenderIcon(EditPen)"
-              @click="handleUpdate(row, addFormRef)"
+              @click="handlePersonUpdate(row, addUserFormRef)"
             >
               资产变更
             </el-button>
@@ -113,6 +120,20 @@ const {
       @cancel="cancel"
       @confirm-error="handleSubmitError"
       @confirm="handleSubmit"
+    />
+
+    <PlusDialogForm
+      ref="addUserFormRef"
+      v-model:visible="userDialogFormVisible"
+      v-model="distributeForm"
+      :dialog="{ title: '选择变更的用户' }"
+      :form="{
+        columns: columnsDialogUser,
+        rules: rulesDistribute,
+        labelWidth: '95px'
+      }"
+      @cancel="cancel"
+      @confirm="handleSubmitUser"
     />
   </div>
 </template>

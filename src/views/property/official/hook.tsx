@@ -180,6 +180,9 @@ export function usePropertyBusOfficial() {
       valueType: "copy"
     }
   ];
+  const rules = reactive<FormRules>({
+    name: [{ required: true, message: "名称必填", trigger: "blur" }]
+  });
   const rulesDistribute = reactive<FormRules>({
     name: [{ required: true, message: "用户名必填", trigger: "change" }]
   });
@@ -531,6 +534,7 @@ export function usePropertyBusOfficial() {
     title,
     pagination,
     addForm,
+    rules,
     rulesDistribute,
     columns,
     buttonClass,

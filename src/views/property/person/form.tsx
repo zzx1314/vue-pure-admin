@@ -1,7 +1,29 @@
 // form表单
 import type { PlusColumn } from "plus-pro-components";
+import { getUserByRoleIdNoPage } from "@/api/user";
 
 export function useCollectorBusDevForm() {
+  const columnsDialogUser: PlusColumn[] = [
+    {
+      label: "用户名",
+      prop: "userId",
+      valueType: "select",
+      options: async () => {
+        const { data } = await getUserByRoleIdNoPage({ role: 1054 });
+        let userList = [];
+        for (let i = 0; i < data.length; i++) {
+          userList.push({
+            value: data[i].id,
+            label: data[i].username
+          });
+        }
+        return userList;
+      },
+      fieldProps: {
+        filterable: true
+      }
+    }
+  ];
   const columnsForm: PlusColumn[] = [
     {
       label: "名称",
@@ -97,6 +119,7 @@ export function useCollectorBusDevForm() {
   ];
   return {
     columnsForm,
-    columnsQueryForm
+    columnsQueryForm,
+    columnsDialogUser
   };
 }

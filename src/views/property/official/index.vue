@@ -34,6 +34,7 @@ const {
   pagination,
   addForm,
   rulesDistribute,
+  rules,
   columns,
   onSearch,
   handleUpdate,
@@ -194,7 +195,7 @@ const onUpload = async option => {
       :dialog="{ title: title }"
       :form="{
         columns: columnsForm,
-        rules,
+        rules: rules,
         labelWidth: '95px',
         rowProps: {
           gutter: 20
