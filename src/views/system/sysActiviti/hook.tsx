@@ -269,6 +269,11 @@ export function useActThTask() {
     if (row.businessServiceChange) {
       let data = JSON.parse(row.businessServiceChange);
       licenseProjectData.value = data.filed;
+      licenseProjectData.value.propertyType =
+        licenseProjectData.value.propertyType === "fix"
+          ? "固定资产"
+          : "办公资产";
+      console.log("licenseProjectData", licenseProjectData.value);
     }
     actThTaskGetHistoryApprovalOpinion(row.processInstanceId).then(res => {
       if (res.code === SUCCESS) {

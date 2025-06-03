@@ -51,8 +51,12 @@ export function usePropertyPerson() {
     id: null,
     userId: null,
     propertyId: null,
-    type: "",
-    name: ""
+    name: "",
+    model: "",
+    status: "",
+    propertyType: "",
+    serialNumber: "",
+    propertyNumber: ""
   });
   const rules = reactive<FormRules>({
     sign: [{ required: true, message: "签名必填", trigger: "blur" }]
@@ -98,6 +102,30 @@ export function usePropertyPerson() {
       )
     },
     {
+      label: "审批状态",
+      prop: "approvalStatus",
+      width: 99,
+      cellRenderer: ({ row, props }) => (
+        <el-tag
+          size={props.size}
+          type={row.approvalStatus === 3 ? "success" : "warning"}
+        >
+          {row.approvalStatus
+            ? row.approvalStatus === 1
+              ? "待审批"
+              : row.approvalStatus === 3
+                ? "审批通过"
+                : "驳回"
+            : "未审批"}
+        </el-tag>
+      )
+    },
+    {
+      label: "审批时间",
+      prop: "approvalTime",
+      width: 180
+    },
+    {
       label: "类型",
       prop: "propertyType",
       width: 100,
@@ -125,7 +153,7 @@ export function usePropertyPerson() {
     {
       label: "操作",
       fixed: "right",
-      minWidth: 180,
+      width: 200,
       slot: "operation"
     }
   ];
@@ -150,10 +178,14 @@ export function usePropertyPerson() {
   function handlePersonUpdate(row, addUserFormRef) {
     console.log(row);
     userDialogFormVisible.value = true;
-    distributeForm.value.propertyId = row.propertyId;
-    distributeForm.value.type = row.propertyType;
     distributeForm.value.id = row.id;
+    distributeForm.value.propertyId = row.propertyId;
     distributeForm.value.name = row.name;
+    distributeForm.value.model = row.model;
+    distributeForm.value.status = row.status;
+    distributeForm.value.propertyType = row.propertyType;
+    distributeForm.value.propertyNumber = row.propertyNumber;
+    distributeForm.value.serialNumber = row.serialNumber;
     resetForm(addUserFormRef);
   }
 
@@ -221,7 +253,12 @@ export function usePropertyPerson() {
     console.log(values, "发起资产变更");
     const updateApproverForm = {
       id: distributeForm.value.propertyId,
-      owner: distributeForm.value.userId
+      owner: distributeForm.value.userId,
+      name: distributeForm.value.name,
+      model: distributeForm.value.model,
+      propertyType: distributeForm.value.propertyType,
+      propertyNumber: distributeForm.value.propertyNumber,
+      serialNumber: distributeForm.value.serialNumber
     };
     applyForm.value.businessId = distributeForm.value.id;
     applyForm.value.businessType = "资产变更";
@@ -231,21 +268,12 @@ export function usePropertyPerson() {
     console.log(updateApproverForm);
     const param = {
       changeService:
-        distributeForm.value.type === "fix"
+        distributeForm.value.propertyType === "fix"
           ? "propertyBusFixService"
           : "propertyBusOfficialService",
       filed: updateApproverForm
     };
     applyForm.value.businessServiceChange = JSON.stringify(param);
-    const paramEx = {
-      service: "propertyBusPersonService",
-      updateQueryFiled: "id",
-      updateQueryValue: distributeForm.value.id,
-      filed: {
-        status: "待审批"
-      }
-    };
-    applyForm.value.businessServiceEx = JSON.stringify(paramEx);
     actThProcessConfApplyBuniessTask(applyForm.value).then(res => {
       if (res.code === SUCCESS) {
         message("提交成功！", { type: "success" });
@@ -307,8 +335,12 @@ export function usePropertyPerson() {
       id: null,
       userId: null,
       propertyId: null,
-      type: "",
-      name: ""
+      name: "",
+      model: "",
+      status: "",
+      propertyType: "",
+      serialNumber: "",
+      propertyNumber: ""
     };
     userDialogFormVisible.value = false;
     onSearch();

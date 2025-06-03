@@ -59,71 +59,41 @@ export function useCollectorBusDevForm() {
 
   const licenseProject: PlusColumn[] = [
     {
-      label: "项目名称",
-      prop: "projName",
+      label: "名称",
+      prop: "name",
       valueType: "copy",
       fieldProps: {
         disabled: true
       }
     },
     {
-      label: "项目编码",
-      prop: "projCode",
+      label: "型号",
+      prop: "model",
       valueType: "copy",
       fieldProps: {
         disabled: true
       }
     },
     {
-      label: "客户账号",
-      prop: "customerId",
-      valueType: "select",
-      options: async () => {
-        const { data } = await getUserByRoleIdNoPage({ role: 1044 });
-        let customerList = [];
-        for (let i = 0; i < data.length; i++) {
-          customerList.push({
-            value: data[i].id,
-            label: data[i].username
-          });
-        }
-        return customerList;
-      },
-      fieldProps: {
-        disabled: true
-      }
-    },
-    {
-      label: "特性名称",
-      prop: "featuresIdArray",
-      valueType: "select",
-      fieldProps: {
-        multiple: true,
-        disabled: true
-      }
-    },
-    {
-      label: "授权数量",
-      prop: "liceNum",
+      label: "类型",
+      prop: "propertyType",
       valueType: "copy",
       fieldProps: {
         disabled: true
       }
     },
     {
-      label: "授权时间",
-      prop: "liceTimeArray",
-      valueType: "date-picker",
+      label: "序列号",
+      prop: "serialNumber",
+      valueType: "copy",
       fieldProps: {
-        type: "datetimerange",
-        format: "YYYY-MM-DD",
         disabled: true
       }
     },
     {
-      label: "备注",
-      prop: "remark",
-      valueType: "textarea",
+      label: "资产编码",
+      prop: "propertyNumber",
+      valueType: "copy",
       fieldProps: {
         disabled: true
       }
