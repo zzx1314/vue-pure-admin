@@ -1,6 +1,5 @@
 // form表单
 import type { PlusColumn } from "plus-pro-components";
-import { getUserByRoleIdNoPage } from "@/api/user";
 
 export function useCollectorBusDevForm() {
   const columnsForm: PlusColumn[] = [
