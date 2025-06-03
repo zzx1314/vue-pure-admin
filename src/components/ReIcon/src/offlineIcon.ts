@@ -50,6 +50,7 @@ import ShieldFlashLine from "@iconify-icons/ri/shield-flash-line";
 import SlideshowLine from "@iconify-icons/ri/slideshow-line";
 import Archive2Line from "@iconify-icons/ri/archive-2-line";
 import archiveDrawerLine from "@iconify-icons/ri/archive-drawer-line";
+import GitMergeLine from "@iconify-icons/ri/git-merge-line";
 
 addIcon("ri:bookmark-2-line", Tag);
 addIcon("ri:file-ppt-2-line", Ppt);
@@ -81,6 +82,7 @@ addIcon("ri:shield-flash-line", ShieldFlashLine);
 addIcon("ri:slideshow-line", SlideshowLine);
 addIcon("ri:archive-2-line", Archive2Line);
 addIcon("ri:archive-drawer-line", archiveDrawerLine);
+addIcon("ri:git-merge-line", GitMergeLine);
 
 import Device from "@iconify-icons/tdesign/system-device";
 import DeviceOne from "@iconify-icons/tdesign/device";

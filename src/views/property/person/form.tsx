@@ -103,17 +103,14 @@ export function useCollectorBusDevForm() {
       label: "结束时间",
       prop: "endTime",
       valueType: "date-picker",
-      formItemProps: {
-        style: {
-          width: "250px"
-        }
-      },
       fieldProps: {
         type: "date",
         valueFormat: "YYYY-MM-DD"
       },
       colProps: {
-        span: 5
+        span: 5,
+        "padding-left": "0px",
+        "padding-right": "0px"
       }
     }
   ];

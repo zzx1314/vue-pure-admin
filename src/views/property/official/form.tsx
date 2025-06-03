@@ -150,17 +150,12 @@ export function useCollectorBusDevForm() {
       valueType: "date-picker",
       labelWidth: 80,
       type: "date",
-      formItemProps: {
-        style: {
-          width: "250px"
-        }
-      },
       fieldProps: {
         type: "date",
         valueFormat: "YYYY-MM-DD HH:mm:ss"
       },
       colProps: {
-        span: 4,
+        span: 5,
         "padding-left": "0px",
         "padding-right": "0px"
       }
@@ -170,17 +165,12 @@ export function useCollectorBusDevForm() {
       prop: "endTime",
       labelWidth: 80,
       valueType: "date-picker",
-      formItemProps: {
-        style: {
-          width: "250px"
-        }
-      },
       fieldProps: {
         type: "date",
         valueFormat: "YYYY-MM-DD"
       },
       colProps: {
-        span: 4,
+        span: 5,
         "padding-left": "0px",
         "padding-right": "0px"
       }

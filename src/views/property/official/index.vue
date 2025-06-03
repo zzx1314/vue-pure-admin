@@ -13,6 +13,7 @@ import AddFill from "@iconify-icons/ri/add-circle-line";
 import Download from "@iconify-icons/ep/download";
 import Upload from "@iconify-icons/ep/upload";
 import More from "@iconify-icons/ep/more-filled";
+import Position from "@iconify-icons/ep/position";
 
 defineOptions({
   name: "PropertyBusOfficial"
@@ -174,7 +175,7 @@ const onUpload = async option => {
                       link
                       type="primary"
                       :size="size"
-                      :icon="useRenderIcon(EditPen)"
+                      :icon="useRenderIcon(Position)"
                       @click="handlerDistributeProperty(row, addUserFormRef)"
                     >
                       资产分配

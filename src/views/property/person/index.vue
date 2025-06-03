@@ -4,12 +4,11 @@ import { FormInstance } from "element-plus";
 import { usePropertyPerson } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import EditPen from "@iconify-icons/ep/edit-pen";
-import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
-import AddFill from "@iconify-icons/ri/add-circle-line";
+import FlowChart from "@iconify-icons/ri/flow-chart";
 
 defineOptions({
   name: "PropertyPerson"
@@ -97,7 +96,7 @@ const {
               link
               type="primary"
               :size="size"
-              :icon="useRenderIcon(EditPen)"
+              :icon="useRenderIcon(FlowChart)"
               @click="handlePersonUpdate(row, addUserFormRef)"
             >
               资产变更

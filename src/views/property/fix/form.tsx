@@ -89,6 +89,7 @@ export function useCollectorBusDevForm() {
     {
       label: "资产编码",
       prop: "propertyNumber",
+      labelWidth: 80,
       valueType: "copy",
       colProps: {
         span: 4,
@@ -101,6 +102,7 @@ export function useCollectorBusDevForm() {
     {
       label: "采购时间",
       prop: "buyTime",
+      labelWidth: 80,
       valueType: "date-picker",
       fieldProps: {
         type: "datetime",
@@ -117,6 +119,7 @@ export function useCollectorBusDevForm() {
     {
       label: "领用部门",
       prop: "useDept",
+      labelWidth: 80,
       valueType: "copy",
       colProps: {
         span: 4,
@@ -178,18 +181,14 @@ export function useCollectorBusDevForm() {
       label: "开始时间",
       prop: "beginTime",
       valueType: "date-picker",
+      labelWidth: 80,
       type: "date",
-      formItemProps: {
-        style: {
-          width: "250px"
-        }
-      },
       fieldProps: {
         type: "date",
         valueFormat: "YYYY-MM-DD HH:mm:ss"
       },
       colProps: {
-        span: 4,
+        span: 5,
         style: {
           "padding-left": "0px",
           "padding-right": "0px"
@@ -200,17 +199,13 @@ export function useCollectorBusDevForm() {
       label: "结束时间",
       prop: "endTime",
       valueType: "date-picker",
-      formItemProps: {
-        style: {
-          width: "250px"
-        }
-      },
+      labelWidth: 80,
       fieldProps: {
         type: "date",
         valueFormat: "YYYY-MM-DD"
       },
       colProps: {
-        span: 4,
+        span: 5,
         style: {
           "padding-left": "0px",
           "padding-right": "0px"
