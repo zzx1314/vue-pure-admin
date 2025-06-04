@@ -78,7 +78,7 @@ export function useCollectorBusDevForm() {
       prop: "name",
       valueType: "copy",
       colProps: {
-        span: 5,
+        span: 4,
         style: {
           "padding-left": "0px",
           "padding-right": "0px"
@@ -90,7 +90,7 @@ export function useCollectorBusDevForm() {
       prop: "model",
       valueType: "copy",
       colProps: {
-        span: 5,
+        span: 4,
         style: {
           "padding-left": "0px",
           "padding-right": "0px"
@@ -102,7 +102,7 @@ export function useCollectorBusDevForm() {
       prop: "propertyNumber",
       valueType: "copy",
       colProps: {
-        span: 5,
+        span: 4,
         style: {
           "padding-left": "0px",
           "padding-right": "0px"
@@ -124,7 +124,7 @@ export function useCollectorBusDevForm() {
         }
       ],
       colProps: {
-        span: 5,
+        span: 4,
         style: {
           "padding-left": "0px",
           "padding-right": "0px"

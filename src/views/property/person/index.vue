@@ -50,7 +50,7 @@ const {
       <PlusSearch
         v-model="queryForm"
         :columns="columnsQueryForm"
-        :show-number="3"
+        :show-number="4"
         label-width="80"
         label-position="right"
         @search="onSearch"
@@ -82,6 +82,7 @@ const {
         >
           <template #operation="{ row }">
             <el-button
+              v-if="row.status !== '已确认'"
               class="reset-margin"
               link
               type="primary"
@@ -92,6 +93,7 @@ const {
               确认资产
             </el-button>
             <el-button
+              v-if="row.status !== '审批状态'"
               class="reset-margin"
               link
               type="primary"
