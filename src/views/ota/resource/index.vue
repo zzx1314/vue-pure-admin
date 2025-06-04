@@ -538,13 +538,13 @@ const beforeUpload = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
     uploadFile.name.includes(".tar.gz") ||
     uploadFile.name.includes(".deb") ||
     uploadFile.name.includes(".rpm") ||
-    uploadFile.name.includes("kernel-pi")
+    uploadFile.name.includes("kernel")
   ) {
     uploadFileTemp.value = uploadFile;
   } else {
     uploadRef.value!.clearFiles();
     message(
-      "请选择正确的安装包格式：.run，.img,Image,.tar.gz,.deb,.rpm,kernel-pi",
+      "请选择正确的安装包格式：.run，.img,Image,.tar.gz,.deb,.rpm,kernel",
       {
         type: "error"
       }
