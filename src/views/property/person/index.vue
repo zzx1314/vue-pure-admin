@@ -50,7 +50,7 @@ const {
       <PlusSearch
         v-model="queryForm"
         :columns="columnsQueryForm"
-        :show-number="2"
+        :show-number="3"
         label-width="80"
         label-position="right"
         @search="onSearch"

@@ -78,7 +78,57 @@ export function useCollectorBusDevForm() {
       prop: "name",
       valueType: "copy",
       colProps: {
-        span: 5
+        span: 5,
+        style: {
+          "padding-left": "0px",
+          "padding-right": "0px"
+        }
+      }
+    },
+    {
+      label: "型号",
+      prop: "model",
+      valueType: "copy",
+      colProps: {
+        span: 5,
+        style: {
+          "padding-left": "0px",
+          "padding-right": "0px"
+        }
+      }
+    },
+    {
+      label: "资产编号",
+      prop: "propertyNumber",
+      valueType: "copy",
+      colProps: {
+        span: 5,
+        style: {
+          "padding-left": "0px",
+          "padding-right": "0px"
+        }
+      }
+    },
+    {
+      label: "类型",
+      prop: "propertyType",
+      valueType: "select",
+      options: [
+        {
+          value: "official",
+          label: "办公资产"
+        },
+        {
+          value: "fix",
+          label: "固定资产"
+        }
+      ],
+      colProps: {
+        span: 5,
+        style: {
+          "padding-left": "0px",
+          "padding-right": "0px"
+        }
       }
     },
     {
