@@ -378,7 +378,7 @@ const {
         <el-col :span="6">
           <el-card
             style="max-width: 300px; height: 250px; margin-bottom: 10px"
-            shadow="always"
+            shadow="hover"
           >
             <template #header>
               <div class="card-header flex items-center gap-2">
@@ -403,7 +403,7 @@ const {
           </el-card>
         </el-col>
         <el-col :span="6">
-          <el-card style="max-width: 300px; height: 250px" shadow="always">
+          <el-card style="max-width: 300px; height: 250px" shadow="hover">
             <template #header>
               <div class="card-header flex items-center gap-2">
                 <IconifyIconOffline :icon="Memory" style="font-size: 30px" />
@@ -427,7 +427,7 @@ const {
           </el-card>
         </el-col>
         <el-col :span="6">
-          <el-card style="max-width: 300px; height: 250px" shadow="always">
+          <el-card style="max-width: 300px; height: 250px" shadow="hover">
             <template #header>
               <div class="card-header flex items-center gap-2">
                 <GraphicsCard />
@@ -451,7 +451,7 @@ const {
           </el-card>
         </el-col>
         <el-col :span="6">
-          <el-card style="max-width: 300px; height: 250px" shadow="always">
+          <el-card style="max-width: 300px; height: 250px" shadow="hover">
             <template #header>
               <div class="card-header flex items-center gap-2">
                 <IconifyIconOffline
@@ -478,7 +478,7 @@ const {
           </el-card>
         </el-col>
         <el-col :span="6">
-          <el-card style="max-width: 300px; height: 250px" shadow="always">
+          <el-card style="max-width: 300px; height: 250px" shadow="hover">
             <template #header>
               <div class="card-header flex items-center gap-2">
                 <IconifyIconOffline :icon="Disk" style="font-size: 30px" />
@@ -528,7 +528,7 @@ const {
         <el-col :span="8">
           <el-card
             style="max-width: 300px; height: 300px"
-            shadow="always"
+            shadow="hover"
             class="customizeCardBody"
           >
             <template #header>
@@ -545,7 +545,7 @@ const {
         <el-col :span="8">
           <el-card
             style="max-width: 300px; height: 300px"
-            shadow="always"
+            shadow="hover"
             class="customizeCardBody"
           >
             <template #header>
@@ -562,7 +562,7 @@ const {
         <el-col :span="8">
           <el-card
             style="max-width: 300px; height: 300px"
-            shadow="always"
+            shadow="hover"
             class="customizeCardBody"
           >
             <template #header>
@@ -585,7 +585,7 @@ const {
         <el-col :span="8">
           <el-card
             style="max-width: 300px; height: 300px"
-            shadow="always"
+            shadow="hover"
             class="customizeCardBody"
           >
             <template #header>
@@ -602,7 +602,7 @@ const {
         <el-col :span="8">
           <el-card
             style="max-width: 300px; height: 300px"
-            shadow="always"
+            shadow="hover"
             class="customizeCardBody"
           >
             <template #header>
@@ -619,7 +619,7 @@ const {
         <el-col :span="8">
           <el-card
             style="max-width: 300px; height: 300px"
-            shadow="always"
+            shadow="hover"
             class="customizeCardBody"
           >
             <template #header>
@@ -823,6 +823,11 @@ const {
     box-shadow: 0 0 30px 3px #f56c6c;
     transform: scale(1.5);
   }
+}
+
+:deep(.el-card__header) {
+  border-bottom: none;
+  height: 40px;
 }
 
 :deep(.el-link) {
