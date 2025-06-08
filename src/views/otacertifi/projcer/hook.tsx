@@ -361,6 +361,7 @@ export function useProjCer() {
           text: "制作证书中",
           background: "rgba(0, 0, 0, 0.7)"
         });
+        let tempExpireDta = addForm.value.expiryData;
         if (
           addForm.value.commonExpireDta &&
           addForm.value.commonExpireDta !== ""
@@ -377,6 +378,7 @@ export function useProjCer() {
               message("修改成功！", { type: "success" });
               cancel();
             } else {
+              addForm.value.expiryData = tempExpireDta;
               message(res.msg, { type: "error" });
             }
             loading.close();
@@ -390,6 +392,7 @@ export function useProjCer() {
               message("保存成功！", { type: "success" });
               cancel();
             } else {
+              addForm.value.expiryData = tempExpireDta;
               message(res.msg, { type: "error" });
             }
             loading.close();
