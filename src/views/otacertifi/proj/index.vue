@@ -165,7 +165,10 @@ defineOptions({
           </template>
           <template #operation="{ row }">
             <el-button
-              v-if="row.useLicNum > 0 && row.approvalStatus !== 1"
+              v-if="
+                row.useLicNum > 0 &&
+                (row.approvalStatus !== 1 || row.approvalStatus !== 4)
+              "
               class="reset-margin"
               link
               type="primary"

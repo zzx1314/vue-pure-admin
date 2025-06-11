@@ -181,9 +181,11 @@ export function useProj() {
             ? "驳回"
             : row.approvalStatus === 1
               ? "提交"
-              : row.approvalStatus === 2
+              : row.approvalStatus === 3
                 ? "通过"
-                : "未审批"}
+                : row.approvalStatus === 5
+                  ? "重新提交"
+                  : "未审批"}
         </el-tag>
       )
     },
