@@ -193,7 +193,11 @@ defineOptions({
             <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>
                 <el-button
-                  v-if="hasAuth('proj_del')"
+                  v-if="
+                    hasAuth('proj_del') &&
+                    row.approvalStatus !== 1 &&
+                    row.approvalStatus !== 4
+                  "
                   class="reset-margin"
                   link
                   type="primary"
