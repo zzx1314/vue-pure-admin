@@ -165,7 +165,12 @@ defineOptions({
           </template>
           <template #operation="{ row }">
             <el-button
-              v-if="row.useLicNum > 0"
+              v-if="
+                row.useLicNum > 0 &&
+                (row.approvalStatus === '未审批' ||
+                  row.approvalStatus === '通过' ||
+                  row.approvalStatus === '驳回')
+              "
               class="reset-margin"
               link
               type="primary"
