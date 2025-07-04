@@ -212,7 +212,6 @@ const {
           <template v-slot="{ size, checkList, dynamicColumns }">
             <pure-table
               border
-              adaptive
               align-whole="center"
               showOverflowTooltip
               table-layout="auto"
