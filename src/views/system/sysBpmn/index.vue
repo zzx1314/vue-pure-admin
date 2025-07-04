@@ -5,8 +5,8 @@ import { useActThProcessConf } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Delete from "@iconify-icons/ep/delete";
-import Refresh from "@iconify-icons/ep/Refresh";
-import ReStart from "@iconify-icons/ri/restart-line"
+import Refresh from "@iconify-icons/ep/refresh";
+import ReStart from "@iconify-icons/ri/restart-line";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
