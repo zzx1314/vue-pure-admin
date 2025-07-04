@@ -367,6 +367,17 @@ export function useActThTask() {
     addForm.value = {
       id: null
     };
+    approyData.value = {
+      businessId: null,
+      businessName: null,
+      businessType: null,
+      currentFlowNodeId: null,
+      beforeFlowNodeId: null,
+      processId: null,
+      nodeType: null,
+      roleId: null,
+      processInstanceId: ""
+    };
     queryForm.value.name = "";
     queryForm.value.beginTime = "";
     queryForm.value.endTime = "";
