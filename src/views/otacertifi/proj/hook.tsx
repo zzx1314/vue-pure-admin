@@ -90,7 +90,8 @@ export function useProj() {
     ],
     liceTimeArray: [
       { required: true, message: "有效期限必填", trigger: "change" }
-    ]
+    ],
+    approverId: [{ required: true, message: "授权人必填", trigger: "change" }]
   });
 
   const moreCondition = ref(false);
