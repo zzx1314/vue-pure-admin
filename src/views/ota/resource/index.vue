@@ -264,7 +264,7 @@ const uploadFile = async (index, item) => {
       state.dataSource[index].status = "success";
       state.dataSource[index].progress = 100;
       message("上传成功", { type: "success" });
-      cancel();
+      cancelMode();
     }
   } catch (error) {
     state.dataSource[index].status = "error";
