@@ -322,6 +322,7 @@ export function useResource() {
       if (res.code === SUCCESS) {
         message("删除成功！", { type: "success" });
         onSearchMode(expandRowKeys.value[0]);
+        onSearch();
       } else {
         message(res.msg, { type: "error" });
       }
