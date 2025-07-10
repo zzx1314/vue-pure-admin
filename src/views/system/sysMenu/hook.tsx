@@ -61,12 +61,14 @@ export function useMenu() {
     {
       label: "序号",
       type: "index",
-      minWidth: 70
+      minWidth: 70,
+      fixed: "left"
     },
     {
       label: "名称",
       prop: "name",
       width: 180,
+      fixed: "left",
       align: "left",
       cellRenderer: ({ row }) => (
         <>
