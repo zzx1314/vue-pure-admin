@@ -130,7 +130,7 @@ const {
           v-if="hasAuth('org_add')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
-          @click="openDia('新增组织')"
+          @click="openDia('新增组织', addFormRef)"
         >
           新增
         </el-button>

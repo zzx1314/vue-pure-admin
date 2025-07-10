@@ -264,7 +264,7 @@ const uploadFile = async (index, item) => {
       state.dataSource[index].status = "success";
       state.dataSource[index].progress = 100;
       message("上传成功", { type: "success" });
-      cancel();
+      cancelMode();
     }
   } catch (error) {
     state.dataSource[index].status = "error";
@@ -887,6 +887,7 @@ const closePro = () => {
           v-if="addType === 'addSoftware' || updateType === 'updateSoftware'"
           label="操作系统名称"
           prop="softwareName"
+          class="w-full"
         >
           <el-input
             v-model="addForm.value.softwareName"
@@ -898,6 +899,7 @@ const closePro = () => {
           v-if="addType === 'addSoftware' || updateType === 'updateSoftware'"
           label="操作系统版本"
           prop="softwareVersion"
+          class="w-full"
         >
           <el-input
             v-model="addForm.value.softwareVersion"
@@ -909,12 +911,9 @@ const closePro = () => {
           v-if="addType === 'addSoftware' || updateType === 'updateSoftware'"
           label="设备类型"
           prop="devType"
+          class="w-full"
         >
-          <el-select
-            v-model="addForm.value.devType"
-            placeholder="选择设备类型"
-            style="width: 200px"
-          >
+          <el-select v-model="addForm.value.devType" placeholder="选择设备类型">
             <el-option
               v-for="item in devOption"
               :key="item.value"
@@ -928,6 +927,7 @@ const closePro = () => {
           v-if="addType === 'addMode' || updateType === 'updateMode'"
           label="模块名称"
           prop="pkgName"
+          class="w-full"
         >
           <el-input
             v-model="addForm.value.pkgName"
@@ -939,6 +939,7 @@ const closePro = () => {
           v-if="addType === 'addMode' || updateType === 'updateMode'"
           label="模块版本"
           prop="version"
+          class="w-full"
         >
           <el-input
             v-model="addForm.value.version"
@@ -950,11 +951,11 @@ const closePro = () => {
           v-if="addType === 'addMode' || updateType === 'updateMode'"
           label="操作系统"
           prop="parentId"
+          class="w-full"
         >
           <el-select
             v-model="addForm.value.parentId"
             placeholder="请选择所属操作系统"
-            style="width: 190px"
           >
             <el-option
               v-for="item in resOsList"
@@ -965,7 +966,7 @@ const closePro = () => {
           </el-select>
         </el-form-item>
 
-        <el-form-item label="备注" prop="remark">
+        <el-form-item label="备注" prop="remark" class="w-full">
           <el-input v-model="addForm.value.remark" placeholder="请输入备注" />
         </el-form-item>
 
@@ -973,6 +974,7 @@ const closePro = () => {
           v-if="addType === 'addMode' || updateType === 'updateMode'"
           label="上传文件"
           prop="file"
+          class="w-full"
         >
           <el-upload
             ref="uploadRef"
