@@ -510,7 +510,7 @@ export function useOBusDevice() {
           params = {
             type: "reportLog",
             data: {
-              fileName: commandForm.value.logPath
+              fileName: commandForm.value.content
             }
           };
         } else {
