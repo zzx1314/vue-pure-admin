@@ -507,12 +507,21 @@ export function useOBusDevice() {
           if (!checkLogPath()) {
             return;
           }
-          params = {
-            type: "reportLog",
-            data: {
-              fileName: commandForm.value.content
-            }
-          };
+          if (commandForm.value.logPath === "customize") {
+            params = {
+              type: "reportLog",
+              data: {
+                fileName: commandForm.value.content
+              }
+            };
+          } else {
+            params = {
+              type: "reportLog",
+              data: {
+                fileName: commandForm.value.logPath
+              }
+            };
+          }
         } else {
           // 处理其他类型
           let paramType = "command";
