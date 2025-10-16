@@ -608,8 +608,8 @@ export function useResource() {
   // 查询设备信息
   async function onSearchDev() {
     const page = {
-      size: pagination.pageSize,
-      current: pagination.currentPage
+      size: paginationDev.pageSize,
+      current: paginationDev.currentPage
     };
     const query = {
       ...page,
