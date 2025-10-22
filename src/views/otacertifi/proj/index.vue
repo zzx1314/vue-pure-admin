@@ -7,6 +7,7 @@ import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import mindMap from "@iconify-icons/ri/mind-map";
+import secure from "@iconify-icons/ri/secure-payment-line"
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
@@ -41,6 +42,7 @@ const {
   handleUpdate,
   handleUpdateApprove,
   handleDelete,
+  handleAuthorize,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange
@@ -178,6 +180,17 @@ defineOptions({
               @click="handleUpdateApprove(row, addFormRef)"
             >
               变更审批
+            </el-button>
+            <el-button
+              v-if="row.featuresId === '11'"
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
+              :icon="useRenderIcon(secure)"
+              @click="handleAuthorize(row)"
+            >
+              源码授权
             </el-button>
             <el-button
               v-if="hasAuth('proj_update') && row.useLicNum === 0"
