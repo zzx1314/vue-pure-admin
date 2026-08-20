@@ -116,12 +116,10 @@ export function useCollectorBusDevForm() {
       }
     },
     {
-      label: "授权时间",
-      prop: "liceTimeArray",
-      valueType: "date-picker",
+      label: "授权时长（天）",
+      prop: "liceTime",
+      valueType: "copy",
       fieldProps: {
-        type: "datetimerange",
-        format: "YYYY-MM-DD",
         disabled: true
       }
     },

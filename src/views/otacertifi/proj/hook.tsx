@@ -60,7 +60,6 @@ export function useProj() {
       featuresId: "",
       liceNum: "",
       liceTime: "",
-      liceTimeArray: [],
       liceMode: "",
       remark: "",
       approverId: ""
@@ -88,9 +87,7 @@ export function useProj() {
         trigger: "blur"
       }
     ],
-    liceTimeArray: [
-      { required: true, message: "有效期限必填", trigger: "change" }
-    ],
+    liceTime: [{ required: true, message: "授权时长必填", trigger: "change" }],
     approverId: [{ required: true, message: "授权人必填", trigger: "change" }]
   });
 
@@ -214,7 +211,7 @@ export function useProj() {
     const rowData = JSON.stringify(row);
     addForm.value = JSON.parse(rowData);
     addForm.value.featuresIdArray = row.featuresId.split(",").map(Number);
-    addForm.value.liceTimeArray = row.liceTime.split(",");
+    addForm.value.liceTime = getLicenseDuration(row.liceTime);
     openDia("修改", formEl);
   }
   function handleUpdateApprove(row, formEl) {
@@ -222,7 +219,7 @@ export function useProj() {
     const rowData = JSON.stringify(row);
     addForm.value = JSON.parse(rowData);
     addForm.value.featuresIdArray = row.featuresId.split(",").map(Number);
-    addForm.value.liceTimeArray = row.liceTime.split(",");
+    addForm.value.liceTime = getLicenseDuration(row.liceTime);
     dialogFormVisibleApprove.value = true;
     actThProcessConfGetFirstNode("授权项目变更").then(res => {
       if (res.code === SUCCESS) {
@@ -233,6 +230,24 @@ export function useProj() {
     });
     openDia("变更审批", formEl);
   }
+  // 将历史起止日期转换为可编辑的授权时长；申请中的数据本身就是天数。
+  function getLicenseDuration(liceTime: string) {
+    if (!liceTime) return "";
+    if (!liceTime.includes(",")) return String(liceTime);
+    const [start, end] = liceTime.split(",");
+    const startDate = new Date(`${start.slice(0, 10)}T00:00:00`);
+    const endDate = new Date(`${end.slice(0, 10)}T00:00:00`);
+    if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) {
+      return "";
+    }
+    return String(
+      Math.max(
+        1,
+        Math.round((endDate.getTime() - startDate.getTime()) / 86400000)
+      )
+    );
+  }
+
   // 删除
   function handleDelete(row) {
     console.log(row);
@@ -306,7 +321,6 @@ export function useProj() {
       featuresIdArray: [],
       liceNum: "",
       liceTime: "",
-      liceTimeArray: [],
       liceMode: "",
       remark: "",
       approverId: ""
@@ -330,7 +344,6 @@ export function useProj() {
       if (valid) {
         console.log(addForm.value);
         addForm.value.featuresId = addForm.value.featuresIdArray.join(",");
-        addForm.value.liceTime = addForm.value.liceTimeArray.join(",");
         if (addForm.value.id) {
           // 修改
           console.log("修改特性信息");
@@ -365,7 +378,6 @@ export function useProj() {
     await formEl.validate((valid, fields) => {
       if (valid) {
         addForm.value.featuresId = addForm.value.featuresIdArray.join(",");
-        addForm.value.liceTime = addForm.value.liceTimeArray.join(",");
         projUpdateCheck(addForm.value).then(res => {
           if (res.code !== SUCCESS) {
             message(res.msg, { type: "error" });
@@ -376,10 +388,8 @@ export function useProj() {
               projCode: addForm.value.projCode,
               customerId: addForm.value.customerId,
               featuresId: addForm.value.featuresIdArray.join(","),
-              featuresIdArray: addForm.value.featuresIdArray,
               liceNum: addForm.value.liceNum,
-              liceTime: addForm.value.liceTimeArray.join(","),
-              liceTimeArray: addForm.value.liceTimeArray,
+              liceTime: addForm.value.liceTime,
               remark: addForm.value.remark
             };
             console.log(addForm.value);
@@ -397,8 +407,7 @@ export function useProj() {
               updateQueryFiled: "proj_id",
               updateQueryValue: addForm.value.id,
               filed: {
-                cerStatus: "待更新授权证书",
-                cerFailureTime: addForm.value.liceTime
+                cerStatus: "待更新授权证书"
               }
             };
             applyForm.value.businessServiceEx = JSON.stringify(paramEx);

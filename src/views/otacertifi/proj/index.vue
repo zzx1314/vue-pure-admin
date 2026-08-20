@@ -279,16 +279,19 @@ defineOptions({
             style="width: 200px"
           />
         </el-form-item>
-        <el-form-item label="授权时间" prop="liceTimeArray">
-          <el-date-picker
-            v-model="addForm.value.liceTimeArray"
-            type="daterange"
-            range-separator="-"
-            start-placeholder="生效时间"
-            end-placeholder="失效时间"
-            class="!w-[204px]"
-            value-format="YYYY-MM-DD"
-          />
+        <el-form-item label="授权时长" prop="liceTime">
+          <el-select
+            v-model="addForm.value.liceTime"
+            placeholder="请选择授权时长"
+            style="width: 200px"
+          >
+            <el-option label="30天" value="30" />
+            <el-option label="3个月" value="90" />
+            <el-option label="6个月" value="180" />
+            <el-option label="1年" value="365" />
+            <el-option label="3年" value="1095" />
+            <el-option label="5年" value="1825" />
+          </el-select>
         </el-form-item>
 
         <el-form-item
