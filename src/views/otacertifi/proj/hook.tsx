@@ -6,7 +6,8 @@ import {
   projSave,
   projUpdate,
   projDelete,
-  projUpdateCheck
+  projUpdateCheck,
+  projCodeAuth
 } from "@/api/cerProj";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -190,7 +191,7 @@ export function useProj() {
     {
       label: "操作",
       fixed: "right",
-      minWidth: 170,
+      minWidth: 250,
       slot: "operation"
     }
   ];
@@ -448,6 +449,11 @@ export function useProj() {
       featureList.value = res.data;
     });
   }
+  // 处理源码授权
+  function handleAuthorize(row) {
+    console.log(row);
+    projCodeAuth(row.id);
+  }
   onMounted(() => {
     onSearch();
   });
@@ -474,6 +480,7 @@ export function useProj() {
     handleUpdate,
     handleUpdateApprove,
     handleDelete,
+    handleAuthorize,
     handleSizeChange,
     handleCurrentChange,
     handleSelectionChange,

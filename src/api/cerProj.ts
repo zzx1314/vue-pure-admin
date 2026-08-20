@@ -21,7 +21,8 @@ const cerProjUrls = {
   delete: `/api/cer/licenseBusProj/`,
   update: "/api/cer/licenseBusProj/update",
   getProjSelect: "/api/cer/licenseBusProj/getProjSelect",
-  updateCheck: "/api/cer/licenseBusProj/updateCheck"
+  updateCheck: "/api/cer/licenseBusProj/updateCheck",
+  authorizeSource: "/api/cer/licenseBusProj/authorizeSource/"
 };
 
 // 项目管理分页
@@ -47,4 +48,13 @@ export const projDelete = (param?: object) => {
 // 项目下拉框
 export const getProjSelectApi = (query?: object) => {
   return http.axiosGetRequest<Result>(cerProjUrls.getProjSelect, query);
+};
+// 项目源码授权
+export const projCodeAuth = (param?: object) => {
+  return http.downloadUrlMode(
+    cerProjUrls.authorizeSource + param,
+    "post",
+    "证书.zip",
+    ""
+  );
 };

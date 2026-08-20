@@ -132,7 +132,7 @@ export function useActThProcessConf() {
     {
       label: "操作",
       fixed: "right",
-      width: 180,
+      minWidth: 180,
       slot: "operation"
     }
   ];
