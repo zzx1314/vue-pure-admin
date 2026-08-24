@@ -138,6 +138,18 @@ export function useResource() {
     {
       value: "RK3588",
       label: "RK3588"
+    },
+    {
+      value: "RK3568",
+      label: "RK3568"
+    },
+    {
+      value: "XDC210-视觉导航",
+      label: "XDC210-视觉导航"
+    },
+    {
+      value: "XDC210-YD背包",
+      label: "XDC210-YD背包"
     }
   ];
   const typeOption = [

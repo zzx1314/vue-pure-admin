@@ -4,6 +4,7 @@ import type { FormInstance, FormRules } from "element-plus";
 import { devDelete, devPage, devSave, devUpdate } from "@/api/otaDev";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
+import { resolveDeviceTypeBySn } from "@/lib/snType";
 
 export function useDevice() {
   // ----变量定义-----
@@ -107,6 +108,11 @@ export function useDevice() {
       label: "设备类型",
       prop: "type",
       minWidth: 120
+    },
+    {
+      label: "SN解析类型",
+      minWidth: 150,
+      cellRenderer: ({ row }) => resolveDeviceTypeBySn(row.devId)
     },
     {
       label: "创建时间",
@@ -307,6 +313,7 @@ export function useDevice() {
     buttonClass,
     onSearch,
     resetForm,
+    resolveDeviceTypeBySn,
     handleUpdate,
     handleDelete,
     handleSizeChange,
