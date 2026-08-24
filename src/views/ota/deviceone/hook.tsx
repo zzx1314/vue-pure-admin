@@ -107,12 +107,8 @@ export function useDevice() {
     {
       label: "设备类型",
       prop: "type",
-      minWidth: 120
-    },
-    {
-      label: "SN解析类型",
-      minWidth: 150,
-      cellRenderer: ({ row }) => resolveDeviceTypeBySn(row.devId)
+      minWidth: 120,
+      cellRenderer: ({ row }) => row.type || resolveDeviceTypeBySn(row.devId)
     },
     {
       label: "创建时间",
