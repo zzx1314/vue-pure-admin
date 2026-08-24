@@ -42,6 +42,7 @@ const {
   onSearch,
   cancel,
   handleDesc,
+  refreshTaskDetail,
   handleDelete,
   handleSizeChange,
   handleDevSizeChange,
@@ -207,7 +208,7 @@ const {
         <PureTableBar
           title="下发设备列表"
           :columns="devClumns"
-          @refresh="onSearch"
+          @refresh="refreshTaskDetail"
         >
           <template v-slot="{ size, checkList, dynamicColumns }">
             <pure-table

@@ -43,7 +43,7 @@ export const taskDelete = (param?: object) => {
   return http.axiosDelete<Result>(otaBusTaskUrls.delete + param);
 };
 // 查询详情信息
-export const taskGetById = (param?: object) => {
+export const taskGetById = (param?: string | number) => {
   return http.axiosGet<any>(otaBusTaskUrls.getById + param);
 };
 

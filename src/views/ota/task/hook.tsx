@@ -29,6 +29,7 @@ export function useTask() {
   const dialogStatusVisible = ref(false);
   const activStatus = ref();
   const title = ref("");
+  const detailTaskId = ref<number | null>(null);
 
   const step1 = ref("安装包制作");
   const step2 = ref("待下发");
@@ -183,17 +184,30 @@ export function useTask() {
   });
 
   // -----方法定义---
+  // 查询任务详情，供打开详情和详情列表刷新复用
+  async function loadTaskDetail(taskId: number) {
+    const res = await taskGetById(taskId);
+    if (res.code === SUCCESS) {
+      devDataList.value = res.data.otaBusTaskDevList || [];
+      resDataList.value = res.data.otaResList || [];
+      return true;
+    }
+    message(res.msg || "查询任务详情失败", { type: "error" });
+    return false;
+  }
+
   // 修改
-  function handleDesc(row, formEl) {
+  async function handleDesc(row, formEl) {
     console.log(row);
-    taskGetById(row.id).then(res => {
-      if (res.code === SUCCESS) {
-        console.log(res.data);
-        devDataList.value = res.data.otaBusTaskDevList;
-        resDataList.value = res.data.otaResList;
-      }
-    });
+    detailTaskId.value = row.id;
+    await loadTaskDetail(row.id);
     openDia("查看详情", formEl);
+  }
+
+  // 刷新详情中的下发设备列表
+  async function refreshTaskDetail() {
+    if (detailTaskId.value == null) return;
+    await loadTaskDetail(detailTaskId.value);
   }
   // 删除
   function handleDelete(row) {
@@ -312,6 +326,7 @@ export function useTask() {
     queryForm.beginTime = "";
     queryForm.endTime = "";
     dialogFormVisible.value = false;
+    detailTaskId.value = null;
     onSearch();
   }
   // 保存
@@ -376,6 +391,7 @@ export function useTask() {
     onSearch,
     resetForm,
     handleDesc,
+    refreshTaskDetail,
     handleDelete,
     handleSizeChange,
     handleDevSizeChange,
