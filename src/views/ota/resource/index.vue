@@ -312,10 +312,13 @@ const initSliceFile = async (item, initData) => {
   });
 
   const uploadedSize = (listParts || []).reduce(
-    (size, partNumber) => size + (item.chunkFileList[partNumber - 1]?.size || 0),
+    (size, partNumber) =>
+      size + (item.chunkFileList[partNumber - 1]?.size || 0),
     0
   );
-  const currentIndex = state.dataSource.findIndex(current => current.uid === item.uid);
+  const currentIndex = state.dataSource.findIndex(
+    current => current.uid === item.uid
+  );
   if (currentIndex >= 0) {
     state.dataSource[currentIndex].uploadedSize = uploadedSize;
     state.dataSource[currentIndex].progress = Math.floor(
