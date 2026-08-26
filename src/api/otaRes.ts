@@ -25,7 +25,8 @@ const otaBusResourceUrls = {
   list: "/api/ota/otaBusResource/list",
   statistics: "/api/ota/otaBusResource/statistics",
   addModeBefore: "/api/ota/otaBusResource/addModeBefore",
-  assignCompany: "/api/ota/otaBusResource/assignCompany"
+  assignCompany: "/api/ota/otaBusResource/assignCompany",
+  transferCompany: "/api/ota/otaBusResource/transferCompany"
 };
 
 // 资源分页
@@ -73,4 +74,9 @@ export const resStatistics = (param?: object) => {
 // 资源分配公司（多租户认领）
 export const resAssignCompany = (param?: object) => {
   return http.axiosPostRequest<Result>(otaBusResourceUrls.assignCompany, param);
+};
+
+// 转移资源所属公司
+export const resTransferCompany = (param?: object) => {
+  return http.axiosPostRequest<Result>(otaBusResourceUrls.transferCompany, param);
 };

@@ -7,6 +7,7 @@ import {
 } from "element-plus";
 import {
   resAssignCompany,
+  resTransferCompany,
   resDelete,
   resList,
   resPageV1
@@ -53,6 +54,7 @@ export function useResource() {
   const companyDialogVisible = ref(false);
   const companyTree = ref([]);
   const assigningResource = ref(null);
+  const selectedCompanyId = ref(null);
 
   const showDiaLoading = ref(false);
   const percentage: Ref<number> = ref(0);
@@ -348,11 +350,38 @@ export function useResource() {
     }
   }
   // 分配/认领资源到公司（公司用户认领到当前公司，平台管理员需传目标公司）
-  async function openAssignDialog(row) {
-    assigningResource.value = row;
+  async function openAssignDialog(row, transfer = false) {
+    assigningResource.value = { ...row, transfer };
+    selectedCompanyId.value = null;
     const { data } = await getCompanyTree();
-    companyTree.value = data || [];
+    companyTree.value = filterCompanyTree(data || []);
     companyDialogVisible.value = true;
+  }
+
+  function filterCompanyTree(nodes) {
+    return nodes.map(node => ({
+      ...node,
+      disabled: node.type !== "company",
+      children: filterCompanyTree(node.children || [])
+    }));
+  }
+
+  function handleTransferCompany(companyId) {
+    if (!assigningResource.value || !companyId) {
+      message("请选择目标单位", { type: "warning" });
+      return;
+    }
+    resTransferCompany({ id: assigningResource.value.id, companyId }).then(res => {
+      if (res.code === SUCCESS) {
+        message("转移成功！", { type: "success" });
+        companyDialogVisible.value = false;
+        assigningResource.value = null;
+        selectedCompanyId.value = null;
+        onSearch();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
   }
 
   function handleAssignCompany(companyId) {
@@ -365,6 +394,7 @@ export function useResource() {
         message("分配成功！", { type: "success" });
         companyDialogVisible.value = false;
         assigningResource.value = null;
+        selectedCompanyId.value = null;
         onSearch();
       } else {
         message(res.msg, { type: "error" });
@@ -786,6 +816,7 @@ export function useResource() {
     handleUpdate,
     openAssignDialog,
     handleAssignCompany,
+    handleTransferCompany,
     handleDelete,
     handleSizeChange,
     handleSizeChangeMode,
@@ -807,6 +838,7 @@ export function useResource() {
     closeDiaLoad,
     companyDialogVisible,
     companyTree,
-    assigningResource
+    assigningResource,
+    selectedCompanyId
   };
 }

@@ -98,10 +98,12 @@ const {
   handleUpdate,
   openAssignDialog,
   handleAssignCompany,
+  handleTransferCompany,
   handleDelete,
   companyDialogVisible,
   companyTree,
   assigningResource,
+  selectedCompanyId,
   handleSizeChange,
   handleSizeChangeMode,
   handleDevSizeChange,
@@ -795,7 +797,8 @@ const closePro = () => {
                 @selection-change="handleSelectionChange"
                 @page-size-change="handleSizeChangeMode"
                 @page-current-change="handleCurrentChangeMode"
-              >                <template #operation="{ row }">
+              >
+                <template #operation="{ row }">
                   <el-button
                     v-if="hasAuth('res_update')"
                     class="reset-margin"
@@ -825,7 +828,9 @@ const closePro = () => {
                       </el-button>
                     </template>
                   </el-popconfirm>
-                  <el-dropdown v-if="row.type === '模块' && hasAuth('down_res')">
+                  <el-dropdown
+                    v-if="row.type === '模块' && hasAuth('down_res')"
+                  >
                     <el-button
                       class="ml-3 mt-[2px]"
                       link
@@ -850,7 +855,6 @@ const closePro = () => {
                       </el-dropdown-menu>
                     </template>
                   </el-dropdown>
-
                 </template>
               </pure-table>
             </div>
@@ -905,6 +909,18 @@ const closePro = () => {
                       @click="openAssignDialog(row)"
                     >
                       分配单位
+                    </el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item v-if="row.companyId">
+                    <el-button
+                      :class="buttonClass"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(EditPen)"
+                      @click="openAssignDialog(row, true)"
+                    >
+                      转移单位
                     </el-button>
                   </el-dropdown-item>
                 </el-dropdown-menu>
@@ -1261,17 +1277,17 @@ const closePro = () => {
 
     <el-dialog
       v-model="companyDialogVisible"
-      title="分配资源单位"
+      :title="assigningResource?.transfer ? '转移资源单位' : '分配资源单位'"
       width="500px"
     >
       <el-tree-select
         v-if="assigningResource"
-        v-model="assigningResource.companyId"
+        v-model="selectedCompanyId"
         :data="companyTree"
         node-key="id"
         check-strictly
         filterable
-        :props="{ label: 'name', value: 'id', children: 'children' }"
+        :props="{ label: 'name', value: 'id', children: 'children', disabled: 'disabled' }"
         placeholder="请选择单位"
         class="w-full"
       />
@@ -1279,7 +1295,11 @@ const closePro = () => {
         <el-button @click="companyDialogVisible = false">取消</el-button>
         <el-button
           type="primary"
-          @click="handleAssignCompany(assigningResource?.companyId)"
+          @click="
+            assigningResource?.transfer
+              ? handleTransferCompany(selectedCompanyId)
+              : handleAssignCompany(selectedCompanyId)
+          "
           >确定</el-button
         >
       </template>
