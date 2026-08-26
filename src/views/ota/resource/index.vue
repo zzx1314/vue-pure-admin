@@ -8,6 +8,7 @@ import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Delete from "@iconify-icons/ep/delete";
+import More from "@iconify-icons/ep/more-filled";
 import Position from "@iconify-icons/ep/position";
 import { PureTableBar } from "@/components/RePureTableBar";
 import Down from "@iconify-icons/ep/arrow-down";
@@ -83,6 +84,7 @@ const {
   progressVisible,
   progress,
   expandRowKeys,
+  buttonClass,
   percentage,
   showDiaLoading,
   cancel,
@@ -94,7 +96,12 @@ const {
   onSearchMode,
   onSearchDev,
   handleUpdate,
+  openAssignDialog,
+  handleAssignCompany,
   handleDelete,
+  companyDialogVisible,
+  companyTree,
+  assigningResource,
   handleSizeChange,
   handleSizeChangeMode,
   handleDevSizeChange,
@@ -788,8 +795,7 @@ const closePro = () => {
                 @selection-change="handleSelectionChange"
                 @page-size-change="handleSizeChangeMode"
                 @page-current-change="handleCurrentChangeMode"
-              >
-                <template #operation="{ row }">
+              >                <template #operation="{ row }">
                   <el-button
                     v-if="hasAuth('res_update')"
                     class="reset-margin"
@@ -802,17 +808,6 @@ const closePro = () => {
                     修改
                   </el-button>
 
-                  <el-button
-                    v-if="row.type === '模块' && hasAuth('down_res')"
-                    class="reset-margin"
-                    link
-                    type="primary"
-                    :size="size"
-                    :icon="useRenderIcon(Download)"
-                    @click="handleDown(row)"
-                  >
-                    下载
-                  </el-button>
                   <el-popconfirm
                     v-if="hasAuth('res_del')"
                     title="是否确认删除?"
@@ -830,6 +825,32 @@ const closePro = () => {
                       </el-button>
                     </template>
                   </el-popconfirm>
+                  <el-dropdown v-if="row.type === '模块' && hasAuth('down_res')">
+                    <el-button
+                      class="ml-3 mt-[2px]"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(More)"
+                    />
+                    <template #dropdown>
+                      <el-dropdown-menu>
+                        <el-dropdown-item>
+                          <el-button
+                            :class="buttonClass"
+                            link
+                            type="primary"
+                            :size="size"
+                            :icon="useRenderIcon(Download)"
+                            @click="handleDown(row)"
+                          >
+                            下载
+                          </el-button>
+                        </el-dropdown-item>
+                      </el-dropdown-menu>
+                    </template>
+                  </el-dropdown>
+
                 </template>
               </pure-table>
             </div>
@@ -847,17 +868,6 @@ const closePro = () => {
               修改
             </el-button>
 
-            <el-button
-              v-if="row.type === '模块' && hasAuth('down_res')"
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(Download)"
-              @click="handleDown(row)"
-            >
-              下载
-            </el-button>
             <el-popconfirm
               v-if="hasAuth('res_del')"
               title="是否确认删除?"
@@ -875,6 +885,31 @@ const closePro = () => {
                 </el-button>
               </template>
             </el-popconfirm>
+            <el-dropdown v-if="hasAuth('res_update')">
+              <el-button
+                class="ml-3 mt-[2px]"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(More)"
+              />
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>
+                    <el-button
+                      :class="buttonClass"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(EditPen)"
+                      @click="openAssignDialog(row)"
+                    >
+                      分配单位
+                    </el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </template>
         </pure-table>
       </template>
@@ -1223,6 +1258,32 @@ const closePro = () => {
       :dialog-form-visible="showDiaLoading"
       @update:dialogFormVisible="closeDiaLoad"
     />
+
+    <el-dialog
+      v-model="companyDialogVisible"
+      title="分配资源单位"
+      width="500px"
+    >
+      <el-tree-select
+        v-if="assigningResource"
+        v-model="assigningResource.companyId"
+        :data="companyTree"
+        node-key="id"
+        check-strictly
+        filterable
+        :props="{ label: 'name', value: 'id', children: 'children' }"
+        placeholder="请选择单位"
+        class="w-full"
+      />
+      <template #footer>
+        <el-button @click="companyDialogVisible = false">取消</el-button>
+        <el-button
+          type="primary"
+          @click="handleAssignCompany(assigningResource?.companyId)"
+          >确定</el-button
+        >
+      </template>
+    </el-dialog>
   </div>
 </template>
 

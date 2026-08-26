@@ -27,7 +27,8 @@ const orgurls = {
   saveSysOrg: `/api/upms/sysOrg`,
   updateById: `/api/upms/sysOrg`,
   removeById: `/api/upms/sysOrg/`,
-  removeByIds: `/api/upms/sysOrg/removeByIds`
+  removeByIds: `/api/upms/sysOrg/removeByIds`,
+  companyTree: `/api/upms/sysOrg/companyTree`
 };
 
 const userUrls = {
@@ -221,6 +222,11 @@ export const merge = (data?: object) => {
 /** 获取部门管理列表 */
 export const getDeptList = (data?: object) => {
   return http.axiosGetRequest<Result>(orgurls.allList, data);
+};
+
+/** 获取公司组织树 */
+export const getCompanyTree = (data?: object) => {
+  return http.axiosGetRequest<Result>(orgurls.companyTree, data);
 };
 
 /**

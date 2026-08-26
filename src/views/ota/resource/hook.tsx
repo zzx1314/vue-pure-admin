@@ -5,13 +5,19 @@ import {
   type FormRules,
   type UploadUserFile
 } from "element-plus";
-import { resDelete, resList, resPageV1 } from "@/api/otaRes";
+import {
+  resAssignCompany,
+  resDelete,
+  resList,
+  resPageV1
+} from "@/api/otaRes";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import { CHUNK_SIZE } from "@/constants";
 import { chunkDownloadFile } from "@/api/system";
 import { downloadFileByBlob } from "@/lib/fileUtil";
 import { devPage, getDevGroupSelect } from "@/api/otaDev";
+import { getCompanyTree } from "@/api/system";
 import { convertFileSizeUnit } from "@/lib/fileUtil";
 
 export function useResource() {
@@ -44,6 +50,9 @@ export function useResource() {
   const devSecDataList = ref([]);
   const title = ref("");
   const expandRowKeys = ref<number[]>([]);
+  const companyDialogVisible = ref(false);
+  const companyTree = ref([]);
+  const assigningResource = ref(null);
 
   const showDiaLoading = ref(false);
   const percentage: Ref<number> = ref(0);
@@ -237,6 +246,17 @@ export function useResource() {
       minWidth: 100
     },
     {
+      label: "归属公司",
+      prop: "companyName",
+      minWidth: 150,
+      cellRenderer: ({ row }) =>
+        row.companyName ? (
+          <el-tag type="info">{row.companyName}</el-tag>
+        ) : (
+          <el-tag type="warning">未分配</el-tag>
+        )
+    },
+    {
       label: "备注",
       prop: "remark",
       minWidth: 150
@@ -327,6 +347,31 @@ export function useResource() {
       openUpdateDia("修改模块");
     }
   }
+  // 分配/认领资源到公司（公司用户认领到当前公司，平台管理员需传目标公司）
+  async function openAssignDialog(row) {
+    assigningResource.value = row;
+    const { data } = await getCompanyTree();
+    companyTree.value = data || [];
+    companyDialogVisible.value = true;
+  }
+
+  function handleAssignCompany(companyId) {
+    if (!assigningResource.value || !companyId) {
+      message("请选择单位", { type: "warning" });
+      return;
+    }
+    resAssignCompany({ id: assigningResource.value.id, companyId }).then(res => {
+      if (res.code === SUCCESS) {
+        message("分配成功！", { type: "success" });
+        companyDialogVisible.value = false;
+        assigningResource.value = null;
+        onSearch();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
+  }
+
   // 删除
   function handleDelete(row) {
     console.log(row);
@@ -739,6 +784,8 @@ export function useResource() {
     onSearchMode,
     resetForm,
     handleUpdate,
+    openAssignDialog,
+    handleAssignCompany,
     handleDelete,
     handleSizeChange,
     handleSizeChangeMode,
@@ -757,6 +804,9 @@ export function useResource() {
     restartForm,
     restartFormMode,
     handleDown,
-    closeDiaLoad
+    closeDiaLoad,
+    companyDialogVisible,
+    companyTree,
+    assigningResource
   };
 }
