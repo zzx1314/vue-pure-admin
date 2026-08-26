@@ -1287,7 +1287,12 @@ const closePro = () => {
         node-key="id"
         check-strictly
         filterable
-        :props="{ label: 'name', value: 'id', children: 'children', disabled: 'disabled' }"
+        :props="{
+          label: 'name',
+          value: 'id',
+          children: 'children',
+          disabled: 'disabled'
+        }"
         placeholder="请选择单位"
         class="w-full"
       />
