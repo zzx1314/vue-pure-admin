@@ -889,7 +889,7 @@ const closePro = () => {
                 </el-button>
               </template>
             </el-popconfirm>
-            <el-dropdown v-if="hasAuth('res_update')">
+            <el-dropdown>
               <el-button
                 class="ml-3 mt-[2px]"
                 link
@@ -901,6 +901,7 @@ const closePro = () => {
                 <el-dropdown-menu>
                   <el-dropdown-item>
                     <el-button
+                      v-if="hasAuth('assign_org')"
                       :class="buttonClass"
                       link
                       type="primary"
@@ -913,6 +914,7 @@ const closePro = () => {
                   </el-dropdown-item>
                   <el-dropdown-item v-if="row.companyId">
                     <el-button
+                      v-if="hasAuth('transfer_org')"
                       :class="buttonClass"
                       link
                       type="primary"
