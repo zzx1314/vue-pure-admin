@@ -1,7 +1,7 @@
 import { computed, nextTick, onMounted, onUnmounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormInstance, FormRules } from "element-plus";
-import { devDelete, devPage, devSave, devUpdate } from "@/api/otaDev";
+import { devAssignCompany, devDelete, devPage, devSave, devUpdate } from "@/api/otaDev";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import { resolveDeviceTypeBySn } from "@/lib/snType";
@@ -121,6 +121,17 @@ export function useDevice() {
       prop: "heartbeatTime"
     },
     {
+      label: "归属公司",
+      minWidth: 150,
+      prop: "companyName",
+      cellRenderer: ({ row }) =>
+        row.companyName ? (
+          <el-tag type="info">{row.companyName}</el-tag>
+        ) : (
+          <el-tag type="warning">未分配</el-tag>
+        )
+    },
+    {
       label: "设备组别",
       minWidth: 150,
       prop: "devGroup"
@@ -168,6 +179,17 @@ export function useDevice() {
     devDelete(row.id).then(res => {
       if (res.code === SUCCESS) {
         message("删除成功！", { type: "success" });
+        onSearch();
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    });
+  }
+  // 分配/认领设备到公司（多租户）
+  function handleAssign(row) {
+    devAssignCompany({ id: row.id }).then(res => {
+      if (res.code === SUCCESS) {
+        message("分配成功！", { type: "success" });
         onSearch();
       } else {
         message(res.msg, { type: "error" });
@@ -312,6 +334,7 @@ export function useDevice() {
     resolveDeviceTypeBySn,
     handleUpdate,
     handleDelete,
+    handleAssign,
     handleSizeChange,
     handleCurrentChange,
     handleSelectionChange,

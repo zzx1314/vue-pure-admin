@@ -39,6 +39,7 @@ const {
   onSearch,
   handleUpdate,
   handleDelete,
+  handleAssign,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange
@@ -174,6 +175,23 @@ const {
             >
               修改
             </el-button>
+            <el-popconfirm
+              title="是否确认将该设备分配/认领到本公司？"
+              @confirm="handleAssign(row)"
+            >
+              <template #reference>
+                <el-button
+                  v-if="!row.companyId && hasAuth('dev_update')"
+                  class="reset-margin"
+                  link
+                  type="primary"
+                  :size="size"
+                  :icon="useRenderIcon(EditPen)"
+                >
+                  认领
+                </el-button>
+              </template>
+            </el-popconfirm>
             <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>
                 <el-button

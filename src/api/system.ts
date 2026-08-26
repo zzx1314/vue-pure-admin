@@ -73,6 +73,7 @@ const fileUploadUrls = {
 const fileMinoUp = {
   checkFileByMd5: `/api/upms/files/multipart/check/`,
   initMultiPartUpload: "/api/upms/files/multipart/init",
+  uploadMultipartPart: "/api/upms/files/multipart/part/",
   mergeMultipartUpload: "/api/upms/files/multipart/merge/",
   downloadMultipartFile: "/api/upms/files/downloadByFileId/",
   getFileList: "/api/upms/files/list"
@@ -158,6 +159,26 @@ export const initMultPartFile = (data?: object) => {
 
 export const mergeFileByMd5 = (data?: object) => {
   return http.axiosPostRequest<Result>(fileMinoUp.mergeMultipartUpload + data);
+};
+
+/** 通过后端接口上传单个分片，浏览器不直接访问 MinIO。 */
+export const uploadMultipartPart = (
+  md5: string,
+  partNumber: number,
+  chunk: Blob,
+  contentType?: string
+) => {
+  return http.axiosPutRequest<Result>(
+    fileMinoUp.uploadMultipartPart + md5 + "/" + partNumber,
+    chunk,
+    {
+      headers: {
+        "Content-Type": contentType || "application/octet-stream"
+      },
+      timeout: 0,
+      transformRequest: [(data: Blob) => data]
+    }
+  );
 };
 
 type queryParam = {
