@@ -57,12 +57,20 @@ const getResStatistics = () => {
 };
 
 const getTaskStatistics = () => {
-  taskStatistics().then(res => {
-    console.log(res);
-    time.value = res.data.time;
-    overNumber.value = res.data.overNums;
-    unOverNumber.value = res.data.offlineNums;
-  });
+  taskStatistics()
+    .then(res => {
+      console.log(res);
+      const data = res?.data;
+      time.value = data?.time ?? [];
+      overNumber.value = data?.overNums ?? [];
+      unOverNumber.value = data?.offlineNums ?? [];
+    })
+    .catch(error => {
+      console.error("获取任务统计失败", error);
+      time.value = [];
+      overNumber.value = [];
+      unOverNumber.value = [];
+    });
 };
 
 onMounted(() => {

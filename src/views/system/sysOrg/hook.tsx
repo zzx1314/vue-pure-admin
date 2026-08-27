@@ -1,5 +1,4 @@
 import { message } from "@/utils/message";
-import { handleTree } from "@/utils/tree";
 import { reactive, ref, onMounted, nextTick } from "vue";
 import { getDeptList, saveSysOrg, updateById, removeByIds } from "@/api/system";
 import type { FormInstance, FormRules } from "element-plus";
@@ -213,7 +212,8 @@ export function useDept() {
       searchForm.endTime = searchForm.endTime + " 23:59:59";
     }
     const { data } = await getDeptList(searchForm);
-    dataList.value = handleTree(data);
+    // /getTree 返回的已是嵌套树，直接使用，不能再走 handleTree（扁平列表建树，会清空 children）
+    dataList.value = data;
     setTimeout(() => {
       loading.value = false;
     }, 500);

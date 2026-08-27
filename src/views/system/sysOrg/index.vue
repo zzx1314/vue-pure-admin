@@ -235,6 +235,8 @@ const {
           <el-tree-select
             v-model="addForm.value.parentId"
             :data="dataList"
+            node-key="id"
+            :props="{ label: 'name', value: 'id', children: 'children' }"
             filterable
             check-strictly
             :render-after-expand="false"

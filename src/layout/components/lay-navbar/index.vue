@@ -46,17 +46,21 @@ const closeDia = () => {
 };
 
 const getData = () => {
-  getUserInfo().then(res => {
-    console.log("getUserInfo", res);
-    if (res.data && res.data.isFirstLogin) {
-      title.value = "第一次登录请修改密码";
-      showDia.value = true;
-    }
-    if (res.data && res.data.isTipPassUpdate) {
-      title.value = "密码已过期，请修改密码";
-      showDia.value = true;
-    }
-  });
+  getUserInfo()
+    .then(res => {
+      console.log("getUserInfo", res);
+      if (res?.data?.isFirstLogin) {
+        title.value = "第一次登录请修改密码";
+        showDia.value = true;
+      }
+      if (res?.data?.isTipPassUpdate) {
+        title.value = "密码已过期，请修改密码";
+        showDia.value = true;
+      }
+    })
+    .catch(error => {
+      console.error("获取用户信息失败", error);
+    });
 };
 onMounted(() => {
   getData();

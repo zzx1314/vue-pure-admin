@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { handleTree } from "@/utils/tree";
 import { getDeptList } from "@/api/system";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import {
@@ -111,7 +110,8 @@ watch(searchValue, val => {
 onMounted(() => {
   getDeptList().then(res => {
     if (res.code == SUCCESS) {
-      treeData.value = handleTree(res.data);
+      // /getTree 返回的已是嵌套树，直接使用，不能再走 handleTree（扁平列表建树，会清空 children）
+      treeData.value = res.data;
       console.log(treeData.value);
       nextTick(() => {
         const nodeId = treeData.value[0].id;
