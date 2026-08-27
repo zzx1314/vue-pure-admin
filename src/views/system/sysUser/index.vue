@@ -66,12 +66,16 @@ const addFormRul = ref({
 });
 
 const getSysSeting = () => {
-  getSafePolicy().then(res => {
-    if (res.code === SUCCESS) {
-      addFormRul.value = res.data;
-      console.log("获取安全策略", addFormRul.value);
-    }
-  });
+  getSafePolicy()
+    .then(res => {
+      if (res.code === SUCCESS && res.data) {
+        addFormRul.value = { ...addFormRul.value, ...res.data };
+        console.log("获取安全策略", addFormRul.value);
+      }
+    })
+    .catch(error => {
+      console.error("获取安全策略失败", error);
+    });
 };
 
 // 添加校验规则
@@ -161,12 +165,16 @@ const formRef = ref();
 
 // 获取所有角色列表
 async function getAllRole() {
-  const { data } = await listAllRole();
-  const allCheckItem = ref([]);
-  data.map(item => {
-    allCheckItem.value.push({ text: item.name, value: item.id });
-  });
-  roleArry.value.push(...allCheckItem.value);
+  try {
+    const { data } = await listAllRole();
+    const allCheckItem = ref([]);
+    (data ?? []).map(item => {
+      allCheckItem.value.push({ text: item.name, value: item.id });
+    });
+    roleArry.value.push(...allCheckItem.value);
+  } catch (error) {
+    console.error("获取角色列表失败", error);
+  }
 }
 </script>
 
@@ -438,6 +446,8 @@ async function getAllRole() {
             <el-tree-select
               v-model="addForm.orgId"
               :data="orgDataList"
+              node-key="id"
+              :props="{ label: 'name', value: 'id', children: 'children' }"
               check-strictly
               :render-after-expand="false"
               class="!w-[200px]"

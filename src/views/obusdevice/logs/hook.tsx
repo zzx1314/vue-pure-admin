@@ -5,10 +5,13 @@ import {
   oBusLogsPage,
   oBusLogsDelete,
   historyLogPage,
-  downLog
+  downLog,
+  oBusLogsAssignCompany,
+  oBusLogsTransferCompany
 } from "@/api/oBusLogs";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
+import { useCompanyAssign } from "@/views/obusdevice/hooks/useCompanyAssign";
 
 export function useOBusLogs() {
   // ----变量定义-----
@@ -98,9 +101,20 @@ export function useOBusLogs() {
       minWidth: 150
     },
     {
+      label: "归属公司",
+      minWidth: 150,
+      prop: "companyName",
+      cellRenderer: ({ row }) =>
+        row.companyName ? (
+          <el-tag type="info">{row.companyName}</el-tag>
+        ) : (
+          <el-tag type="warning">未分配</el-tag>
+        )
+    },
+    {
       label: "操作",
       fixed: "right",
-      width: 200,
+      width: 300,
       slot: "operation"
     }
   ];
@@ -331,6 +345,20 @@ export function useOBusLogs() {
     onSearch();
   });
 
+  // 多租户：日志归属公司分配/转移
+  const {
+    companyDialogVisible,
+    assigningRow,
+    selectedCompanyId,
+    companyTree,
+    openAssignDialog,
+    handleConfirmCompany
+  } = useCompanyAssign({
+    assignApi: oBusLogsAssignCompany,
+    transferApi: oBusLogsTransferCompany,
+    onFinished: onSearch
+  });
+
   return {
     queryForm,
     dataList,
@@ -361,6 +389,12 @@ export function useOBusLogs() {
     cancel,
     cancelHistory,
     restartForm,
-    openDia
+    openDia,
+    companyDialogVisible,
+    assigningRow,
+    selectedCompanyId,
+    companyTree,
+    openAssignDialog,
+    handleConfirmCompany
   };
 }

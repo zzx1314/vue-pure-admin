@@ -21,6 +21,8 @@ const oBusLogsUrls = {
   save: "/api/operation/oBusLogs/save",
   delete: `/api/operation/oBusLogs/`,
   update: "/api/operation/oBusLogs/update",
+  assignCompany: "/api/operation/oBusLogs/assignCompany",
+  transferCompany: "/api/operation/oBusLogs/transferCompany",
   downLog: "/api/operation/oBusLogs/downLog/"
 };
 
@@ -52,4 +54,14 @@ export const downLog = (param?: any, fileName?: any) => {
     fileName,
     null
   );
+};
+
+// 设备日志分配公司（多租户）
+export const oBusLogsAssignCompany = (param?: object) => {
+  return http.axiosPostRequest<Result>(oBusLogsUrls.assignCompany, param);
+};
+
+// 设备日志转移所属公司（多租户）
+export const oBusLogsTransferCompany = (param?: object) => {
+  return http.axiosPostRequest<Result>(oBusLogsUrls.transferCompany, param);
 };

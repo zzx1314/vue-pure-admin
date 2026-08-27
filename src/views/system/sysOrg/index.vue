@@ -130,7 +130,7 @@ const {
           v-if="hasAuth('org_add')"
           type="primary"
           :icon="useRenderIcon(AddFill)"
-          @click="openDia('新增组织')"
+          @click="openDia('新增组织', addFormRef)"
         >
           新增
         </el-button>
@@ -235,6 +235,8 @@ const {
           <el-tree-select
             v-model="addForm.value.parentId"
             :data="dataList"
+            node-key="id"
+            :props="{ label: 'name', value: 'id', children: 'children' }"
             filterable
             check-strictly
             :render-after-expand="false"

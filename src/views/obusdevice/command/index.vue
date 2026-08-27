@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { FormInstance } from "element-plus";
 import { useOBusCommand } from "./hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Search from "@iconify-icons/ep/search";
-import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
-import { PlusDialogForm, PlusSearch } from "plus-pro-components";
+import { PlusSearch } from "plus-pro-components";
 import Refresh from "@iconify-icons/ep/refresh";
+import CompanyAssignDialog from "@/views/obusdevice/components/CompanyAssignDialog.vue";
 import ArrowUp from "@iconify-icons/ep/arrow-up-bold";
 import ArrowDown from "@iconify-icons/ri/arrow-down-s-line";
 
@@ -17,7 +15,6 @@ defineOptions({
   name: "OBusCommand"
 });
 
-const addFormRef = ref<FormInstance>();
 const { columnsQueryForm } = useCollectorBusDevForm();
 
 const {
@@ -27,12 +24,16 @@ const {
   pagination,
   columns,
   onSearch,
-  handleDelete,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
   cancel,
-  openDia
+  companyDialogVisible,
+  assigningRow,
+  selectedCompanyId,
+  companyTree,
+  openAssignDialog,
+  handleConfirmCompany
 } = useOBusCommand();
 </script>
 <template>
@@ -101,30 +102,24 @@ const {
             <el-button
               class="reset-margin"
               link
-              type="primary"
+              :type="row.companyId ? 'warning' : 'primary'"
               :size="size"
-              :icon="useRenderIcon(Search)"
-              @click="openDia(row, addFormRef)"
+              @click="openAssignDialog(row)"
             >
-              修改
+              {{ row.companyId ? "转移单位" : "分配单位" }}
             </el-button>
-            <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
-              <template #reference>
-                <el-button
-                  class="reset-margin"
-                  link
-                  type="primary"
-                  :size="size"
-                  :icon="useRenderIcon(Delete)"
-                >
-                  删除
-                </el-button>
-              </template>
-            </el-popconfirm>
           </template>
         </pure-table>
       </template>
     </PureTableBar>
+
+    <CompanyAssignDialog
+      v-model="companyDialogVisible"
+      v-model:selected-company-id="selectedCompanyId"
+      :assigning-row="assigningRow"
+      :company-tree="companyTree"
+      @confirm="handleConfirmCompany"
+    />
   </div>
 </template>
 

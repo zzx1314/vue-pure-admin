@@ -20,7 +20,9 @@ const oBusCommandUrls = {
   save: "/api/operation/command/save",
   delete: `/api/operation/command/`,
   update: "/api/operation/command/update",
-  statisticsCommandByStatus: "/api/operation/command/statisticsCommandByStatus"
+  statisticsCommandByStatus: "/api/operation/command/statisticsCommandByStatus",
+  assignCompany: "/api/operation/command/assignCompany",
+  transferCompany: "/api/operation/command/transferCompany"
 };
 
 // 指令分页
@@ -45,4 +47,14 @@ export const statisticsCommandByStatus = (param?: object) => {
     oBusCommandUrls.statisticsCommandByStatus,
     param
   );
+};
+
+// 指令分配公司（多租户）
+export const oBusCommandAssignCompany = (param?: object) => {
+  return http.axiosPostRequest<Result>(oBusCommandUrls.assignCompany, param);
+};
+
+// 指令转移所属公司（多租户）
+export const oBusCommandTransferCompany = (param?: object) => {
+  return http.axiosPostRequest<Result>(oBusCommandUrls.transferCompany, param);
 };

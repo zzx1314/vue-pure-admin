@@ -5,11 +5,14 @@ import {
   oBusCommandSave,
   oBusCommandPage,
   oBusCommandUpdate,
-  oBusCommandDelete
+  oBusCommandDelete,
+  oBusCommandAssignCompany,
+  oBusCommandTransferCompany
 } from "@/api/oBusCommand";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import type { FieldValues } from "plus-pro-components";
+import { useCompanyAssign } from "@/views/obusdevice/hooks/useCompanyAssign";
 
 export function useOBusCommand() {
   // ----变量定义-----
@@ -91,9 +94,26 @@ export function useOBusCommand() {
       minWidth: 100
     },
     {
+      label: "归属公司",
+      minWidth: 150,
+      prop: "companyName",
+      cellRenderer: ({ row }) =>
+        row.companyName ? (
+          <el-tag type="info">{row.companyName}</el-tag>
+        ) : (
+          <el-tag type="warning">未分配</el-tag>
+        )
+    },
+    {
       label: "创建时间",
       prop: "createTime",
       minWidth: 100
+    },
+    {
+      label: "操作",
+      fixed: "right",
+      width: 160,
+      slot: "operation"
     }
   ];
   const buttonClass = computed(() => {
@@ -221,6 +241,20 @@ export function useOBusCommand() {
     onSearch();
   });
 
+  // 多租户：指令归属公司分配/转移
+  const {
+    companyDialogVisible,
+    assigningRow,
+    selectedCompanyId,
+    companyTree,
+    openAssignDialog,
+    handleConfirmCompany
+  } = useCompanyAssign({
+    assignApi: oBusCommandAssignCompany,
+    transferApi: oBusCommandTransferCompany,
+    onFinished: onSearch
+  });
+
   return {
     queryForm,
     dataList,
@@ -243,6 +277,12 @@ export function useOBusCommand() {
     handleSubmitError,
     cancel,
     restartForm,
-    openDia
+    openDia,
+    companyDialogVisible,
+    assigningRow,
+    selectedCompanyId,
+    companyTree,
+    openAssignDialog,
+    handleConfirmCompany
   };
 }

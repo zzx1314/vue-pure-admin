@@ -366,6 +366,10 @@ export function useDictBus() {
     deleteDictItem(row.id).then(res => {
       if (res.code === SUCCESS) {
         message("删除成功！", { type: "success" });
+        // 删除后刷新配置项列表，保持弹框内数据最新（融合 ota 分支意图）
+        getItemById(editRow.value.id).then(({ data }) => {
+          dataListMode.value = data;
+        });
       } else {
         message(res.msg, { type: "error" });
       }

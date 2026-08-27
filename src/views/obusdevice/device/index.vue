@@ -27,6 +27,7 @@ import ArrowUp from "@iconify-icons/ep/arrow-up-bold";
 import ArrowDown from "@iconify-icons/ri/arrow-down-s-line";
 import WaterBallRect from "@/components/ReEcharts/WaterBallRect.vue";
 import { hasAuth } from "@/router/utils";
+import CompanyAssignDialog from "@/views/obusdevice/components/CompanyAssignDialog.vue";
 
 defineOptions({
   name: "OBusDevice"
@@ -91,7 +92,13 @@ const {
   checkLogPath,
   downCommand,
   cancel,
-  openDia
+  openDia,
+  companyDialogVisible,
+  assigningRow,
+  selectedCompanyId,
+  companyTree,
+  openAssignDialog,
+  handleConfirmCompany
 } = useOBusDevice();
 </script>
 <template>
@@ -240,6 +247,15 @@ const {
               @click="openDia(row, addFormRef)"
             >
               修改
+            </el-button>
+            <el-button
+              class="reset-margin"
+              link
+              :type="row.companyId ? 'warning' : 'primary'"
+              :size="size"
+              @click="openAssignDialog(row)"
+            >
+              {{ row.companyId ? "转移单位" : "分配单位" }}
             </el-button>
             <!--            <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>
@@ -750,6 +766,14 @@ const {
         </span>
       </template>
     </el-dialog>
+
+    <CompanyAssignDialog
+      v-model="companyDialogVisible"
+      v-model:selected-company-id="selectedCompanyId"
+      :assigning-row="assigningRow"
+      :company-tree="companyTree"
+      @confirm="handleConfirmCompany"
+    />
   </div>
 </template>
 

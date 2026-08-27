@@ -19,6 +19,8 @@ import {
   oBusDevicePage,
   oBusDeviceSave,
   oBusDeviceUpdate,
+  oBusDeviceAssignCompany,
+  oBusDeviceTransferCompany,
   oBusPushCommand
 } from "@/api/oBusDevice";
 import { SUCCESS } from "@/api/base";
@@ -29,6 +31,7 @@ import WebSocketClient from "@/components/ReWebSocket";
 import aesUtils from "@/utils/aes";
 import { useRenderFlicker } from "@/components/ReFlicker";
 import { getSelectByType } from "@/api/system";
+import { useCompanyAssign } from "@/views/obusdevice/hooks/useCompanyAssign";
 
 export function useOBusDevice() {
   // ----变量定义-----
@@ -212,9 +215,20 @@ export function useOBusDevice() {
       minWidth: 100
     },
     {
+      label: "归属公司",
+      minWidth: 150,
+      prop: "companyName",
+      cellRenderer: ({ row }) =>
+        row.companyName ? (
+          <el-tag type="info">{row.companyName}</el-tag>
+        ) : (
+          <el-tag type="warning">未分配</el-tag>
+        )
+    },
+    {
       label: "操作",
       fixed: "right",
-      width: 130,
+      width: 230,
       slot: "operation"
     }
   ];
@@ -703,6 +717,20 @@ export function useOBusDevice() {
     });
   });
 
+  // 多租户：设备归属公司分配/转移
+  const {
+    companyDialogVisible,
+    assigningRow,
+    selectedCompanyId,
+    companyTree,
+    openAssignDialog,
+    handleConfirmCompany
+  } = useCompanyAssign({
+    assignApi: oBusDeviceAssignCompany,
+    transferApi: oBusDeviceTransferCompany,
+    onFinished: onSearch
+  });
+
   return {
     queryForm,
     dataList,
@@ -763,6 +791,12 @@ export function useOBusDevice() {
     downCommand,
     cancel,
     restartForm,
-    openDia
+    openDia,
+    companyDialogVisible,
+    assigningRow,
+    selectedCompanyId,
+    companyTree,
+    openAssignDialog,
+    handleConfirmCompany
   };
 }

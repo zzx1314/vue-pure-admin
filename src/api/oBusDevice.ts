@@ -27,7 +27,9 @@ const oBusDeviceUrls = {
   checkShellLogin: "/api/operation/oBusDevice/checkShellLogin/",
   statisticsDeviceByType: "/api/operation/oBusDevice/statisticsDeviceByType",
   statisticsOnOrOffine: "/api/operation/oBusDevice/statisticsOnOrOffine",
-  loginShellLog: "/api/operation/oBusDevice/loginShellLog"
+  loginShellLog: "/api/operation/oBusDevice/loginShellLog",
+  assignCompany: "/api/operation/oBusDevice/assignCompany",
+  transferCompany: "/api/operation/oBusDevice/transferCompany"
 };
 
 // 设备信息分页
@@ -83,6 +85,7 @@ export const checkShellLogin = (deviceId?: string, param?: object) => {
   );
 };
 
+// 设备类型统计
 export const statisticsDeviceByType = (param?: object) => {
   return http.axiosGetRequest<Result>(
     oBusDeviceUrls.statisticsDeviceByType,
@@ -90,13 +93,23 @@ export const statisticsDeviceByType = (param?: object) => {
   );
 };
 
+// 在线离线统计
 export const statisticsOnOrOffine = (param?: object) => {
   return http.axiosGetRequest<Result>(
     oBusDeviceUrls.statisticsOnOrOffine,
     param
   );
 };
-
 export const loginShellLog = (param?: object) => {
   return http.axiosPostRequest<Result>(oBusDeviceUrls.loginShellLog, param);
+};
+
+// 设备分配公司（多租户）
+export const oBusDeviceAssignCompany = (param?: object) => {
+  return http.axiosPostRequest<Result>(oBusDeviceUrls.assignCompany, param);
+};
+
+// 设备转移所属公司（多租户）
+export const oBusDeviceTransferCompany = (param?: object) => {
+  return http.axiosPostRequest<Result>(oBusDeviceUrls.transferCompany, param);
 };

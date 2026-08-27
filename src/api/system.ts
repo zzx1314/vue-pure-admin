@@ -27,7 +27,8 @@ const orgurls = {
   saveSysOrg: `/api/upms/sysOrg`,
   updateById: `/api/upms/sysOrg`,
   removeById: `/api/upms/sysOrg/`,
-  removeByIds: `/api/upms/sysOrg/removeByIds`
+  removeByIds: `/api/upms/sysOrg/removeByIds`,
+  companyTree: `/api/upms/sysOrg/companyTree`
 };
 
 const userUrls = {
@@ -228,6 +229,11 @@ export const removeById = (param: internal) => {
  */
 export const removeByIds = (param?: object) => {
   return http.axiosPostRequest<Result>(orgurls.removeByIds, param);
+};
+
+/** 获取公司组织树（多租户数据隔离用） */
+export const getCompanyTree = (data?: object) => {
+  return http.axiosGetRequest<Result>(orgurls.companyTree, data);
 };
 
 /**
