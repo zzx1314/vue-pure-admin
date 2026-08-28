@@ -1,5 +1,6 @@
 import { message } from "@/utils/message";
 import { reactive, ref, onMounted, nextTick } from "vue";
+import { handleTree } from "@/utils/tree";
 import { getDeptList, saveSysOrg, updateById, removeByIds } from "@/api/system";
 import type { FormInstance, FormRules } from "element-plus";
 import { SUCCESS } from "@/api/base";
@@ -130,9 +131,16 @@ export function useDept() {
 
   // 修改
   function handleUpdate(row) {
-    const orgInfo = JSON.stringify(row);
     openDia("修改组织");
-    addForm.value = JSON.parse(orgInfo);
+    addForm.value = {
+      id: row.id,
+      name: row.name,
+      type: row.type,
+      parentId: row.parentId,
+      parentName: row.parentName || "",
+      remarks: row.remarks || "",
+      sort: row.sort || 0
+    };
   }
 
   // 确认删除
@@ -208,12 +216,15 @@ export function useDept() {
 
   async function onSearch() {
     loading.value = true;
-    if (searchForm.endTime) {
-      searchForm.endTime = searchForm.endTime + " 23:59:59";
-    }
-    const { data } = await getDeptList(searchForm);
-    // /getTree 返回的已是嵌套树，直接使用，不能再走 handleTree（扁平列表建树，会清空 children）
-    dataList.value = data;
+    const query = {
+      ...searchForm,
+      endTime: searchForm.endTime
+        ? `${searchForm.endTime} 23:59:59`
+        : searchForm.endTime
+    };
+    const { data } = await getDeptList(query);
+    // /allList 返回扁平组织列表，转换为树供表格和上级选择使用
+    dataList.value = handleTree(data || []);
     setTimeout(() => {
       loading.value = false;
     }, 500);
