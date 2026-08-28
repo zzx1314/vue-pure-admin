@@ -228,7 +228,7 @@ export function useOBusDevice() {
     {
       label: "操作",
       fixed: "right",
-      width: 230,
+      width: 150,
       slot: "operation"
     }
   ];

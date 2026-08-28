@@ -114,7 +114,7 @@ export function useOBusLogs() {
     {
       label: "操作",
       fixed: "right",
-      width: 300,
+      width: 220,
       slot: "operation"
     }
   ];

@@ -9,6 +9,7 @@ import { useCollectorBusDevForm } from "./form";
 import PureTable from "@pureadmin/table";
 import { PlusDialogForm, PlusSearch } from "plus-pro-components";
 import More from "@iconify-icons/ep/more-filled";
+import OfficeBuilding from "@iconify-icons/ep/office-building";
 import Password from "@iconify-icons/ri/lock-password-line";
 import Dowload from "@iconify-icons/ri/download-line";
 import "@xterm/xterm/css/xterm.css";
@@ -248,15 +249,6 @@ const {
             >
               修改
             </el-button>
-            <el-button
-              class="reset-margin"
-              link
-              :type="row.companyId ? 'warning' : 'primary'"
-              :size="size"
-              @click="openAssignDialog(row)"
-            >
-              {{ row.companyId ? "转移单位" : "分配单位" }}
-            </el-button>
             <!--            <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>
                 <el-button
@@ -302,6 +294,17 @@ const {
                       @click="downCommand(row, commandFormRef)"
                     >
                       下发指令
+                    </el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button
+                      link
+                      :icon="useRenderIcon(OfficeBuilding)"
+                      :type="row.companyId ? 'warning' : 'primary'"
+                      :size="size"
+                      @click="openAssignDialog(row)"
+                    >
+                      {{ row.companyId ? "转移单位" : "分配单位" }}
                     </el-button>
                   </el-dropdown-item>
                 </el-dropdown-menu>
