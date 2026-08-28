@@ -7,7 +7,7 @@ import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import mindMap from "@iconify-icons/ri/mind-map";
-import secure from "@iconify-icons/ri/secure-payment-line"
+import secure from "@iconify-icons/ri/secure-payment-line";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Delete from "@iconify-icons/ep/delete";
 import { PureTableBar } from "@/components/RePureTableBar";
@@ -64,7 +64,9 @@ defineOptions({
       <el-form-item label="客户账号" prop="name">
         <el-input
           v-model="queryForm.userName"
-          placeholder="请输入客户账号"
+          placeholder="请输入客户账号（最多15字节）"
+          maxlength="15"
+          show-word-limit
           clearable
           class="!w-[150px]"
         />
@@ -250,7 +252,9 @@ defineOptions({
           <el-input
             v-model="addForm.value.projCode"
             style="width: 200px"
-            placeholder="请输入项目编码"
+            placeholder="请输入项目编码（最多15字节）"
+            maxlength="15"
+            show-word-limit
           />
         </el-form-item>
         <el-form-item label="客户账号" prop="customerId">

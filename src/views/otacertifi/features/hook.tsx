@@ -4,6 +4,7 @@ import type { FormInstance, FormRules } from "element-plus";
 import { prodDelete, prodPage, prodSave, prodUpdate } from "@/api/cerFeatures";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
+import { maxUtf8BytesRule } from "@/utils/byteLength";
 
 export function useProd() {
   // ----变量定义-----
@@ -44,7 +45,8 @@ export function useProd() {
         pattern: /^[a-zA-Z\s]+$/,
         message: "特性名称必须是英文",
         trigger: "blur"
-      }
+      },
+      maxUtf8BytesRule("特性名称")
     ],
     featuresVersion: [
       { required: true, message: "特性版本必填", trigger: "blur" },

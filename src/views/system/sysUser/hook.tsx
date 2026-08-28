@@ -13,6 +13,7 @@ import { reactive, ref, computed, nextTick } from "vue";
 import type { FormInstance } from "element-plus";
 import { SUCCESS } from "@/api/base";
 import { hasAuth } from "@/router/utils";
+import { maxUtf8BytesRule } from "@/utils/byteLength";
 
 export function useUser() {
   // 更多查询条件

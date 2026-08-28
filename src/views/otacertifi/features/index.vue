@@ -12,6 +12,7 @@ import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
 import { useProd } from "@/views/otacertifi/features/hook";
 import { hasAuth } from "@/router/utils";
+import { maxUtf8BytesRule } from "@/utils/byteLength";
 
 const formRef = ref();
 const addFormRef = ref<FormInstance>();
@@ -184,7 +185,9 @@ defineOptions({
           <el-input
             v-model="addForm.value.featuresName"
             :disabled="title == '修改'"
-            placeholder="请输入特性名称"
+            placeholder="请输入特性名称（最多15字节）"
+            maxlength="15"
+            show-word-limit
           />
         </el-form-item>
 

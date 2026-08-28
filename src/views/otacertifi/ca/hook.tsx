@@ -11,6 +11,7 @@ import {
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import { getProjSelectApi } from "@/api/cerProj";
+import { maxUtf8BytesRule } from "@/utils/byteLength";
 
 export function useCa() {
   // ----变量定义-----
@@ -52,7 +53,10 @@ export function useCa() {
   const rules = reactive<FormRules>({
     projArray: [{ required: true, message: "所属项目必填", trigger: "change" }],
     modelName: [{ required: true, message: "所属模块必填", trigger: "blur" }],
-    password: [{ required: true, message: "密码必填", trigger: "blur" }],
+    password: [
+      { required: true, message: "密码必填", trigger: "blur" },
+      maxUtf8BytesRule("密码")
+    ],
     name: [{ required: true, message: "名称必填", trigger: "blur" }],
     domain: [{ required: true, message: "域名必填", trigger: "blur" }],
     expiryData: [

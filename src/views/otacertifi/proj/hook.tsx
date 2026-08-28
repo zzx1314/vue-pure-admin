@@ -13,6 +13,7 @@ import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import { getUserByRoleIdNoPage } from "@/api/user";
 import { getFeatureSelect } from "@/api/cerFeatures";
+import { maxUtf8BytesRule } from "@/utils/byteLength";
 import {
   actThProcessConfApplyBuniessTask,
   actThProcessConfGetFirstNode
@@ -74,7 +75,8 @@ export function useProj() {
         pattern: /^[a-zA-Z0-9_]+$/,
         message: "项目编码只能是英文,数字，下划线",
         trigger: "blur"
-      }
+      },
+      maxUtf8BytesRule("项目编码")
     ],
     customerId: [{ required: true, message: "客户必填", trigger: "change" }],
     featuresIdArray: [

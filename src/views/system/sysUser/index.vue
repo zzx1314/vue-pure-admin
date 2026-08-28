@@ -18,6 +18,7 @@ import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
 import { hasAuth } from "@/router/utils";
 import { SUCCESS } from "@/api/base";
+import { maxUtf8BytesRule } from "@/utils/byteLength";
 
 const {
   moreCondition,
@@ -134,20 +135,25 @@ const validatePass4 = (rule: any, value: any, callback: any) => {
 
 const rules = {
   realName: [{ required: true, message: "姓名必填", trigger: "blur" }],
-  username: [{ required: true, message: "账号必填", trigger: "blur" }],
+  username: [
+    { required: true, message: "账号必填", trigger: "blur" },
+    maxUtf8BytesRule("账号")
+  ],
   enable: [{ required: true, message: "类型必填", trigger: "change" }],
   sex: [{ required: true, message: "性别必填", trigger: "change" }],
   role: [{ required: true, message: "角色必填", trigger: "change" }],
   newpassword: [
     { validator: validatePass3, trigger: "blur" },
     { validator: validatePass4, trigger: "blur" },
-    { required: true, message: "密码必填", trigger: "blur" }
+    { required: true, message: "密码必填", trigger: "blur" },
+    maxUtf8BytesRule("密码")
   ],
   newpassword1: [
     { validator: validatePass2, trigger: "blur" },
     { validator: validatePass3, trigger: "blur" },
     { validator: validatePass4, trigger: "blur" },
-    { required: true, message: "密码必填", trigger: "blur" }
+    { required: true, message: "密码必填", trigger: "blur" },
+    maxUtf8BytesRule("密码")
   ]
 };
 
@@ -389,7 +395,9 @@ async function getAllRole() {
             <el-input
               v-model="addForm.username"
               style="width: 200px"
-              placeholder="请输入账号"
+              placeholder="请输入账号（最多15字节）"
+              maxlength="15"
+              show-word-limit
             />
           </el-form-item>
           <el-form-item label="姓名" prop="realName">
@@ -452,7 +460,9 @@ async function getAllRole() {
             <el-input
               v-model="addForm.newpassword"
               style="width: 200px"
-              placeholder="请输入密码"
+              placeholder="请输入密码（最多15字节）"
+              maxlength="15"
+              show-word-limit
               type="password"
             />
           </el-form-item>
@@ -465,7 +475,9 @@ async function getAllRole() {
               v-model="addForm.newpassword1"
               style="width: 200px"
               type="password"
-              placeholder="请输入密码"
+              placeholder="请输入密码（最多15字节）"
+              maxlength="15"
+              show-word-limit
             />
           </el-form-item>
         </el-form>
