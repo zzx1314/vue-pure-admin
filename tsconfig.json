@@ -14,7 +14,6 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
-    "baseUrl": ".",
     "allowJs": false,
     "resolveJsonModule": true,
     "lib": [
@@ -23,10 +22,10 @@
     ],
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ],
       "@build/*": [
-        "build/*"
+        "./build/*"
       ]
     },
     "types": [
@@ -43,10 +42,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "types/*.d.ts",
-    "vite.config.ts",
-    "types/editor/*.d.ts",
-    "types/bpmn-moddle/*.d.ts",
-    "types/declares/*.d.ts"
+    "vite.config.ts"
   ],
   "exclude": [
     "dist",
