@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { getDeptList } from "@/api/system";
+import { handleTree } from "@/utils/tree";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import {
   ref,
   computed,
   watch,
   onMounted,
-  getCurrentInstance,
   nextTick
 } from "vue";
 
@@ -28,11 +28,10 @@ interface Tree {
 }
 
 const treeRef = ref();
-const treeData = ref([]);
+const treeData = ref<Tree[]>([]);
 const isExpand = ref(true);
 const searchValue = ref("");
 const highlightMap = ref({});
-const { proxy } = getCurrentInstance();
 const defaultProps = {
   children: "children",
   label: "name",
@@ -66,13 +65,10 @@ function nodeClick(value) {
   console.log(value);
   const nodeId = value.id;
   console.log(nodeId);
-  highlightMap.value[nodeId] = highlightMap.value[nodeId]?.highlight
-    ? Object.assign({ id: nodeId }, highlightMap.value[nodeId], {
-        highlight: false
-      })
-    : Object.assign({ id: nodeId }, highlightMap.value[nodeId], {
-        highlight: true
-      });
+  highlightMap.value[nodeId] = {
+    id: nodeId,
+    highlight: true
+  };
   Object.values(highlightMap.value).forEach((v: Tree) => {
     if (v.id !== nodeId) {
       v.highlight = false;
@@ -90,7 +86,9 @@ function nodeClick(value) {
 
 function toggleRowExpansionAll(status) {
   isExpand.value = status;
-  const nodes = (proxy.$refs["treeRef"] as any).store._getAllNodes();
+  const tree = treeRef.value;
+  if (!tree?.store) return;
+  const nodes = tree.store._getAllNodes();
   for (let i = 0; i < nodes.length; i++) {
     nodes[i].expanded = status;
   }
@@ -98,69 +96,70 @@ function toggleRowExpansionAll(status) {
 
 /** 重置状态（选中状态、搜索框值、树初始化） */
 function onReset() {
-  highlightMap.value = [];
+  highlightMap.value = {};
   searchValue.value = "";
   toggleRowExpansionAll(true);
 }
 
 watch(searchValue, val => {
-  treeRef.value!.filter(val);
+  treeRef.value?.filter(val);
 });
 
-onMounted(() => {
-  getDeptList().then(res => {
-    if (res.code == SUCCESS) {
-      // /getTree 返回的已是嵌套树，直接使用，不能再走 handleTree（扁平列表建树，会清空 children）
-      treeData.value = res.data;
-      console.log(treeData.value);
-      nextTick(() => {
-        const nodeId = treeData.value[0].id;
-        highlightMap.value[nodeId] = {
-          id: nodeId,
-          highlight: true
-        };
-        console.log("highlightMap", highlightMap.value);
-      });
+onMounted(async () => {
+  const res = await getDeptList();
+  if (res.code !== SUCCESS) return;
 
-      const resultId = [];
-      getOrgIds(treeData.value[0].id, treeData.value, resultId);
-      emit("setOrgIds", resultId);
-      emit("setOrgId", treeData.value[0].id);
-      emit("setOrgName", treeData.value[0].name);
-      emit("setTreeData", treeData.value);
-    }
+  // /allList 返回扁平组织列表，必须先转换为树
+  treeData.value = handleTree(res.data || []);
+  emit("setTreeData", treeData.value);
+
+  const firstNode = treeData.value[0];
+  if (!firstNode) {
+    emit("setOrgIds", []);
+    return;
+  }
+
+  nextTick(() => {
+    highlightMap.value[firstNode.id] = {
+      id: firstNode.id,
+      highlight: true
+    };
   });
+
+  const resultId: number[] = [];
+  getOrgIds(firstNode.id, treeData.value, resultId);
+  emit("setOrgIds", resultId);
+  emit("setOrgId", firstNode.id);
+  emit("setOrgName", firstNode.name);
 });
 
 /** 遍历树获取orgIds */
-function getOrgIds(orgId: number, treeData: any, result: Array<number>) {
-  const findTreeData = [];
+function getOrgIds(orgId: number, treeData: Tree[], result: number[]) {
+  const findTreeData: Tree[] = [];
   findOrgTree(orgId, treeData, findTreeData);
   result.push(orgId);
-  getOrgIdsOne(orgId, findTreeData, result);
+  getOrgIdsOne(findTreeData, result);
 }
 
-function getOrgIdsOne(orgId: number, treeData: any, result: Array<number>) {
-  for (let i = 0; i < treeData.length; i++) {
-    const oneItem = treeData[i];
+function getOrgIdsOne(treeData: Tree[], result: number[]) {
+  for (const oneItem of treeData) {
     result.push(oneItem.id);
-    if (oneItem.children && oneItem.children.length !== 0) {
-      getOrgIdsOne(orgId, oneItem.children, result);
+    if (oneItem.children?.length) {
+      getOrgIdsOne(oneItem.children, result);
     }
   }
 }
 
 /** 获取的点击的子节点 */
-function findOrgTree(orgId: number, treeData: any, result: any) {
-  for (let i = 0; i < treeData.length; i++) {
-    const oneItem = treeData[i];
+function findOrgTree(orgId: number, treeData: Tree[], result: Tree[]) {
+  for (const oneItem of treeData) {
     if (oneItem.id === orgId) {
-      if (oneItem.children) {
+      if (oneItem.children?.length) {
         result.push(...oneItem.children);
       }
       return;
     } else {
-      if (oneItem.children && oneItem.children.length !== 0) {
+      if (oneItem.children?.length) {
         findOrgTree(orgId, oneItem.children, result);
       }
     }
