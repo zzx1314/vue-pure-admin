@@ -24,6 +24,7 @@ export function useProj() {
   const queryForm = reactive({
     projName: "",
     userName: "",
+    middlemanName: "",
     featuresName: "",
     beginTime: "",
     endTime: ""
@@ -33,6 +34,7 @@ export function useProj() {
   const dialogFormVisible = ref(false);
   const title = ref("");
   const customerList = ref([]);
+  const middlemanList = ref([]);
   const featureList = ref([]);
   const dialogFormVisibleApprove = ref(false);
   const approverOptions = ref([]);
@@ -58,6 +60,7 @@ export function useProj() {
       projName: "",
       projCode: "",
       customerId: null,
+      middlemanId: null,
       featuresIdArray: [],
       featuresId: "",
       liceNum: "",
@@ -79,7 +82,12 @@ export function useProj() {
       },
       maxUtf8BytesRule("项目编码")
     ],
-    customerId: [{ required: true, message: "客户必填", trigger: "change" }],
+    customerId: [
+      { required: true, message: "客户账号必填", trigger: "change" }
+    ],
+    middlemanId: [
+      { required: true, message: "所属中间商必填", trigger: "change" }
+    ],
     featuresIdArray: [
       { required: true, message: "特性必填", trigger: "change" }
     ],
@@ -130,6 +138,11 @@ export function useProj() {
     {
       label: "客户账号",
       prop: "customerName",
+      minWidth: 100
+    },
+    {
+      label: "所属中间商",
+      prop: "middlemanName",
       minWidth: 100
     },
     {
@@ -331,6 +344,7 @@ export function useProj() {
       projName: "",
       projCode: "",
       customerId: null,
+      middlemanId: null,
       featuresId: "",
       featuresIdArray: [],
       liceNum: "",
@@ -343,12 +357,14 @@ export function useProj() {
 
     queryForm.projName = "";
     queryForm.userName = "";
+    queryForm.middlemanName = "";
     queryForm.featuresName = "";
     queryForm.beginTime = "";
     queryForm.endTime = "";
     dialogFormVisible.value = false;
     dialogFormVisibleApprove.value = false;
     customerList.value = [];
+    middlemanList.value = [];
     console.log(addForm.value);
     onSearch();
   }
@@ -462,6 +478,14 @@ export function useProj() {
     getFeatureSelect().then(res => {
       featureList.value = res.data;
     });
+    getUserByRoleIdNoPage({ role: 1045 }).then(res => {
+      for (let i = 0; i < res.data.length; i++) {
+        middlemanList.value.push({
+          value: res.data[i].id,
+          label: res.data[i].username
+        });
+      }
+    });
   }
   // 处理源码授权
   function handleAuthorize(row) {
@@ -487,6 +511,7 @@ export function useProj() {
     status,
     buttonClass,
     customerList,
+    middlemanList,
     featureList,
     approverOptions,
     onSearch,

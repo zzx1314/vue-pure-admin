@@ -31,6 +31,7 @@ const {
   rules,
   moreCondition,
   customerList,
+  middlemanList,
   featureList,
   approverOptions,
   cancel,
@@ -64,9 +65,17 @@ defineOptions({
       <el-form-item label="客户账号" prop="name">
         <el-input
           v-model="queryForm.userName"
-          placeholder="请输入客户账号（最多15字节）"
+          placeholder="请输入客户账号"
           maxlength="15"
           show-word-limit
+          clearable
+          class="!w-[150px]"
+        />
+      </el-form-item>
+      <el-form-item label="所属中间商" prop="name">
+        <el-input
+          v-model="queryForm.middlemanName"
+          placeholder="请输入所属中间商账号"
           clearable
           class="!w-[150px]"
         />
@@ -266,15 +275,31 @@ defineOptions({
             外部客户端（授权点数和授权时间由客户端设置）
           </el-checkbox>
         </el-form-item>
-        <el-form-item label="客户账号" prop="customerId">
+        <el-form-item label="最终授权账号" prop="customerId">
           <el-select
             v-model="addForm.value.customerId"
             clearable
-            placeholder="请选择客户"
+            placeholder="请选择最终授权账号"
             style="width: 200px"
           >
             <el-option
               v-for="item in customerList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="所属中间商" prop="middlemanId">
+          <el-select
+            v-model="addForm.value.middlemanId"
+            clearable
+            placeholder="请选择所属中间商"
+            style="width: 200px"
+          >
+            <el-option
+              v-for="item in middlemanList"
               :key="item.value"
               :label="item.label"
               :value="item.value"
