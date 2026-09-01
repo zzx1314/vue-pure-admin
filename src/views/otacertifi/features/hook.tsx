@@ -4,6 +4,7 @@ import type { FormInstance, FormRules } from "element-plus";
 import { prodDelete, prodPage, prodSave, prodUpdate } from "@/api/cerFeatures";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
+import { getUserByRoleIdNoPage } from "@/api/user";
 import { maxUtf8BytesRule } from "@/utils/byteLength";
 
 export function useProd() {
@@ -35,9 +36,12 @@ export function useProd() {
       featuresName: "",
       featuresVersion: "",
       modeInfo: "",
-      remark: ""
+      remark: "",
+      supplierId: null
     }
   });
+  // 所属供应商下拉（中间商账号，role=1045）
+  const supplierList = ref([]);
   const rules = reactive<FormRules>({
     featuresName: [
       { required: true, message: "特性名称必填", trigger: "blur" },
@@ -100,6 +104,11 @@ export function useProd() {
       prop: "featuresVersion",
       minWidth: 100
     },*/
+    {
+      label: "所属供应商",
+      prop: "supplierName",
+      minWidth: 100
+    },
     {
       label: "备注",
       prop: "remark",
@@ -205,7 +214,8 @@ export function useProd() {
       featuresName: "",
       featuresVersion: "",
       modeInfo: "",
-      remark: ""
+      remark: "",
+      supplierId: null
     };
     queryForm.featuresName = "";
     queryForm.featuresVersion = "";
@@ -254,6 +264,16 @@ export function useProd() {
     dialogFormVisible.value = true;
     title.value = param;
     resetForm(formEl);
+    getSupplierList();
+  }
+  // 获取所属供应商下拉数据（中间商账号，role=1045）
+  function getSupplierList() {
+    getUserByRoleIdNoPage({ role: 1045 }).then(res => {
+      supplierList.value = (res.data || []).map(item => ({
+        value: item.id,
+        label: item.username
+      }));
+    });
   }
 
   const groupProds = prods => {
@@ -303,6 +323,7 @@ export function useProd() {
     title,
     pagination,
     addForm,
+    supplierList,
     rules,
     moreCondition,
     columns,

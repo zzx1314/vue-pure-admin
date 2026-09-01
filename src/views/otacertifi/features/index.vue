@@ -26,6 +26,7 @@ const {
   dialogFormVisible,
   title,
   addForm,
+  supplierList,
   rules,
   moreCondition,
   cancel,
@@ -197,6 +198,22 @@ defineOptions({
             placeholder="请输入特性版本"
           />
         </el-form-item>-->
+        <el-form-item label="所属供应商" prop="supplierId">
+          <el-select
+            v-model="addForm.value.supplierId"
+            clearable
+            filterable
+            placeholder="请选择所属供应商"
+            style="width: 200px"
+          >
+            <el-option
+              v-for="item in supplierList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input
             v-model="addForm.value.remark"
