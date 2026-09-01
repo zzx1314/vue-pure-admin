@@ -3,6 +3,7 @@ import type { PaginationProps } from "@pureadmin/table";
 import type { FormInstance, FormRules } from "element-plus";
 import { prodDelete, prodPage, prodSave, prodUpdate } from "@/api/cerFeatures";
 import { SUCCESS } from "@/api/base";
+import { listAllRole } from "@/api/system";
 import { message } from "@/utils/message";
 import { getUserByRoleIdNoPage } from "@/api/user";
 import { maxUtf8BytesRule } from "@/utils/byteLength";
@@ -40,8 +41,10 @@ export function useProd() {
       supplierId: null
     }
   });
-  // 所属供应商下拉（中间商账号，role=1045）
+  // 所属供应商下拉（角色编码为 developer 的用户）
   const supplierList = ref([]);
+  // 供应商/开发者角色编码
+  const DEVELOPER_ROLE_CODE = "111";
   const rules = reactive<FormRules>({
     featuresName: [
       { required: true, message: "特性名称必填", trigger: "blur" },
@@ -266,13 +269,25 @@ export function useProd() {
     resetForm(formEl);
     getSupplierList();
   }
-  // 获取所属供应商下拉数据（中间商账号，role=1045）
+  // 获取所属供应商下拉数据（角色编码为 developer(111) 的用户）
   function getSupplierList() {
-    getUserByRoleIdNoPage({ role: 1045 }).then(res => {
-      supplierList.value = (res.data || []).map(item => ({
-        value: item.id,
-        label: item.username
-      }));
+    listAllRole().then(res => {
+      const devRole = (res.data || []).find(
+        item => item.code === DEVELOPER_ROLE_CODE
+      );
+      if (!devRole) {
+        console.warn(
+          `未找到角色编码为 ${DEVELOPER_ROLE_CODE} 的角色，请确认角色已配置`
+        );
+        supplierList.value = [];
+        return;
+      }
+      getUserByRoleIdNoPage({ role: devRole.id }).then(userRes => {
+        supplierList.value = (userRes.data || []).map(item => ({
+          value: item.id,
+          label: item.username
+        }));
+      });
     });
   }
 

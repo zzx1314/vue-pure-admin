@@ -12,6 +12,7 @@ import {
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import { getUserByRoleIdNoPage } from "@/api/user";
+import { listAllRole } from "@/api/system";
 import { getFeatureSelect } from "@/api/cerFeatures";
 import { maxUtf8BytesRule } from "@/utils/byteLength";
 import {
@@ -35,6 +36,8 @@ export function useProj() {
   const title = ref("");
   const customerList = ref([]);
   const middlemanList = ref([]);
+  // 中间商角色编码（对应角色 1045，见 docker/backend/db-init-once.sh）
+  const MIDDLEMAN_ROLE_CODE = "111";
   const featureList = ref([]);
   const dialogFormVisibleApprove = ref(false);
   const approverOptions = ref([]);
@@ -541,13 +544,25 @@ export function useProj() {
     getFeatureSelect().then(res => {
       featureList.value = res.data;
     });
-    getUserByRoleIdNoPage({ role: 1045 }).then(res => {
-      for (let i = 0; i < res.data.length; i++) {
-        middlemanList.value.push({
-          value: res.data[i].id,
-          label: res.data[i].username
-        });
+    // 中间商下拉：按角色编码查询（先按角色码找到角色再查用户，与特性页供应商逻辑一致）
+    listAllRole().then(res => {
+      const middleRole = (res.data || []).find(
+        item => item.code === MIDDLEMAN_ROLE_CODE
+      );
+      if (!middleRole) {
+        console.warn(
+          `未找到角色编码为 ${MIDDLEMAN_ROLE_CODE} 的角色，请确认角色已配置`
+        );
+        return;
       }
+      getUserByRoleIdNoPage({ role: middleRole.id }).then(userRes => {
+        for (let i = 0; i < (userRes.data || []).length; i++) {
+          middlemanList.value.push({
+            value: userRes.data[i].id,
+            label: userRes.data[i].username
+          });
+        }
+      });
     });
   }
   // 处理源码授权
