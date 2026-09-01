@@ -66,7 +66,7 @@ export function useProj() {
       liceNum: "",
       liceTime: "",
       liceMode: "",
-      isExternalClient: 0,
+      isExternalClient: null,
       remark: "",
       approverId: ""
     }
@@ -86,20 +86,70 @@ export function useProj() {
       { required: true, message: "客户账号必填", trigger: "change" }
     ],
     middlemanId: [
-      { required: true, message: "所属中间商必填", trigger: "change" }
+      {
+        required: true,
+        validator: (rule, value, callback) => {
+          if (addForm.value.isExternalClient === 1) {
+            if (value === null || value === undefined || value === "") {
+              callback(new Error("所属中间商必填"));
+            } else {
+              callback();
+            }
+          } else {
+            callback();
+          }
+        },
+        trigger: "change"
+      }
     ],
     featuresIdArray: [
-      { required: true, message: "特性必填", trigger: "change" }
+      {
+        required: true,
+        validator: (rule, value, callback) => {
+          if (!value || value.length === 0) {
+            callback(new Error("特性必填"));
+          } else {
+            callback();
+          }
+        },
+        trigger: "change"
+      }
     ],
     liceNum: [
       {
-        pattern: /^\d+$/,
-        message: "授权数量必须是数字",
+        required: true,
+        validator: (rule, value, callback) => {
+          if (addForm.value.isExternalClient === 1) {
+            callback();
+          } else if (value === "" || value === null || value === undefined) {
+            callback(new Error("授权数量必填"));
+          } else if (!/^\d+$/.test(value)) {
+            callback(new Error("授权数量必须是数字"));
+          } else {
+            callback();
+          }
+        },
         trigger: "blur"
       }
     ],
-    liceTime: [],
-    isExternalClient: [],
+    liceTime: [
+      {
+        required: true,
+        validator: (rule, value, callback) => {
+          if (addForm.value.isExternalClient === 1) {
+            callback();
+          } else if (value === "" || value === null || value === undefined) {
+            callback(new Error("授权时长必选"));
+          } else {
+            callback();
+          }
+        },
+        trigger: "change"
+      }
+    ],
+    isExternalClient: [
+      { required: true, message: "外部客户端必选", trigger: "change" }
+    ],
     approverId: [{ required: true, message: "授权人必填", trigger: "change" }]
   });
 
@@ -141,11 +191,6 @@ export function useProj() {
       minWidth: 100
     },
     {
-      label: "所属中间商",
-      prop: "middlemanName",
-      minWidth: 100
-    },
-    {
       label: "项目名称",
       prop: "projName",
       minWidth: 100
@@ -180,6 +225,11 @@ export function useProj() {
           {row.isExternalClient === 1 ? "外部客户端" : "内部"}
         </el-tag>
       )
+    },
+    {
+      label: "所属中间商",
+      prop: "middlemanName",
+      minWidth: 100
     },
     {
       label: "授权时间",
@@ -237,7 +287,9 @@ export function useProj() {
     console.log(row);
     const rowData = JSON.stringify(row);
     addForm.value = JSON.parse(rowData);
-    addForm.value.featuresIdArray = row.featuresId.split(",").map(Number);
+    addForm.value.featuresIdArray = row.featuresId
+      ? row.featuresId.split(",").map(Number)
+      : [];
     addForm.value.liceTime = getLicenseDuration(row.liceTime);
     openDia("修改", formEl);
   }
@@ -245,7 +297,9 @@ export function useProj() {
     console.log(row);
     const rowData = JSON.stringify(row);
     addForm.value = JSON.parse(rowData);
-    addForm.value.featuresIdArray = row.featuresId.split(",").map(Number);
+    addForm.value.featuresIdArray = row.featuresId
+      ? row.featuresId.split(",").map(Number)
+      : [];
     addForm.value.liceTime = getLicenseDuration(row.liceTime);
     dialogFormVisibleApprove.value = true;
     actThProcessConfGetFirstNode("授权项目变更").then(res => {
@@ -350,7 +404,7 @@ export function useProj() {
       liceNum: "",
       liceTime: "",
       liceMode: "",
-      isExternalClient: 0,
+      isExternalClient: null,
       remark: "",
       approverId: ""
     };
@@ -457,6 +511,15 @@ export function useProj() {
       }
     });
   };
+  // 外部客户端切换：勾选外部客户端时授权点数和授权时间由客户端设置，无需填写，清空避免残留；特性名称仍由管理员指定，保留不清空。取消勾选时清空所属中间商避免残留
+  function handleExternalChange(val) {
+    if (val === 1) {
+      addForm.value.liceNum = "";
+      addForm.value.liceTime = "";
+    } else {
+      addForm.value.middlemanId = null;
+    }
+  }
   // 打开弹框
   function openDia(param, formEl?) {
     dialogFormVisible.value = true;
@@ -527,6 +590,7 @@ export function useProj() {
     restartForm,
     submitForm,
     submitFormApprover,
-    openDia
+    openDia,
+    handleExternalChange
   };
 }

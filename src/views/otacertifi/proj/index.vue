@@ -46,7 +46,8 @@ const {
   handleAuthorize,
   handleSizeChange,
   handleCurrentChange,
-  handleSelectionChange
+  handleSelectionChange,
+  handleExternalChange
 } = useProj();
 
 defineOptions({
@@ -271,15 +272,16 @@ defineOptions({
             v-model="addForm.value.isExternalClient"
             :true-value="1"
             :false-value="0"
+            @change="handleExternalChange"
           >
             外部客户端（授权点数和授权时间由客户端设置）
           </el-checkbox>
         </el-form-item>
-        <el-form-item label="最终授权账号" prop="customerId">
+        <el-form-item label="客户账号" prop="customerId">
           <el-select
             v-model="addForm.value.customerId"
             clearable
-            placeholder="请选择最终授权账号"
+            placeholder="请选择客户账号"
             style="width: 200px"
           >
             <el-option
@@ -291,7 +293,11 @@ defineOptions({
           </el-select>
         </el-form-item>
 
-        <el-form-item label="所属中间商" prop="middlemanId">
+        <el-form-item
+          v-if="addForm.value.isExternalClient === 1"
+          label="所属中间商"
+          prop="middlemanId"
+        >
           <el-select
             v-model="addForm.value.middlemanId"
             clearable
@@ -323,14 +329,22 @@ defineOptions({
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="授权数量" prop="liceNum">
+        <el-form-item
+          v-if="addForm.value.isExternalClient !== 1"
+          label="授权数量"
+          prop="liceNum"
+        >
           <el-input
             v-model="addForm.value.liceNum"
             placeholder="请输入授权数量"
             style="width: 200px"
           />
         </el-form-item>
-        <el-form-item label="授权时长" prop="liceTime">
+        <el-form-item
+          v-if="addForm.value.isExternalClient !== 1"
+          label="授权时长"
+          prop="liceTime"
+        >
           <el-select
             v-model="addForm.value.liceTime"
             placeholder="请选择授权时长"
