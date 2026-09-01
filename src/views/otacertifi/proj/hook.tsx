@@ -63,6 +63,7 @@ export function useProj() {
       liceNum: "",
       liceTime: "",
       liceMode: "",
+      isExternalClient: 0,
       remark: "",
       approverId: ""
     }
@@ -83,14 +84,14 @@ export function useProj() {
       { required: true, message: "特性必填", trigger: "change" }
     ],
     liceNum: [
-      { required: true, message: "授权数量必填", trigger: "blur" },
       {
         pattern: /^\d+$/,
         message: "授权数量必须是数字",
         trigger: "blur"
       }
     ],
-    liceTime: [{ required: true, message: "授权时长必填", trigger: "change" }],
+    liceTime: [],
+    isExternalClient: [],
     approverId: [{ required: true, message: "授权人必填", trigger: "change" }]
   });
 
@@ -156,6 +157,16 @@ export function useProj() {
       label: "使用数量",
       prop: "useLicNum",
       minWidth: 80
+    },
+    {
+      label: "是否外部客户端",
+      prop: "isExternalClient",
+      minWidth: 120,
+      cellRenderer: ({ row }) => (
+        <el-tag type={row.isExternalClient === 1 ? "warning" : "info"}>
+          {row.isExternalClient === 1 ? "外部客户端" : "内部"}
+        </el-tag>
+      )
     },
     {
       label: "授权时间",
@@ -325,6 +336,7 @@ export function useProj() {
       liceNum: "",
       liceTime: "",
       liceMode: "",
+      isExternalClient: 0,
       remark: "",
       approverId: ""
     };

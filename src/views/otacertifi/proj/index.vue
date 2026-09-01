@@ -257,6 +257,15 @@ defineOptions({
             show-word-limit
           />
         </el-form-item>
+        <el-form-item label="外部客户端" prop="isExternalClient">
+          <el-checkbox
+            v-model="addForm.value.isExternalClient"
+            :true-value="1"
+            :false-value="0"
+          >
+            外部客户端（授权点数和授权时间由客户端设置）
+          </el-checkbox>
+        </el-form-item>
         <el-form-item label="客户账号" prop="customerId">
           <el-select
             v-model="addForm.value.customerId"
