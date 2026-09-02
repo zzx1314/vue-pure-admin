@@ -154,6 +154,13 @@ const rules = {
     { validator: validatePass4, trigger: "blur" },
     { required: true, message: "密码必填", trigger: "blur" },
     maxUtf8BytesRule("密码")
+  ],
+  email: [
+    {
+      pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+      message: "请输入正确的邮箱地址",
+      trigger: "blur"
+    }
   ]
 };
 
@@ -449,6 +456,13 @@ async function getAllRole() {
               check-strictly
               :render-after-expand="false"
               class="!w-[200px]"
+            />
+          </el-form-item>
+          <el-form-item label="邮箱" prop="email">
+            <el-input
+              v-model="addForm.email"
+              style="width: 200px"
+              placeholder="请输入邮箱（用于验证码认证与授权通知）"
             />
           </el-form-item>
 

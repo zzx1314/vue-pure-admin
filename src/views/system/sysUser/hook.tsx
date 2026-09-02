@@ -46,7 +46,8 @@ export function useUser() {
     sex: "",
     role: "",
     orgId: null,
-    orgName: ""
+    orgName: "",
+    email: ""
   });
   // 查询结果集
   const dataList = ref([]);
@@ -113,6 +114,11 @@ export function useUser() {
       label: "部门",
       prop: "orgName",
       minWidth: 90
+    },
+    {
+      label: "邮箱",
+      prop: "email",
+      minWidth: 150
     },
     {
       label: "状态",
@@ -199,6 +205,7 @@ export function useUser() {
     addForm.value.sex = "";
     addForm.value.role = "";
     addForm.value.orgName = orgNameVal.value;
+    addForm.value.email = "";
     dialogFormVisible.value = false;
   }
 
