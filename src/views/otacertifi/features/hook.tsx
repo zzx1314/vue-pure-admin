@@ -49,8 +49,8 @@ export function useProd() {
     featuresName: [
       { required: true, message: "特性名称必填", trigger: "blur" },
       {
-        pattern: /^[a-zA-Z\s]+$/,
-        message: "特性名称必须是英文",
+        pattern: /^[a-zA-Z\s_]+$/,
+        message: "特性名称只能是英文，下划线",
         trigger: "blur"
       },
       maxUtf8BytesRule("特性名称")
