@@ -68,7 +68,6 @@ defineOptions({
           v-model="queryForm.userName"
           placeholder="请输入客户账号"
           maxlength="15"
-          show-word-limit
           clearable
           class="!w-[150px]"
         />
