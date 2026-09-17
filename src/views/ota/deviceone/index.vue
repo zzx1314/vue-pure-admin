@@ -8,6 +8,7 @@ import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Delete from "@iconify-icons/ep/delete";
+import More from "@iconify-icons/ep/more-filled";
 import { PureTableBar } from "@/components/RePureTableBar";
 import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
@@ -32,6 +33,11 @@ const {
   status,
   rules,
   moreCondition,
+  buttonClass,
+  companyDialogVisible,
+  companyTree,
+  assigningDevice,
+  selectedCompanyId,
   cancel,
   restartForm,
   submitForm,
@@ -39,7 +45,9 @@ const {
   onSearch,
   handleUpdate,
   handleDelete,
-  handleAssign,
+  openAssignDialog,
+  handleAssignCompany,
+  handleTransferCompany,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange
@@ -175,23 +183,6 @@ const {
             >
               修改
             </el-button>
-            <el-popconfirm
-              title="是否确认将该设备分配/认领到本公司？"
-              @confirm="handleAssign(row)"
-            >
-              <template #reference>
-                <el-button
-                  v-if="!row.companyId && hasAuth('dev_update')"
-                  class="reset-margin"
-                  link
-                  type="primary"
-                  :size="size"
-                  :icon="useRenderIcon(EditPen)"
-                >
-                  认领
-                </el-button>
-              </template>
-            </el-popconfirm>
             <el-popconfirm title="是否确认删除?" @confirm="handleDelete(row)">
               <template #reference>
                 <el-button
@@ -206,6 +197,48 @@ const {
                 </el-button>
               </template>
             </el-popconfirm>
+            <el-dropdown
+              v-if="
+                (!row.companyId && hasAuth('dev_assign')) ||
+                (row.companyId && hasAuth('dev_transfer'))
+              "
+            >
+              <el-button
+                class="ml-3 mt-[2px]"
+                link
+                type="primary"
+                :size="size"
+                :icon="useRenderIcon(More)"
+              />
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item v-if="!row.companyId && hasAuth('dev_assign')">
+                    <el-button
+                      :class="buttonClass"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(EditPen)"
+                      @click="openAssignDialog(row)"
+                    >
+                      分配单位
+                    </el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item v-if="row.companyId && hasAuth('dev_transfer')">
+                    <el-button
+                      :class="buttonClass"
+                      link
+                      type="primary"
+                      :size="size"
+                      :icon="useRenderIcon(EditPen)"
+                      @click="openAssignDialog(row, true)"
+                    >
+                      转移单位
+                    </el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </template>
         </pure-table>
       </template>
@@ -273,6 +306,41 @@ const {
             >确认</el-button
           >
         </span>
+      </template>
+    </el-dialog>
+
+    <el-dialog
+      v-model="companyDialogVisible"
+      :title="assigningDevice?.transfer ? '转移设备单位' : '分配设备单位'"
+      width="500px"
+    >
+      <el-tree-select
+        v-if="assigningDevice"
+        v-model="selectedCompanyId"
+        :data="companyTree"
+        node-key="id"
+        check-strictly
+        filterable
+        :props="{
+          label: 'name',
+          value: 'id',
+          children: 'children',
+          disabled: 'disabled'
+        }"
+        placeholder="请选择单位"
+        class="w-full"
+      />
+      <template #footer>
+        <el-button @click="companyDialogVisible = false">取消</el-button>
+        <el-button
+          type="primary"
+          @click="
+            assigningDevice?.transfer
+              ? handleTransferCompany(selectedCompanyId)
+              : handleAssignCompany(selectedCompanyId)
+          "
+          >确定</el-button
+        >
       </template>
     </el-dialog>
   </div>

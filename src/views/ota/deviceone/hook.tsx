@@ -1,7 +1,15 @@
 import { computed, nextTick, onMounted, onUnmounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormInstance, FormRules } from "element-plus";
-import { devAssignCompany, devDelete, devPage, devSave, devUpdate } from "@/api/otaDev";
+import {
+  devAssignCompany,
+  devTransferCompany,
+  devDelete,
+  devPage,
+  devSave,
+  devUpdate
+} from "@/api/otaDev";
+import { getCompanyTree } from "@/api/system";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import { resolveDeviceTypeBySn } from "@/lib/snType";
@@ -19,6 +27,10 @@ export function useDevice() {
   const loading = ref(true);
   const dialogFormVisible = ref(false);
   const title = ref("");
+  const companyDialogVisible = ref(false);
+  const companyTree = ref([]);
+  const assigningDevice = ref(null);
+  const selectedCompanyId = ref(null);
   const pagination = reactive<PaginationProps>({
     total: 0,
     pageSize: 10,
@@ -185,16 +197,61 @@ export function useDevice() {
       }
     });
   }
-  // 分配/认领设备到公司（多租户）
-  function handleAssign(row) {
-    devAssignCompany({ id: row.id }).then(res => {
+  // 分配/转移设备到单位（多租户，仅平台管理员可操作）
+  async function openAssignDialog(row, transfer = false) {
+    assigningDevice.value = { ...row, transfer };
+    selectedCompanyId.value = null;
+    const { data } = await getCompanyTree();
+    companyTree.value = filterCompanyTree(data || []);
+    companyDialogVisible.value = true;
+  }
+
+  function filterCompanyTree(nodes) {
+    return nodes.map(node => ({
+      ...node,
+      disabled: node.type !== "company",
+      children: filterCompanyTree(node.children || [])
+    }));
+  }
+
+  function handleAssignCompany(companyId) {
+    if (!assigningDevice.value || !companyId) {
+      message("请选择单位", { type: "warning" });
+      return;
+    }
+    devAssignCompany({ id: assigningDevice.value.id, companyId }).then(res => {
       if (res.code === SUCCESS) {
         message("分配成功！", { type: "success" });
+        closeAssignDialog();
         onSearch();
       } else {
         message(res.msg, { type: "error" });
       }
     });
+  }
+
+  function handleTransferCompany(companyId) {
+    if (!assigningDevice.value || !companyId) {
+      message("请选择目标单位", { type: "warning" });
+      return;
+    }
+    devTransferCompany({ id: assigningDevice.value.id, companyId }).then(
+      res => {
+        if (res.code === SUCCESS) {
+          message("转移成功！", { type: "success" });
+          closeAssignDialog();
+          onSearch();
+        } else {
+          message(res.msg, { type: "error" });
+        }
+      }
+    );
+  }
+
+  function closeAssignDialog() {
+    companyDialogVisible.value = false;
+    assigningDevice.value = null;
+    selectedCompanyId.value = null;
   }
 
   function handleSizeChange(val: number) {
@@ -329,12 +386,18 @@ export function useDevice() {
     columns,
     status,
     buttonClass,
+    companyDialogVisible,
+    companyTree,
+    assigningDevice,
+    selectedCompanyId,
     onSearch,
     resetForm,
     resolveDeviceTypeBySn,
     handleUpdate,
     handleDelete,
-    handleAssign,
+    openAssignDialog,
+    handleAssignCompany,
+    handleTransferCompany,
     handleSizeChange,
     handleCurrentChange,
     handleSelectionChange,

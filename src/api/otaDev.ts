@@ -22,7 +22,8 @@ const otaDevUrls = {
   update: "/api/ota/otaBusDev/update",
   statistics: "/api/ota/otaBusDev/statistics",
   getDevGroupSelect: "/api/ota/otaBusDev/getDevGroupSelect",
-  assignCompany: "/api/ota/otaBusDev/assignCompany"
+  assignCompany: "/api/ota/otaBusDev/assignCompany",
+  transferCompany: "/api/ota/otaBusDev/transferCompany"
 };
 
 // 设备分页
@@ -49,7 +50,12 @@ export const devDelete = (param?: object) => {
 export const devStatistics = (param?: object) => {
   return http.axiosGetRequest<any>(otaDevUrls.statistics, param);
 };
-// 设备分配公司（多租户认领）
+// 设备分配公司（多租户，平台管理员）
 export const devAssignCompany = (param?: object) => {
   return http.axiosPostRequest<Result>(otaDevUrls.assignCompany, param);
+};
+
+// 转移设备所属公司
+export const devTransferCompany = (param?: object) => {
+  return http.axiosPostRequest<Result>(otaDevUrls.transferCompany, param);
 };
