@@ -69,7 +69,7 @@ export function useProj() {
       liceNum: "",
       liceTime: "",
       liceMode: "",
-      isExternalClient: null,
+      isExternalClient: 0,
       remark: "",
       approverId: ""
     }
@@ -149,9 +149,6 @@ export function useProj() {
         },
         trigger: "change"
       }
-    ],
-    isExternalClient: [
-      { required: true, message: "外部客户端必选", trigger: "change" }
     ],
     approverId: [{ required: true, message: "授权人必填", trigger: "change" }]
   });
@@ -294,6 +291,8 @@ export function useProj() {
       ? row.featuresId.split(",").map(Number)
       : [];
     addForm.value.liceTime = getLicenseDuration(row.liceTime);
+    // 历史数据可能为 null，统一兜底为内部项目，避免复选框处于未选中的空值状态
+    addForm.value.isExternalClient = row.isExternalClient === 1 ? 1 : 0;
     openDia("修改", formEl);
   }
   function handleUpdateApprove(row, formEl) {
@@ -304,6 +303,7 @@ export function useProj() {
       ? row.featuresId.split(",").map(Number)
       : [];
     addForm.value.liceTime = getLicenseDuration(row.liceTime);
+    addForm.value.isExternalClient = row.isExternalClient === 1 ? 1 : 0;
     dialogFormVisibleApprove.value = true;
     actThProcessConfGetFirstNode("授权项目变更").then(res => {
       if (res.code === SUCCESS) {
@@ -407,7 +407,7 @@ export function useProj() {
       liceNum: "",
       liceTime: "",
       liceMode: "",
-      isExternalClient: null,
+      isExternalClient: 0,
       remark: "",
       approverId: ""
     };
