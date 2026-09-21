@@ -38,6 +38,15 @@ export function useProj() {
   const middlemanList = ref([]);
   // 中间商角色编码（对应角色 1045，见 docker/backend/db-init-once.sh）
   const MIDDLEMAN_ROLE_CODE = "111";
+  // 授权时长常用天数选项（单位：天），支持输入框内自定义其它天数
+  const liceTimeOptions = [
+    { value: "30", label: "30天（1个月）" },
+    { value: "90", label: "90天（3个月）" },
+    { value: "180", label: "180天（6个月）" },
+    { value: "365", label: "365天（1年）" },
+    { value: "1095", label: "1095天（3年）" },
+    { value: "1825", label: "1825天（5年）" }
+  ];
   const featureList = ref([]);
   const dialogFormVisibleApprove = ref(false);
   const approverOptions = ref([]);
@@ -142,12 +151,14 @@ export function useProj() {
           if (addForm.value.isExternalClient === 1) {
             callback();
           } else if (value === "" || value === null || value === undefined) {
-            callback(new Error("授权时长必选"));
+            callback(new Error("授权时长必填"));
+          } else if (!/^\d+$/.test(value) || Number(value) < 1) {
+            callback(new Error("授权时长必须是不小于1的整数（天）"));
           } else {
             callback();
           }
         },
-        trigger: "change"
+        trigger: "blur"
       }
     ],
     approverId: [{ required: true, message: "授权人必填", trigger: "change" }]
@@ -531,6 +542,16 @@ export function useProj() {
     resetForm(formEl);
     getSelectInfo();
   }
+  // 授权时长联想：聚焦时展示全部常用天数，输入时按天数或描述过滤，输入内容本身即为自定义时长
+  function queryLiceTimeOptions(queryString: string, callback) {
+    const keyword = String(queryString ?? "").trim();
+    const options = keyword
+      ? liceTimeOptions.filter(
+          item => item.value.includes(keyword) || item.label.includes(keyword)
+        )
+      : liceTimeOptions;
+    callback(options);
+  }
   // 获取下拉数据
   function getSelectInfo() {
     getUserByRoleIdNoPage({ role: 1044 }).then(res => {
@@ -606,6 +627,7 @@ export function useProj() {
     submitForm,
     submitFormApprover,
     openDia,
-    handleExternalChange
+    handleExternalChange,
+    queryLiceTimeOptions
   };
 }

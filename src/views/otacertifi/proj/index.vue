@@ -47,7 +47,8 @@ const {
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
-  handleExternalChange
+  handleExternalChange,
+  queryLiceTimeOptions
 } = useProj();
 
 defineOptions({
@@ -344,18 +345,20 @@ defineOptions({
           label="授权时长"
           prop="liceTime"
         >
-          <el-select
+          <el-autocomplete
             v-model="addForm.value.liceTime"
-            placeholder="请选择授权时长"
+            :fetch-suggestions="queryLiceTimeOptions"
+            :trigger-on-focus="true"
+            :highlight-first-item="true"
+            clearable
+            placeholder="请输入或选择授权时长（天）"
             style="width: 200px"
           >
-            <el-option label="30天" value="30" />
-            <el-option label="3个月" value="90" />
-            <el-option label="6个月" value="180" />
-            <el-option label="1年" value="365" />
-            <el-option label="3年" value="1095" />
-            <el-option label="5年" value="1825" />
-          </el-select>
+            <template #default="{ item }">
+              <span>{{ item.label }}</span>
+            </template>
+            <template #append>天</template>
+          </el-autocomplete>
         </el-form-item>
 
         <el-form-item
