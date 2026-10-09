@@ -77,7 +77,12 @@ const EmptyUAForm = PROP_KEYS.reduce(
 );
 const UAForm = ref(EmptyUAForm as Record<UserAssigneeProp, string | null>);
 const updateUserAssignProp = (key: UserAssigneeProp, value: string | null) => {
-  updateExModdleProp(scopedElement!, scopedBO!, key, value);
+  // BPMN 属性统一存字符串，避免数字/字符串混用导致回显匹配失败。
+  const normalized = value == null || value === "" ? value : String(value);
+  if (key === "assignee") {
+    UAForm.value[key] = normalized;
+  }
+  updateExModdleProp(scopedElement!, scopedBO!, key, normalized);
 };
 console.log("userAssignment===", props.roleList);
 const reloadElementData = () =>
@@ -86,8 +91,14 @@ const reloadElementData = () =>
     scopedElement = element;
     scopedBO = getBusinessObject(element);
     for (const key of PROP_KEYS) {
-      UAForm.value[key] =
+      const raw =
         getExPropValue(scopedBO!, key) || (key === "assignee" ? null : "");
+      // assignee 从 XML 读回的是字符串 "1042"，下拉 value 也已统一为字符串，
+      // 这里再兜底转一次，历史存成数字也能正确回显 label。
+      UAForm.value[key] =
+        key === "assignee" && raw != null && raw !== ""
+          ? String(raw)
+          : raw;
     }
     console.log(UAForm.value);
   });

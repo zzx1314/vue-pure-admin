@@ -78,7 +78,12 @@ const emit = defineEmits(["update:dialogDesignVisible"]);
 function getRoleList() {
   getRoleSelectList().then(res => {
     if (res.code === SUCCESS) {
-      roleList.value = res.data;
+      // BPMN 的 flowable:assignee 存的是字符串，后端 SelectOption.value 是数字；
+      // el-select 用严格相等匹配，不统一成字符串回显就会直接显示数字。
+      roleList.value = (res.data || []).map(item => ({
+        ...item,
+        value: item.value == null ? item.value : String(item.value)
+      }));
     }
   });
 }
