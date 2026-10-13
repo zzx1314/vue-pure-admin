@@ -10,6 +10,7 @@ import mindMap from "@iconify-icons/ri/mind-map";
 import secure from "@iconify-icons/ri/secure-payment-line";
 import EditPen from "@iconify-icons/ep/edit-pen";
 import Delete from "@iconify-icons/ep/delete";
+import Cert from "@iconify-icons/ep/key";
 import { PureTableBar } from "@/components/RePureTableBar";
 import Down from "@iconify-icons/ep/arrow-down";
 import Up from "@iconify-icons/ep/arrow-up";
@@ -44,6 +45,7 @@ const {
   handleUpdateApprove,
   handleDelete,
   handleAuthorize,
+  handleGenerateCerts,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
@@ -203,6 +205,16 @@ defineOptions({
               @click="handleAuthorize(row)"
             >
               源码授权
+            </el-button>
+            <el-button
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
+              :icon="useRenderIcon(Cert)"
+              @click="handleGenerateCerts(row)"
+            >
+              生成证书
             </el-button>
             <el-button
               v-if="hasAuth('proj_update') && row.useLicNum === 0"

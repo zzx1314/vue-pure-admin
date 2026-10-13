@@ -1,13 +1,14 @@
 import { computed, nextTick, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
-import type { FormInstance, FormRules } from "element-plus";
+import { ElLoading, type FormInstance, type FormRules } from "element-plus";
 import {
   projPage,
   projSave,
   projUpdate,
   projDelete,
   projUpdateCheck,
-  projCodeAuth
+  projCodeAuth,
+  generateCerts
 } from "@/api/cerProj";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
@@ -591,6 +592,24 @@ export function useProj() {
     console.log(row);
     projCodeAuth(row.id);
   }
+  // 生成项目证书
+  function handleGenerateCerts(row) {
+    console.log("生成项目证书", row);
+    const loading = ElLoading.service({
+      lock: true,
+      text: "正在生成证书（CA + Server + Client）...",
+      background: "rgba(0, 0, 0, 0.7)"
+    });
+    generateCerts(row.id).then(res => {
+      if (res.code === SUCCESS) {
+        message("证书生成成功！", { type: "success" });
+      } else {
+        message(res.msg, { type: "error" });
+      }
+    }).finally(() => {
+      loading.close();
+    });
+  }
   onMounted(() => {
     onSearch();
   });
@@ -619,6 +638,7 @@ export function useProj() {
     handleUpdateApprove,
     handleDelete,
     handleAuthorize,
+    handleGenerateCerts,
     handleSizeChange,
     handleCurrentChange,
     handleSelectionChange,

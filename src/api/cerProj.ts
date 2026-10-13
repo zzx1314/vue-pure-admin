@@ -22,7 +22,8 @@ const cerProjUrls = {
   update: "/api/cer/licenseBusProj/update",
   getProjSelect: "/api/cer/licenseBusProj/getProjSelect",
   updateCheck: "/api/cer/licenseBusProj/updateCheck",
-  authorizeSource: "/api/cer/licenseBusProj/authorizeSource/"
+  authorizeSource: "/api/cer/licenseBusProj/authorizeSource/",
+  generateCerts: "/api/cer/licenseBusProj/generateCerts/"
 };
 
 // 项目管理分页
@@ -57,4 +58,9 @@ export const projCodeAuth = (param?: object) => {
     "证书.zip",
     ""
   );
+};
+
+// 生成项目证书（CA + Server + Client）
+export const generateCerts = (param?: object) => {
+  return http.axiosPostRequest<Result>(cerProjUrls.generateCerts + param, {});
 };
