@@ -20,3 +20,8 @@ tests/**/coverage/
 *.njsproj
 *.sln
 tsconfig.tsbuildinfo
+# playwright / vitest 产物
+test-results/
+playwright-report/
+blob-report/
+.playwright/
