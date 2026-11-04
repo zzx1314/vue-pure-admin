@@ -237,6 +237,7 @@ const defaultProps = {
         </el-form>
 
         <PureTableBar title="证书列表" :columns="columns" @refresh="onSearch">
+          <!-- 注释：新增操作已移至后端证书服务处理
           <template #buttons>
             <el-button
               v-if="hasAuth('projcer_add')"
@@ -247,6 +248,7 @@ const defaultProps = {
               新增
             </el-button>
           </template>
+          -->
           <template v-slot="{ size, checkList, dynamicColumns }">
             <pure-table
               border
@@ -269,6 +271,7 @@ const defaultProps = {
               @page-size-change="handleSizeChange"
               @page-current-change="handleCurrentChange"
             >
+              <!-- 注释：操作（废弃/修改/下载/修改项目/删除）已移至后端证书服务处理
               <template #operation="{ row }">
                 <el-popconfirm
                   title="是否确认废弃?"
@@ -389,12 +392,14 @@ const defaultProps = {
                   </template>
                 </el-dropdown>
               </template>
+              -->
             </pure-table>
           </template>
         </PureTableBar>
       </el-main>
     </el-container>
 
+    <!-- 注释：新增/修改/修改项目弹框已移至后端证书服务处理
     <el-dialog v-model="dialogFormVisible" :title="title" @close="cancel">
       <el-form
         ref="addFormRef"
@@ -492,6 +497,7 @@ const defaultProps = {
         </span>
       </template>
     </el-dialog>
+    -->
   </div>
 </template>
 
