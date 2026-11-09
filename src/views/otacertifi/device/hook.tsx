@@ -92,6 +92,11 @@ export function useLicenseBusDevice() {
       minWidth: 200
     },
     {
+      label: "设备序列号",
+      prop: "sn",
+      minWidth: 160
+    },
+    {
       label: "设备类型",
       prop: "productName",
       minWidth: 100

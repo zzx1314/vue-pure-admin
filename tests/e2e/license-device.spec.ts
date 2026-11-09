@@ -46,6 +46,7 @@ const DEVICES = [
     userId: 2,
     cerStatus: "已激活",
     productName: "网关",
+    sn: "SN-ACTIVATED-001",
     osVersion: "1.0.0",
     processArch: "arm64",
     cerFailureTime: "2025-01-01 10:00:00,2026-01-01 10:00:00",
@@ -61,6 +62,7 @@ const DEVICES = [
     userId: 2,
     cerStatus: "待激活",
     productName: "网关",
+    sn: null,
     osVersion: "1.0.0",
     processArch: "arm64",
     cerFailureTime: "",
@@ -144,6 +146,12 @@ test.describe("授权设备去激活", () => {
     const pendingRow = page.locator("tr", { hasText: "AC-PENDING" });
     await expect(activatedRow).toBeVisible();
     await expect(pendingRow).toBeVisible();
+
+    // 客户端上报的 sn 必须在列表里能看到（老客户端不传时该列为空）
+    await expect(
+      page.locator("th", { hasText: "设备序列号" }).first()
+    ).toBeVisible();
+    await expect(activatedRow).toContainText("SN-ACTIVATED-001");
 
     // 「待激活」设备从未占用授权点数，按钮必须是禁用的
     const pendingButton = pendingRow.getByRole("button", { name: "去激活" });
