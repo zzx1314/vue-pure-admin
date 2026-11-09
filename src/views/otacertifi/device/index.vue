@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useLicenseBusDevice } from "@/views/otacertifi/device/hook";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import { DEVICE_STATUS_OPTIONS } from "@/utils/licenseDevice";
 import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
 import { PureTableBar } from "@/components/RePureTableBar";
@@ -20,10 +21,12 @@ const {
   pagination,
   columns,
   moreCondition,
+  canDeactivate,
   onSearch,
   handleSizeChange,
   handleCurrentChange,
   handleSelectionChange,
+  handleDeactivate,
   restartForm
 } = useLicenseBusDevice();
 </script>
@@ -84,26 +87,11 @@ const {
               placeholder="请输状态"
               class="!w-[150px]"
             >
-              <el-option label="待激活" value="待激活" />
-              <el-option label="已激活" value="已激活" />
-              <el-option label="待更新授权证书" value="待更新授权证书" />
               <el-option
-                label="系统版本和架构异常"
-                value="系统版本和架构异常"
-              />
-              <el-option label="系统版本异常" value="系统版本异常" />
-              <el-option label="系统架构异常" value="系统架构异常" />
-              <el-option label="用户名变化" value="用户名变化" />
-              <el-option label="授权时间发生变化" value="授权时间发生变化" />
-              <el-option label="授权证书过期" value="授权证书过期" />
-              <el-option label="通信证书过期" value="通信证书过期" />
-              <el-option label="获取磁盘信息失败" value="获取磁盘信息失败" />
-              <el-option label="解码授权文件失败" value="解码授权文件失败" />
-              <el-option label="校验授权文件失败" value="校验授权文件失败" />
-              <el-option label="解析json内容失败" value="解析json内容失败" />
-              <el-option
-                label="设置授权文件信息到内核失败"
-                value="设置授权文件信息到内核失败"
+                v-for="status in DEVICE_STATUS_OPTIONS"
+                :key="status"
+                :label="status"
+                :value="status"
               />
             </el-select>
           </el-form-item>
@@ -170,7 +158,20 @@ const {
           @selection-change="handleSelectionChange"
           @page-size-change="handleSizeChange"
           @page-current-change="handleCurrentChange"
-        />
+        >
+          <template #operation="{ row }">
+            <el-button
+              class="reset-margin"
+              link
+              type="danger"
+              :size="size"
+              :disabled="!canDeactivate(row.cerStatus)"
+              @click="handleDeactivate(row)"
+            >
+              去激活
+            </el-button>
+          </template>
+        </pure-table>
       </template>
     </PureTableBar>
   </div>

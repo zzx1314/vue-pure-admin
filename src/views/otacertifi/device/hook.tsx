@@ -1,14 +1,21 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import type { PaginationProps } from "@pureadmin/table";
+import { ElMessageBox } from "element-plus";
 import type { FormInstance, FormRules } from "element-plus";
 import {
   licenseBusDeviceSave,
   licenseBusDevicePage,
   licenseBusDeviceUpdate,
-  licenseBusDeviceDelete
+  licenseBusDeviceDelete,
+  licenseBusDeviceDeactivate
 } from "@/api/licenseBusDevice";
 import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
+import {
+  canDeactivate,
+  deactivateConfirmText,
+  deviceStatusTagType
+} from "@/utils/licenseDevice";
 
 export function useLicenseBusDevice() {
   // ----变量定义-----
@@ -74,7 +81,7 @@ export function useLicenseBusDevice() {
       prop: "cerStatus",
       minWidth: 120,
       cellRenderer: ({ row }) => (
-        <el-tag type={row.cerStatus === "已激活" ? "success" : "danger"}>
+        <el-tag type={deviceStatusTagType(row.cerStatus)}>
           {row.cerStatus}
         </el-tag>
       )
@@ -113,6 +120,12 @@ export function useLicenseBusDevice() {
       label: "激活时间",
       prop: "activationTime",
       minWidth: 150
+    },
+    {
+      label: "操作",
+      fixed: "right",
+      minWidth: 120,
+      slot: "operation"
     }
   ];
   const buttonClass = computed(() => {
@@ -137,6 +150,37 @@ export function useLicenseBusDevice() {
         message(res.msg, { type: "error" });
       }
     });
+  }
+  // 去激活：立即释放授权点数，设备下一次上报后自行去激活
+  function handleDeactivate(row) {
+    if (!canDeactivate(row.cerStatus)) {
+      message("当前状态不允许去激活", { type: "warning" });
+      return;
+    }
+    ElMessageBox.confirm(
+      deactivateConfirmText(row.activationCode),
+      "去激活确认",
+      {
+        confirmButtonText: "确定去激活",
+        cancelButtonText: "取消",
+        type: "warning"
+      }
+    )
+      .then(() => {
+        licenseBusDeviceDeactivate(row.id).then(res => {
+          if (res.code === SUCCESS) {
+            message("去激活成功，设备将在下一次上报后停止使用授权", {
+              type: "success"
+            });
+            onSearch();
+          } else {
+            message(res.msg, { type: "error" });
+          }
+        });
+      })
+      .catch(() => {
+        // 用户取消，不做任何处理
+      });
   }
   // -------查询------
   function handleSizeChange(val: number) {
@@ -253,9 +297,11 @@ export function useLicenseBusDevice() {
     columns,
     buttonClass,
     moreCondition,
+    canDeactivate,
     onSearch,
     resetForm,
     handleDelete,
+    handleDeactivate,
     handleSizeChange,
     handleCurrentChange,
     handleSelectionChange,

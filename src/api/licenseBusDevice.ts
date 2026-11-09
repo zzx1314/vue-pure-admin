@@ -19,7 +19,8 @@ const licenseBusDeviceUrls = {
   page: `/api/license/licenseBusDevice/page`,
   save: "/api/license/licenseBusDevice/save",
   delete: `/api/license/licenseBusDevice/`,
-  update: "/api/license/licenseBusDevice/update"
+  update: "/api/license/licenseBusDevice/update",
+  deactivate: `/api/license/licenseBusDevice/deactivate/`
 };
 
 // 授权设备分页
@@ -37,4 +38,12 @@ export const licenseBusDeviceUpdate = (param?: object) => {
 // 授权设备删除
 export const licenseBusDeviceDelete = (param?: object) => {
   return http.axiosDelete<Result>(licenseBusDeviceUrls.delete + param);
+};
+// 授权设备去激活（回收授权点数，设备下一次上报后生效）
+export const licenseBusDeviceDeactivate = (param?: object) => {
+  // 无请求体：设备 id 走路径参数
+  return http.axiosPut<Result>(
+    licenseBusDeviceUrls.deactivate + param,
+    undefined
+  );
 };
