@@ -15,6 +15,7 @@ import { SUCCESS } from "@/api/base";
 import { message } from "@/utils/message";
 import type { FieldValues, OptionsRow, PlusColumn } from "plus-pro-components";
 import { actThProcessConfApprovalBuniess } from "@/api/actThProcessConf";
+import { toLicenseProjectForm } from "@/utils/licenseProject";
 export function useActThTask() {
   // ----变量定义-----
   const queryForm = ref({
@@ -63,13 +64,34 @@ export function useActThTask() {
       label: "审批意见",
       width: 120,
       prop: "remark",
-      valueType: "textarea"
+      valueType: "textarea",
+      // 审批意见必填：后端不校验，空意见会让审批记录里查不到驳回原因
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            whitespace: true,
+            message: "审批意见必填",
+            trigger: "blur"
+          }
+        ]
+      }
     },
     {
       label: "审批状态",
       width: 120,
       prop: "operatorStep",
       valueType: "select",
+      // 审批状态必填：为空时后端 operatorStep 拆箱会 NPE
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: "审批状态必填",
+            trigger: "change"
+          }
+        ]
+      },
       options: [
         {
           label: "通过",
@@ -268,7 +290,8 @@ export function useActThTask() {
     console.log(row);
     if (row.businessServiceChange) {
       let data = JSON.parse(row.businessServiceChange);
-      licenseProjectData.value = data.filed;
+      // 快照里的特性是逗号串 featuresId，转成 featuresIdArray 才能回显到下拉框
+      licenseProjectData.value = toLicenseProjectForm(data.filed);
     }
     actThTaskGetHistoryApprovalOpinion(row.processInstanceId).then(res => {
       if (res.code === SUCCESS) {

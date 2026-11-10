@@ -14,6 +14,7 @@ import {
   actThTaskGetHistoryApprovalOpinion,
   actThTaskGetProcessInstanceId
 } from "@/api/actThTask";
+import { toLicenseProjectForm } from "@/utils/licenseProject";
 
 export function useActThTaskHis() {
   // ----变量定义-----
@@ -271,7 +272,8 @@ export function useActThTaskHis() {
     console.log(row);
     if (row.businessServiceChange) {
       let data = JSON.parse(row.businessServiceChange);
-      licenseProjectData.value = data.filed;
+      // 快照里的特性是逗号串 featuresId，转成 featuresIdArray 才能回显到下拉框
+      licenseProjectData.value = toLicenseProjectForm(data.filed);
     }
     actThTaskGetHistoryApprovalOpinion(row.processInstanceId).then(res => {
       if (res.code === SUCCESS) {
