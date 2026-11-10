@@ -18,7 +18,9 @@
  */
 export function parseFeatureIds(value?: unknown): number[] {
   if (value === null || value === undefined) return [];
-  const list: unknown[] = Array.isArray(value) ? value : String(value).split(",");
+  const list: unknown[] = Array.isArray(value)
+    ? value
+    : String(value).split(",");
   const ids: number[] = [];
   for (const item of list) {
     const text = String(item ?? "").trim();

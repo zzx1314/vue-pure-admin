@@ -49,14 +49,17 @@ describe("utils/licenseProject", () => {
   });
 
   it("toLicenseProjectForm：已有 featuresIdArray 时以它为准", () => {
-    const form = toLicenseProjectForm({ featuresId: "9", featuresIdArray: [1] });
+    const form = toLicenseProjectForm({
+      featuresId: "9",
+      featuresIdArray: [1]
+    });
     expect(form.featuresIdArray).toEqual([1]);
   });
 
   it("toLicenseProjectForm：没有特性时给空数组，空快照保持 null", () => {
-    expect(toLicenseProjectForm({ projName: "无特性" }).featuresIdArray).toEqual(
-      []
-    );
+    expect(
+      toLicenseProjectForm({ projName: "无特性" }).featuresIdArray
+    ).toEqual([]);
     expect(toLicenseProjectForm(null)).toBeNull();
     expect(toLicenseProjectForm(undefined)).toBeNull();
   });
